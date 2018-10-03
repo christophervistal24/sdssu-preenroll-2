@@ -11,16 +11,18 @@ Contact Section
 </div>
 <div class="container">
 	<div class="form">
-		<form action="" method="POST"  class="contactForm" autocomplete="off">
+		@include('errors.error')
+		<form method="POST"  class="contactForm" autocomplete="off">
+			@csrf
 			<div class="form">
 				<div class="form-group col-md-6 offset-3">
 					<label>Name</label>
-					<input type="text" name="name" class="form-control"  placeholder="Your Name" data-rule="minlen:4" required />
+					<input type="text" name="email" class="form-control"  placeholder="Your Name" data-rule="minlen:4" required />
 					<div class="validation"></div>
 				</div>
 				<div class="form-group col-md-6 offset-3">
 					<label>Password</label>
-					<input type="password" class="form-control" name="email"  placeholder="Your password" data-rule="email" required />
+					<input type="password" class="form-control" name="password"  placeholder="Your password" data-rule="email" required />
 				</div>
 				<div class="form-group col-md-6 offset-3">
 					<div class="text-right"><button type="submit">Sign In</button></div>

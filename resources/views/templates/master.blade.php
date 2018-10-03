@@ -7,8 +7,8 @@
 		<meta content="" name="keywords">
 		<meta content="" name="description">
 		<!-- Favicons -->
-		<link href="img/favicon.png" rel="icon">
-		<link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+		<link href="{{ url('/storage/img/sdssu.png') }}" rel="icon">
+
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
 		<!-- Bootstrap CSS File -->
@@ -54,17 +54,14 @@
 		<header id="header">
 			<div class="container">
 				<div id="logo" class="pull-left">
-					<h1><a href="#body" class="scrollto">SDSSU</a></h1>
+					<h1><a href="/" class="scrollto">SDSSU</a></h1>
 					<!-- Uncomment below if you prefer to use an image logo -->
 					{{-- <a href="#body"><img src="img/logo.png" alt="" title="" /></a> --}}
 				</div>
 				<nav id="nav-menu-container">
-					<ul class="nav-menu">
-						<li class="menu-active"><a href="#body">Home</a></li>
-						<li><a href="#about">About Us</a></li>
-						<li><a href="#services">Services</a></li>
-						<li><a href="#portfolio">Portfolio</a></li>
-						<li><a href="#team">Team</a></li>
+				<ul class="nav-menu">
+					<li class="menu-active"><a href="/">Home</a></li>
+					<li><a href="/about">About Us</a></li>
 						<li class="menu-has-children"><a href="">Accounts</a>
 						<ul>
 							<li><a href="{{ url('/instructorlogin') }}">Instructor</a></li>
@@ -72,7 +69,6 @@
 							<li><a href="{{ url('/studentlogin') }}">Student</a></li>
 						</ul>
 					</li>
-					<li><a href="#contact">Contact</a></li>
 				</ul>
 				</nav><!-- #nav-menu-container -->
 			</div>

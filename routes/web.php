@@ -4,6 +4,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/about',[
+		'uses' => 'Pages\AboutUsController@about',
+]);
+
 Route::post('/',[
 	'uses'=>'User\UserController@login',
 ]);
@@ -17,6 +21,9 @@ Route::get('/adminlogin' , [
 	'uses' => 'Admin\AdminController@login',
 ]);
 
+Route::post('/adminlogin',[
+	'uses' => 'Admin\AdminController@checkLogin',
+]);
 Route::group([
     'prefix' => 'admin',
     'middleware' => 'roles'
@@ -51,6 +58,10 @@ Route::group([
 //login route for student
 Route::get('/studentlogin' , [
 	'uses' => 'Students\StudentController@login',
+]);
+
+Route::post('/studentlogin' , [
+	'uses' => 'Students\StudentController@checkLogin',
 ]);
 
 Route::group([
@@ -89,6 +100,10 @@ Route::get('/parentlogin' , [
 	'uses' => 'Parents\ParentsController@login',
 ]);
 
+Route::post('/parentlogin' , [
+	'uses' => 'Parents\ParentsController@checkLogin',
+]);
+
 
 Route::group([
     'prefix' => 'parent',
@@ -115,6 +130,9 @@ Route::get('/instructorlogin' , [
 	'uses' => 'Instructors\InstructorController@login',
 ]);
 
+Route::post('/instructorlogin' , [
+	'uses' => 'Instructors\InstructorController@checkLogin',
+]);
 
 Route::group([
     'prefix' => 'instructor',

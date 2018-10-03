@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Students;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class StudentController extends Controller
 {
@@ -30,5 +32,21 @@ class StudentController extends Controller
 	public function login()
     {
         return view('students.login');
+    }
+
+    public function checkLogin(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            return redirect()->intended('/student/preenrol');
+        }
+        return Redirect::back()->withInput()->withErrors('Wrong username/password combination.');
     }
 }
