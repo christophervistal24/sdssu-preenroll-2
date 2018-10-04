@@ -1,5 +1,5 @@
 @extends('templates-dashboard.master')
-@section('content')
+    @section('content')
     <div class="main-navbar sticky-top bg-white">
         <!-- Main Navbar -->
         <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
@@ -84,7 +84,7 @@
                     <!-- End Page Header -->
                     <!-- Small Stats Blocks -->
                     <div class="row">
-                        <p>Schedules</p>
+                        <p>Index</p>
                     </div>
             </div>
-            @endsection
+@endsection

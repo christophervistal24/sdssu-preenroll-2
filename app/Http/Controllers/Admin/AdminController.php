@@ -9,9 +9,20 @@ use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function index()
+    {
+        return view('admins.index');
+    }
+
     public function preenrol()
     {
-    	return view('admins.pre-enrol');
+        return view('admins.pre-enrol');
     }
 
     public function addgrades()
@@ -45,7 +56,7 @@ class AdminController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            return redirect()->intended('/admin/pre-enrol');
+            return redirect()->intended('/admin/index');
         }
         return Redirect::back()->withInput()->withErrors('Wrong username/password combination.');
     }

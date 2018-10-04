@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class InstructorController extends Controller
 {
+    public function index()
+    {
+        return view('instructors.index');
+    }
     public function schedule()
     {
     	return view('instructors.schedule');
@@ -35,7 +39,7 @@ class InstructorController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            return redirect()->intended('/instructor/schedule');
+            return redirect()->intended('/instructor/index');
         }
         return Redirect::back()->withInput()->withErrors('Wrong username/password combination.');
     }

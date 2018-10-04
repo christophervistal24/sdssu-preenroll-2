@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class StudentController extends Controller
 {
+	public function index()
+	{
+		return view('students.index');
+	}
 	public function preenrol()
 	{
 		return view('students.preenrol');
@@ -45,7 +49,7 @@ class StudentController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            return redirect()->intended('/student/preenrol');
+            return redirect()->intended('/student/index');
         }
         return Redirect::back()->withInput()->withErrors('Wrong username/password combination.');
     }

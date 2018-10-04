@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class ParentsController extends Controller
 {
+    public function index()
+    {
+        return view('parents.index');
+    }
+
     public function viewgrade()
     {
     	return view('parents.viewgrade');
@@ -35,7 +40,7 @@ class ParentsController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            return redirect()->intended('/parent/viewgrade');
+            return redirect()->intended('/parent/index');
         }
         return Redirect::back()->withInput()->withErrors('Wrong username/password combination.');
     }

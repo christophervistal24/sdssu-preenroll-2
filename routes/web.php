@@ -24,30 +24,12 @@ Route::get('/adminlogin' , [
 Route::post('/adminlogin',[
 	'uses' => 'Admin\AdminController@checkLogin',
 ]);
-Route::group([
-    'prefix' => 'admin',
-    'middleware' => 'roles'
-], function() {
-
-	Route::get('/pre-enrol',[
-		'uses'=>'Admin\AdminController@preenrol',
-		'roles' => ['Admin']
-	]);
-
-	Route::get('/addgrades',[
-		'uses'=>'Admin\AdminController@addgrades',
-		'roles' => ['Admin']
-	]);
-
-	Route::get('/schedule',[
-		'uses'=>'Admin\AdminController@schedule',
-		'roles' => ['Admin']
-	]);
-
-	Route::get('/addinstructor',[
-		'uses'=>'Admin\AdminController@addinstructor',
-		'roles' => ['Admin']
-	]);
+Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() {
+	Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
+	Route::get('/pre-enrol',['uses'=>'Admin\AdminController@preenrol','roles' => ['Admin']]);
+	Route::get('/addgrades',['uses'=>'Admin\AdminController@addgrades','roles' => ['Admin']]);
+	Route::get('/schedule',['uses'=>'Admin\AdminController@schedule','roles' => ['Admin']]);
+	Route::get('/addinstructor',['uses'=>'Admin\AdminController@addinstructor','roles' => ['Admin']]);
 });
 
 
@@ -64,31 +46,12 @@ Route::post('/studentlogin' , [
 	'uses' => 'Students\StudentController@checkLogin',
 ]);
 
-Route::group([
-    'prefix' => 'student',
-    'middleware' => 'roles'
-], function() {
-
-	Route::get('/preenrol',[
-		'uses'=>'Students\StudentController@preenrol',
-		'roles' => ['Student']
-	]);
-
-	Route::get('/evaluate',[
-		'uses'=>'Students\StudentController@evaluate',
-		'roles' => ['Student']
-	]);
-
-	Route::get('/schedule',[
-		'uses'=>'Students\StudentController@schedule',
-		'roles' => ['Student']
-	]);
-
-	Route::get('/sendsms',[
-		'uses'=>'Students\StudentController@sendsms',
-		'roles' => ['Student']
-	]);
-
+Route::group(['prefix' => 'student','middleware' => 'roles'], function() {
+	Route::get('/preenrol',['uses'=>'Students\StudentController@preenrol','roles' => ['Student']]);
+	Route::get('/evaluate',['uses'=>'Students\StudentController@evaluate','roles' => ['Student']]);
+	Route::get('/schedule',['uses'=>'Students\StudentController@schedule','roles' => ['Student']]);
+	Route::get('/sendsms',['uses'=>'Students\StudentController@sendsms','roles' => ['Student']]);
+	Route::get('/index',['uses'=>'Students\StudentController@index','roles' => ['Student']]);
 });
 
 /**
@@ -105,19 +68,10 @@ Route::post('/parentlogin' , [
 ]);
 
 
-Route::group([
-    'prefix' => 'parent',
-    'middleware' => 'roles'
-], function() {
-	Route::get('/sendsms',[
-	'uses' => 'Parents\ParentsController@sendsms',
-	'roles' => ['Parent'],
-	]);
-
-	Route::get('/viewgrade',[
-		'uses' => 'Parents\ParentsController@viewgrade',
-		'roles' => ['Parent'],
-	]);
+Route::group(['prefix' => 'parent','middleware' => 'roles'], function() {
+	Route::get('/sendsms',[	'uses' => 'Parents\ParentsController@sendsms','roles' => ['Parent']]);
+	Route::get('/viewgrade',['uses' => 'Parents\ParentsController@viewgrade','roles' => ['Parent']]);
+	Route::get('/index',['uses' => 'Parents\ParentsController@index','roles' => ['Parent']]);
 });
 
 /**
@@ -134,19 +88,10 @@ Route::post('/instructorlogin' , [
 	'uses' => 'Instructors\InstructorController@checkLogin',
 ]);
 
-Route::group([
-    'prefix' => 'instructor',
-    'middleware' => 'roles'
-], function() {
-
-	Route::get('/schedule', [
-		'uses' => 'Instructors\InstructorController@schedule',
-		'roles' => ['Instructor'],
-    ]);
-    Route::get('/sendsms', [
-		'uses' => 'Instructors\InstructorController@sendsms',
-		'roles' => ['Instructor'],
-    ]);
+Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
+	Route::get('/index', ['uses' => 'Instructors\InstructorController@index','roles' => ['Instructor']]);
+	Route::get('/schedule', ['uses' => 'Instructors\InstructorController@schedule','roles' => ['Instructor']]);
+    Route::get('/sendsms', ['uses' => 'Instructors\InstructorController@sendsms','roles' => ['Instructor']]);
 });
 
 Route::get('/test','User\UserController@index');

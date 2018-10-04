@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <!-- End Page Header -->
-                <p>View grades</p>
+                <p>Home</p>
             </div>
         </div>
         @endsection
