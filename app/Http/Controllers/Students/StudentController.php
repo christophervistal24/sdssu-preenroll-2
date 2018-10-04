@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Students;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -46,8 +47,8 @@ class StudentController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
+        $user = User::where('email',$request->email)->first();
+        if (Auth::attempt($credentials) && $user->hasRole('Student')) {
             // Authentication passed...
             return redirect()->intended('/student/index');
         }

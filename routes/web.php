@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() 
 	Route::get('/addgrades',['uses'=>'Admin\AdminController@addgrades','roles' => ['Admin']]);
 	Route::get('/schedule',['uses'=>'Admin\AdminController@schedule','roles' => ['Admin']]);
 	Route::get('/addinstructor',['uses'=>'Admin\AdminController@addinstructor','roles' => ['Admin']]);
+	Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
 });
 
 

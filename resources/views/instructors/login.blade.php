@@ -3,7 +3,8 @@
 <!--==========================
 Contact Section
 ============================-->
-<section id="contact" class="wow fadeInUp">
+{{-- wow fadeInUp --}}
+<section id="contact" class="">
 	<div class="container">
 		<div class="section-header">
 			<h2>Instructor Sign In</h2>

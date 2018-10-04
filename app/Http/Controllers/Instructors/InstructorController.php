@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Instructors;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class InstructorController extends Controller
 {
+
     public function index()
     {
         return view('instructors.index');
     }
+
     public function schedule()
     {
     	return view('instructors.schedule');
@@ -36,8 +39,8 @@ class InstructorController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
+        $user = User::where('email',$request->email)->first();
+        if (Auth::attempt($credentials) && $user->hasRole('Instructor')) {
             // Authentication passed...
             return redirect()->intended('/instructor/index');
         }

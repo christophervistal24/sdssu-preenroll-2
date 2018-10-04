@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -53,8 +54,8 @@ class AdminController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
+        $admin = User::where('email',$request->email)->first();
+        if (Auth::attempt($credentials) && $admin->hasRole('Admin')) {
             // Authentication passed...
             return redirect()->intended('/admin/index');
         }
