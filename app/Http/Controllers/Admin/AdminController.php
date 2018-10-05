@@ -10,10 +10,9 @@ use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
-
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('preventBackHistory');
     }
 
     public function index()
@@ -44,6 +43,12 @@ class AdminController extends Controller
     public function login()
     {
         return view('admins.login');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/adminlogin');
     }
 
     public function checkLogin(Request $request)

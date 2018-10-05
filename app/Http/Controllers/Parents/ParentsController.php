@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class ParentsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('preventBackHistory');
+    }
+
     public function index()
     {
         return view('parents.index');
@@ -28,6 +34,12 @@ class ParentsController extends Controller
     public function login()
     {
         return view('parents.login');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/parentlogin');
     }
 
     public function checkLogin(Request $request)

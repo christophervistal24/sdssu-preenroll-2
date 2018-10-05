@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class InstructorController extends Controller
 {
-
+    public function __construct()
+    {
+         $this->middleware('preventBackHistory');
+    }
+    
     public function index()
     {
         return view('instructors.index');
@@ -30,6 +34,13 @@ class InstructorController extends Controller
     {
     	return view('instructors.login');
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/instructorlogin');
+    }
+
 
     public function checkLogin(Request $request)
     {

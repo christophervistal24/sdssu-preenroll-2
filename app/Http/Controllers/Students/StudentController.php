@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class StudentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('preventBackHistory');
+    }
+
 	public function index()
 	{
 		return view('students.index');
@@ -37,6 +43,12 @@ class StudentController extends Controller
 	public function login()
     {
         return view('students.login');
+    }
+
+    public function logout()
+    {
+    	Auth::logout();
+    	return redirect('/studentlogin');
     }
 
     public function checkLogin(Request $request)
