@@ -12,7 +12,7 @@ class InstructorController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('preventBackHistory');
+        $this->middleware('preventBackHistory');
     }
 
     public function index()

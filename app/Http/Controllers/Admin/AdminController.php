@@ -12,6 +12,7 @@ use App\Role;
 
 class AdminController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('preventBackHistory');
@@ -19,8 +20,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        $user_info = User::where('id',Auth::user()->id)->first();
-        return view('admins.index',compact('user_info'));
+       return view('admins.index');
     }
 
     public function preenrol()
@@ -56,6 +56,7 @@ class AdminController extends Controller
             'major'                   => $request->education_qualification,
             'status'                  => $request->status,
         ]);
+
         $instructor_create->save();
         if ($instructor_create) {
             $user = User::create([
