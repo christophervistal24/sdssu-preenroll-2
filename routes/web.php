@@ -1,31 +1,29 @@
 <?php
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/about',[
-		'uses' => 'Pages\AboutUsController@about',
-]);
+	Route::get('/', function () {
+    	return view('welcome');
+	});
 
-Route::post('/',[
-	'uses'=>'User\UserController@login',
-]);
+	Route::get('/about',[
+			'uses' => 'Pages\AboutUsController@about',
+	]);
+
+	//login route for admin
+	Route::get('/adminlogin' , [
+		'uses' => 'Admin\AdminController@login',
+	]);
+
+	Route::post('/adminlogin',[
+		'uses' => 'Admin\AdminController@checkLogin',
+	]);
 
 /**
  * Route for Admin
  */
 
-//login route for admin
-Route::get('/adminlogin' , [
-	'uses' => 'Admin\AdminController@login',
-]);
 
-Route::post('/adminlogin',[
-	'uses' => 'Admin\AdminController@checkLogin',
-]);
 Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() {
-	Route::group(['middleware' => 'auth'], function () {
 		Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
 		Route::get('/pre-enrol',['uses'=>'Admin\AdminController@preenrol','roles' => ['Admin']]);
 		Route::get('/addgrades',['uses'=>'Admin\AdminController@addgrades','roles' => ['Admin']]);
@@ -36,7 +34,6 @@ Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() 
 		Route::post('/addinstructor',['uses'=>'Admin\AdminController@storeinstructor','roles' => ['Admin']]);
 		Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
 		Route::get('/logout',['uses'=>'Admin\AdminController@logout','roles' => ['Admin']]);
-	});
 });
 
 

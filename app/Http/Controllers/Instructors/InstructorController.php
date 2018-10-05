@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Instructors;
 
 use App\Http\Controllers\Controller;
+use App\InstructorSchedule;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,8 @@ class InstructorController extends Controller
 
     public function schedule()
     {
-    	return view('instructors.schedule');
+        $schedules = InstructorSchedule::where('instructor',ucwords(Auth::user()->name))->get();
+    	return view('instructors.schedule',compact('schedules'));
     }
 
     public function sendsms()

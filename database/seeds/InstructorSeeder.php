@@ -13,7 +13,7 @@ class InstructorSeeder extends Seeder
     {
         DB::table('instructors')->insert([
 			[
-                'id_number' => "01",
+                'id_number' => '01',
 				'name' => strtolower('ERLINDA M. RAVELO'),
 				'education_qualification' => strtolower('MST-HE'),
 				'position' => strtolower('ASSISTANT PROFESSOR 1'),
@@ -21,7 +21,7 @@ class InstructorSeeder extends Seeder
 				'active' => 1,
 			],
             [
-                'id_number' => "02",
+                'id_number' => '02',
                 'name' => strtolower('ENGR. ERNESTO R. CUARTERO,'),
                 'education_qualification' => strtolower('MAT-Math'),
                 'position' => strtolower('ASSISTANT PROFESSOR 1') ,
@@ -29,7 +29,7 @@ class InstructorSeeder extends Seeder
                 'active' => 1,
             ],
             [
-                'id_number' => "03",
+                'id_number' => '03',
                 'name' => strtolower('NAP NICHOLE GREG S. SALERA'),
                 'education_qualification' => strtolower('MSCS'),
                 'position' => strtolower('Instructor 1') ,
@@ -37,7 +37,7 @@ class InstructorSeeder extends Seeder
                 'active' => 1,
             ],
             [
-                'id_number' => "04",
+                'id_number' => '04',
                 'name' => strtolower('ENGR. JESSIE A. DEMONTANO'),
                 'education_qualification' => strtolower('MEP-EE'),
                 'position' => strtolower('ASSISTANT PROFESSOR 4') ,
@@ -45,7 +45,7 @@ class InstructorSeeder extends Seeder
                 'active' => 1,
             ],
             [
-                'id_number' => "05",
+                'id_number' => '05',
                 'name' => strtolower('CATHERINE R. ALIMBOYONG'),
                 'education_qualification' => strtolower('MIT'),
                 'position' => strtolower('ASSISTANT PROFESSOR 2') ,
@@ -53,7 +53,7 @@ class InstructorSeeder extends Seeder
                 'active' => 1,
             ],
             [
-                'id_number' => "06",
+                'id_number' => '06',
                 'name' => strtolower('CHERLY B. SARDOVIA'),
                 'education_qualification' => strtolower('MSCS'),
                 'position' => strtolower('INSTRUCTOR 1'),

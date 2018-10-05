@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
                 )
             );
             $view->with('first_sem_first_year_subjects',
-            DB::select(
+             DB::select(
                     DB::raw("SELECT * FROM subjects WHERE year = 1 AND semester = 1")
                 )
             );

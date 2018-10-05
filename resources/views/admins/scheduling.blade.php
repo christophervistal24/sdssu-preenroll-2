@@ -85,6 +85,8 @@
                 <!-- Small Stats Blocks -->
                 <div class="row">
                     <div class="container-fluid">
+                    {{-- ADD CHECK IF EXISTS --}}
+                    {{-- ADD JS --}}
                         @php
                         $start_time = [
                         '7:30 AM',
@@ -251,7 +253,9 @@
                                 </div>
                                 <div class="form-group col-md-6 offset-3">
                                     <div class="text-right"><button class="btn btn-primary" type="submit">Add Schedule</button></div>
+                                     <div class="text-left"><button class="btn btn-primary" type="reset">Reset</button></div>
                                 </div>
+
                             </div>
                         </form>
                     </div>

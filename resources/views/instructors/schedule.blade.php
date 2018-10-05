@@ -83,6 +83,24 @@
 				</div>
 				<!-- End Page Header -->
 				<p>Schedule</p>
+				<table>
+					<thead>
+						<th>Time</th>
+						<th>Days</th>
+						<th>Rooms</th>
+						<th>Subjects</th>
+					</thead>
+					<tbody>
+						@foreach ($schedules as $schedule)
+							<tr>
+								<td>{{ $schedule->start_time . ' - ' .  $schedule->end_time }}</td>
+								<td>{{ $schedule->days }}</td>
+								<td>{{ $schedule->room }}</td>
+								<td>{{ $schedule->subject }}</td>
+							</tr>
+						@endforeach
+					</tbody>
+				</table>
 			</div>
 		</div>
 		@endsection

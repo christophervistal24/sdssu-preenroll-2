@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\Redirect;
 class AdminController extends Controller
 {
 
-    public function __construct()
+    private $instructorSchedule;
+
+    public function __construct(InstructorSchedule $instructorSchedule)
     {
+        $this->instructorSchedule = $instructorSchedule;
         $this->middleware('preventBackHistory');
     }
 
@@ -95,16 +98,27 @@ class AdminController extends Controller
             'subject'    => 'required',
             'instructor' => 'required',
         ]);
-
-        $user = InstructorSchedule::create([
+        
+        $is_exists = $this->instructorSchedule->checkSchedule([
              'start_time' => $request->start_time,
              'end_time'   => $request->end_time,
              'days'       => $request->days,
              'room'       => $request->room,
              'subject'    => $request->subject,
              'instructor' => $request->instructor,
-        ])->save();
-        return redirect()->back()->with('status','Successfully add new schedule for ' . $request->instructor);
+        ]);
+
+        if (!$is_exists) {
+            $user = InstructorSchedule::create([
+                 'start_time' => $request->start_time,
+                 'end_time'   => $request->end_time,
+                 'days'       => $request->days,
+                 'room'       => $request->room,
+                 'subject'    => $request->subject,
+                 'instructor' => $request->instructor,
+            ])->save();
+            return redirect()->back()->with('status','Successfully add new schedule for ' . $request->instructor);
+        }
     }
 
     public function login()
