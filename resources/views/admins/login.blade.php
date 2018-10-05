@@ -3,7 +3,7 @@
 <!--==========================
 Contact Section
 ============================-->
-{{-- wow fadeInUp --}}
+
 <section id="contact" class="">
 	<div class="container">
 		<div class="section-header">

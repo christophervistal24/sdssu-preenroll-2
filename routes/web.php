@@ -24,12 +24,14 @@ Route::get('/adminlogin' , [
 Route::post('/adminlogin',[
 	'uses' => 'Admin\AdminController@checkLogin',
 ]);
-Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
+Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() {
 	Route::group(['middleware' => 'auth'], function () {
 		Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
 		Route::get('/pre-enrol',['uses'=>'Admin\AdminController@preenrol','roles' => ['Admin']]);
 		Route::get('/addgrades',['uses'=>'Admin\AdminController@addgrades','roles' => ['Admin']]);
 		Route::get('/schedule',['uses'=>'Admin\AdminController@schedule','roles' => ['Admin']]);
+		Route::get('/scheduling',['uses'=>'Admin\AdminController@scheduling','roles' => ['Admin']]);
+		Route::post('/scheduling',['uses'=>'Admin\AdminController@storeschedule','roles' => ['Admin']]);
 		Route::get('/addinstructor',['uses'=>'Admin\AdminController@addinstructor','roles' => ['Admin']]);
 		Route::post('/addinstructor',['uses'=>'Admin\AdminController@storeinstructor','roles' => ['Admin']]);
 		Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);

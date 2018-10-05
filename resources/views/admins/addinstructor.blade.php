@@ -3,7 +3,7 @@
 <div class="main-navbar sticky-top bg-white">
     <!-- Main Navbar -->
     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
-        <form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+        <form action="" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
             <div class="input-group input-group-seamless ml-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
@@ -102,12 +102,6 @@
                                     <input type="text" name="id_number" class="form-control" value="{{ old('id_number') }}"   placeholder="Instructor ID Number"  required />
                                 </div>
 
-                                {{-- ID NUMBER --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Email (Optional)</label>
-                                    <input type="text" name="email" class="form-control"  placeholder="Email Address" />
-                                </div>
-
                                 {{-- PASSWORD --}}
                                 <div class="form-group col-md-6 offset-3">
                                     <label>Password</label>
@@ -124,6 +118,12 @@
                                 <div class="form-group col-md-6 offset-3">
                                     <label>Major</label>
                                     <input type="text" class="form-control" value="{{ old('major') }}" name="major"  placeholder="Instructor Major" required />
+                                </div>
+
+                                {{-- POSITION --}}
+                                <div class="form-group col-md-6 offset-3">
+                                    <label>Position</label>
+                                    <input type="text" class="form-control" value="{{ old('position') }}" name="position"  placeholder="Position" required />
                                 </div>
 
                                 {{-- STATUS --}}

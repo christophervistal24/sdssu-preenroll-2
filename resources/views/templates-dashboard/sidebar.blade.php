@@ -57,6 +57,12 @@ $route="admin";
                         <span>Schedules</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url("/$route/scheduling") }}">
+                        <i class="material-icons">view_module</i>
+                        <span>Scheduling</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </aside>

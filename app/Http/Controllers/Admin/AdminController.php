@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Instructor;
+use App\InstructorSchedule;
+use App\Role;
+use App\Room;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use App\Role;
 
 class AdminController extends Controller
 {
@@ -46,24 +48,26 @@ class AdminController extends Controller
             'password'                => 'required',
             'education_qualification' => 'required',
             'major'                   => 'required',
+            'position'                => 'required',
             'status'                  => 'required',
         ]);
 
-        $instructor_create = Instructor::create([
-            'name'                    => $request->name,
-            'id_number'               => $request->id_number,
-            'education_qualification' => $request->education_qualification,
-            'major'                   => $request->education_qualification,
-            'status'                  => $request->status,
-        ]);
+        $instructor_create = Instructor::create(
+            [
+                'name'                    => $request->name,
+                'id_number'               => $request->id_number,
+                'education_qualification' => $request->education_qualification,
+                'major'                   => $request->major,
+                'position'                => $request->position,
+                'status'                  => $request->status,
+            ]
+        )->save();
 
-        $instructor_create->save();
         if ($instructor_create) {
             $user = User::create([
                 'name'      => $request->name,
                 'id_number' => $request->id_number,
                 'password'  => bcrypt($request->password),
-                'email'     => $request->email,
             ]);
             $user->save();
             $user->roles()->attach($user->getRole('Instructor'));
@@ -73,7 +77,34 @@ class AdminController extends Controller
 
     public function schedule()
     {
-    	return view('admins.schedule');
+        return view('admins.schedule');
+    }
+
+    public function scheduling()
+    {
+    	return view('admins.scheduling');
+    }
+
+    public function storeschedule(Request $request)
+    {
+        $request->validate([
+            'start_time' => 'required',
+            'end_time'   => 'required',
+            'days'       => 'required',
+            'room'       => 'required',
+            'subject'    => 'required',
+            'instructor' => 'required',
+        ]);
+
+        $user = InstructorSchedule::create([
+             'start_time' => $request->start_time,
+             'end_time'   => $request->end_time,
+             'days'       => $request->days,
+             'room'       => $request->room,
+             'subject'    => $request->subject,
+             'instructor' => $request->instructor,
+        ])->save();
+        return redirect()->back()->with('status','Successfully add new schedule for ' . $request->instructor);
     }
 
     public function login()
@@ -91,7 +122,7 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'id_number' => 'required',
-            'password' => 'required',
+            'password'  => 'required',
         ]);
 
         $credentials = $request->only('id_number', 'password');

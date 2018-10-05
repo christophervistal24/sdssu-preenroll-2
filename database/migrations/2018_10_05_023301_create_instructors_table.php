@@ -15,11 +15,12 @@ class CreateInstructorsTable extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
             $table->string('id_number')->unique();
+            $table->string('name');
             $table->string('education_qualification');
-            $table->string('major');
+            $table->string('position');
             $table->enum('status', ['permanent', 'contractual']);
+            $table->integer('active');
             $table->timestamps();
         });
     }
