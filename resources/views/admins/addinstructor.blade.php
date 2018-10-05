@@ -84,7 +84,63 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                    <p>Add instructor</p>
+                    <div class="container-fluid">
+                        @include('errors.error')
+                        @include('success.success-message')
+                        <form autocomplete="off" action="{{ url('/admin/addinstructor') }}" method="POST">
+                            @csrf
+                            <div class="form">
+                                {{-- INSTRUCTOR FULLNAME --}}
+                                <div class="form-group col-md-6 offset-3">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}"    placeholder="Instructor Fullname"  required />
+                                </div>
+
+                                {{-- ID NUMBER --}}
+                                <div class="form-group col-md-6 offset-3">
+                                    <label>ID Number</label>
+                                    <input type="text" name="id_number" class="form-control" value="{{ old('id_number') }}"   placeholder="Instructor ID Number"  required />
+                                </div>
+
+                                {{-- ID NUMBER --}}
+                                <div class="form-group col-md-6 offset-3">
+                                    <label>Email (Optional)</label>
+                                    <input type="text" name="email" class="form-control"  placeholder="Email Address" />
+                                </div>
+
+                                {{-- PASSWORD --}}
+                                <div class="form-group col-md-6 offset-3">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control" name="password"  placeholder="Your password" required />
+                                </div>
+
+                                {{-- EDUCATION QUALIFICATION --}}
+                                  <div class="form-group col-md-6 offset-3">
+                                    <label>Education Qualification</label>
+                                    <input type="text" class="form-control" value="{{ old('education_qualification') }}"   name="education_qualification"  placeholder="Education Qualification" required />
+                                </div>
+
+                                {{-- MAJOR --}}
+                                <div class="form-group col-md-6 offset-3">
+                                    <label>Major</label>
+                                    <input type="text" class="form-control" value="{{ old('major') }}" name="major"  placeholder="Instructor Major" required />
+                                </div>
+
+                                {{-- STATUS --}}
+                                <div class="form-group col-md-6 offset-3">
+                                    <label>Status</label>
+                                    <select name="status" class="form-control">
+                                        <option value="permanent">Permanent</option>
+                                        <option value="contractual">Contractual</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-6 offset-3">
+                                    <div class="text-right"><button class="btn btn-primary" type="submit">Add Instructor</button></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

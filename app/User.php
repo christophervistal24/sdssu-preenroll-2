@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','id_number'
     ];
 
     /**
@@ -55,5 +55,10 @@ class User extends Authenticatable
              return true;
         }
         return false;
+    }
+
+    public function getRole(string $role)
+    {
+        return Role::where('name',$role)->first();
     }
 }

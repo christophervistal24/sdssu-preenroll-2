@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Instructor;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use App\Role;
 
 class AdminController extends Controller
 {
@@ -17,7 +19,8 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admins.index');
+        $user_info = User::where('id',Auth::user()->id)->first();
+        return view('admins.index',compact('user_info'));
     }
 
     public function preenrol()
@@ -33,6 +36,38 @@ class AdminController extends Controller
     public function addinstructor()
     {
     	return view('admins.addinstructor');
+    }
+
+    public function storeinstructor(Request $request)
+    {
+        $request->validate([
+            'name'                    => 'required',
+            'id_number'               => 'required|unique:instructors',
+            'password'                => 'required',
+            'education_qualification' => 'required',
+            'major'                   => 'required',
+            'status'                  => 'required',
+        ]);
+
+        $instructor_create = Instructor::create([
+            'name'                    => $request->name,
+            'id_number'               => $request->id_number,
+            'education_qualification' => $request->education_qualification,
+            'major'                   => $request->education_qualification,
+            'status'                  => $request->status,
+        ]);
+        $instructor_create->save();
+        if ($instructor_create) {
+            $user = User::create([
+                'name'      => $request->name,
+                'id_number' => $request->id_number,
+                'password'  => bcrypt($request->password),
+                'email'     => $request->email,
+            ]);
+            $user->save();
+            $user->roles()->attach($user->getRole('Instructor'));
+            return redirect()->back()->with('status','Successfully add new instructor');
+        }
     }
 
     public function schedule()
@@ -54,16 +89,16 @@ class AdminController extends Controller
     public function checkLogin(Request $request)
     {
         $validatedData = $request->validate([
-            'email' => 'required',
+            'id_number' => 'required',
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
-        $admin = User::where('email',$request->email)->first();
+        $credentials = $request->only('id_number', 'password');
+        $admin = User::where('id_number',$request->id_number)->first();
         if (Auth::attempt($credentials) && $admin->hasRole('Admin')) {
             // Authentication passed...
             return redirect()->intended('/admin/index');
         }
-        return Redirect::back()->withInput()->withErrors('Wrong username/password combination.');
+        return Redirect::back()->withInput()->withErrors('Wrong ID number/password combination.');
     }
 }

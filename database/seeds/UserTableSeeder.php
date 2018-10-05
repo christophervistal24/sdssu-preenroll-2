@@ -19,30 +19,34 @@ class UserTableSeeder extends Seeder
         $role_instructor = Role::where('name','Instructor')->first();
 
         $parent = new User();
-        $parent->name = 'Christopher';
-        $parent->email ='christophervistal24@gmail.com';
+        $parent->name = 'Student Parent';
+        $parent->email ='parent@gmail.com';
+        $parent->id_number = '1511111';
         $parent->password = bcrypt(1234);
         $parent->save();
         $parent->roles()->attach($role_parent);
 
         $admin = new User();
-        $admin->name = 'Christopher2';
-        $admin->email ='christophervistal2@gmail.com';
+        $admin->name = 'Administrator Admin';
+        $admin->email ='admin@gmail.com';
+        $admin->id_number = '1522222';
         $admin->password = bcrypt(1234);
         $admin->save();
         $admin->roles()->attach($role_admin);
 
 
         $student = new User();
-        $student->name = 'Christopher3';
-        $student->email ='christophervistal3@gmail.com';
+        $student->name = 'Student student';
+        $student->email ='student@gmail.com';
+        $student->id_number = '1533333';
         $student->password = bcrypt(1234);
         $student->save();
         $student->roles()->attach($role_student);
 
         $instructor = new User();
-        $instructor->name = 'Christopher4';
-        $instructor->email ='christophervistal4@gmail.com';
+        $instructor->name = 'Instructor Instructor';
+        $instructor->email ='instructor@gmail.com';
+        $instructor->id_number = '1544444';
         $instructor->password = bcrypt(1234);
         $instructor->save();
         $instructor->roles()->attach($role_instructor);

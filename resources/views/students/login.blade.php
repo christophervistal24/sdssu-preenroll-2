@@ -18,7 +18,7 @@ Contact Section
 				<div class="form-group col-md-6 offset-3">
 					@csrf
 					<label>Name</label>
-					<input type="text" name="email" class="form-control"  placeholder="Your Name"  required />
+					<input type="text" name="id_number" class="form-control" value="{{ old('id_number') }}"   placeholder="Your ID Number"  required />
 					<div class="validation"></div>
 				</div>
 				<div class="form-group col-md-6 offset-3">

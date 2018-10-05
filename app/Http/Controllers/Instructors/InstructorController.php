@@ -14,7 +14,7 @@ class InstructorController extends Controller
     {
          $this->middleware('preventBackHistory');
     }
-    
+
     public function index()
     {
         return view('instructors.index');
@@ -45,16 +45,16 @@ class InstructorController extends Controller
     public function checkLogin(Request $request)
     {
         $validatedData = $request->validate([
-            'email' => 'required',
+            'id_number' => 'required',
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
-        $user = User::where('email',$request->email)->first();
+        $credentials = $request->only('id_number', 'password');
+        $user = User::where('id_number',$request->id_number)->first();
         if (Auth::attempt($credentials) && $user->hasRole('Instructor')) {
             // Authentication passed...
             return redirect()->intended('/instructor/index');
         }
-        return Redirect::back()->withInput()->withErrors('Wrong username/password combination.');
+        return Redirect::back()->withInput()->withErrors('Wrong ID number/password combination.');
     }
 }

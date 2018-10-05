@@ -45,16 +45,16 @@ class ParentsController extends Controller
     public function checkLogin(Request $request)
     {
         $validatedData = $request->validate([
-            'email' => 'required',
+            'id_number' => 'required',
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
-        $user = User::where('email',$request->email)->first();
+        $credentials = $request->only('id_number', 'password');
+        $user = User::where('id_number',$request->id_number)->first();
         if (Auth::attempt($credentials) && $user->hasRole('Parent')) {
             // Authentication passed...
             return redirect()->intended('/parent/index');
         }
-        return Redirect::back()->withInput()->withErrors('Wrong username/password combination.');
+        return Redirect::back()->withInput()->withErrors('Wrong ID number/password combination.');
     }
 }
