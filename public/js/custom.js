@@ -27,7 +27,6 @@ let fourth_year_second_sem = document.querySelector('#subject_4_2');
 let selectedSubject = null;
 /* END OF SCHEDULE FIELDS */
 let token = document.querySelector('meta[name="csrf-token"]').content;
-let table = $('#tables').DataTable();
 
 let ucwords = (str) => {
     return (str + '').replace(/^([a-z])|\s+([a-z])/g,  ($1) => {
@@ -38,7 +37,7 @@ let ucwords = (str) => {
 let checkValueInSubjects = (element,value) => {
   let i;
     for (i = 0; i < element.length; i++) {
-      if (value == element[i].value) {
+      if (value.includes(element[i].value)) {
         return element.id;
       }
     }
@@ -46,17 +45,16 @@ let checkValueInSubjects = (element,value) => {
 };
 
 let findElement = (data) => {
-      const subject1 = document.querySelector('#'+checkValueInSubjects(first_year_second_sem,data));
-      const subject2 = document.querySelector('#'+checkValueInSubjects(second_year_first_sem,data));
-      const subject3 = document.querySelector('#'+checkValueInSubjects(second_year_second_sem,data));
-      const subject4 = document.querySelector('#'+checkValueInSubjects(third_year_first_sem,data));
-      const subject5 = document.querySelector('#'+checkValueInSubjects(third_year_second_sem,data));
-      const subject6 = document.querySelector('#'+checkValueInSubjects(third_year_summer,data));
-      const subject7 = document.querySelector('#'+checkValueInSubjects(fourth_year_first_sem,data));
-      const subject8 = document.querySelector('#'+checkValueInSubjects(fourth_year_second_sem,data));
-      const subject9 = document.querySelector('#'+checkValueInSubjects(first_year_first_sem,data));
+      const subject1 = document.querySelector('#'+checkValueInSubjects(first_year_first_sem,data));
+      const subject2 = document.querySelector('#'+checkValueInSubjects(first_year_second_sem,data));
+      const subject3 = document.querySelector('#'+checkValueInSubjects(second_year_first_sem,data));
+      const subject4 = document.querySelector('#'+checkValueInSubjects(second_year_second_sem,data));
+      const subject5 = document.querySelector('#'+checkValueInSubjects(third_year_first_sem,data));
+      const subject6 = document.querySelector('#'+checkValueInSubjects(third_year_second_sem,data));
+      const subject7 = document.querySelector('#'+checkValueInSubjects(third_year_summer,data));
+      const subject8 = document.querySelector('#'+checkValueInSubjects(fourth_year_first_sem,data));
+      const subject9 = document.querySelector('#'+checkValueInSubjects(fourth_year_second_sem,data));
       check = [subject1,subject2,subject3,subject4,subject5,subject6,subject7,subject8,subject9];
-      let find = [];
       for(i = 0; i<check.length; i++)
       {
           if (check[i] != null) {
@@ -143,14 +141,31 @@ let getNewSubject = () => {
     return third_year_second_sem.value;
   }
   if(third_year_summer.value!= third_year_summer.options[0].value) {
-    return third_year_second_sem.value;
+    return third_year_summer.value;
   }
-  if (fourth_year_first_sem.value != fourth_year_second_sem.options[0].value) {
+  if (fourth_year_first_sem.value != fourth_year_first_sem.options[0].value) {
     return fourth_year_first_sem.value;
   }
   if (fourth_year_second_sem.value != fourth_year_second_sem.options[0].value) {
     return fourth_year_second_sem.value;
   }
+};
+
+let clearOtherSelect = (element) => {
+    var selects = document.getElementsByTagName('select');
+    var sel;
+    var relevantSelects = [];
+    for(var i=0; i<selects.length; i++){
+      if (selects[i].id.includes('subject')) {
+          relevantSelects.push(selects[i]);
+      }
+    }
+
+    relevantSelects.forEach((selects) => {
+        if (selects != element) {
+            selects.value = selects.options[0].value;
+        }
+    });
 };
 
 let submitInstructorInfo = () => {
@@ -178,6 +193,36 @@ let submitInstructorInfo = () => {
                 }
             })
 };
+
+let getTime = (element) => {
+  let time = [
+        '7:30 AM',
+        '8:00 AM',
+        '8:30 AM',
+        '9:00 AM',
+        '9:30 AM',
+        '10:00 AM',
+        '10:30 AM',
+        '11:00 AM',
+        '11:30 AM',
+        '12:00 PM',
+        '12:30 PM',
+        '1:00 PM',
+        '1:30 PM',
+        '2:00 PM',
+        '2:30 PM',
+        '3:00 PM',
+        '3:30 PM',
+        '4:00 PM',
+        '4:30 PM',
+        '5:00 PM',
+        '5:30 PM',
+        '6:00 PM'
+  ];
+  console.log(element.id);
+};
+
+
 
 
 

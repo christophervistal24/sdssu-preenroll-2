@@ -74,7 +74,7 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4">
+            <div class="main-content-container container-fluid px-4 card rounded-0">
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -84,6 +84,7 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
+                    <h3 class="text-muted ml-2">Add new instructor</h3>
                     <div class="container-fluid">
                         @include('errors.error')
                         @include('success.success-message')

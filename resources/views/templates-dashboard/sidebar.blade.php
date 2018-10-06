@@ -58,7 +58,7 @@ $route="admin";
                                 <span>List of Instructors</span>
                             </a>
                             <a class="dropdown-item" href="{{ url("/$route/addinstructor") }}" >
-                                <i class="material-icons">add</i>
+                                <i class="material-icons">add_circle</i>
                                 <span>Add Instructor</span>
                             </a>
                         </div>
@@ -77,7 +77,7 @@ $route="admin";
                                 <span>List of Schedules</span>
                             </a>
                             <a class="dropdown-item" href="{{ url("/$route/scheduling") }}" >
-                                <i class="material-icons">add</i>
+                                <i class="material-icons">add_circle</i>
                                 <span>Add Schedule</span>
                             </a>
                         </div>

@@ -74,7 +74,7 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4">
+            <div class="main-content-container container-fluid px-4 card rounded-0">
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -84,9 +84,12 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
+                    <div class="col-md-3">
+                        <h4 class="text-muted">Add Schedule</h4>
+                    </div>
                     <div class="container-fluid">
-                    {{-- ADD CHECK IF EXISTS --}}
-                    {{-- ADD JS --}}
+                        {{-- ADD CHECK IF EXISTS --}}
+                        {{-- ADD JS --}}
                         @php
                         $start_time = [
                         '7:30 AM',
@@ -119,24 +122,24 @@
                             @csrf
                             <div class="form">
                                 {{-- TIME --}}
-                                    <label class="col-auto">Time : </label>
+                                <label>Time : </label>
                                 <div class="form-group row">
-                                    <select name="start_time" class="form-control col-md-3 " >
+                                    <select name="start_time" onchange="getTime(this)" id="startTime" class="form-control col-md-6" >
                                         <option selected disabled>Start time</option>
                                         @foreach ($start_time as $time)
-                                            <option  value="{{ $time }}" {{ (old('start_time') == $time ? "selected":"") }}>{{ $time }}</option>
+                                        <option  value="{{ $time }}" {{ (old('start_time') == $time ? "selected":"") }}>{{ $time }}</option>
                                         @endforeach
                                     </select>
-                                    <select name="end_time" class="form-control col-md-3">
+                                    <select name="end_time" id="endTime" class="form-control col-md-6">
                                         <option selected disabled>End time</option>
                                         @foreach ($start_time as $time)
-                                             <option  value="{{ $time }}" {{ (old('end_time') == $time ? "selected":"") }}>{{ $time }}</option>
+                                        <option  value="{{ $time }}" {{ (old('end_time') == $time ? "selected":"") }}>{{ $time }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 {{-- DAYS --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Days : </label>
+                                <label>Days : </label>
+                                <div class="form-group row">
                                     <select name="days" class="form-control">
                                         <option selected disabled>Select Days</option>
                                         <option value="MWF" {{ (old('days') == 'MWF' ? "selected":"") }}>MWF</option>
@@ -145,44 +148,44 @@
                                     </select>
                                 </div>
                                 {{-- ROOM --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Rooms : </label>
-                                    <select name="room" class="form-control col-md-3">
+                                <label>Rooms : </label>
+                                <div class="form-group row">
+                                    <select name="room" class="form-control col-md-12">
                                         <option disabled selected>Select Room</option>
                                         @foreach ($rooms as $room)
-                                            <option value="{{ $room->room_number }}"
-                                                {{ (old('room') == $room->room_number ? "selected":"") }}
-                                                >Room {{ $room->room_number }}</option>
+                                        <option value="{{ $room->room_number }}"
+                                            {{ (old('room') == $room->room_number ? "selected":"") }}
+                                        >Room {{ $room->room_number }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Instructors : </label>
-                                    <select name="instructor" class="form-control col-md-3">
+                                <label>Instructors : </label>
+                                <div class="form-group row">
+                                    <select name="instructor" class="form-control col-md-12">
                                         <option disabled selected>Select Instructor</option>
                                         @foreach ($instructors as $instructor)
                                         <option
-                                        value="{{ ucwords($instructor->name) }}"
-                                        {{ (old('instructor') == ucwords($instructor->name) ? "selected":"") }}
+                                            value="{{ ucwords($instructor->name) }}"
+                                            {{ (old('instructor') == ucwords($instructor->name) ? "selected":"") }}
                                         >{{ ucwords($instructor->name) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 {{-- FIRST YEAR --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>First year subject : </label>
-                                    <select name="subject" class="form-control col-md-3">
+                                <label>First year subject : </label>
+                                <div class="form-group row">
+                                    <select name="subject" onchange="clearOtherSelect(this)" id="subject_1_1" class="form-control col-md-6">
                                         <option disabled selected>First semester</option>
                                         @foreach ($first_sem_first_year_subjects as $subjects)
                                         <option
                                             value="{{ $subjects->sub_description }}"
-                                             {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
                                             >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
                                     </select>
-                                    <select name="subject" class="form-control col-md-3">
+                                    <select name="subject" onchange="clearOtherSelect(this)"  id="subject_1_2" class="form-control col-md-6">
                                         <option disabled selected>Second semester</option>
                                         @foreach ($second_sem_first_year_subjects as $subjects)
                                         <option value="{{ $subjects->sub_description }}"
@@ -194,62 +197,64 @@
                                     </select>
                                 </div>
                                 {{-- SECOND YEAR --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Second year subject : </label>
-                                    <select name="subject" class="form-control col-md-3">
+                                <label>Second year subject : </label>
+                                <div class="form-group row">
+                                    <select name="subject" onchange="clearOtherSelect(this)" id="subject_2_1" class="form-control col-md-6">
                                         <option disabled selected>First semester</option>
                                         @foreach ($first_sem_second_year_subjects as $subjects)
                                         <option
-                                        value="{{ $subjects->sub_description }}"
-                                          {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            value="{{ $subjects->sub_description }}"
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
                                             >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
                                     </select>
-                                    <select name="subject" class="form-control col-md-3">
+                                    <select name="subject" onchange="clearOtherSelect(this)" id="subject_2_2" class="form-control col-md-6">
                                         <option disabled selected>Second semester</option>
                                         @foreach ($second_sem_second_year_subjects as $subjects)
                                         <option
-                                         value="{{ $subjects->sub_description }}"
-                                        {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
-                                         >
+                                            value="{{ $subjects->sub_description }}"
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 {{-- THIRD YEAR --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Third year subject : </label>
-                                    <select name="subject" class="form-control col-md-3">
+                                <label>Third year subject : </label>
+                                <div class="form-group row">
+                                    <select name="subject" onchange="clearOtherSelect(this)" id="subject_3_1" class="form-control col-md-6">
                                         <option disabled selected>First semester</option>
                                         @foreach ($first_sem_third_year_subjects as $subjects)
                                         <option
-                                         value="{{ $subjects->sub_description }}"
-                                         {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            value="{{ $subjects->sub_description }}"
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
                                             >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
                                     </select>
-                                    <select name="subject" class="form-control col-md-3">
+                                    <select name="subject" onchange="clearOtherSelect(this)" id="subject_3_2" class="form-control col-md-6">
                                         <option disabled selected>Second semester</option>
                                         @foreach ($second_sem_third_year_subjects as $subjects)
                                         <option
-                                         value="{{ $subjects->sub_description }}"
-                                         {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            value="{{ $subjects->sub_description }}"
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
                                             >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
                                     </select>
-                                    <select name="subject" class="form-control col-md-3">
+                                </div>
+                                <div class="form-group row">
+                                    <select name="subject" onchange="clearOtherSelect(this)" id="subject_3" class="form-control col-md-6">
                                         <option disabled selected>Third year Summer</option>
                                         @foreach ($third_year_summer as $subjects)
                                         <option
-                                        value="{{ $subjects->sub_description }}"
-                                        {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            value="{{ $subjects->sub_description }}"
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
                                             >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
@@ -257,36 +262,38 @@
                                     </select>
                                 </div>
                                 {{-- FOURTH YEAR --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Fourth year subject : </label>
-                                    <select name="subject" class="form-control col-md-3">
+                                <label>Fourth year subject : </label>
+                                <div class="form-group row">
+                                    <select name="subject" onchange="clearOtherSelect(this)" id="subject_4_1" class="form-control col-md-6">
                                         <option disabled selected>First semester</option>
                                         @foreach ($first_sem_fourth_year_subjects as $subjects)
                                         <option
-                                        value="{{ $subjects->sub_description }}"
-                                        {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
-                                        >
+                                            value="{{ $subjects->sub_description }}"
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
                                     </select>
-                                    <select name="subject" class="form-control col-md-3">
+                                    <select name="subject" onchange="clearOtherSelect(this)" id="subject_4_2"  class="form-control col-md-6">
                                         <option disabled selected>Second semester</option>
                                         @foreach ($second_sem_fourth_year_subjects as $subjects)
                                         <option
                                             value="{{ $subjects->sub_description }}"
                                             {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
-                                        >
+                                            >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6 offset-3">
-                                    <div class="text-right"><button class="btn btn-primary" type="submit">Add Schedule</button></div>
-                                     <div class="text-left"><button class="btn btn-primary" type="reset">Reset</button></div>
+                                <div class="form-group col-md-12">
+                                    <div class="float-right">
+                                        <button class="btn btn-primary" type="submit">Add Schedule</button>
+                                        <button class="btn btn-primary" type="reset">Reset</button>
+                                    </div>
+                                    <br>
                                 </div>
-
                             </div>
                         </form>
                     </div>

@@ -189,7 +189,7 @@ class CSSubjectSeeder extends Seeder
          	],
          	[
 					'sub'             => 'CS 214',
-					'sub_description' => 'Embedded systems ',
+					'sub_description' => 'Embedded systems',
 					'units'           => 3,
 					'prereq'          => 'CS 122',
 					'year'            => 2,

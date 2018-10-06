@@ -84,6 +84,7 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
+                   <h4 class="text-muted ml-2">List of all Instructors</h4>
                     <div class="container">
                         <table id="tables" class="table table-bordered" style="width:100%">
                             <thead>
