@@ -37,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
             'admins.pre-enrol',
             'admins.schedule',
             'admins.scheduling',
+            'admins.list-instructors',
+            'admins.send',
             'instructors.index',
             'instructors.schedule',
             'parents.index',
@@ -49,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('user_info',User::where('id',Auth::user()->id)->first());
         });
 
-         view()->composer(['admins.scheduling'] , function ($view) {
+         view()->composer(['admins.scheduling','admins.schedule'] , function ($view) {
             $view->with('rooms',Room::all());
             $view->with('instructors',Instructor::all());
             $view->with('first_sem_first_year_subjects',

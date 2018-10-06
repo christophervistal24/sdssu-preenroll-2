@@ -94,7 +94,7 @@ class InstructorSeeder extends Seeder
             ],
             [
                 'id_number' => '11',
-                'name' => strtolower('MARY ANN F. GUIRAL-ESTAL'),
+                'name' => strtolower('MARY ANN F. GUIRAL ESTAL'),
                 'education_qualification' => strtolower('MST'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',
@@ -110,7 +110,7 @@ class InstructorSeeder extends Seeder
             ],
             [
                 'id_number' => '13',
-                'name' => strtolower('LOLITA A. CLIMACO-VICENTE'),
+                'name' => strtolower('LOLITA A. CLIMACO VICENTE'),
                 'education_qualification' => strtolower('MSMATH'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',

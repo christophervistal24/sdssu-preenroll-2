@@ -119,18 +119,18 @@
                             @csrf
                             <div class="form">
                                 {{-- TIME --}}
-                                <div class="form-group row">
                                     <label class="col-auto">Time : </label>
-                                    <select name="start_time" class="form-control col-md-3 offset-2" >
+                                <div class="form-group row">
+                                    <select name="start_time" class="form-control col-md-3 " >
                                         <option selected disabled>Start time</option>
                                         @foreach ($start_time as $time)
-                                            <option value="{{ $time }}">{{ $time }}</option>
+                                            <option  value="{{ $time }}" {{ (old('start_time') == $time ? "selected":"") }}>{{ $time }}</option>
                                         @endforeach
                                     </select>
                                     <select name="end_time" class="form-control col-md-3">
                                         <option selected disabled>End time</option>
                                         @foreach ($start_time as $time)
-                                            <option value="{{ $time }}">{{ $time }}</option>
+                                             <option  value="{{ $time }}" {{ (old('end_time') == $time ? "selected":"") }}>{{ $time }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -139,9 +139,9 @@
                                     <label>Days : </label>
                                     <select name="days" class="form-control">
                                         <option selected disabled>Select Days</option>
-                                        <option value="MWF">MWF</option>
-                                        <option value="TTH">TTH</option>
-                                        <option value="S">S</option>
+                                        <option value="MWF" {{ (old('days') == 'MWF' ? "selected":"") }}>MWF</option>
+                                        <option value="TTH" {{ (old('days') == 'TTH' ? "selected":"") }}>TTH</option>
+                                        <option value="S" {{ (old('days') == 'S' ? "selected":"") }}>S</option>
                                     </select>
                                 </div>
                                 {{-- ROOM --}}
@@ -150,7 +150,9 @@
                                     <select name="room" class="form-control col-md-3">
                                         <option disabled selected>Select Room</option>
                                         @foreach ($rooms as $room)
-                                            <option value="{{ $room->room_number }}">Room {{ $room->room_number }}</option>
+                                            <option value="{{ $room->room_number }}"
+                                                {{ (old('room') == $room->room_number ? "selected":"") }}
+                                                >Room {{ $room->room_number }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -159,7 +161,10 @@
                                     <select name="instructor" class="form-control col-md-3">
                                         <option disabled selected>Select Instructor</option>
                                         @foreach ($instructors as $instructor)
-                                        <option value="{{ ucwords($instructor->name) }}">{{ ucwords($instructor->name) }}</option>
+                                        <option
+                                        value="{{ ucwords($instructor->name) }}"
+                                        {{ (old('instructor') == ucwords($instructor->name) ? "selected":"") }}
+                                        >{{ ucwords($instructor->name) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -169,7 +174,10 @@
                                     <select name="subject" class="form-control col-md-3">
                                         <option disabled selected>First semester</option>
                                         @foreach ($first_sem_first_year_subjects as $subjects)
-                                        <option value="{{ $subjects->sub_description }}">
+                                        <option
+                                            value="{{ $subjects->sub_description }}"
+                                             {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
@@ -177,7 +185,9 @@
                                     <select name="subject" class="form-control col-md-3">
                                         <option disabled selected>Second semester</option>
                                         @foreach ($second_sem_first_year_subjects as $subjects)
-                                        <option value="{{ $subjects->sub_description }}">
+                                        <option value="{{ $subjects->sub_description }}"
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
@@ -189,7 +199,10 @@
                                     <select name="subject" class="form-control col-md-3">
                                         <option disabled selected>First semester</option>
                                         @foreach ($first_sem_second_year_subjects as $subjects)
-                                        <option value="{{ $subjects->sub_description }}">
+                                        <option
+                                        value="{{ $subjects->sub_description }}"
+                                          {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
@@ -197,7 +210,10 @@
                                     <select name="subject" class="form-control col-md-3">
                                         <option disabled selected>Second semester</option>
                                         @foreach ($second_sem_second_year_subjects as $subjects)
-                                        <option value="{{ $subjects->sub_description }}">
+                                        <option
+                                         value="{{ $subjects->sub_description }}"
+                                        {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                         >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
@@ -209,7 +225,10 @@
                                     <select name="subject" class="form-control col-md-3">
                                         <option disabled selected>First semester</option>
                                         @foreach ($first_sem_third_year_subjects as $subjects)
-                                        <option value="{{ $subjects->sub_description }}">
+                                        <option
+                                         value="{{ $subjects->sub_description }}"
+                                         {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
@@ -217,7 +236,10 @@
                                     <select name="subject" class="form-control col-md-3">
                                         <option disabled selected>Second semester</option>
                                         @foreach ($second_sem_third_year_subjects as $subjects)
-                                        <option value="{{ $subjects->sub_description }}">
+                                        <option
+                                         value="{{ $subjects->sub_description }}"
+                                         {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
@@ -225,7 +247,10 @@
                                     <select name="subject" class="form-control col-md-3">
                                         <option disabled selected>Third year Summer</option>
                                         @foreach ($third_year_summer as $subjects)
-                                        <option value="{{ $subjects->sub_description }}">
+                                        <option
+                                        value="{{ $subjects->sub_description }}"
+                                        {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
@@ -237,7 +262,10 @@
                                     <select name="subject" class="form-control col-md-3">
                                         <option disabled selected>First semester</option>
                                         @foreach ($first_sem_fourth_year_subjects as $subjects)
-                                        <option value="{{ $subjects->sub_description }}">
+                                        <option
+                                        value="{{ $subjects->sub_description }}"
+                                        {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                        >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
@@ -245,7 +273,10 @@
                                     <select name="subject" class="form-control col-md-3">
                                         <option disabled selected>Second semester</option>
                                         @foreach ($second_sem_fourth_year_subjects as $subjects)
-                                        <option value="{{ $subjects->sub_description }}">
+                                        <option
+                                            value="{{ $subjects->sub_description }}"
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                        >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach

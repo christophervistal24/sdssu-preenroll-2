@@ -23,17 +23,25 @@
  */
 
 
+
 Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() {
-		Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
-		Route::get('/pre-enrol',['uses'=>'Admin\AdminController@preenrol','roles' => ['Admin']]);
-		Route::get('/addgrades',['uses'=>'Admin\AdminController@addgrades','roles' => ['Admin']]);
-		Route::get('/schedule',['uses'=>'Admin\AdminController@schedule','roles' => ['Admin']]);
-		Route::get('/scheduling',['uses'=>'Admin\AdminController@scheduling','roles' => ['Admin']]);
-		Route::post('/scheduling',['uses'=>'Admin\AdminController@storeschedule','roles' => ['Admin']]);
-		Route::get('/addinstructor',['uses'=>'Admin\AdminController@addinstructor','roles' => ['Admin']]);
-		Route::post('/addinstructor',['uses'=>'Admin\AdminController@storeinstructor','roles' => ['Admin']]);
-		Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
-		Route::get('/logout',['uses'=>'Admin\AdminController@logout','roles' => ['Admin']]);
+	Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
+	Route::get('/pre-enrol',['uses'=>'Admin\AdminController@preenrol','roles' => ['Admin']]);
+	Route::get('/addgrades',['uses'=>'Admin\AdminController@addgrades','roles' => ['Admin']]);
+	Route::get('/schedule',['uses'=>'Admin\AdminController@schedule','roles' => ['Admin']]);
+	Route::get('/scheduling',['uses'=>'Admin\AdminController@scheduling','roles' => ['Admin']]);
+	Route::post('/scheduling',['uses'=>'Admin\AdminController@storeschedule','roles' => ['Admin']]);
+	Route::get('/addinstructor',['uses'=>'Admin\AdminController@addinstructor','roles' => ['Admin']]);
+	Route::post('/addinstructor',['uses'=>'Admin\AdminController@storeinstructor','roles' => ['Admin']]);
+	Route::get('/instructorinfo/{id}',['uses'=>'Admin\AdminController@instructorinfo','roles' => ['Admin']]);
+	Route::post('/instructorinfo/{id}',['uses'=>'Admin\AdminController@updateinstructorinfo','roles' => ['Admin']]);
+	Route::get('/getscheduleinfo/{id}',['uses'=>'Admin\AdminController@getschedule','roles' => ['Admin']]);
+	Route::post('/updatescheduleinfo/{id}',['uses'=>'Admin\AdminController@updatescheduleinfo','roles' => ['Admin']]);
+	Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
+	Route::get('/instructors',['uses'=>'Admin\AdminController@instructors','roles' => ['Admin']]);
+	Route::get('/send',['uses'=>'Admin\AdminController@sendschedule','roles' => ['Admin']]);
+	Route::post('/send',['uses'=>'Admin\AdminController@sendtoschedule','roles' => ['Admin']]);
+	Route::get('/logout',['uses'=>'Admin\AdminController@logout','roles' => ['Admin']]);
 });
 
 
