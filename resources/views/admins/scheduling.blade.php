@@ -130,7 +130,7 @@
                                         <option  value="{{ $time }}" {{ (old('start_time') == $time ? "selected":"") }}>{{ $time }}</option>
                                         @endforeach
                                     </select>
-                                    <select name="end_time" id="endTime" class="form-control col-md-6">
+                                    <select name="end_time" id="endTime" onchange="getTime(this)"  class="form-control col-md-6">
                                         <option selected disabled>End time</option>
                                         @foreach ($start_time as $time)
                                         <option  value="{{ $time }}" {{ (old('end_time') == $time ? "selected":"") }}>{{ $time }}</option>

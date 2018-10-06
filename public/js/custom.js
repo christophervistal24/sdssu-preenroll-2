@@ -195,6 +195,8 @@ let submitInstructorInfo = () => {
 };
 
 let getTime = (element) => {
+  let startTime = document.querySelector('#startTime');
+  let endTime   = document.querySelector('#endTime');
   let time = [
         '7:30 AM',
         '8:00 AM',
@@ -219,7 +221,25 @@ let getTime = (element) => {
         '5:30 PM',
         '6:00 PM'
   ];
-  console.log(element.id);
+    let startIndex = time.indexOf(element.value);
+    if (element.id == 'startTime') {
+      endTime.innerHTML = "";
+      for(i = startIndex; i<time.length-1; i++)
+      {
+          option = document.createElement( 'option' );
+          option.value = option.text = time[i+1];
+          endTime.appendChild( option );
+      }
+    } else {
+        let startIndex = time.indexOf(element.value);
+        startTime.innerHTML = "";
+        for(i = startIndex; i<time.length-1; i++)
+        {
+            option = document.createElement( 'option' );
+            option.value = option.text = time[i-1];
+            startTime.appendChild( option );
+        }
+    }
 };
 
 

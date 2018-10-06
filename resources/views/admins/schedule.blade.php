@@ -160,13 +160,13 @@
                                     <input type="hidden" id="scheduleId">
                                     <label>Time : </label>
                                     <div class="row form-group">
-                                        <select name="start_time" id="startTime" class="form-control col-md-6">
+                                        <select name="start_time" onchange="getTime(this)" id="startTime" class="form-control col-md-6">
                                             <option selected disabled>Start time</option>
                                             @foreach ($start_time as $time)
                                             <option  value="{{ $time }}">{{ $time }}</option>
                                             @endforeach
                                         </select>
-                                        <select name="end_time" id="endTime" class="form-control col-md-6">
+                                        <select name="end_time" onchange="getTime(this)" id="endTime" class="form-control col-md-6">
                                             <option selected disabled>End time</option>
                                             @foreach ($start_time as $time)
                                             <option  value="{{ $time }}">{{ $time }}</option>
