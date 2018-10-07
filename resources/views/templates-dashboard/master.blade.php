@@ -43,6 +43,10 @@
         <script>
         $(document).ready( function () {
             $('#tables').DataTable();
+            $('#deleteTables').DataTable({
+                "aLengthMenu": [[2, 50, 75, -1], [2, 50, 75, "All"]],
+                "iDisplayLength": 2
+            });
         });
         </script>
         <script src="/js/custom.js"></script>

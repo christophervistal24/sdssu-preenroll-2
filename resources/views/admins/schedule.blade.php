@@ -85,12 +85,45 @@
                 <!-- Small Stats Blocks -->
                 <div class="row">
                   <h3 class="text-muted ml-2">List of all schedules</h3>
-                    <div class="container">
-
-                              @foreach ($deleted_schedules as $deleted)
-
-                                    <p>{{ $deleted->start_time . ' - ' . $deleted->end_time }} {{ $deleted->instructor }} <span><a class="btn btn-primary text-white rounded-0" onclick="restoreSchedule({{ $deleted->id }})">RESTORE</a></span></p>
+                    <div class="container-fluid">
+                        <a class="float-right border-0 rounded-0 text-black"  style="cursor:pointer;" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="material-icons" style="font-size : 2vw;">delete</i>
+                         </a>
+                      <br>
+                      <div class="collapse" id="collapseExample">
+                          <div class="card card-body rounded-0">
+                                <table class="table table-bordered" id="deleteTables">
+                                   <thead>
+                                    <tr>
+                                        <th class="text-center">Time</th>
+                                        <th class="text-center">Days</th>
+                                        <th class="text-center">Room</th>
+                                        <th class="text-center">Instructor</th>
+                                        <th class="text-center">Subject</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                       @foreach ($deleted_schedules as $deleted)
+                                        <tr>
+                                            <td class="text-center">{{ $deleted->start_time . ' - ' . $deleted->end_time }}</td>
+                                            <td class="text-center">{{ $deleted->days }}</td>
+                                            <td class="text-center">{{ $deleted->room}}</td>
+                                            <td class="text-center">{{ $deleted->instructor }}</td>
+                                            <td class="text-center">{{ $deleted->subject }}</td>
+                                            <td class="text-center">
+                                              <a class="btn btn-success text-white rounded-0"
+                                             onclick="restoreSchedule({{ $deleted->id }})"><i class="material-icons">restore</i></a>
+                                              <a class="btn btn-danger text-white rounded-0"
+                                             onclick="permanentDeleteSchedule({{ $deleted->id }})"><i class="material-icons">delete</i></a>
+                                         </td>
+                                        </tr>
                                 @endforeach
+                                </tbody>
+                                </table>
+                          </div>
+                     </div>
+                        <br>
                         <table id="tables" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>

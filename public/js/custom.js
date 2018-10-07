@@ -6,8 +6,8 @@ let instructorEducationQual = document.querySelector('#instructorEducationQual')
 let instructorPosition      = document.querySelector('#instructorPosition');
 let instructorStatus        = document.querySelector('#instructorStatus');
 let instructorIsActive      = document.querySelector('#instructorIsActive');
-let instructorNumber      = document.querySelector('#mobileNumber');
-let saveChangesForIns = document.querySelector('#editInstructorSave');
+let instructorNumber        = document.querySelector('#mobileNumber');
+let saveChangesForIns       = document.querySelector('#editInstructorSave');
 /* END OF INSTRUCTOR FIELDS*/
 /* SCHEDULE FIELDS */
 let scheduleId = document.querySelector('#scheduleId');
@@ -275,6 +275,22 @@ deleteScheduleBtn.addEventListener('click', () => {
 
 let restoreSchedule = (schedule_id) => {
    fetch(`/admin/restoreschedule/${schedule_id}`,{
+              method: 'POST',
+              body: JSON.stringify({
+                 _token:token,
+                 id:schedule_id,
+             }),
+              headers: new Headers({ "Content-Type": "application/json" })
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success == true) {
+                    location.reload();
+                }
+            }
+)};
+let permanentDeleteSchedule = (schedule_id) => {
+   fetch(`/admin/permanentdelete/${schedule_id}`,{
               method: 'POST',
               body: JSON.stringify({
                  _token:token,

@@ -102,7 +102,15 @@ class AdminController extends Controller
         if ($schedule) {
             return response()->json(['success' => true]);
         }
+    }
 
+    public function permanentdelete($id)
+    {
+        $schedule = InstructorSchedule::find($id);
+        $schedule->delete();
+        if ($schedule) {
+            return response()->json(['success' => true]);
+        }
     }
 
     public function storeschedule(Request $request)
