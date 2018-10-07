@@ -106,7 +106,7 @@
                                     <td>{{ $schedule->instructor }}</td>
                                     <td>{{ $schedule->subject }}</td>
                                     <td class="text-center"><button class="btn btn-success rounded-0" onclick="displayEditSchedule({{ $schedule->id }})"><i class="material-icons">edit</i> EDIT</button>
-                                    <button class="btn btn-danger rounded-0"> <i class="material-icons">delete</i> DELETE</button></td>
+                                    <button class="btn btn-danger rounded-0" onclick="displayDeleteModal({{ $schedule->id }})"> <i class="material-icons">delete</i> DELETE</button></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -114,11 +114,35 @@
                     </div>
                 </div>
             </div>
+
+                {{-- START OF DELETE MODAL --}}
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                  <div class="modal-dialog" role="document" >
+                    <div class="modal-content rounded-0">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p class="text-center">Are you sure you want to <span class="font-weight-bold text-danger">delete</span> this schedule?</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="button" id="deleteSchedule" class="btn btn-danger">Yes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{-- END OF DELETE MODAL --}}
+
             {{-- MODAL START --}}
             <!-- Modal -->
             <div class="modal fade" id="editSchedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                    <div class="modal-content rounded-0">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Edit Schedule</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -310,4 +334,5 @@
                     </div>
                 </div>
                 {{-- MODAL END --}}
+
                 @endsection

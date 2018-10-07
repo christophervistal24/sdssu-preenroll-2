@@ -74,7 +74,7 @@
 				</nav>
 			</div>
 			<!-- / .main-navbar -->
-			<div class="main-content-container container-fluid px-4">
+			<div class="main-content-container container-fluid px-4 card rounded-0">
 				<!-- Page Header -->
 				<div class="page-header row no-gutters py-4">
 					<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -82,15 +82,15 @@
 					</div>
 				</div>
 				<!-- End Page Header -->
-				<p>Schedule</p>
-				<table>
-					<thead>
+				<h3 class="text-muted">List of Schedules</h3>
+				<table id="tables" class="table table-bordered" style="width:100%">
+					<thead class="text-center">
 						<th>Time</th>
 						<th>Days</th>
 						<th>Rooms</th>
 						<th>Subjects</th>
 					</thead>
-					<tbody>
+					<tbody class="text-center">
 						@foreach ($schedules as $schedule)
 							<tr>
 								<td>{{ $schedule->start_time . ' - ' .  $schedule->end_time }}</td>

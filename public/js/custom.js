@@ -24,7 +24,8 @@ let third_year_second_sem  = document.querySelector('#subject_3_2');
 let third_year_summer      = document.querySelector('#subject_3');
 let fourth_year_first_sem  = document.querySelector('#subject_4_1');
 let fourth_year_second_sem = document.querySelector('#subject_4_2');
-let selectedSubject = null;
+let deleteScheduleBtn = document.querySelector('#deleteSchedule');
+let deleteScheduleId = null;
 /* END OF SCHEDULE FIELDS */
 let token = document.querySelector('meta[name="csrf-token"]').content;
 
@@ -93,6 +94,12 @@ let displayEditSchedule = (schedule_id) => {
           findElement(data.subject).value = data.subject
       });
 };
+
+let displayDeleteModal = (schedule_id) => {
+  $('#deleteModal').modal('toggle');
+  deleteScheduleId = schedule_id;
+};
+
 
 let submitSchedule = () => {
   fetch(`/admin/updatescheduleinfo/${scheduleId.value}`,{
@@ -233,19 +240,34 @@ let getTime = (element) => {
     } else {
         let startIndex = time.indexOf(element.value);
         startTime.innerHTML = "";
-        for(i = startIndex; i<time.length-1; i++)
+        for(i = 0; i<startIndex; i++)
         {
             option = document.createElement( 'option' );
-            option.value = option.text = time[i-1];
+            option.value = option.text = time[i];
             startTime.appendChild( option );
         }
     }
 };
 
-
-
-
-
-
+deleteScheduleBtn.addEventListener('click', () => {
+      fetch(`/admin/deleteschedule/${deleteScheduleId}`,{
+              method: 'POST',
+              body: JSON.stringify({
+                 _token:token,
+                 id:deleteScheduleId,
+             }),
+              headers: new Headers({ "Content-Type": "application/json" })
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success == true) {
+                    $('#deleteModal').modal('toggle');
+                    swal("Good job!", `Successfully delete a schedule`, "success")
+                      .then(() => {
+                        location.replace('/admin/schedule');
+                      });
+                }
+            })
+});
 
 

@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() 
 	Route::post('/instructorinfo/{id}',['uses'=>'Admin\AdminController@updateinstructorinfo','roles' => ['Admin']]);
 	Route::get('/getscheduleinfo/{id}',['uses'=>'Admin\AdminController@getschedule','roles' => ['Admin']]);
 	Route::post('/updatescheduleinfo/{id}',['uses'=>'Admin\AdminController@updatescheduleinfo','roles' => ['Admin']]);
+	Route::post('/deleteschedule/{id}',['uses'=>'Admin\AdminController@deleteschedule','roles' => ['Admin']]);
 	Route::get('/index',['uses'=>'Admin\AdminController@index','roles' => ['Admin']]);
 	Route::get('/instructors',['uses'=>'Admin\AdminController@instructors','roles' => ['Admin']]);
 	Route::get('/send',['uses'=>'Admin\AdminController@sendschedule','roles' => ['Admin']]);

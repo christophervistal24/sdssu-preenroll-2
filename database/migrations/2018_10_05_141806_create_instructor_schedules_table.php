@@ -21,6 +21,7 @@ class CreateInstructorSchedulesTable extends Migration
             $table->string('room');
             $table->string('instructor');
             $table->string('subject');
+            $table->enum('status',['delete','active'])->default('active');
             $table->timestamps();
         });
     }

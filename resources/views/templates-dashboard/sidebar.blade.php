@@ -222,13 +222,13 @@ $route="admin";
                             <li class="nav-item">
                                 <a class="nav-link active" href="{{ url("/$route/index") }}">
                                     <i class="material-icons">edit</i>
-                                    <span>Home</span>
+                                    <span>Dashboard</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url("/$route/schedule") }}">
                                     <i class="material-icons">note_add</i>
-                                    <span>Schedule</span>
+                                    <span>Schedules</span>
                                 </a>
                             </li>
                         </ul>

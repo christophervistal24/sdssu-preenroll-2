@@ -84,7 +84,7 @@ class AdminController extends Controller
 
     public function schedule()
     {
-        $schedules = InstructorSchedule::all();
+        $schedules = InstructorSchedule::where('status','active')->get();
         return view('admins.schedule',compact('schedules'));
     }
 
@@ -129,7 +129,7 @@ class AdminController extends Controller
 
     public function instructors()
     {
-        $instructors = Instructor::where('active',1)->get();
+        $instructors = Instructor::all();
         return view('admins.list-instructors',compact('instructors'));
     }
 
@@ -166,6 +166,13 @@ class AdminController extends Controller
         if ($schedule_info) {
             return response()->json(['success' => true]);
         }
+    }
+
+    public function deleteschedule(Request $request){
+        $schedule_info = instructorSchedule::where('id',$request->id)->first();
+        $schedule_info->status = "delete";
+        $schedule_info->save();
+        return response()->json(['success' => true]);
     }
 
     public function getschedule($id)
