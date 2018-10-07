@@ -85,12 +85,24 @@ class AdminController extends Controller
     public function schedule()
     {
         $schedules = InstructorSchedule::where('status','active')->get();
-        return view('admins.schedule',compact('schedules'));
+        $deleted_schedules = InstructorSchedule::where('status','delete')->get();
+        return view('admins.schedule',compact('schedules','deleted_schedules'));
     }
 
     public function scheduling()
     {
     	return view('admins.scheduling');
+    }
+
+    public function restoreschedule($id)
+    {
+        $schedule = InstructorSchedule::where('id',$id)->first();
+        $schedule->status = 'active';
+        $schedule->save();
+        if ($schedule) {
+            return response()->json(['success' => true]);
+        }
+
     }
 
     public function storeschedule(Request $request)
@@ -146,6 +158,7 @@ class AdminController extends Controller
         $instructor_info->education_qualification = $request->education_qualification;
         $instructor_info->position = $request->position;
         $instructor_info->status = $request->status;
+        $instructor_info->mobile_number = $request->mobile_number;
         $instructor_info->active = $request->active;
         $instructor_info->save();
 
@@ -169,7 +182,7 @@ class AdminController extends Controller
     }
 
     public function deleteschedule(Request $request){
-        $schedule_info = instructorSchedule::where('id',$request->id)->first();
+        $schedule_info = InstructorSchedule::where('id',$request->id)->first();
         $schedule_info->status = "delete";
         $schedule_info->save();
         return response()->json(['success' => true]);
@@ -191,29 +204,35 @@ class AdminController extends Controller
         return redirect('/adminlogin');
     }
 
-    public function sendschedule()
+    public function sendschedule($number)
     {
-        return view('admins.send');
+        return view('admins.send',compact('number'));
     }
 
-    public function sendtoschedule()
+    public function sendtoschedule(Request $request)
     {
-        $config = Configuration::getDefaultConfiguration();
-        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTUzODgxNDg5OCwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjQ3NTk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.W1ylRI9OsYViKa99ujWLy_6XodqLZd7YO-kwPEnoxlk');
-        $apiClient = new ApiClient($config);
+        $request->validate([
+            'phone_number' => 'required',
+            'message'      => 'required'
+        ]);
+        $config        = Configuration::getDefaultConfiguration();
+        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTUzODg4MTY4NSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjQ3NTk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.89tHnbHlSQyrSDLjhKl-7UdPzWxSkkBK2I5n0nnEc1U');
+        $apiClient     = new ApiClient($config);
         $messageClient = new MessageApi($apiClient);
 
         // Sending a SMS Message
         $sendMessageRequest1 = new SendMessageRequest([
-            'phoneNumber' => '+639567641587',
-            'message' => 'This is a test',
-            'deviceId' => 103151
+            'phoneNumber' => $request->phone_number,
+            'message' => $request->message,
+            'deviceId' => 103181
         ]);
-        $sendMessages = $messageClient->sendMessages([
-            $sendMessageRequest1,
-        ]);
+        {
+             $sendMessages = $messageClient->sendMessages([
+                $sendMessageRequest1,
+            ]);
+        }
         if ($sendMessages) {
-            dd('Success');
+            return redirect()->back()->with('status','Successfully send a message to ' . $request->phone_number);
         }
     }
 

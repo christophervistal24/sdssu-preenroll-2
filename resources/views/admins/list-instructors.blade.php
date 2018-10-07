@@ -107,7 +107,9 @@
                                     <td class="text-success text-center">{!! ($instructor->active == 1) ? '<span class="material-icons">check</span>' : '<span class="material-icons text-danger">close</span>' !!}</td>
                                     <td class="text-success text-center">
                                         <button class="text-white btn btn-success rounded-0"
-                                        onclick="displayEditModal({{ $instructor->id }})" ><i class="material-icons">edit</i> EDIT</button>
+                                        onclick="displayEditModal({{ $instructor->id }})" ><i class="material-icons">edit</i> <b>EDIT</b></button>
+                                        <a class="text-white btn btn-primary rounded-0" href="{{ url("/admin/send/$instructor->mobile_number") }}"
+                                         ><i class="material-icons">message</i> <b>SEND MESSAGE</b></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -170,6 +172,13 @@
                                             <option value="contractual">Contractual</option>
                                         </select>
                                     </div>
+
+                                     {{-- MOBILE --}}
+                                    <div class="form-group col-md-12">
+                                        <label>Mobile Number</label>
+                                        <input type="text" name="mobile_number" id="mobileNumber" class="form-control" placeholder="+639127961717">
+                                    </div>
+
                                     {{-- ACTIVE --}}
                                     <div class="form-group col-md-12">
                                         <label>Active</label>
@@ -178,6 +187,7 @@
                                             <option value="In Active">In Active</option>
                                         </select>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="modal-footer">

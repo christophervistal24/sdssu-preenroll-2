@@ -6,6 +6,7 @@ let instructorEducationQual = document.querySelector('#instructorEducationQual')
 let instructorPosition      = document.querySelector('#instructorPosition');
 let instructorStatus        = document.querySelector('#instructorStatus');
 let instructorIsActive      = document.querySelector('#instructorIsActive');
+let instructorNumber      = document.querySelector('#mobileNumber');
 let saveChangesForIns = document.querySelector('#editInstructorSave');
 /* END OF INSTRUCTOR FIELDS*/
 /* SCHEDULE FIELDS */
@@ -75,7 +76,8 @@ let displayEditModal = (id) => {
            instructorEducationQual.value = data.education_qualification.toUpperCase();
            instructorPosition.value = ucwords(data.position);
            instructorStatus.value = data.status;
-           instructorIsActive.value = (data.active == 1) ? 'Active' : 'In Active';
+           instructorNumber.value = data.mobile_number,
+           instructorIsActive.value = (data.active == 1) ? 'Active' : 'In Active'
         });
 };
 
@@ -185,6 +187,7 @@ let submitInstructorInfo = () => {
                  education_qualification:instructorEducationQual.value,
                  position:instructorPosition.value,
                  status:instructorStatus.value,
+                 mobile_number:instructorNumber.value,
                  active:(instructorIsActive.value == 'Active') ? 1 : 0
              }),
               headers: new Headers({ "Content-Type": "application/json" })
@@ -269,5 +272,22 @@ deleteScheduleBtn.addEventListener('click', () => {
                 }
             })
 });
+
+let restoreSchedule = (schedule_id) => {
+   fetch(`/admin/restoreschedule/${schedule_id}`,{
+              method: 'POST',
+              body: JSON.stringify({
+                 _token:token,
+                 id:schedule_id,
+             }),
+              headers: new Headers({ "Content-Type": "application/json" })
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success == true) {
+                    location.reload();
+                }
+            })
+};
 
 

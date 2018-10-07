@@ -83,7 +83,7 @@
                 </div>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
-                <div class="row">
+                <div class="row p-4">
                     <div class="col-md-3">
                         <h4 class="text-muted">Add Schedule</h4>
                     </div>

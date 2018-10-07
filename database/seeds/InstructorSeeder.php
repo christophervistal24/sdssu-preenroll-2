@@ -17,15 +17,17 @@ class InstructorSeeder extends Seeder
 				'name' => strtolower('ERLINDA M. RAVELO'),
 				'education_qualification' => strtolower('MST-HE'),
 				'position' => strtolower('ASSISTANT PROFESSOR 1'),
-				'status' => 'permanent',
-				'active' => 1,
-			],
+                'status' => 'permanent',
+                'mobile_number' => '+639950523688',
+                'active' => 1,
+            ],
             [
                 'id_number' => '02',
                 'name' => strtolower('ENGR. ERNESTO R. CUARTERO,'),
                 'education_qualification' => strtolower('MAT-Math'),
                 'position' => strtolower('ASSISTANT PROFESSOR 1') ,
                 'status' => 'permanent',
+				'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -34,6 +36,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MSCS'),
                 'position' => strtolower('Instructor 1') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -42,6 +45,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MEP-EE'),
                 'position' => strtolower('ASSISTANT PROFESSOR 4') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -50,6 +54,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MIT'),
                 'position' => strtolower('ASSISTANT PROFESSOR 2') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -58,6 +63,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MSCS'),
                 'position' => strtolower('INSTRUCTOR 1'),
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -66,6 +72,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('Ph.D'),
                 'position' => strtolower('CECST DEAN/ASSO. PROFESSOR 2') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -74,6 +81,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MEPCE'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -82,6 +90,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MSAMS'),
                 'position' => strtolower('ASSISTANT PROFESSOR IV') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -90,6 +99,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MIT'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -98,6 +108,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MST'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -106,6 +117,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MSCS'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -114,6 +126,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MSMATH'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -122,6 +135,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MSCS'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -130,14 +144,16 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MSCS'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
                 'id_number' => '16',
                 'name' => strtolower('BORN CHRISTIAN A. ISIP'),
                 'education_qualification' => strtolower('DTE'),
-                'position' => strtolower('ASSISTANT PROFESSOR IV') ,
+                'position' => strtolower('ASSISTANT PROFESSOR 4') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ],
             [
@@ -146,6 +162,7 @@ class InstructorSeeder extends Seeder
                 'education_qualification' => strtolower('MIT'),
                 'position' => strtolower('INSTRUCTOR 1') ,
                 'status' => 'permanent',
+                'mobile_number' => '+639950523688',
                 'active' => 1,
             ]
        	]);

@@ -84,8 +84,13 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                    <h3 class="text-muted ml-2">List of all schedules</h3>
+                  <h3 class="text-muted ml-2">List of all schedules</h3>
                     <div class="container">
+
+                              @foreach ($deleted_schedules as $deleted)
+
+                                    <p>{{ $deleted->start_time . ' - ' . $deleted->end_time }} {{ $deleted->instructor }} <span><a class="btn btn-primary text-white rounded-0" onclick="restoreSchedule({{ $deleted->id }})">RESTORE</a></span></p>
+                                @endforeach
                         <table id="tables" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -114,30 +119,28 @@
                     </div>
                 </div>
             </div>
-
-                {{-- START OF DELETE MODAL --}}
-                <!-- Modal -->
-                <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-                  <div class="modal-dialog" role="document" >
+            {{-- START OF DELETE MODAL --}}
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                <div class="modal-dialog" role="document" >
                     <div class="modal-content rounded-0">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Delete</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <p class="text-center">Are you sure you want to <span class="font-weight-bold text-danger">delete</span> this schedule?</p>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                        <button type="button" id="deleteSchedule" class="btn btn-danger">Yes</button>
-                      </div>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">Are you sure you want to <span class="font-weight-bold text-danger">delete</span> this schedule?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="button" id="deleteSchedule" class="btn btn-danger">Yes</button>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                {{-- END OF DELETE MODAL --}}
-
+            </div>
+            {{-- END OF DELETE MODAL --}}
             {{-- MODAL START --}}
             <!-- Modal -->
             <div class="modal fade" id="editSchedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -334,5 +337,4 @@
                     </div>
                 </div>
                 {{-- MODAL END --}}
-
                 @endsection
