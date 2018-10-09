@@ -74,81 +74,36 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4 card rounded-0">
+            <div class="main-content-container container-fluid px-4">
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                        <span class="text-uppercase page-subtitle">Dashboard</span>
+                        <span class="text-uppercase page-subtitle">Add subject  for {{ $student->fullname }}</span>
                     </div>
                 </div>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                    <h3 class="text-muted ml-2">Add new instructor</h3>
-                    <div class="container-fluid">
-                        @include('errors.error')
-                        @include('success.success-message')
-                        <form autocomplete="off" action="{{ url('/admin/addinstructor') }}" method="POST">
-                            @csrf
-                            <div class="form">
-                                {{-- INSTRUCTOR FULLNAME --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Name</label>
-                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}"    placeholder="Instructor Fullname"  required />
-                                </div>
-
-                                {{-- ID NUMBER --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>ID Number</label>
-                                    <input type="text" name="id_number" class="form-control" value="{{ old('id_number') }}"   placeholder="Instructor ID Number"  required />
-                                </div>
-
-                                {{-- PASSWORD --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control" name="password"  placeholder="Your password" required />
-                                </div>
-
-                                {{-- EDUCATION QUALIFICATION --}}
-                                  <div class="form-group col-md-6 offset-3">
-                                    <label>Education Qualification</label>
-                                    <input type="text" class="form-control" value="{{ old('education_qualification') }}"   name="education_qualification"  placeholder="Education Qualification" required />
-                                </div>
-
-                                {{-- MAJOR --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Major</label>
-                                    <input type="text" class="form-control" value="{{ old('major') }}" name="major"  placeholder="Instructor Major" required />
-                                </div>
-
-                                {{-- POSITION --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Position</label>
-                                    <input type="text" class="form-control" value="{{ old('position') }}" name="position"  placeholder="Position" required />
-                                </div>
-
-                                {{-- STATUS --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Status</label>
-                                    <select name="status" class="form-control">
-                                        <option value="permanent">Permanent</option>
-                                        <option value="contractual">Contractual</option>
-                                    </select>
-                                </div>
-
-                                {{-- STATUS --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Mobile number</label>
-                                    <input type="text" name="mobile_number" id="">
-                                </div>
-
-                                <div class="form-group col-md-6 offset-3">
-                                    <div class="text-right"><button class="btn btn-primary" type="submit">Add Instructor</button></div>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="list-group col-md-6 p-4 card rounded-0" style=" height : 80vh;">
+                        <span class="text-uppercase page-subtitle text-center">List of subjects</span>
+                        <hr>
+                        <div id="sortTrue" style="cursor:pointer;">
+                            <br>
+                            <div class="list-group-item">bar</div>
+                            <div class="list-group-item">baz</div>
+                            <div class="list-group-item">foo</div>
+                            <div class="list-group-item">bar</div>
+                        </div>
                     </div>
+                    <!-- sort: false -->
+                    <form class="list-group col-md-6 p-4 card rounded-0" style="height : 80vh;">
+                        <span class="text-uppercase page-subtitle text-center">{{ $student->fullname }}'s subjects</span>
+                        <hr>
+                        <div id="sortFalse" class="list-group col-md-12">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        @endsection
+    </div>
+    @endsection

@@ -78,77 +78,40 @@
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                        <span class="text-uppercase page-subtitle">Dashboard</span>
+                        <span class="text-uppercase page-subtitle">Add student</span>
                     </div>
                 </div>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
-                <div class="row">
-                    <h3 class="text-muted ml-2">Add new instructor</h3>
-                    <div class="container-fluid">
+                <div class="">
+                    <form method="POST">
                         @include('errors.error')
-                        @include('success.success-message')
-                        <form autocomplete="off" action="{{ url('/admin/addinstructor') }}" method="POST">
+                        @include('success.student-success')
+                        <div class="form row">
                             @csrf
-                            <div class="form">
-                                {{-- INSTRUCTOR FULLNAME --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Name</label>
-                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}"    placeholder="Instructor Fullname"  required />
-                                </div>
-
-                                {{-- ID NUMBER --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>ID Number</label>
-                                    <input type="text" name="id_number" class="form-control" value="{{ old('id_number') }}"   placeholder="Instructor ID Number"  required />
-                                </div>
-
-                                {{-- PASSWORD --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control" name="password"  placeholder="Your password" required />
-                                </div>
-
-                                {{-- EDUCATION QUALIFICATION --}}
-                                  <div class="form-group col-md-6 offset-3">
-                                    <label>Education Qualification</label>
-                                    <input type="text" class="form-control" value="{{ old('education_qualification') }}"   name="education_qualification"  placeholder="Education Qualification" required />
-                                </div>
-
-                                {{-- MAJOR --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Major</label>
-                                    <input type="text" class="form-control" value="{{ old('major') }}" name="major"  placeholder="Instructor Major" required />
-                                </div>
-
-                                {{-- POSITION --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Position</label>
-                                    <input type="text" class="form-control" value="{{ old('position') }}" name="position"  placeholder="Position" required />
-                                </div>
-
-                                {{-- STATUS --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Status</label>
-                                    <select name="status" class="form-control">
-                                        <option value="permanent">Permanent</option>
-                                        <option value="contractual">Contractual</option>
-                                    </select>
-                                </div>
-
-                                {{-- STATUS --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Mobile number</label>
-                                    <input type="text" name="mobile_number" id="">
-                                </div>
-
-                                <div class="form-group col-md-6 offset-3">
-                                    <div class="text-right"><button class="btn btn-primary" type="submit">Add Instructor</button></div>
+                            <div class="col-md-6 offset-3">
+                                <label>Student ID No.</label>
+                                <input type="text" name="id_number"  class="form-control" placeholder="e.g 1501755">
+                                <br>
+                                <label>Student Fullname</label>
+                                <input type="text" name="student_fullname"  class="form-control" placeholder="e.g Christian De Leon">
+                                <br>
+                                <label>Course</label>
+                                <select name="course" id="" class="form-control">
+                                    @foreach ($courses as $course)
+                                    <option value="{{ $course->id }}">{{ $course->course_code . ' - ' . $course->course_name }}</option>
+                                    @endforeach
+                                </select>
+                                <br>
+                                <div class="form-group float-right">
+                                    <input type="submit" class="btn btn-primary rounded-0" value="Add student">
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        @endsection
+    </div>
+</div>
+@endsection

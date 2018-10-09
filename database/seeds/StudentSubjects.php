@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class SubjectSeeder extends Seeder
+class StudentSubjects extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class SubjectSeeder extends Seeder
      */
     public function run()
     {
-        
+        //
     }
 }

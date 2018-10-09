@@ -21,6 +21,7 @@ class CreateSubjectsTable extends Migration
             $table->string('prereq')->nullable();
             $table->string('year');
             $table->string('semester')->nullable();
+            $table->timeStamps();
         });
     }
 

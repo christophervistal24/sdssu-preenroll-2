@@ -30,6 +30,7 @@ let deleteScheduleId = null;
 /* END OF SCHEDULE FIELDS */
 
 /* ROOM FIELDS */
+let btnEditRoom = document.querySelector('#editRoomBtn');
 let displayAddRoomModal = document.querySelector('#addRoom');
 /* END OF ROOM FIELDS */
 let token = document.querySelector('meta[name="csrf-token"]').content;
@@ -309,16 +310,3 @@ let permanentDeleteSchedule = (schedule_id) => {
                 }
             })
 };
-
-let roomEdit = () => {
-  alert(room_id);
-};
-
-
-let roomDelete = (room_id) => {
-  alert(room_id);
-};
-
-displayAddRoomModal.addEventListener('click' , () => {
-    console.log('Sample')
-});

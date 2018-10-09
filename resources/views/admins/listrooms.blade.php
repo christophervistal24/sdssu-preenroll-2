@@ -1,5 +1,5 @@
-{{-- @extends('templates-dashboard.master') --}}
-{{-- @section('content') --}}
+@extends('templates-dashboard.master')
+@section('content')
 <div class="main-navbar sticky-top bg-white">
     <!-- Main Navbar -->
     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
@@ -83,12 +83,12 @@
                 </div>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
-                <div class="row">
-                    <h4 class="text-muted ml-2">List of all Instructors</h4>
-                    <button class="btn btn-primary" id="addRoom"><i class="material-icons">plus</i>Add room</button>
                     @include('errors.error')
                     @include('success.success-message')
+                <div class="row">
                     <div class="container">
+                           <h4 class="text-muted ml-2">List of all Rooms</h4>
+                         <button class="btn btn-primary mb-2 rounded-0" onclick="modalAdd()">Add new room</button>
                         <table id="tables" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -101,44 +101,48 @@
                                 @foreach ($rooms as $room)
                                 <tr class="text-center">
                                     <td>{{ $room->room_number }}</td>
-                                    <td>{{ $room->created_at }}</td>
-                                    <td><button class="btn btn-success rounded-0" onclick="roomEdit()">EDIT</button> <button class="btn btn-danger" onclick="roomDelete({{ $room->id }})">DELETE</button></td>
+                                    <td>{{ $room->created_at->diffForHumans() }}</td>
+                                    <td><button class="btn btn-success rounded-0" onclick="modalEdit( {{ $room->id }}, {{ $room->room_number }})" >EDIT</button> <button onclick="modalDelete({{ $room->id }})" class="btn btn-danger rounded-0" >DELETE</button></td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        <br>
                     </div>
                 </div>
             </div>
             {{-- MODAL START --}}
             <!-- Modal -->
-            <div class="modal fade" id="editInstructor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="modalRoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add room.</h5>
+                            <h5 class="modal-title" id="modalTitle">Edit room.</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST">
+                            <form method="POST" id="roomForm" onsubmit="event.preventDefault(); createOrUpdate();">
                                 <div class="form">
                                     @csrf
                                     {{-- MOBILE --}}
                                     <div class="form-group col-md-12">
                                         <label>Room number</label>
-                                        <input type="number" name="room_number"  class="form-control" placeholder="Room number">
+                                        <input type="hidden" name="room_id" id="roomId" class="form-control" placeholder="Room id">
+                                        <div id="modalBody">
+                                            <input type="number" name="room_number" id="roomNumber"  class="form-control" placeholder="Room number">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="modalBtnSave">Add</button>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="editInstructorSave">Add</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
         {{-- MODAL END --}}
-        {{-- @endsection --}}
+        @endsection

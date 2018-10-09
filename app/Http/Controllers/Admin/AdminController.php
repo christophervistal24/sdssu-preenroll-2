@@ -1,18 +1,21 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Course;
 use App\Http\Controllers\Controller;
 use App\Instructor;
 use App\InstructorSchedule;
 use App\Role;
 use App\Room;
+use App\Student;
+use App\Subject;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use SMSGatewayMe\Client\ApiClient;
-use SMSGatewayMe\Client\Configuration;
 use SMSGatewayMe\Client\Api\MessageApi;
+use SMSGatewayMe\Client\Configuration;
 use SMSGatewayMe\Client\Model\SendMessageRequest;
 
 
@@ -208,13 +211,87 @@ class AdminController extends Controller
             'room_number' => 'required|unique:rooms'
         ]);
 
-        $create = Room::create([
+        if ($request->id == 0) {
+            $create = Room::create([
             'room_number' => $request->room_number,
-        ])->save();
-        if ($create) {
-            return redirect()->back()->with('status','Successfully add new room');
+            ])->save();
+            return redirect()->back()->with('status', 'Room ' . $request->room_number  . ' successfully add');
+        } else {
+            $room = Room::find($request->id);
+            $room->room_number = $request->room_number;
+            $room->save();
+            return redirect()->back()->with('status', 'Successfully update a room');
         }
-        return redirect()->back();
+    }
+
+    public function deleteroom($id)
+    {
+        if ($id) {
+            $room = Room::find($id);
+            $room->delete();
+            return redirect()->back()->with('status', 'Successfully delete a room');
+        }
+    }
+
+    public function subjects()
+    {
+        $subjects = Subject::all();
+        return view('admins.subjects',compact('subjects'));
+    }
+
+    public function subjectstore(Request $request)
+    {
+        if ($request->subject_id == 0) {
+            Subject::create([
+                'sub'             => $request->subject_sub,
+                'sub_description' => $request->subject_description,
+                'units'           => $request->subject_units,
+                'prereq'          => $request->subject_prereq,
+                'year'            => $request->subject_year,
+                'semester'        => $request->subject_semester,
+            ])->save();
+        }
+        else {
+            $subject = Subject::find($request->subject_id);
+            $subject->sub             = $request->subject_sub;
+            $subject->sub_description = $request->subject_description;
+            $subject->units           = $request->subject_units;
+            $subject->prereq          = $request->subject_prereq;
+            $subject->year            = $request->subject_year;
+            $subject->semester        = $request->subject_semester;
+            $subject->save();
+        }
+        return response()->json(['data' => 'success']);
+    }
+
+    public function addstudent()
+    {
+        $courses = Course::all();
+        return view('admins.addstudent',compact('courses'));
+    }
+
+    public function storestudent(Request $request)
+    {
+        $request->validate([
+            'id_number' => 'required|unique:students',
+            'student_fullname'  => 'required',
+            'course'            => 'required',
+        ]);
+        $student_create = Student::create([
+            'id_number' => $request->id_number,
+            'fullname'  => $request->student_fullname,
+            'year'      => 1,
+            'course_id' => $request->course
+        ]);
+        if ($student_create) {
+             return redirect()->back()->with('status',"<a href=/admin/studentsubject/".$student_create->id." class=alert-link> Successfully add new student name " . $request->student_fullname . " click this message to add a subject</a>");
+        }
+    }
+
+    public function studentaddsubject($id)
+    {
+        $student = Student::find($id);
+        return view('admins.studentaddsubject',compact('student'));
     }
 
     public function login()

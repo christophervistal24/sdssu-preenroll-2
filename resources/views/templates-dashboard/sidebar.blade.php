@@ -29,32 +29,53 @@ $route="admin";
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ url("/$route/index") }}">
-                        <i class="material-icons">edit</i>
+                        <i class="material-icons">dashboard</i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ url("/$route/pre-enrol") }}">
-                        <i class="material-icons">edit</i>
+                    <a class="nav-link " href="{{ url("/$route/pre-enrol") }}">
+                        <i class="material-icons">assignment_turned_in</i>
                         <span>Pre-Enroll</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ url("/$route/listofrooms") }}">
-                        <i class="material-icons">plus</i>
+                    <a class="nav-link " href="{{ url("/$route/listofrooms") }}">
+                        <i class="material-icons">meeting_room</i>
                         <span>Rooms</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link active" href="{{ url("/$route/addgrades") }}">
                         <i class="material-icons">edit</i>
                         <span>Input Grades</span>
                     </a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ url("/$route/subjects") }}">
+                        <i class="material-icons">subject</i>
+                        <span>Subjects</span>
+                    </a>
+                </li>
+                  <li class="nav-item">
+                    <div class="dropdown show">
+                        <a class="nav-link" class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">person</i>
+                            <span>Students</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{{ url("/$route/addstudent") }}" >
+                                <i class="material-icons">add_circle</i>
+                                <span>Add student</span>
+                            </a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <div class="dropdown show">
                         <a class="nav-link" class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">view_module</i>
+                            <i class="material-icons">person</i>
                             <span>Instructors</span>
                             <i class="material-icons">arrow_drop_down</i>
                         </a>
@@ -227,7 +248,7 @@ $route="admin";
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link active" href="{{ url("/$route/index") }}">
-                                    <i class="material-icons">edit</i>
+                                    <i class="material-icons">dashboard</i>
                                     <span>Dashboard</span>
                                 </a>
                             </li>
