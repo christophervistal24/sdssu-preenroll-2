@@ -39,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
             'admins.scheduling',
             'admins.list-instructors',
             'admins.send',
+            'admins.listrooms',
             'instructors.index',
             'instructors.schedule',
             'parents.index',

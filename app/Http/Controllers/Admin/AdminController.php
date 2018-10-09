@@ -54,9 +54,9 @@ class AdminController extends Controller
             'id_number'               => 'required|unique:instructors',
             'password'                => 'required',
             'education_qualification' => 'required',
-            'major'                   => 'required',
             'position'                => 'required',
             'status'                  => 'required',
+            'mobile_number'           => 'required',
         ]);
 
         $instructor_create = Instructor::create(
@@ -67,6 +67,7 @@ class AdminController extends Controller
                 'major'                   => $request->major,
                 'position'                => $request->position,
                 'status'                  => $request->status,
+                'mobile_number'           => $request->mobile_number,
             ]
         )->save();
 
@@ -201,6 +202,21 @@ class AdminController extends Controller
         return response()->json(InstructorSchedule::where('id',$id)->first());
     }
 
+    public function addroom(Request $request)
+    {
+        $request->validate([
+            'room_number' => 'required|unique:rooms'
+        ]);
+
+        $create = Room::create([
+            'room_number' => $request->room_number,
+        ])->save();
+        if ($create) {
+            return redirect()->back()->with('status','Successfully add new room');
+        }
+        return redirect()->back();
+    }
+
     public function login()
     {
         return view('admins.login');
@@ -244,6 +260,11 @@ class AdminController extends Controller
         }
     }
 
+    public function listofrooms()
+    {
+        $rooms = Room::all();
+        return view('admins.listrooms',compact('rooms'));
+    }
     public function checkLogin(Request $request)
     {
         $validatedData = $request->validate([

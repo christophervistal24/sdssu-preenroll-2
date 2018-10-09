@@ -4,11 +4,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run()
     {
         $this->call(RoleTableSeeder::class);
@@ -16,5 +11,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RoomSeeder::class);
         $this->call(InstructorSeeder::class);
         $this->call(CSSubjectSeeder::class);
+        $this->call(CourseSeeder::class);
     }
 }

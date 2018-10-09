@@ -28,6 +28,10 @@ let fourth_year_second_sem = document.querySelector('#subject_4_2');
 let deleteScheduleBtn = document.querySelector('#deleteSchedule');
 let deleteScheduleId = null;
 /* END OF SCHEDULE FIELDS */
+
+/* ROOM FIELDS */
+let displayAddRoomModal = document.querySelector('#addRoom');
+/* END OF ROOM FIELDS */
 let token = document.querySelector('meta[name="csrf-token"]').content;
 
 let ucwords = (str) => {
@@ -306,4 +310,15 @@ let permanentDeleteSchedule = (schedule_id) => {
             })
 };
 
+let roomEdit = () => {
+  alert(room_id);
+};
 
+
+let roomDelete = (room_id) => {
+  alert(room_id);
+};
+
+displayAddRoomModal.addEventListener('click' , () => {
+    console.log('Sample')
+});

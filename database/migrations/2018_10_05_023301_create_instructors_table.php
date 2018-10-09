@@ -21,7 +21,7 @@ class CreateInstructorsTable extends Migration
             $table->string('position');
             $table->enum('status', ['permanent', 'contractual']);
             $table->string('mobile_number');
-            $table->integer('active');
+            $table->integer('active')->default(1);
             $table->timestamps();
         });
     }

@@ -1,9 +1,9 @@
 {{-- @extends('templates-dashboard.master') --}}
-@section('content')
+{{-- @section('content') --}}
 <div class="main-navbar sticky-top bg-white">
     <!-- Main Navbar -->
     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
-        <form action="" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+        <form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
             <div class="input-group input-group-seamless ml-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
@@ -74,7 +74,7 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4 card rounded-0">
+            <div class="main-content-container container-fluid px-4 card" style="border-radius: 0px">
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -84,71 +84,61 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                    <h3 class="text-muted ml-2">Add new instructor</h3>
-                    <div class="container-fluid">
-                        @include('errors.error')
-                        @include('success.success-message')
-                        <form autocomplete="off" action="{{ url('/admin/addinstructor') }}" method="POST">
-                            @csrf
-                            <div class="form">
-                                {{-- INSTRUCTOR FULLNAME --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Name</label>
-                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}"    placeholder="Instructor Fullname"  required />
-                                </div>
-
-                                {{-- ID NUMBER --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>ID Number</label>
-                                    <input type="text" name="id_number" class="form-control" value="{{ old('id_number') }}"   placeholder="Instructor ID Number"  required />
-                                </div>
-
-                                {{-- PASSWORD --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control" name="password"  placeholder="Your password" required />
-                                </div>
-
-                                {{-- EDUCATION QUALIFICATION --}}
-                                  <div class="form-group col-md-6 offset-3">
-                                    <label>Education Qualification</label>
-                                    <input type="text" class="form-control" value="{{ old('education_qualification') }}"   name="education_qualification"  placeholder="Education Qualification" required />
-                                </div>
-
-                                {{-- MAJOR --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Major</label>
-                                    <input type="text" class="form-control" value="{{ old('major') }}" name="major"  placeholder="Instructor Major" required />
-                                </div>
-
-                                {{-- POSITION --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Position</label>
-                                    <input type="text" class="form-control" value="{{ old('position') }}" name="position"  placeholder="Position" required />
-                                </div>
-
-                                {{-- STATUS --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Status</label>
-                                    <select name="status" class="form-control">
-                                        <option value="permanent">Permanent</option>
-                                        <option value="contractual">Contractual</option>
-                                    </select>
-                                </div>
-
-                                {{-- STATUS --}}
-                                <div class="form-group col-md-6 offset-3">
-                                    <label>Mobile number</label>
-                                    <input type="text" name="mobile_number" id="">
-                                </div>
-
-                                <div class="form-group col-md-6 offset-3">
-                                    <div class="text-right"><button class="btn btn-primary" type="submit">Add Instructor</button></div>
-                                </div>
-                            </div>
-                        </form>
+                    <h4 class="text-muted ml-2">List of all Instructors</h4>
+                    <button class="btn btn-primary" id="addRoom"><i class="material-icons">plus</i>Add room</button>
+                    @include('errors.error')
+                    @include('success.success-message')
+                    <div class="container">
+                        <table id="tables" class="table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Room number</th>
+                                    <th class="text-center">Created at</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($rooms as $room)
+                                <tr class="text-center">
+                                    <td>{{ $room->room_number }}</td>
+                                    <td>{{ $room->created_at }}</td>
+                                    <td><button class="btn btn-success rounded-0" onclick="roomEdit()">EDIT</button> <button class="btn btn-danger" onclick="roomDelete({{ $room->id }})">DELETE</button></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+            {{-- MODAL START --}}
+            <!-- Modal -->
+            <div class="modal fade" id="editInstructor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add room.</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST">
+                                <div class="form">
+                                    @csrf
+                                    {{-- MOBILE --}}
+                                    <div class="form-group col-md-12">
+                                        <label>Room number</label>
+                                        <input type="number" name="room_number"  class="form-control" placeholder="Room number">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="editInstructorSave">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+        {{-- MODAL END --}}
         {{-- @endsection --}}

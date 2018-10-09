@@ -40,6 +40,12 @@ $route="admin";
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link active" href="{{ url("/$route/listofrooms") }}">
+                        <i class="material-icons">plus</i>
+                        <span>Rooms</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" href="{{ url("/$route/addgrades") }}">
                         <i class="material-icons">edit</i>
                         <span>Input Grades</span>
