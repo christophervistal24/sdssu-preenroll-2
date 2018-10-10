@@ -84,24 +84,49 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                    <div class="list-group col-md-6 p-4 card rounded-0" style=" height : 80vh;">
+                    <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
                         <span class="text-uppercase page-subtitle text-center">List of subjects</span>
                         <hr>
                         <div id="sortTrue" style="cursor:pointer;">
                             <br>
-                            <div class="list-group-item">bar</div>
-                            <div class="list-group-item">baz</div>
-                            <div class="list-group-item">foo</div>
-                            <div class="list-group-item">bar</div>
+                            @foreach ($first_sem_first_year_subjects as $subjects)
+                            <input style="cursor:pointer; background:white;" name="subjects[]" class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{$subjects->sub . " \t " .  $subjects->sub_description }}">
+                            @endforeach
+                           <!--  @foreach ($second_sem_first_year_subjects as $subjects)
+                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
+                           @endforeach
+                           @foreach ($first_sem_second_year_subjects as $subjects)
+                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
+                           @endforeach
+                           @foreach ($second_sem_second_year_subjects as $subjects)
+                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
+                           @endforeach
+                           @foreach ($first_sem_third_year_subjects as $subjects)
+                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
+                           @endforeach
+                           @foreach ($second_sem_third_year_subjects as $subjects)
+                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
+                           @endforeach
+                           @foreach ($third_year_summer as $subjects)
+                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
+                           @endforeach
+                           @foreach ($first_sem_fourth_year_subjects as $subjects)
+                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
+                           @endforeach
+                           @foreach ($second_sem_fourth_year_subjects as $subjects)
+                           <input style="cursor:pointer;" class="border-0 form-control font-weight-bold" readonly value="{{ $subjects->sub_description }}">
+                           @endforeach -->
                         </div>
                     </div>
                     <!-- sort: false -->
-                    <form class="list-group col-md-6 p-4 card rounded-0" style="height : 80vh;">
-                        <span class="text-uppercase page-subtitle text-center">{{ $student->fullname }}'s subjects</span>
+                    <form method="POST" action="{{ url('/admin/studentsubjectstore/') }}" class="list-group col-md-6 p-4 card rounded-0" style="height : auto;">
+                        @csrf
+                        <span class="text-uppercase page-subtitle text-center">{{ $student->fullname }}'s subjects<button class="btn btn-primary float-right btn-sm rounded-0 border-0">Save</button></span>
                         <hr>
                         <div id="sortFalse" class="list-group col-md-12">
+                            <input type="hidden" name="user_id" value={{ $student->id }}>
                         </div>
-                    </form>
+                   </form>
                 </div>
             </div>
         </div>

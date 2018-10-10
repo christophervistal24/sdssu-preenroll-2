@@ -12,6 +12,7 @@ use App\Subject;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use SMSGatewayMe\Client\ApiClient;
 use SMSGatewayMe\Client\Api\MessageApi;
@@ -292,6 +293,19 @@ class AdminController extends Controller
     {
         $student = Student::find($id);
         return view('admins.studentaddsubject',compact('student'));
+    }
+
+    public function storestudentsubject(Request $request)
+    {
+        //refactor this code
+        foreach ($request->subjects as $value) {
+            $subject_code[] = preg_split("/\t/",$value);
+        }
+        array_values(array_where(array_map('rtrim',array_flatten($subject_code)),function ($value,$key){
+            echo Subject::where('sub',$value)->first(['id']);
+        }));
+
+
     }
 
     public function login()
