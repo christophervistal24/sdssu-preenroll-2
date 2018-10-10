@@ -119,6 +119,7 @@ Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
 	Route::get('/index', ['uses' => 'Instructors\InstructorController@index','roles' => ['Instructor']]);
 	Route::get('/schedule', ['uses' => 'Instructors\InstructorController@schedule','roles' => ['Instructor']]);
     Route::get('/sendsms', ['uses' => 'Instructors\InstructorController@sendsms','roles' => ['Instructor']]);
+    Route::get('/students/{subject}', ['uses' => 'Instructors\InstructorController@students','roles' => ['Instructor']]);
     Route::get('/logout', ['uses' => 'Instructors\InstructorController@logout','roles' => ['Instructor']]);
 });
 

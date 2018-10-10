@@ -14,11 +14,11 @@ class CreateStudentSubjectsTable extends Migration
     public function up()
     {
         Schema::create('student_subjects', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('student_id_number');
+            $table->integer('student_id');
             $table->integer('subject_id');
-            $table->decimal('grade',10,2);
+            $table->decimal('remarks',10,2)->nullable();
             $table->timestamps();
+            $table->primary(['student_id','subject_id']);
         });
     }
 

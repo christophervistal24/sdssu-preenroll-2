@@ -8,6 +8,7 @@ use App\InstructorSchedule;
 use App\Role;
 use App\Room;
 use App\Student;
+use App\StudentSubject;
 use App\Subject;
 use App\User;
 use Illuminate\Http\Request;
@@ -274,9 +275,9 @@ class AdminController extends Controller
     public function storestudent(Request $request)
     {
         $request->validate([
-            'id_number' => 'required|unique:students',
-            'student_fullname'  => 'required',
-            'course'            => 'required',
+            'id_number'        => 'required|unique:students',
+            'student_fullname' => 'required',
+            'course'           => 'required',
         ]);
         $student_create = Student::create([
             'id_number' => $request->id_number,
@@ -297,15 +298,26 @@ class AdminController extends Controller
 
     public function storestudentsubject(Request $request)
     {
-        //refactor this code
         foreach ($request->subjects as $value) {
             $subject_code[] = preg_split("/\t/",$value);
         }
-        array_values(array_where(array_map('rtrim',array_flatten($subject_code)),function ($value,$key){
-            echo Subject::where('sub',$value)->first(['id']);
+
+        $subject_codes = array_values(array_where(array_map('rtrim',array_flatten($subject_code)),function ($value,$key){
+            return ($key % 2 == 0) ? $value : null;
         }));
 
+       $ids = DB::table('subjects')
+                    ->whereIn('sub',$subject_codes)
+                    ->pluck('id')
+                    ->toArray();
 
+        array_map(function ($subject_id) use($request) {
+            StudentSubject::create([
+                'student_id' => $request->user_id,
+                'subject_id' => $subject_id
+            ]);
+        }, $ids);
+        return redirect('/admin/addstudent')->with('status','Successfully add a subjects');
     }
 
     public function login()

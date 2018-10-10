@@ -121,7 +121,7 @@
                     <!-- sort: false -->
                     <form method="POST" action="{{ url('/admin/studentsubjectstore/') }}" class="list-group col-md-6 p-4 card rounded-0" style="height : auto;">
                         @csrf
-                        <span class="text-uppercase page-subtitle text-center">{{ $student->fullname }}'s subjects<button class="btn btn-primary float-right btn-sm rounded-0 border-0">Save</button></span>
+                        <span class="text-uppercase page-subtitle text-center">{{ $student->fullname }}'s subjects<button type="submit" class="btn btn-primary float-right btn-sm rounded-0 border-0">Save</button></span>
                         <hr>
                         <div id="sortFalse" class="list-group col-md-12">
                             <input type="hidden" name="user_id" value={{ $student->id }}>

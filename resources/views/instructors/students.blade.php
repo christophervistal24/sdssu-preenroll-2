@@ -82,23 +82,21 @@
 					</div>
 				</div>
 				<!-- End Page Header -->
-				<h3 class="text-muted">List of Schedules</h3>
+				<h3 class="text-muted">List of Students</h3>
 				<table id="tables" class="table table-bordered" style="width:100%">
 					<thead class="text-center">
-						<th>Time</th>
-						<th>Days</th>
-						<th>Rooms</th>
-						<th>Subjects</th>
+						<th>Student ID No.</th>
+						<th>Student Fullname</th>
 						<th>Actions</th>
 					</thead>
-					<tbody class="text-center">
-						@foreach ($schedules as $schedule)
+					<tbody>
+						@foreach ($students_infos as $student)
 							<tr>
-								<td>{{ $schedule->start_time . ' - ' .  $schedule->end_time }}</td>
-								<td>{{ $schedule->days }}</td>
-								<td>{{ $schedule->room }}</td>
-								<td>{{ $schedule->subject }}</td>
-								<td><a class="btn btn-success rounded-0 border-0" href="/instructor/students/{{ $schedule->subject }}"><b>View Students</b></a></td>
+								<td>{{ $student->id_number }}</td>
+								<td>{{ $student->fullname }}</td>
+								<td class="text-center">
+									<button class="btn btn-success rounded-0 border-0">Add grade</button>
+								</td>
 							</tr>
 						@endforeach
 					</tbody>

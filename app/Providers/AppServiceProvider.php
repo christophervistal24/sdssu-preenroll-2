@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             'admins.studentaddsubject',
             'instructors.index',
             'instructors.schedule',
+            'instructors.students',
             'parents.index',
             'parents.viewgrade',
             'students.index',
