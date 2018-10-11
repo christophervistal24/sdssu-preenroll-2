@@ -14,8 +14,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class InstructorController extends Controller
 {
-    public function __construct()
+    protected $studentSubject;
+    public function __construct(StudentSubject $studentSub)
     {
+        $this->studentSubject = $studentSub;
         $this->middleware('preventBackHistory');
     }
 
@@ -39,7 +41,18 @@ class InstructorController extends Controller
                 ->get(
                     ['id','id_number','fullname','year','course_id']
                 );
-        return view('instructors.students',compact('students_infos'));
+        return view('instructors.students',compact('students_infos','id'));
+    }
+
+    public function addstudentgrade(Request $request)
+    {
+        $matchThese = [
+            'student_id' => $request->student_id ,
+            'subject_id' => $request->student_subject_id
+        ];
+        DB::table('student_subject')
+            ->where($matchThese)
+            ->update(['remarks' => $request->student_grade]);
     }
 
     public function sendsms()

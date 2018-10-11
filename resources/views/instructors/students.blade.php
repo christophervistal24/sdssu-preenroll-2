@@ -1,3 +1,4 @@
+@inject('studentSubject','App\StudentSubject')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -83,10 +84,12 @@
 				</div>
 				<!-- End Page Header -->
 				<h3 class="text-muted">List of Students</h3>
+				@include('success.success-message')
 				<table id="tables" class="table table-bordered" style="width:100%">
 					<thead class="text-center">
 						<th>Student ID No.</th>
 						<th>Student Fullname</th>
+						<th>Remarks</th>
 						<th>Actions</th>
 					</thead>
 					<tbody>
@@ -95,16 +98,25 @@
 								<td>{{ $student->id_number }}</td>
 								<td>{{ $student->fullname }}</td>
 								<td class="text-center">
-									<button onclick="displayModalForGrade(
+									{{
+										 $isStudentHasGrade =
+										 is_null($studentSubject->getStudentGradeBySubject($student->id,$id)->remarks) ? null : $studentSubject->getStudentGradeBySubject($student->id,$id)->remarks
+								  	}}
+								</td>
+								<td class="text-center">
+									@if (!$isStudentHasGrade)
+											<button onclick="displayModalForGrade(
 											 ({{  json_encode(
                                                 [
 														'id'        => $student->id,
 														'id_number' => $student->id_number,
 														'fullname'  => $student->fullname,
+														'student_subject_id' => $id
                                                  ]
                                         )
                                         }})
 									)" class="btn btn-success rounded-0 border-0">Add grade</button>
+									@endif
 								</td>
 							</tr>
 						@endforeach
@@ -124,13 +136,12 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" id="roomForm" onsubmit="event.preventDefault(); createOrUpdate();">
+                            <form method="POST" id="remarksForm" onsubmit="event.preventDefault(); addGrade();">
                                 <div class="form">
                                     @csrf
                                     {{-- MOBILE --}}
                                     <div class="form-group col-md-12">
-                                        <label>Remark :</label>
-                                        <input type="hidden" name="room_id" id="roomId" class="form-control" placeholder="Room id">
+                                        <label>Remarks :</label>
                                         <div id="modalBody">
                                             <input type="text" id="studentGrade"  class="form-control" placeholder="Input grade">
                                         </div>

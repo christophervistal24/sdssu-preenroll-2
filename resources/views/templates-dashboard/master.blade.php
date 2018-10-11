@@ -56,6 +56,39 @@
                <script src="/js/custom.js"></script>
         @elseif(\Request::path() == 'admin/subjects')
                <script src="/js/subjects.js"></script>
+        @elseif(\Request::path() == 'admin/index')
+                <script>
+                    let listBox = document.querySelector('#semester');
+                    let PrevValue = null;
+                    let token = document.querySelector('meta[name="csrf-token"]').content;
+                    listBox.addEventListener('focus', () => {
+                        PrevValue = listBox.value;
+                    });
+
+                    listBox.addEventListener('change' , () => {
+                       let confirmation = confirm('Would you like to change the semester?');
+                       if(confirmation)
+                       {
+                           fetch(`/admin/index`,{
+                              method: 'POST',
+                              body: JSON.stringify({
+                                 _token:token,
+                                semested_id:listBox.value
+                             }),
+                              headers: new Headers({ "Content-Type": "application/json" })
+                            })
+                           .then((res) => res.json())
+                            .then((data) => {
+                                if(data.success == true)
+                                {
+                                      swal("Good job!", `Semester changed`, "success")
+                                }
+                            })
+                       } else {
+                            listBox.value = PrevValue;
+                       }
+                    });
+                </script>
         @endif
         <script src="/js/addgrade.js"></script>
         <script>
@@ -72,8 +105,6 @@
           group: "sorting",
           sort: false
         });
-
-
         </script>
 
     </body>

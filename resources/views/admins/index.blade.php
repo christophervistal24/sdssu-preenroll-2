@@ -74,11 +74,20 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4">
+            <div class="main-content-container container-fluid px-4 card border-0 rounded-0">
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
-                    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                        <span class="text-uppercase page-subtitle">Dashboard</span>
+                    <div class="col-12 col-sm-2 offset-10 text-sm-left mb-0 float-right">
+                    <label>Current semester</label>
+                    <select id="semester"  class="form-control">
+                        @foreach ($semesters as $semester)
+                        <option value="{{ $semester->id }}"
+                            {{ ($semester->current == 1 ) ? 'selected' : '' }}
+                            >
+                            {{ $semester->semester }}
+                        </option>
+                        @endforeach
+                    </select>
                     </div>
                 </div>
                 <!-- End Page Header -->
@@ -160,7 +169,6 @@
                                         <span class="stats-small__percentage stats-small__percentage--decrease">2.4%</span>
                                     </div>
                                 </div>
-                                <canvas height="120" class="blog-overview-stats-small-5"></canvas>
                             </div>
                         </div>
                     </div>

@@ -7,6 +7,7 @@ use App\Instructor;
 use App\InstructorSchedule;
 use App\Role;
 use App\Room;
+use App\Semester;
 use App\Student;
 use App\StudentSubject;
 use App\Subject;
@@ -35,6 +36,15 @@ class AdminController extends Controller
     public function index()
     {
        return view('admins.index');
+    }
+
+    public function changesemester(Request $request)
+    {
+        Semester::query()->update(['current' => 0]);
+        $sem = Semester::find($request->semested_id);
+        $sem->current = 1;
+        $sem->save();
+        return response()->json(['success' => true]);
     }
 
     public function preenrol()

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Instructor;
 use App\Room;
+use App\Semester;
 use App\Subject;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+         view()->composer(['admins.index'] , function ($view) {
+            $view->with('semesters',Semester::all());
+        });
+
+
+
         view()->composer([
             'admins.index',
             'admins.addgrades',
