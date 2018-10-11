@@ -57,6 +57,7 @@
         @elseif(\Request::path() == 'admin/subjects')
                <script src="/js/subjects.js"></script>
         @endif
+        <script src="/js/addgrade.js"></script>
         <script>
          // sort: true
         Sortable.create(sortTrue, {

@@ -320,6 +320,12 @@ class AdminController extends Controller
         return redirect('/admin/addstudent')->with('status','Successfully add a subjects');
     }
 
+    public function students()
+    {
+        $students = Student::all();
+        return view('admins.list-of-students',compact('students'));
+    }
+
     public function login()
     {
         return view('admins.login');

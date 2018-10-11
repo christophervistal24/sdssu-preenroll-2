@@ -51,7 +51,7 @@
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 								<img class="user-avatar rounded-circle mr-2" src="/dashboard/images/avatars/0.jpg" alt="User Avatar">
-								<span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
+								<span class="d-none d-md-inline-block">{{ ucwords($user_info->name) }}</span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-small">
 								<a class="dropdown-item" href="user-profile-lite.html">
@@ -95,7 +95,16 @@
 								<td>{{ $student->id_number }}</td>
 								<td>{{ $student->fullname }}</td>
 								<td class="text-center">
-									<button class="btn btn-success rounded-0 border-0">Add grade</button>
+									<button onclick="displayModalForGrade(
+											 ({{  json_encode(
+                                                [
+														'id'        => $student->id,
+														'id_number' => $student->id_number,
+														'fullname'  => $student->fullname,
+                                                 ]
+                                        )
+                                        }})
+									)" class="btn btn-success rounded-0 border-0">Add grade</button>
 								</td>
 							</tr>
 						@endforeach
@@ -103,4 +112,38 @@
 				</table>
 			</div>
 		</div>
+		  {{-- MODAL START --}}
+            <!-- Modal -->
+            <div class="modal fade" id="modalAddGrade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitle">Add grade for.</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" id="roomForm" onsubmit="event.preventDefault(); createOrUpdate();">
+                                <div class="form">
+                                    @csrf
+                                    {{-- MOBILE --}}
+                                    <div class="form-group col-md-12">
+                                        <label>Remark :</label>
+                                        <input type="hidden" name="room_id" id="roomId" class="form-control" placeholder="Room id">
+                                        <div id="modalBody">
+                                            <input type="text" id="studentGrade"  class="form-control" placeholder="Input grade">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="modalBtnSave">Save & Send</button>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{-- MODAL END --}}
 		@endsection

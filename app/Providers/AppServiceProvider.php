@@ -38,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
             'admins.schedule',
             'admins.scheduling',
             'admins.list-instructors',
+            'admins.list-of-students',
             'admins.send',
             'admins.listrooms',
             'admins.subjects',

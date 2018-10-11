@@ -13,7 +13,7 @@ class CreateStudentSubjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('student_subjects', function (Blueprint $table) {
+        Schema::create('student_subject', function (Blueprint $table) {
             $table->integer('student_id');
             $table->integer('subject_id');
             $table->decimal('remarks',10,2)->nullable();

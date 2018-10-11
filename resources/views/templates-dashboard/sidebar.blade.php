@@ -65,6 +65,10 @@ $route="admin";
                             <i class="material-icons">arrow_drop_down</i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                             <a class="dropdown-item" href="{{ url("/$route/liststudents") }}" >
+                                <i class="material-icons">add_circle</i>
+                                <span>List of students</span>
+                            </a>
                             <a class="dropdown-item" href="{{ url("/$route/addstudent") }}" >
                                 <i class="material-icons">add_circle</i>
                                 <span>Add student</span>

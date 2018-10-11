@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() 
 	Route::get('/addstudent',['uses'            =>'Admin\AdminController@addstudent','roles' => ['Admin']]);
 	Route::post('/addstudent',['uses'            =>'Admin\AdminController@storestudent','roles' => ['Admin']]);
 	Route::get('/studentsubject/{id}',['uses'            =>'Admin\AdminController@studentaddsubject','roles' => ['Admin']]);
+	Route::get('/liststudents',['uses'            =>'Admin\AdminController@students','roles' => ['Admin']]);
 	Route::post('/studentsubjectstore',['uses' => 'Admin\AdminController@storestudentsubject','roles' => ['Admin']]);
 	Route::get('/instructorinfo/{id}',['uses'      =>'Admin\AdminController@instructorinfo','roles' => ['Admin']]);
 	Route::post('/instructorinfo/{id}',['uses'     =>'Admin\AdminController@updateinstructorinfo','roles' => ['Admin']]);

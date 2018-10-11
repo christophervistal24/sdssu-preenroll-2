@@ -1,3 +1,4 @@
+@inject('course','App\Course')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -84,59 +85,38 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                    <h4 class="text-muted ml-2">List of all Subjects</h4>
+                    <h4 class="text-muted ml-2">List of all Instructors</h4>
                     <div class="container">
-                        <button class="btn btn-primary mb-2 rounded-0" onclick="addSubjectModal()">Add new subject</button>
                         <table id="tables" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th class="text-center">Subjects</th>
-                                    <th class="text-center">Subjects Desc.</th>
-                                    <th class="text-center">Units</th>
-                                    <th class="text-center">Pre-requisite</th>
+                                    <th class="text-center">ID Number</th>
+                                    <th class="text-center">Name</th>
                                     <th class="text-center">Year</th>
-                                    <th class="text-center">Semester</th>
-                                    <th class="text-center">Actions</th>
+                                    <th class="text-center">Course</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($subjects as $subject)
+                                @foreach ($students as $student)
                                 <tr>
-                                    <td>{{ $subject->sub }}</td>
-                                    <td>{{ $subject->sub_description }}</td>
-                                    <td class="text-center">{{ $subject->units }}</td>
-                                    <td class="text-center">{{ ($subject->prereq == '') ? 'No Pre-requisite' : $subject->prereq }}</td>
+                                    <td class="text-center">{{ $student->id_number }}</td>
+                                    <td>{{ ucwords($student->fullname) }}</td>
                                     <td class="text-center">
-                                        @if ($subject->year == 1)
+                                        @if ($student->year == 1)
                                             {{ 'First year' }}
-                                        @elseif($subject->year == 2)
+                                        @elseif($student->year == 2)
                                             {{ 'Second year' }}
-                                        @elseif($subject->year == 3)
+                                        @elseif($student->year == 3)
                                             {{ 'Third year' }}
-                                        @elseif($subject->year == 4)
+                                        @elseif($student->year == 4)
                                             {{ 'Fourth year' }}
-                                        @elseif($subject->year == 5)
+                                        @elseif($student->year == 5)
                                             {{ 'Fifth year' }}
                                         @endif
-                                    </td>
-                                    <td>{{ ($subject->semester == 1) ? 'First semester' : 'Second Semester' }}</td>
-                                    <td class="text-success text-center">
-                                        <button onclick="editSubjectModal(
-                                        ({{  json_encode(
-                                                [
-                                                    'subject_id' => $subject->id,
-                                                    'subject_sub' => $subject->sub,
-                                                    'subject_description' => $subject->sub_description,
-                                                    'subject_units' => $subject->units,
-                                                    'subject_prereq' => $subject->prereq,
-                                                    'subject_year' => $subject->year,
-                                                    'subject_semester' => $subject->semester,
-                                                ]
-                                        )
-                                        }})
-                                        )" class="text-white btn btn-success rounded-0"
-                                        ><i class="material-icons">edit</i> <b>EDIT</b></button>
-                                    </td>
+                                     </td>
+                                    <td class="text-center">{{ $course->getCourse($student->course_id)->course_code }}</td>
+                                    <td class="text-center"><a class="text-white btn btn-success border-0 rounded-0"><b>Evaluate grades</b></a></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -147,68 +127,79 @@
             </div>
             {{-- MODAL START --}}
             <!-- Modal -->
-            <div class="modal fade" id="subjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="editInstructor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="subjectTitle">Edit Subject.</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Instructor Info.</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" id="subjectForm" onsubmit="event.preventDefault(); createOrUpdateSubject();" autocomplete="off">
+                            <form method="POST" onsubmit="event.preventDefault(); submitInstructorInfo()" autocomplete="off">
                                 <div class="form">
                                     @csrf
-                                    <input type="hidden" class="form-control" id="subjectId" value="0" name="subject_id">
-                                    <div class="form-group">
-                                         <label>Subject Code : </label>
-                                         <input type="text" id="subjectCode" class="form-control" name="subject" placeholder="Subject">
+                                    {{-- INSTRUCTOR FULLNAME --}}
+                                    <input type="hidden" id="instructorId" class="form-control" value="{{ old('name') }}"  required />
+                                    <div class="form-group col-md-12">
+                                        <label>Fullname</label>
+                                        <input type="text" id="instructorFullname" class="form-control" value="{{ old('name') }}"    placeholder="Instructor Fullname"  required />
                                     </div>
-                                    <div class="form-group">
-                                        <label>Subject Desc.</label>
-                                        <input type="text" id="subjectDesc" class="form-control" name="subject_description" placeholder="Subject Description">
+                                    {{-- ID NUMBER --}}
+                                    <div class="form-group col-md-12">
+                                        <label>ID Number</label>
+                                        <input type="text" id="instructorIdNumber" name="id_number" class="form-control" value="{{ old('id_number') }}"   placeholder="Instructor ID Number"  required />
                                     </div>
-                                    <div class="form-group">
-                                        <label>Units</label>
-                                        <input type="number" id="subjectUnits" class="form-control" name="units" placeholder="Units">
+                                    {{-- PASSWORD --}}
+                                    {{-- <div class="form-group col-md-12">
+                                        <label>Password</label>
+                                        <input type="password" class="form-control" name="password"  placeholder="Your password" required />
+                                    </div> --}}
+                                    {{-- EDUCATION QUALIFICATION --}}
+                                    <div class="form-group col-md-12">
+                                        <label>Education Qualification</label>
+                                        <input type="text" id="instructorEducationQual" class="form-control" value="{{ old('education_qualification') }}"   name="education_qualification"  placeholder="Education Qualification" required />
                                     </div>
-                                    <div class="form-group">
-                                        <label>Year : </label>
-                                        <select class="form-control" id="subjectYear" name="year">
-                                            <option value="1">First year</option>
-                                            <option value="2">Second year</option>
-                                            <option value="3">Third year</option>
-                                            <option value="4">Fourth year</option>
-                                            <option value="5">Fifth year</option>
+                                    {{-- MAJOR --}}
+                                    {{-- <div class="form-group col-md-12">
+                                        <label>Major</label>
+                                        <input type="text" class="form-control" value="{{ old('major') }}" name="major"  placeholder="Instructor Major" required />
+                                    </div> --}}
+                                    {{-- POSITION --}}
+                                    <div class="form-group col-md-12">
+                                        <label>Position</label>
+                                        <input type="text" id="instructorPosition" class="form-control" value="{{ old('position') }}" name="position"  placeholder="Position" required />
+                                    </div>
+                                    {{-- STATUS --}}
+                                    <div class="form-group col-md-12">
+                                        <label>Status</label>
+                                        <select name="status" id="instructorStatus" class="form-control">
+                                            <option value="permanent">Permanent</option>
+                                            <option value="contractual">Contractual</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                         <label>Pre requisite : <small class="text-gery">(optional)</small> </label>
-                                        <select class="form-control" id="subjectPre" name="pre-req">
-                                            <option disabled selected>Pre-req</option>
-                                            <option value="4th year Standing">4th year Standing</option>
-                                            <option value="3rd year Standing">3rd year Standing</option>
-                                            @foreach ($subjects as $subject)
-                                            <option value="{{ ($subject->sub != "") ? $subject->sub : "" }}">{{ ($subject->sub != "") ? $subject->sub : "" }}</option>
-                                            @endforeach
+                                    {{-- MOBILE --}}
+                                    <div class="form-group col-md-12">
+                                        <label>Mobile Number</label>
+                                        <input type="text" name="mobile_number" id="mobileNumber" class="form-control" placeholder="+639127961717">
+                                    </div>
+                                    {{-- ACTIVE --}}
+                                    <div class="form-group col-md-12">
+                                        <label>Active</label>
+                                        <select name="active" id="instructorIsActive" class="form-control">
+                                            <option value="Active">Active</option>
+                                            <option value="In Active">In Active</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Semester : </label>
-                                        <select class="form-control" id="subjectSemester" name="semester">
-                                        <option value="1">First sem.</option>
-                                        <option value="2">Second sem.</option>
-                                    </select>
-                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="reset" class="btn btn-default">Reset</button>
-                                    <button type="submit" class="btn btn-primary" id="btnSave">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="editInstructorSave">Save changes</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                {{-- MODAL END --}}
-                @endsection
+            </div>
+            {{-- MODAL END --}}
+            @endsection
