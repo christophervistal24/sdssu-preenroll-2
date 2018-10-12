@@ -28,7 +28,7 @@ $route="admin";
         <div class="nav-wrapper">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ url("/$route/index") }}">
+                    <a class="nav-link" href="{{ url("/$route/index") }}">
                         <i class="material-icons">dashboard</i>
                         <span>Dashboard</span>
                     </a>
@@ -36,7 +36,7 @@ $route="admin";
                 <li class="nav-item">
                     <a class="nav-link " href="{{ url("/$route/pre-enrol") }}">
                         <i class="material-icons">assignment_turned_in</i>
-                        <span>Pre-Enroll</span>
+                        <span>Pre Enroll</span>
                     </a>
                 </li>
                 <li class="nav-item">

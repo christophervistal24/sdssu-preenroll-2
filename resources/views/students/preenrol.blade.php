@@ -83,8 +83,14 @@
                     </div>
                     <!-- End Page Header -->
                     <!-- Small Stats Blocks -->
+                        @include('success.success-message')
                     <div class="row">
-                        <p>Pre Enroll</p>
+                        <form method="POST">
+                            @csrf
+                            <label>Fullname</label>
+                            <input type="text" name="fullname" value="{{ $student_info->fullname }}" class="form-control">
+                            <input type="submit" value="Enroll" class="btn btn-primary">
+                        </form>
                     </div>
             </div>
 @endsection

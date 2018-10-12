@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Students;
 
 use App\Http\Controllers\Controller;
+use App\PreEnroll;
 use App\Semester;
 use App\Student;
 use App\User;
@@ -25,10 +26,25 @@ class StudentController extends Controller
 	{
 		return view('students.index');
 	}
+
 	public function preenrol()
 	{
-		return view('students.preenrol');
+        $student_info = Student::where('id_number',Auth::user()->id_number)->first();
+		return view('students.preenrol',compact('student_info'));
 	}
+
+    public function submitpreenrol(Request $request)
+    {
+        $request->validate([
+            'fullname' => 'required'
+        ]);
+
+        PreEnroll::create([
+            'fullname' => $request->fullname,
+            'status'   => 'pending'
+        ]);
+        return redirect()->back()->with('status','Success!');
+    }
 
 	public function evaluate()
 	{

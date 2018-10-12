@@ -74,7 +74,7 @@
                     </nav>
                 </div>
                 <!-- / .main-navbar -->
-                <div class="main-content-container container-fluid px-4">
+                <div class="main-content-container container-fluid px-4 card ">
                     <!-- Page Header -->
                     <div class="page-header row no-gutters py-4">
                         <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -84,7 +84,16 @@
                     <!-- End Page Header -->
                     <!-- Small Stats Blocks -->
                     <div class="row">
-                        <p>Schedule</p>
+                        <div class="col-md-12">
+                            <table id="tables" class="table table-bordered">
+                            <thead class="text-center">
+                                <th>Time</th>
+                                <th>Days</th>
+                                <th>Rooms</th>
+                                <th>Subjects</th>
+                            </thead>
+                        </table>
+                        </div>
                     </div>
             </div>
 @endsection

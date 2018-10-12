@@ -1,8 +1,8 @@
 <?php
 use App\Role;
-use App\User;
 use App\Student;
-
+use App\StudentParent;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class StudentSeeder extends Seeder
@@ -15,12 +15,18 @@ class StudentSeeder extends Seeder
     public function run()
     {
     	$role_student = Role::where('name','Student')->first();
+      $parent = new StudentParent;
+      $parent->mothername = 'Regina Vistal';
+      $parent->fathername = 'Crisogono Vistal';
+      $parent->mobile_number = '09193693499';
+      $parent->save();
 
    		$student = new Student();
    		$student->id_number = 1501755;
    		$student->fullname = 'Christopher P. Vistal';
    		$student->year = 1;
    		$student->course_id = 2;
+      $student->student_parent_id = $parent->id;
    		$student->save();
 
    		$s = new User();

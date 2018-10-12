@@ -18,7 +18,7 @@ class InstructorSchedule extends Model
               AND end_time = '$data[end_time]'
               AND days = '$data[days]'
               AND room = '$data[room]'
-              AND instructor = '$data[instructor]'
+              AND subject = '$data[subject]'
           ")
         );
        return ($schedule) ?? true;

@@ -139,7 +139,7 @@
                                 {{-- STATUS --}}
                                 <div class="form-group col-md-6 offset-3">
                                     <label>Mobile number</label>
-                                    <input type="text" name="mobile_number" id="">
+                                    <input type="text" class="form-control" name="mobile_number">
                                 </div>
 
                                 <div class="form-group col-md-6 offset-3">

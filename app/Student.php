@@ -7,11 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $fillable = ['id_number','fullname','year','course_id'];
+    protected $fillable = ['id_number','fullname','year','course_id','student_parent_id','mobile_number'];
 
     public function subjects()
     {
-    	return $this->belongsToMany(Subject::class,'student_subject','student_id','subject_id');
+    	return $this->belongsToMany(InstructorSchedule::class,'student_subject','student_id','subject_id');
+    }
+
+    public function parents()
+    {
+        return $this->hasOne('App\StudentParent','id');
     }
 
     public function getStudentYearLevel($id_number)

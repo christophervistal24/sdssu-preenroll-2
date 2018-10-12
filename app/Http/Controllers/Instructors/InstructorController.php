@@ -32,16 +32,16 @@ class InstructorController extends Controller
     	return view('instructors.schedule',compact('schedules'));
     }
 
-    public function students(string $schedule)
+    public function students(InstructorSchedule $subject_id)
     {
-        $id       = Subject::where('sub_description',$schedule)->first()->id;
-        $students = StudentSubject::where('subject_id',$id)->pluck('student_id');
+        $id = StudentSubject::where('subject_id',$subject_id->id)->pluck('student_id');
         $students_infos = DB::table('students')
-                ->whereIn('id',$students)
+                ->whereIn('id',$id)
                 ->get(
                     ['id','id_number','fullname','year','course_id']
                 );
-        return view('instructors.students',compact('students_infos','id'));
+        $id_of_subject = $subject_id->id;
+        return view('instructors.students',compact(['students_infos','id','id_of_subject']));
     }
 
     public function addstudentgrade(Request $request)

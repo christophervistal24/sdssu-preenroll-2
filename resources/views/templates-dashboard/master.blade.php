@@ -52,7 +52,7 @@
             });
         });
         </script>
-        @if (\Request::path() == 'admin/schedule'  || \Request::path() == 'admin/instructors')
+        @if (\Request::path() == 'admin/schedule'  || \Request::path() == 'admin/instructors' || \Request::path() == 'admin/scheduling')
                <script src="/js/custom.js"></script>
         @elseif(\Request::path() == 'admin/subjects')
                <script src="/js/subjects.js"></script>

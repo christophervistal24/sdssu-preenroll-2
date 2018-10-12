@@ -5,6 +5,8 @@ use App\Course;
 use App\Http\Controllers\Controller;
 use App\Instructor;
 use App\InstructorSchedule;
+use App\PreEnroll;
+use App\PreEnrolled;
 use App\Role;
 use App\Room;
 use App\Semester;
@@ -12,6 +14,7 @@ use App\Student;
 use App\StudentSubject;
 use App\Subject;
 use App\User;
+use App\StudentParent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +52,18 @@ class AdminController extends Controller
 
     public function preenrol()
     {
-        return view('admins.pre-enrol');
+        $student_preenroll = PreEnroll::where('status','pending')->get();
+        return view('admins.pre-enrol',compact('student_preenroll'));
+    }
+
+    public function acceptpreenroll(PreEnroll $student_info)
+    {
+
+        PreEnrolled::create([
+            'fullname' => $student_info->fullname
+        ]);
+        $student_info->delete();
+        return redirect()->back()->with('status','Success!');
     }
 
     public function addgrades()
@@ -137,7 +151,7 @@ class AdminController extends Controller
             'days'       => 'required',
             'room'       => 'required',
             'subject'    => 'required',
-            'instructor' => 'required',
+            'instructor' => 'nullable',
         ]);
 
         $is_exists = $this->instructorSchedule->checkSchedule([
@@ -145,7 +159,7 @@ class AdminController extends Controller
              'end_time'   => $request->end_time,
              'days'       => $request->days,
              'room'       => $request->room,
-             'instructor' => $request->instructor,
+             'subject'    => $request->subject
         ]);
 
         if (!$is_exists) {
@@ -289,12 +303,24 @@ class AdminController extends Controller
             'id_number'        => 'required|unique:students',
             'student_fullname' => 'required',
             'course'           => 'required',
+            'student_mobile'   => 'required',
+            'mothersname'      => 'required',
+            'fathersname'      => 'required',
+            'parent_mobile'    => 'required'
         ]);
+
+        $parent = new StudentParent;
+        $parent->mothername = $request->mothersname;
+        $parent->fathername = $request->fathersname;
+        $parent->mobile_number = $request->parent_mobile;
+        $parent->save();
+
         $student_create = Student::create([
             'id_number' => $request->id_number,
             'fullname'  => $request->student_fullname,
             'year'      => 1,
-            'course_id' => $request->course
+            'course_id' => $request->course,
+            'student_parent_id' => $parent->id
         ]);
 
         $new_student = User::create([
@@ -309,39 +335,32 @@ class AdminController extends Controller
         }
     }
 
-    public function studentaddsubject($id)
+    public function studentaddsubject(Student $student)
     {
-        $student = Student::find($id);
-        return view('admins.studentaddsubject',compact('student'));
+        $already_add = $student->subjects;
+        $schedules = InstructorSchedule::where('status','active')->get();
+        return view('admins.studentaddsubject',compact(['student','schedules','already_add']));
     }
 
     public function storestudentsubject(Request $request)
     {
-        foreach ($request->subjects as $value) {
-            $subject_code[] = preg_split("/\t/",$value);
-        }
+         if ($request->subjects == null) {
+            return Redirect::back()->withErrors('Please add some subject.');
+         }
 
-        $subject_codes = array_values(array_where(array_map('rtrim',array_flatten($subject_code)),function ($value,$key){
-            return ($key % 2 == 0) ? $value : null;
-        }));
-
-       $ids = DB::table('subjects')
-                    ->whereIn('sub',$subject_codes)
-                    ->pluck('id')
-                    ->toArray();
-
-        array_map(function ($subject_id) use($request) {
+        array_map(function ($schedule_id) use($request)  {
             StudentSubject::create([
                 'student_id' => $request->user_id,
-                'subject_id' => $subject_id
+                'subject_id' => $schedule_id
             ]);
-        }, $ids);
-        return redirect('/admin/addstudent')->with('status','Successfully add a subjects');
+        },array_keys($request->subjects));
+
+        return redirect()->back()->with('status','Successfully add a subjects');
     }
 
     public function students()
     {
-        $students = Student::all();
+        $students = Student::with('parents')->get();
         return view('admins.list-of-students',compact('students'));
     }
 

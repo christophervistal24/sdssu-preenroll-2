@@ -83,41 +83,24 @@
                 </div>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
+               @include('errors.error')
+               @include('success.success-message')
                 <div class="row">
                     <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
                         <span class="text-uppercase page-subtitle text-center">List of subjects</span>
                         <hr>
                         <div id="sortTrue" style="cursor:pointer;">
                             <br>
-                            @foreach ($first_sem_first_year_subjects as $subjects)
-                            <input style="cursor:pointer; background:white;" name="subjects[]" class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{$subjects->sub . " \t " .  $subjects->sub_description }}">
+                            @foreach ($schedules as $key => $schedule)
+                                @if (isset($already_add[$key]->id) && $schedule->id == $already_add[$key]->id )
+                                    @continue
+                                @endif
+                                <input style="cursor:pointer; background:white;" name="subjects[{{ $schedule->id }}]" class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $schedule->start_time .'-'. $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room .  ' - ' .  $schedule->subject }}">
                             @endforeach
-                           <!--  @foreach ($second_sem_first_year_subjects as $subjects)
-                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
-                           @endforeach
-                           @foreach ($first_sem_second_year_subjects as $subjects)
-                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
-                           @endforeach
-                           @foreach ($second_sem_second_year_subjects as $subjects)
-                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
-                           @endforeach
-                           @foreach ($first_sem_third_year_subjects as $subjects)
-                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
-                           @endforeach
-                           @foreach ($second_sem_third_year_subjects as $subjects)
-                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
-                           @endforeach
-                           @foreach ($third_year_summer as $subjects)
-                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
-                           @endforeach
-                           @foreach ($first_sem_fourth_year_subjects as $subjects)
-                           <input style="cursor:pointer;" class="form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->sub_description }}">
-                           @endforeach
-                           @foreach ($second_sem_fourth_year_subjects as $subjects)
-                           <input style="cursor:pointer;" class="border-0 form-control font-weight-bold" readonly value="{{ $subjects->sub_description }}">
-                           @endforeach -->
+
                         </div>
                     </div>
+
                     <!-- sort: false -->
                     <form method="POST" action="{{ url('/admin/studentsubjectstore/') }}" class="list-group col-md-6 p-4 card rounded-0" style="height : auto;">
                         @csrf
@@ -125,6 +108,9 @@
                         <hr>
                         <div id="sortFalse" class="list-group col-md-12">
                             <input type="hidden" name="user_id" value={{ $student->id }}>
+                            @foreach ($already_add as $subject_info)
+                             <input style="cursor:pointer; background:white;"  class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subject_info->start_time .'-'. $subject_info->end_time . ' - ' . $subject_info->days . ' - ' . $subject_info->room .  ' - ' .  $subject_info->subject }}">
+                            @endforeach
                         </div>
                    </form>
                 </div>

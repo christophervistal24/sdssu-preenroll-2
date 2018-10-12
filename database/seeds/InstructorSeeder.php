@@ -88,7 +88,7 @@ class InstructorSeeder extends Seeder
                 'id_number' => '09',
                 'name' => strtolower('ENGR. REMEGIO P. DAPANAS'),
                 'education_qualification' => strtolower('MSAMS'),
-                'position' => strtolower('ASSISTANT PROFESSOR IV') ,
+                'position' => strtolower('ASSISTANT PROFESSOR 4') ,
                 'status' => 'permanent',
                 'mobile_number' => '+639950523688',
                 'active' => 1,

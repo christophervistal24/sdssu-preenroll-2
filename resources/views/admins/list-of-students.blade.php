@@ -92,8 +92,12 @@
                                 <tr>
                                     <th class="text-center">ID Number</th>
                                     <th class="text-center">Name</th>
+                                    <th class="text-center">Mobile #</th>
                                     <th class="text-center">Year</th>
                                     <th class="text-center">Course</th>
+                                    <th class="text-center">Mother's name</th>
+                                    <th class="text-center">Father's name</th>
+                                    <th class="text-center">Parent mobile #</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -102,6 +106,7 @@
                                 <tr>
                                     <td class="text-center">{{ $student->id_number }}</td>
                                     <td>{{ ucwords($student->fullname) }}</td>
+                                    <td>{{ $student->mobile_number }}</td>
                                     <td class="text-center">
                                         @if ($student->year == 1)
                                             {{ 'First year' }}
@@ -116,6 +121,9 @@
                                         @endif
                                      </td>
                                     <td class="text-center">{{ $course->getCourse($student->course_id)->course_code }}</td>
+                                    <td class="text-center">{{ $student->parents->mothername }}</td>
+                                    <td class="text-center text-truncate">{{ $student->parents->fathername }}</td>
+                                    <td class="text-center">{{ $student->parents->mobile_number }}</td>
                                     <td class="text-center"><a class="text-white btn btn-success border-0 rounded-0"><b>Evaluate grades</b></a>
                                         <a href="/admin/studentsubject/{{ $student->id }}" class="text-white btn btn-primary border-0 rounded-0"><b>Add subject</b></a></td>
                                 </tr>

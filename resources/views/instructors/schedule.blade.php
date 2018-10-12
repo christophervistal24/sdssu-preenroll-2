@@ -98,7 +98,7 @@
 								<td>{{ $schedule->days }}</td>
 								<td>{{ $schedule->room }}</td>
 								<td>{{ $schedule->subject }}</td>
-								<td><a class="btn btn-success rounded-0 border-0" href="/instructor/students/{{ $schedule->subject }}"><b>View Students</b></a></td>
+								<td><a class="btn btn-success rounded-0 border-0" href="/instructor/students/{{ $schedule->id }}"><b>View Students</b></a></td>
 							</tr>
 						@endforeach
 					</tbody>

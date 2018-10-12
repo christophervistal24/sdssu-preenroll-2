@@ -98,25 +98,34 @@
 								<td>{{ $student->id_number }}</td>
 								<td>{{ $student->fullname }}</td>
 								<td class="text-center">
-									{{
-										 $isStudentHasGrade =
-										 is_null($studentSubject->getStudentGradeBySubject($student->id,$id)->remarks) ? null : $studentSubject->getStudentGradeBySubject($student->id,$id)->remarks
-								  	}}
+									{{ $stats = $studentSubject->getStudentGrade($student->id,$id_of_subject) }}
 								</td>
 								<td class="text-center">
-									@if (!$isStudentHasGrade)
+									@if ($stats)
 											<button onclick="displayModalForGrade(
 											 ({{  json_encode(
                                                 [
 														'id'        => $student->id,
 														'id_number' => $student->id_number,
 														'fullname'  => $student->fullname,
-														'student_subject_id' => $id
+														'student_subject_id' => $id_of_subject
+                                                 ]
+                                        )
+                                        }})
+									)" class="btn btn-primary rounded-0 border-0">Edit grade</button>
+									@else
+											<button onclick="displayModalForGrade(
+											 ({{  json_encode(
+                                                [
+														'id'        => $student->id,
+														'id_number' => $student->id_number,
+														'fullname'  => $student->fullname,
+														'student_subject_id' => $id_of_subject
                                                  ]
                                         )
                                         }})
 									)" class="btn btn-success rounded-0 border-0">Add grade</button>
-									@endif
+								@endif
 								</td>
 							</tr>
 						@endforeach

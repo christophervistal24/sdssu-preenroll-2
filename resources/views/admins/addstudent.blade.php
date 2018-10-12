@@ -90,6 +90,7 @@
                         <div class="form row">
                             @csrf
                             <div class="col-md-6 offset-3">
+                                <p>Student Information</p>
                                 <label>Student ID No.</label>
                                 <input type="text" name="id_number"  class="form-control" placeholder="e.g 1501755">
                                 <br>
@@ -102,6 +103,19 @@
                                     <option value="{{ $course->id }}">{{ $course->course_code . ' - ' . $course->course_name }}</option>
                                     @endforeach
                                 </select>
+                                <br>
+                                <label>Student mobile number</label>
+                                <input type="text" class="form-control" name="student_mobile">
+                                <hr>
+                                <p>Parent's Information</p>
+                                <label>Mother's name</label>
+                                <br>
+                                <input type="text" class="form-control" name="mothersname">
+                                <label>Father's name</label>
+                                <input type="text" class="form-control" name="fathersname">
+                                <br>
+                                <label>Mobile number of your parent's <small>(in case of emergency)</small></label>
+                                <input type="text" class="form-control" name="parent_mobile">
                                 <br>
                                 <div class="form-group float-right">
                                     <input type="submit" class="btn btn-primary rounded-0" value="Add student">
