@@ -116,7 +116,8 @@
                                         @endif
                                      </td>
                                     <td class="text-center">{{ $course->getCourse($student->course_id)->course_code }}</td>
-                                    <td class="text-center"><a class="text-white btn btn-success border-0 rounded-0"><b>Evaluate grades</b></a></td>
+                                    <td class="text-center"><a class="text-white btn btn-success border-0 rounded-0"><b>Evaluate grades</b></a>
+                                        <a href="/admin/studentsubject/{{ $student->id }}" class="text-white btn btn-primary border-0 rounded-0"><b>Add subject</b></a></td>
                                 </tr>
                                 @endforeach
                             </tbody>

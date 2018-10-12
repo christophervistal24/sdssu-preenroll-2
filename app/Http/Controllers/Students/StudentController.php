@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Students;
 
 use App\Http\Controllers\Controller;
+use App\Semester;
+use App\Student;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,9 +12,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class StudentController extends Controller
 {
-
-    public function __construct()
+    private $student;
+    private $sem;
+    public function __construct(Student $studnt,Semester $sem)
     {
+        $this->student = $studnt;
+        $this->sem = $sem;
         $this->middleware('preventBackHistory');
     }
 
@@ -53,17 +58,24 @@ class StudentController extends Controller
 
     public function checkLogin(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'id_number' => 'required',
             'password' => 'required',
         ]);
 
         $credentials = $request->only('id_number', 'password');
         $user = User::where('id_number',$request->id_number)->first();
+        $isStudentCanLogin = $this->student
+                                ->checkIfCanLogin($request->id_number,$this->sem);
+        if ($isStudentCanLogin) {
+          return Redirect::back()
+                    ->withInput()
+                    ->withErrors('You can\'t login on this page please wait till administrator make an action');
+        }
         if (Auth::attempt($credentials) && $user->hasRole('Student')) {
-            // Authentication passed...
             return redirect()->intended('/student/index');
         }
+
         return Redirect::back()->withInput()->withErrors('Wrong ID number/password combination.');
     }
 }

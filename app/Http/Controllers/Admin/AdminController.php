@@ -284,6 +284,7 @@ class AdminController extends Controller
 
     public function storestudent(Request $request)
     {
+        $role_student = Role::where('name','Student')->first();
         $request->validate([
             'id_number'        => 'required|unique:students',
             'student_fullname' => 'required',
@@ -295,6 +296,14 @@ class AdminController extends Controller
             'year'      => 1,
             'course_id' => $request->course
         ]);
+
+        $new_student = User::create([
+            'name' => $request->student_fullname,
+            'id_number' => $request->id_number,
+            'password' => bcrypt(1234),
+        ]);
+        $new_student->roles()->attach($role_student);
+
         if ($student_create) {
              return redirect()->back()->with('status',"<a href=/admin/studentsubject/".$student_create->id." class=alert-link> Successfully add new student name " . $request->student_fullname . " click this message to add a subject</a>");
         }
