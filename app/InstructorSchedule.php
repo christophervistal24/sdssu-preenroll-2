@@ -8,7 +8,6 @@ class InstructorSchedule extends Model
 {
    public $timestamp = false;
    protected $fillable = ['start_time','end_time','days','room','subject','instructor','block'];
-
    public function checkSchedule($data = [])
    {
    		 $schedule = DB::select(

@@ -95,12 +95,15 @@
 					<tbody class="text-center">
 						@foreach ($schedules as $schedule)
 							<tr>
-								<td>{{ $schedule->start_time . ' - ' .  $schedule->end_time }}</td>
+								<td>{{ $schedule->time }}</td>
 								<td>{{ $schedule->days }}</td>
-								<td>{{ $schedule->room }}</td>
+								<td>{{ $schedule->rooms }}</td>
 								<td>{{ $schedule->subject }}</td>
-								<td>{{ $schedule->block }}</td>
-								<td><a class="btn btn-success rounded-0 border-0" href="/instructor/students/{{ $schedule->id }}"><b>View Students</b></a></td>
+								<td>{{ $schedule->blocks }}</td>
+								@php
+									$ids = explode(',', $schedule->ids);
+								@endphp
+								<td><a href="/instructor/students/{{ $ids[0] }}/{{ @$ids[1] }}" class="btn btn-success rounded-0 border-0"><i class="material-icons">visibility</i> <b>View students</b></a></td>
 							</tr>
 						@endforeach
 					</tbody>

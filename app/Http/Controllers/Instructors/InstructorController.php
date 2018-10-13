@@ -28,20 +28,32 @@ class InstructorController extends Controller
 
     public function schedule()
     {
-        $schedules = InstructorSchedule::where('instructor',ucwords(Auth::user()->name))->get();
+        $schedules = DB::table('instructor_schedules')
+            ->select(DB::raw("
+                  subject,GROUP_CONCAT(block) as blocks,
+                  GROUP_CONCAT(id) AS ids ,
+                  GROUP_CONCAT(room) AS rooms ,
+                  GROUP_CONCAT(CONCAT(start_time,' - ',end_time)) AS time ,
+                  GROUP_CONCAT(DISTINCT days) AS days
+              "))
+            ->where('instructor','=',ucwords(Auth::user()->name))
+            ->where('status','=','active')
+            ->groupBy('subject')
+            ->get();
     	return view('instructors.schedule',compact('schedules'));
     }
 
-    public function students(InstructorSchedule $subject_id)
+    public function students($subject_id,$subject_id2 = null)
     {
-        $id = StudentSubject::where('subject_id',$subject_id->id)->pluck('student_id');
-        $students_infos = DB::table('students')
+        dd('UNDER DEVELOPMENT');
+        // $id = StudentSubject::where('subject_id',$subject_id->id)->pluck('student_id');
+   /*     $students_infos = DB::table('students')
                 ->whereIn('id',$id)
                 ->get(
                     ['id','id_number','fullname','year','course_id']
                 );
-        $id_of_subject = $subject_id->id;
-        return view('instructors.students',compact(['students_infos','id','id_of_subject']));
+        $id_of_subject = $subject_id->id;*/
+        // return view('instructors.students',compact(['students_infos','id','id_of_subject']));
     }
 
     public function addstudentgrade(Request $request)
