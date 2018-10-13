@@ -4,6 +4,7 @@ use App\Student;
 use App\StudentParent;
 use App\User;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class StudentSeeder extends Seeder
 {
@@ -36,5 +37,23 @@ class StudentSeeder extends Seeder
       $s->save();
  		  $s->roles()->attach($role_student);
 
+      $faker = Faker::create();
+         foreach (range(1,45) as $index) {
+              DB::table('students')->insert([
+                  'id_number' => '15017' . $index,
+                  'fullname' => $faker->name,
+                  'year' => 1,
+                  'course_id' => 2,
+                  'student_parent_id' => $parent->id,
+              ]);
+       }
+
+       foreach (range(1,45) as $index) {
+              DB::table('student_parents')->insert([
+                  'mothername' => $faker->name,
+                  'fathername' => $faker->name,
+                  'mobile_number' => '09193693499',
+             ]);
+       }
     }
 }

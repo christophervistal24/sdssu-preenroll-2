@@ -83,7 +83,24 @@
 					</div>
 				</div>
 				<!-- End Page Header -->
+				<!-- @foreach ($students_infos as $student)
+					@php
+						$insStartToGrade = $studentSubject->getDateStartedToGrade($student->id,$id_of_subject);
+						$student_grade = $studentSubject->getStudentGrade($student->id,$id_of_subject);
+					@endphp
+				@endforeach -->
+
 				<h3 class="text-muted">List of Students</h3>
+				@if ($insStartToGrade)
+					<div class="alert alert-default alert-dismissible fade show text-black" role="alert">
+						<button type="button" class="close text-danger" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+						 <strong>You can modify student grades until
+						  {{ $insStartToGrade->addDays(45)->format('jS \o\f F, Y g:i A') }}</strong>
+					</div>
+				@endif
+
 				@include('success.success-message')
 				<table id="tables" class="table table-bordered" style="width:100%">
 					<thead class="text-center">
@@ -95,24 +112,37 @@
 					<tbody>
 						@foreach ($students_infos as $student)
 							<tr>
-								<td>{{ $student->id_number }}</td>
-								<td>{{ $student->fullname }}</td>
-								<td class="text-center">
-									{{ $stats = $studentSubject->getStudentGrade($student->id,$id_of_subject) }}
+								<td class="text-black">{{ $student->id_number }}</td>
+								<td class="text-black">{{ $student->fullname }}</td>
+								@php
+									$stats = $studentSubject->getStudentGrade($student->id,$id_of_subject)
+								@endphp
+								@if ($stats == 5.0)
+									@php
+										$addClass = 'text-danger';
+									@endphp
+									@else
+									 @php
+									 	$addClass = "text-black";
+									 @endphp
+								@endif
+								<td class="text-center {{ $addClass }}" id="studentGradeColumn">
+									{{ $stats }}
 								</td>
 								<td class="text-center">
 									@if ($stats)
-											<button onclick="displayModalForGrade(
+											<button id="btnModal" onclick="displayModalForGrade(
 											 ({{  json_encode(
                                                 [
 														'id'        => $student->id,
 														'id_number' => $student->id_number,
 														'fullname'  => $student->fullname,
-														'student_subject_id' => $id_of_subject
+														'student_subject_id' => $id_of_subject,
+														'remarks' => $studentSubject->getStudentGrade($student->id,$id_of_subject)
                                                  ]
                                         )
                                         }})
-									)" class="btn btn-primary rounded-0 border-0">Edit grade</button>
+									)" class="btn btn-primary rounded-0 border-0" >Edit grade</button>
 									@else
 											<button onclick="displayModalForGrade(
 											 ({{  json_encode(
@@ -124,7 +154,7 @@
                                                  ]
                                         )
                                         }})
-									)" class="btn btn-success rounded-0 border-0">Add grade</button>
+									)" class="btn btn-success rounded-0 border-0" id="btnModal">Add grade</button>
 								@endif
 								</td>
 							</tr>
@@ -152,7 +182,7 @@
                                     <div class="form-group col-md-12">
                                         <label>Remarks :</label>
                                         <div id="modalBody">
-                                            <input type="text" id="studentGrade"  class="form-control" placeholder="Input grade">
+                                            <input type="text" required id="studentGrade"  class="form-control" placeholder="Input grade">
                                         </div>
                                     </div>
                                 </div>

@@ -10,4 +10,9 @@ class Course extends Model
 	{
 		return $this->where('id',$id)->first();
 	}
+
+	public function student()
+	{
+		return $this->belongsTo('App\Student');
+	}
 }

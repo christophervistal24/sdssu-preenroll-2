@@ -1,3 +1,4 @@
+@inject('Block','App\Block')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -76,11 +77,16 @@
             <!-- / .main-navbar -->
             <div class="main-content-container container-fluid px-4">
                 <!-- Page Header -->
+                <div class="container">
+                </div>
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                         <span class="text-uppercase page-subtitle">Add subject  for {{ $student->fullname }}</span>
                     </div>
                 </div>
+               <span class="text-black">Current block for {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->block_name }}</span>
+               <br>
+               <span class="text-black">No of enrolled. {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->no_of_enrolled }}</span>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                @include('errors.error')
@@ -92,10 +98,7 @@
                         <div id="sortTrue" style="cursor:pointer;">
                             <br>
                             @foreach ($schedules as $key => $schedule)
-                                @if (isset($already_add[$key]->id) && $schedule->id == $already_add[$key]->id )
-                                    @continue
-                                @endif
-                                <input style="cursor:pointer; background:white;" name="subjects[{{ $schedule->id }}]" class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $schedule->start_time .'-'. $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room .  ' - ' .  $schedule->subject }}">
+                                <input style="cursor:pointer; background:white;" name="subjects[{{ $schedule->id }}]" class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $schedule->start_time .'-'. $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room .  ' - ' .  $schedule->subject . ' - ' . $schedule->block }}">
                             @endforeach
 
                         </div>
@@ -108,9 +111,13 @@
                         <hr>
                         <div id="sortFalse" class="list-group col-md-12">
                             <input type="hidden" name="user_id" value={{ $student->id }}>
-                            @foreach ($already_add as $subject_info)
-                             <input style="cursor:pointer; background:white;"  class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subject_info->start_time .'-'. $subject_info->end_time . ' - ' . $subject_info->days . ' - ' . $subject_info->room .  ' - ' .  $subject_info->subject }}">
-                            @endforeach
+                            @if ($already_add != null)
+                                @foreach ($already_add as $student_info)
+                                     @foreach ($student_info->subjects as $subjects)
+                                     <input style="cursor:pointer; background:white;"  class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $subjects->start_time .'-'. $subjects->end_time . ' - ' . $subjects->days . ' - ' . $subjects->room .  ' - ' .  $subjects->subject . ' - ' . $subjects->block }}">
+                                    @endforeach
+                                @endforeach
+                            @endif
                         </div>
                    </form>
                 </div>

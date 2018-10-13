@@ -19,6 +19,12 @@ class Student extends Model
         return $this->hasOne('App\StudentParent','id');
     }
 
+    public function course()
+    {
+        $this->primaryKey = 'course_id';
+        return $this->hasOne('App\Course','id');
+    }
+
     public function getStudentYearLevel($id_number)
     {
     	$getStudenYear = $this->where('id_number',$id_number)->first();

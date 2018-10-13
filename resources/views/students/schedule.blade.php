@@ -1,3 +1,4 @@
+@inject('course','App\Course')
 @extends('templates-dashboard.master')
     @section('content')
     <div class="main-navbar sticky-top bg-white">
@@ -78,20 +79,57 @@
                     <!-- Page Header -->
                     <div class="page-header row no-gutters py-4">
                         <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                            <span class="text-uppercase page-subtitle">Dashboard</span>
+                            <span class="text-uppercase page-subtitle">Your schedules</span>
                         </div>
                     </div>
                     <!-- End Page Header -->
                     <!-- Small Stats Blocks -->
                     <div class="row">
                         <div class="col-md-12">
-                            <table id="tables" class="table table-bordered">
+                             <span>Name : {{ $student_information->fullname }}</span>
+                             <br>
+                             <span>ID No : {{ $student_information->id_number }}</span>
+                             <br>
+                             <span>Level :
+                                @if ($student_information->year == 1)
+                                     {{ 'First year' }}
+                                    @elseif($student_information->year == 2)
+                                        {{ 'Second year' }}
+                                    @elseif($student_information->year == 3)
+                                        {{ 'Third year' }}
+                                    @elseif($student_information->year == 4)
+                                        {{ 'Fourth year' }}
+                                    @elseif($student_information->year == 5)
+                                        {{ 'Fifth year' }}
+                                @endif
+                         </span>
+                             <br>
+                             <span>Course :
+                              {{ $course->getCourse($student_information->course_id)->course_name }}
+                             </span>
+                              <hr>
+                        </div>
+                        <div class="col-md-12">
+
+                            <table id="deleteTables" class="table table-bordered">
                             <thead class="text-center">
                                 <th>Time</th>
                                 <th>Days</th>
                                 <th>Rooms</th>
+                                <th>Instructor</th>
                                 <th>Subjects</th>
                             </thead>
+                            <tbody>
+                                @foreach ($student_information->subjects as $schedule)
+                                    <tr>
+                                        <td class="text-center">{{ $schedule->start_time . ' - ' . $schedule->end_time }}</td>
+                                        <td class="text-center"> {{ $schedule->days }}</td>
+                                        <td class="text-center"> {{ $schedule->room }}</td>
+                                        <td class="text-center"> {{ (!$schedule->instructor) ? 'No instructor' : $schedule->instructor }}</td>
+                                        <td class="text-center"> {{ $schedule->subject }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                         </table>
                         </div>
                     </div>

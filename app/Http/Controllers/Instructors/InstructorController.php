@@ -46,13 +46,29 @@ class InstructorController extends Controller
 
     public function addstudentgrade(Request $request)
     {
-        $matchThese = [
-            'student_id' => $request->student_id ,
-            'subject_id' => $request->student_subject_id
-        ];
-        DB::table('student_subject')
-            ->where($matchThese)
-            ->update(['remarks' => $request->student_grade]);
+
+        $insStartToGrade = StudentSubject::where('subject_id',$request->student_subject_id)
+                            ->first();
+
+            $matchThese = [
+                'student_id' => $request->student_id,
+                'subject_id' => $request->student_subject_id
+             ];
+
+            $student = StudentSubject::where($matchThese)->first();
+             if ($insStartToGrade->updated_at != null) {
+                    $student->timestamps = false;
+                    $student->remarks = $request->student_grade;
+             } else {
+                    $student->remarks = $request->student_grade;
+             }
+             $student->save();
+
+            if ($student) {
+                return response()->json([
+                    'student_grade' => $request->student_grade,
+                ]);
+            }
     }
 
     public function sendsms()

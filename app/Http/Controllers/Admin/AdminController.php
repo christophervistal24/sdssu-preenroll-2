@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Block;
 use App\Course;
 use App\Http\Controllers\Controller;
 use App\Instructor;
@@ -11,10 +12,11 @@ use App\Role;
 use App\Room;
 use App\Semester;
 use App\Student;
+use App\StudentParent;
 use App\StudentSubject;
 use App\Subject;
 use App\User;
-use App\StudentParent;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -145,6 +147,11 @@ class AdminController extends Controller
 
     public function storeschedule(Request $request)
     {
+        $subject_level = Subject::where('sub_description',array_values($request->subject)[0])
+                                        ->first()
+                                        ->year;
+        $block = $subject_level . array_keys($request->subject)[0] .
+        Block::getNoOfEnrolled($subject_level)[0]->block_name;
         $request->validate([
             'start_time' => 'required',
             'end_time'   => 'required',
@@ -159,7 +166,8 @@ class AdminController extends Controller
              'end_time'   => $request->end_time,
              'days'       => $request->days,
              'room'       => $request->room,
-             'subject'    => $request->subject
+             'subject'    => array_values($request->subject)[0],
+             'block'      => $block
         ]);
 
         if (!$is_exists) {
@@ -168,9 +176,10 @@ class AdminController extends Controller
                  'end_time'   => $request->end_time,
                  'days'       => $request->days,
                  'room'       => $request->room,
-                 'subject'    => $request->subject,
+                 'subject'    => array_values($request->subject)[0],
+                 'block'      => $block,
                  'instructor' => $request->instructor,
-            ])->save();
+            ]);
             return redirect()->back()->with('status','Successfully add new schedule for ' . $request->instructor);
         } else {
             return redirect()->back()->withErrors('This schedule is already exists');
@@ -324,9 +333,9 @@ class AdminController extends Controller
         ]);
 
         $new_student = User::create([
-            'name' => $request->student_fullname,
+            'name'      => $request->student_fullname,
             'id_number' => $request->id_number,
-            'password' => bcrypt(1234),
+            'password'  => bcrypt(1234),
         ]);
         $new_student->roles()->attach($role_student);
 
@@ -337,25 +346,38 @@ class AdminController extends Controller
 
     public function studentaddsubject(Student $student)
     {
-        $already_add = $student->subjects;
-        $schedules = InstructorSchedule::where('status','active')->get();
+        //combine the year level and course of student to get specific subjects
+        $bracket = $student->year . $student->course->course_code;
+        //get the subjects of students
+        $already_add = Student::with('subjects')->where('id',$student->id)->get();
+        //get by year
+        $schedules = InstructorSchedule::where('status','active')
+                                        ->where('block','like','%' . $bracket . '%')
+                                        ->get();
         return view('admins.studentaddsubject',compact(['student','schedules','already_add']));
     }
 
     public function storestudentsubject(Request $request)
     {
-         if ($request->subjects == null) {
+         if ($request->subjects == null) { //check if the admin add some subjects
             return Redirect::back()->withErrors('Please add some subject.');
          }
 
-        array_map(function ($schedule_id) use($request)  {
-            StudentSubject::create([
-                'student_id' => $request->user_id,
-                'subject_id' => $schedule_id
-            ]);
+        array_map(function ($schedule_id) use($request)  { //iterate and insert the subjects
+            $student_subject = new StudentSubject();
+            $student_subject->student_id = $request->user_id;
+            $student_subject->subject_id = $schedule_id;
+            $student_subject->timestamps = false;
+            $student_subject->save();
         },array_keys($request->subjects));
 
-        return redirect()->back()->with('status','Successfully add a subjects');
+        //update the block of the student in STUDENTS table
+        $student = Student::with('subjects')->where('id',$request->user_id)->first()->subjects;
+        $update_student_block = Student::find($request->user_id);
+        $update_student_block->block = $student[0]->block[3]; //get the block and get the last character
+        $update_student_block->save();
+        Block::where('level',Student::find($request->user_id)->first()->year)->increment('no_of_enrolled');
+        return redirect()->back()->with('status','Successfully add a subject');
     }
 
     public function students()

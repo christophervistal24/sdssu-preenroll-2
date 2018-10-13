@@ -15,11 +15,11 @@ class CourseSeeder extends Seeder
        DB::table('courses')->insert([
        	[
        		'course_name' => 'BACHELOR OF SCIENCE IN CIVIL ENGINEERING',
-       		'course_code' => 'BSCE',
+       		'course_code' => 'CE',
        	],
        	[
        		'course_name' => 'BACHELOR OF SCIENCE IN COMPUTER SCIENCE',
-       		'course_code' => 'BSCS',
+       		'course_code' => 'CS',
        	]
        ]);
     }

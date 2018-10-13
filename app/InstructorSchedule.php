@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 class InstructorSchedule extends Model
 {
    public $timestamp = false;
-   protected $fillable = ['start_time','end_time','days','room','subject','instructor'];
+   protected $fillable = ['start_time','end_time','days','room','subject','instructor','block'];
 
    public function checkSchedule($data = [])
    {
@@ -19,6 +19,7 @@ class InstructorSchedule extends Model
               AND days = '$data[days]'
               AND room = '$data[room]'
               AND subject = '$data[subject]'
+              AND block = '$data[block]'
           ")
         );
        return ($schedule) ?? true;

@@ -89,6 +89,7 @@
 						<th>Days</th>
 						<th>Rooms</th>
 						<th>Subjects</th>
+						<th>Block</th>
 						<th>Actions</th>
 					</thead>
 					<tbody class="text-center">
@@ -98,6 +99,7 @@
 								<td>{{ $schedule->days }}</td>
 								<td>{{ $schedule->room }}</td>
 								<td>{{ $schedule->subject }}</td>
+								<td>{{ $schedule->block }}</td>
 								<td><a class="btn btn-success rounded-0 border-0" href="/instructor/students/{{ $schedule->id }}"><b>View Students</b></a></td>
 							</tr>
 						@endforeach

@@ -19,6 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('fullname');
             $table->integer('year');
             $table->integer('course_id');
+            $table->string('block')->nullable();
             $table->string('mobile_number')->nullable();
             $table->integer('student_parent_id')->nullable();
             $table->timestamps();

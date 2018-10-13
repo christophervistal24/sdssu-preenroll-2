@@ -99,6 +99,7 @@
                                         <th class="text-center">Days</th>
                                         <th class="text-center">Room</th>
                                         <th class="text-center">Instructor</th>
+                                        <th class="text-center">Block</th>
                                         <th class="text-center">Subject</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
@@ -110,6 +111,7 @@
                                             <td class="text-center">{{ $deleted->days }}</td>
                                             <td class="text-center">{{ $deleted->room}}</td>
                                             <td class="text-center">{{ $deleted->instructor }}</td>
+                                            <td class="text-center">{{ $deleted->block }}</td>
                                             <td class="text-center">{{ $deleted->subject }}</td>
                                             <td class="text-center">
                                               <a class="btn btn-success text-white rounded-0"
@@ -131,6 +133,7 @@
                                     <th class="text-center">Days</th>
                                     <th class="text-center">Room</th>
                                     <th class="text-center">Instructor</th>
+                                    <th class="text-center">Block</th>
                                     <th class="text-center">Subject</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
@@ -142,6 +145,7 @@
                                     <td class="text-center">{{ $schedule->days }}</td>
                                     <td class="text-center">{{ $schedule->room }}</td>
                                     <td>{{ $schedule->instructor }}</td>
+                                    <td class="text-center">{{ $schedule->block }}</td>
                                     <td>{{ $schedule->subject }}</td>
                                     <td class="text-center"><button class="btn btn-success rounded-0" onclick="displayEditSchedule({{ $schedule->id }})"><i class="material-icons">edit</i> EDIT</button>
                                     <button class="btn btn-danger rounded-0" onclick="displayDeleteModal({{ $schedule->id }})"> <i class="material-icons">delete</i> DELETE</button></td>

@@ -8,6 +8,7 @@ use App\Semester;
 use App\Student;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -41,8 +42,9 @@ class StudentController extends Controller
 
         PreEnroll::create([
             'fullname' => $request->fullname,
-            'status'   => 'pending'
+            'status'   => 'pending',
         ]);
+
         return redirect()->back()->with('status','Success!');
     }
 
@@ -53,7 +55,14 @@ class StudentController extends Controller
 
 	public function schedule()
 	{
-		return view('students.schedule');
+        $id_number = User::find(Auth::user()->id)
+                    ->id_number;
+
+        $student_information =  Student::where('id',
+                    Student::where('id_number',$id_number)->first()->id)
+                    ->with('subjects')
+                    ->first();
+		return view('students.schedule',compact('student_information'));
 	}
 
 	public function sendsms()

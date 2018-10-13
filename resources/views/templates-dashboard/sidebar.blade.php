@@ -149,19 +149,19 @@ $route="admin";
             <div class="nav-wrapper">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url("/$route/index") }}">
+                        <a class="nav-link " href="{{ url("/$route/index") }}">
                             <i class="material-icons">edit</i>
                             <span>Home</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url("/$route/preenrol") }}">
+                        <a class="nav-link " href="{{ url("/$route/preenrol") }}">
                             <i class="material-icons">edit</i>
                             <span>Pre-Enroll</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url("/$route/evaluate") }}">
+                        <a class="nav-link " href="{{ url("/$route/evaluate") }}">
                             <i class="material-icons">edit</i>
                             <span>Evaluate</span>
                         </a>
