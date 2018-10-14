@@ -1,10 +1,9 @@
-@inject('Block','App\Block')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
     <!-- Main Navbar -->
     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
-        <form action="" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+        <form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
             <div class="input-group input-group-seamless ml-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
@@ -62,7 +61,7 @@
                                 <a class="dropdown-item" href="add-new-post.html">
                                 <i class="material-icons">note_add</i> Add New Post</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
+                                <a class="dropdown-item text-danger" href="{{ url('/student/logout') }}">
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>
@@ -75,46 +74,51 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4">
+            <div class="main-content-container container-fluid px-4 card">
                 <!-- Page Header -->
-                <div class="container">
-                </div>
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                        <span class="text-uppercase page-subtitle">Add subject</span>
+                        <span class="text-uppercase page-subtitle">Pre-enroll details</span>
                     </div>
                 </div>
-               <span class="text-black">Current block for {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->block_name }}</span>
-               <br>
-               <span class="text-black">No of enrolled. {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->no_of_enrolled }}</span>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
-               @include('errors.error')
-               @include('success.success-message')
+                @include('errors.error')
+                @include('success.success-message')
                 <div class="row">
-                    <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
-                        <span class="text-uppercase page-subtitle text-center">List of subjects</span>
-                        <hr>
-                        <div id="sortTrue" style="cursor:pointer;">
-                            <br>
-                            @foreach ($schedules as $key => $schedule)
-                                <input style="cursor:pointer; background:white;" name="subjects[{{ $schedule->id }}]" class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $schedule->start_time .'-'. $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room .  ' - ' .  $schedule->subject . ' - ' . $schedule->block }}">
-                            @endforeach
+                    <div class="col-md-12">
+                        <table id="deleteTables" class="table table-bordered">
+                            <thead class="text-center">
+                                <th>Time</th>
+                                <th>Days</th>
+                                <th>Rooms</th>
+                                <th>Instructor</th>
+                                <th>Subject</th>
+                                <th>Block</th>
+                                <th>Status</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($preenroll_request as $pre_request)
+                                <tr>
+                                    @foreach ($pre_request->schedule as $sched)
+                                     <td>{{ $sched->start_time . '-' . $sched->end_time  }}</td>
+                                    <td class="text-center">{{ $sched->days }}</td>
+                                    <td class="text-center">{{ $sched->room }}</td>
+                                    <td>{{ $sched->instructor }}</td>
+                                    <td>{{ $sched->subject }}</td>
+                                    <td>{{ $sched->block }}</td>
 
-                        </div>
+                                    @endforeach
+                                    @if (strtoupper($pre_request->status) == 'PENDING')
+                                        <td class="text-center text-danger">
+                                            {{ strtoupper($pre_request->status) }}
+                                    </td>
+                                    @endif
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-
-                    <!-- sort: false -->
-                    <form method="POST" class="list-group col-md-6 p-4 card rounded-0" style="height : auto;">
-                        @csrf
-                        <span class="text-uppercase page-subtitle text-center"> Drag subjects here<button type="submit" class="btn btn-primary float-right btn-sm rounded-0 border-0">Save</button></span>
-                        <hr>
-                        <div id="sortFalse" class="list-group col-md-12">
-                            <input type="hidden" name="user_id" value={{ $student->id }}>
-                        </div>
-                   </form>
                 </div>
             </div>
-        </div>
-    </div>
-    @endsection
+            @endsection

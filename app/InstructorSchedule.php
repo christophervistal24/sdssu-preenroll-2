@@ -23,4 +23,10 @@ class InstructorSchedule extends Model
         );
        return ($schedule) ?? true;
    }
+
+   public function preenrolrequest()
+   {
+      $this->primaryKey = 'id';
+      return $this->belongsTo('App\PreEnroll','id','schedule_id');
+   }
 }

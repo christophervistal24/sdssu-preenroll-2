@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Instructors;
 
 use App\Http\Controllers\Controller;
 use App\InstructorSchedule;
+use App\Semester;
+use App\Student;
+use App\StudentGrade;
 use App\StudentSubject;
 use App\Subject;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,10 +18,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class InstructorController extends Controller
 {
-    protected $studentSubject;
-    public function __construct(StudentSubject $studentSub)
+    protected $student_subject;
+    public function __construct(StudentSubject $student_sub)
     {
-        $this->studentSubject = $studentSub;
+        $this->student_subject = $student_sub;
         $this->middleware('preventBackHistory');
     }
 
@@ -43,44 +47,44 @@ class InstructorController extends Controller
     	return view('instructors.schedule',compact('schedules'));
     }
 
-    public function students($subject_id,$subject_id2 = null)
+    public function students($first_subject,$second_subject = null)
     {
-        dd('UNDER DEVELOPMENT');
-        // $id = StudentSubject::where('subject_id',$subject_id->id)->pluck('student_id');
-   /*     $students_infos = DB::table('students')
+        //students with has already grades
+        $students_with_grades = array_flatten(Student::whereHas('grades')->pluck('id'));
+        $subject = InstructorSchedule::find($first_subject);
+        $id = $this->student_subject->getStudents([
+                'first_subject'  => $first_subject,
+                'second_subject' => @$second_subject
+        ]);
+
+        $students_infos = DB::table('students')
                 ->whereIn('id',$id)
                 ->get(
-                    ['id','id_number','fullname','year','course_id']
+                    ['id','id_number','fullname','year','course_id','block']
                 );
-        $id_of_subject = $subject_id->id;*/
-        // return view('instructors.students',compact(['students_infos','id','id_of_subject']));
+        return view('instructors.students',compact(['students_infos','subject','students_with_grades']));
     }
 
     public function addstudentgrade(Request $request)
     {
-
-        $insStartToGrade = StudentSubject::where('subject_id',$request->student_subject_id)
-                            ->first();
-
-            $matchThese = [
-                'student_id' => $request->student_id,
-                'subject_id' => $request->student_subject_id
-             ];
-
-            $student = StudentSubject::where($matchThese)->first();
-             if ($insStartToGrade->updated_at != null) {
-                    $student->timestamps = false;
-                    $student->remarks = $request->student_grade;
-             } else {
-                    $student->remarks = $request->student_grade;
-             }
+        $current_semester = Semester::where('current',1)->first()->id;
+        $student = StudentGrade::where(['student_id' => $request->student_id , 'subject_id' => $request->student_subject_id])->first();
+        if (is_null($student)) {
+             $student = new StudentGrade();
+             $student->student_id = $request->student_id;
+             $student->subject_id = $request->student_subject_id;
+             $student->remarks    = $request->student_grade;
+             $student->block      = $request->block;
+             $student->semester   = $current_semester;
+             $student->year       = $request->year;
+             $student->expiration = Carbon::now()->addDays(30);
              $student->save();
+        } else  {
+            $student->remarks = $request->student_grade;
+            $student->save();
+        }
 
-            if ($student) {
-                return response()->json([
-                    'student_grade' => $request->student_grade,
-                ]);
-            }
+        return response()->json(['success' => true]);
     }
 
     public function sendsms()

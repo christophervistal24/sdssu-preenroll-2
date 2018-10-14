@@ -54,18 +54,21 @@ class AdminController extends Controller
 
     public function preenrol()
     {
-        $student_preenroll = PreEnroll::where('status','pending')->get();
+        $student_preenroll = DB::table('pre_enrolls')
+                            ->join('instructor_schedules','pre_enrolls.schedule_id','=','instructor_schedules.id')
+                            ->leftJoin('students','pre_enrolls.student_id','=','students.id')
+                            ->select('pre_enrolls.student_id','students.fullname','pre_enrolls.created_at')
+                            ->groupBy('pre_enrolls.student_id')
+                            ->get();
         return view('admins.pre-enrol',compact('student_preenroll'));
     }
 
-    public function acceptpreenroll(PreEnroll $student_info)
+    public function acceptpreenroll($student_info)
     {
-
-        PreEnrolled::create([
-            'fullname' => $student_info->fullname
-        ]);
-        $student_info->delete();
-        return redirect()->back()->with('status','Success!');
+        $student_request = PreEnroll::with('schedule')
+                            ->where('student_id',$student_info)
+                            ->get();
+       return view('admins.view-preenrollrequest',compact('student_request'));
     }
 
     public function addgrades()

@@ -51,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
             'admins.subjects',
             'admins.addstudent',
             'admins.studentaddsubject',
+            'admins.view-preenrollrequest',
             'instructors.index',
             'instructors.schedule',
             'instructors.students',
@@ -60,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
             'students.evaluate',
             'students.preenrol',
             'students.schedule',
+            'students.preenrolldetails',
         ] , function ($view) {
             $view->with('user_info',User::where('id',Auth::user()->id)->first());
         });

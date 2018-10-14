@@ -1,4 +1,12 @@
-@extends('templates.master')
+
+if (data.student_grade == 5.0) {
+            		document.querySelector('#studentGradeColumn').classList.add('text-danger')
+	            	document.querySelector('#studentGradeColumn').innerHTML = data.student_grade
+            	} else {
+            		document.querySelector('#studentGradeColumn').classList.add('text-black')
+	            	document.querySelector('#studentGradeColumn').innerHTML = data.student_grade
+            	}
+            	@extends('templates.master')
 @section('content')
 <p>Instructor SEND SMS</p>
 @endsection

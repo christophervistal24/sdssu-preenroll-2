@@ -12,21 +12,22 @@ class StudentSubject extends Model
 	protected $table      = 'student_subject';
     protected $fillable = ['student_id','subject_id','remarks'];
 
-    public function getStudentGrade($student_id,$subject_id)
-    {
-
-    		$getRemarks = $this->where(['student_id' => $student_id,'subject_id' => $subject_id])
-    				->first();
-    		return isset($getRemarks->remarks) ? $getRemarks->remarks : null;
-    }
-
     public function getDateStartedToGrade($student_id,$subject_id)
     {
         $getRemarks = $this->where(['subject_id' => $subject_id])
                     ->first();
             return isset($getRemarks->updated_at) ? $getRemarks->updated_at : null;
     }
-    
+
+    public function getStudents($data = [])
+    {
+        if ($data['second_subject'] != null) {
+            $matches = ['subject_id' => $data['first_subject'] , 'subject_id' => $data['second_subject']];
+            return $this->where($matches)->pluck('student_id');
+        }
+        return $this->where('subject_id',$data['first_subject'])->pluck('student_id');
+    }
+
     protected function setKeysForSaveQuery(Builder $query)
     {
         $keys = $this->getKeyName();

@@ -1,4 +1,5 @@
 @if (request()->is('admin/*'))
+@inject('preenroll','App\PreEnroll')
 @php
 $route="admin";
 @endphp
@@ -36,7 +37,7 @@ $route="admin";
                 <li class="nav-item">
                     <a class="nav-link " href="{{ url("/$route/pre-enrol") }}">
                         <i class="material-icons">assignment_turned_in</i>
-                        <span>Pre Enroll</span>
+                        <span>Pre Enroll <span class="float-right badge badge-pill badge-danger"> {{ $preenroll->noOfRequest() }}</span></span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -155,7 +156,7 @@ $route="admin";
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ url("/$route/preenrol") }}">
+                        <a class="nav-link " href="{{ url("/$route/preenrol/") }}">
                             <i class="material-icons">edit</i>
                             <span>Pre-Enroll</span>
                         </a>

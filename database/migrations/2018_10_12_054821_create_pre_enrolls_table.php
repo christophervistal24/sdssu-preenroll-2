@@ -15,8 +15,9 @@ class CreatePreEnrollsTable extends Migration
     {
         Schema::create('pre_enrolls', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('fullname');
-            $table->string('status');
+            $table->integer('student_id');
+            $table->integer('schedule_id');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

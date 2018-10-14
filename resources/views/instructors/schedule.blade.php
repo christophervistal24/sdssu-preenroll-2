@@ -1,3 +1,4 @@
+@inject('student_sub','App\StudentSubject')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -90,19 +91,27 @@
 						<th>Rooms</th>
 						<th>Subjects</th>
 						<th>Block</th>
+						<th>No. of students</th>
 						<th>Actions</th>
 					</thead>
 					<tbody class="text-center">
 						@foreach ($schedules as $schedule)
+							@php
+									$ids = explode(',', $schedule->ids);
+							@endphp
 							<tr>
 								<td>{{ $schedule->time }}</td>
 								<td>{{ $schedule->days }}</td>
 								<td>{{ $schedule->rooms }}</td>
 								<td>{{ $schedule->subject }}</td>
 								<td>{{ $schedule->blocks }}</td>
-								@php
-									$ids = explode(',', $schedule->ids);
-								@endphp
+								<td> {{
+									$student_sub->getStudents([
+											'first_subject'  => $ids[0],
+											'second_subject' => @$ids[1]
+										])->count()
+									 }}</td>
+
 								<td><a href="/instructor/students/{{ $ids[0] }}/{{ @$ids[1] }}" class="btn btn-success rounded-0 border-0"><i class="material-icons">visibility</i> <b>View students</b></a></td>
 							</tr>
 						@endforeach

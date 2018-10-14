@@ -14,4 +14,5 @@ class Subject extends Model
     {
     	return $this->belongsToMany(InstructorSchedule::class,'student_subject','subject_id','student_id');
     }*/
+
 }

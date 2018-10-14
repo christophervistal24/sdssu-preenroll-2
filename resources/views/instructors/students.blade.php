@@ -1,4 +1,7 @@
 @inject('studentSubject','App\StudentSubject')
+@inject('inject_subject','App\Subject')
+@inject('course','App\Course')
+@inject('student_grade','App\StudentGrade')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -82,80 +85,106 @@
 						<span class="text-uppercase page-subtitle">Dashboard</span>
 					</div>
 				</div>
-				<!-- End Page Header -->
-				<!-- @foreach ($students_infos as $student)
+				<h4 class="text-muted">List of your students in <b> {{ $subject->subject  }}</b></h4>
+				@php
+					$date = $student_grade->where('subject_id',$subject->id)->orderBy('expiration','ASC')->first();
+				@endphp
+				@if ($date)
+
 					@php
-						$insStartToGrade = $studentSubject->getDateStartedToGrade($student->id,$id_of_subject);
-						$student_grade = $studentSubject->getStudentGrade($student->id,$id_of_subject);
+					$now = \Carbon\Carbon::now();
+					$expire_in = \Carbon\Carbon::parse($date->expiration);
 					@endphp
-				@endforeach -->
+					@if (@$now >= @$expire_in)
 
-				<h3 class="text-muted">List of Students</h3>
-				@if ($insStartToGrade)
-					<div class="alert alert-default alert-dismissible fade show text-black" role="alert">
-						<button type="button" class="close text-danger" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-						</button>
-						 <strong>You can modify student grades until
-						  {{ $insStartToGrade->addDays(45)->format('jS \o\f F, Y g:i A') }}</strong>
-					</div>
+						<div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+							<span class="text-white">{{ 'Your modification power is expired you already reach the 45 days' }}</span>
+						</div>
+						<br>
+						@else
+						<div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+							<span>You can modify student grades until 	{{ $date->expiration->format('jS \o\f F, Y g:i A') }}</span>
+						</div>
+					@endif
 				@endif
-
 				@include('success.success-message')
 				<table id="tables" class="table table-bordered" style="width:100%">
 					<thead class="text-center">
-						<th>Student ID No.</th>
+						<th>Student ID no.</th>
 						<th>Student Fullname</th>
+						<th>Course</th>
+						<th>Block</th>
 						<th>Remarks</th>
+						@if (@$now >= @$expire_in)
+						@else
 						<th>Actions</th>
+						@endif
 					</thead>
 					<tbody>
 						@foreach ($students_infos as $student)
 							<tr>
-								<td class="text-black">{{ $student->id_number }}</td>
+								<td class="text-black">{{ substr_replace($student->id_number, '-', 2, 0) }}</td>
 								<td class="text-black">{{ $student->fullname }}</td>
-								@php
-									$stats = $studentSubject->getStudentGrade($student->id,$id_of_subject)
-								@endphp
-								@if ($stats == 5.0)
-									@php
-										$addClass = 'text-danger';
-									@endphp
-									@else
-									 @php
-									 	$addClass = "text-black";
-									 @endphp
-								@endif
-								<td class="text-center {{ $addClass }}" id="studentGradeColumn">
-									{{ $stats }}
+								<td class="text-black text-center">{{
+											 $course->getCourse($student->course_id)
+															->course_code
+														}}</td>
+								<td class="text-black text-center">{{ $student->block }}</td>
+								<td class="text-black text-center">
+
+
+
+									@if (in_array($student->id,$students_with_grades))
+											{{
+												$grade = $student_grade->getStudentGrades([
+													'student_id' => $student->id,
+													'subject_id' => $subject->id
+												])
+											 }}
+									@endif
+								@if (@$now >= @$expire_in)
+						@else
 								</td>
 								<td class="text-center">
-									@if ($stats)
-											<button id="btnModal" onclick="displayModalForGrade(
+									@if (!in_array($student->id,$students_with_grades))
+									<button id="btnModal" onclick="displayModalForGrade(
 											 ({{  json_encode(
-                                                [
-														'id'        => $student->id,
-														'id_number' => $student->id_number,
-														'fullname'  => $student->fullname,
-														'student_subject_id' => $id_of_subject,
-														'remarks' => $studentSubject->getStudentGrade($student->id,$id_of_subject)
-                                                 ]
+                                    [
+											'id'        => $student->id,
+											'id_number' => $student->id_number,
+											'fullname'  => $student->fullname,
+											'block'		=> $student->block,
+											'year'		=> $student->year,
+											'subject'	=> $subject->id
+
+                                     ]
                                         )
                                         }})
-									)" class="btn btn-primary rounded-0 border-0" >Edit grade</button>
+									)" class="btn btn-primary rounded-0 border-0" ><i class="material-icons">add</i> Add grade</button>
 									@else
-											<button onclick="displayModalForGrade(
+									<button id="btnModal" onclick="displayModalForGrade(
 											 ({{  json_encode(
-                                                [
-														'id'        => $student->id,
-														'id_number' => $student->id_number,
-														'fullname'  => $student->fullname,
-														'student_subject_id' => $id_of_subject
-                                                 ]
+                                    [
+											'id'        => $student->id,
+											'id_number' => $student->id_number,
+											'fullname'  => $student->fullname,
+											'block'     => $student->block,
+											'year'      => $student->year,
+											'subject'   => $subject->id,
+											'grade'     => $grade
+
+                                     ]
                                         )
                                         }})
-									)" class="btn btn-success rounded-0 border-0" id="btnModal">Add grade</button>
-								@endif
+									)" class="btn btn-success rounded-0 border-0" ><i class="material-icons">edit</i><b> Edit grade</b></button>
+									@endif
+					@endif
 								</td>
 							</tr>
 						@endforeach

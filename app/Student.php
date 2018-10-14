@@ -25,6 +25,11 @@ class Student extends Model
         return $this->hasOne('App\Course','id');
     }
 
+    public function grades()
+    {
+       return $this->hasMany('App\StudentGrade');
+    }
+
     public function getStudentYearLevel($id_number)
     {
     	$getStudenYear = $this->where('id_number',$id_number)->first();

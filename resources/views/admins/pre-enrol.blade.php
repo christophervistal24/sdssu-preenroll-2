@@ -93,9 +93,9 @@
                             <tbody>
                                 @foreach ($student_preenroll as $student)
                                     <tr>
-                                        <th>{{ $student->fullname }}</th>
-                                        <th class="text-center">{{ $student->created_at->format('jS \o\f F, Y g:i A') }}</th>
-                                        <td class="text-center"><button class="btn btn-primary rounded-0"><b>Check</b></button> <a href="/admin/accept/preenroll/{{ $student->id }}" class="btn btn-success rounded-0"><b>Accept</b></a></td>
+                                        <td>{{ $student->fullname }}</td>
+                                     <th class="text-center">{{\Carbon\Carbon::parse( $student->created_at)->format('jS \o\f F, Y g:i A') }}</th>
+                                        <td class="text-center"><a href="/admin/accept/preenroll/{{ $student->student_id }}" class="btn btn-primary rounded-0"><b>View</b></a></td>
                                     </tr>
                                 @endforeach
                             </tbody>

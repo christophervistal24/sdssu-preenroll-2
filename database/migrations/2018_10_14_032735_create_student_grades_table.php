@@ -19,8 +19,9 @@ class CreateStudentGradesTable extends Migration
             $table->decimal('remarks',10,1)->nullable();
             $table->string('block');
             $table->integer('semester');
-            $table->integer('year');            
+            $table->integer('year');
             $table->primary(['student_id','subject_id']);
+            $table->timestamp('expiration')->nullable();
             $table->timestamps();
         });
     }

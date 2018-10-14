@@ -4,12 +4,13 @@ let studentGrade = document.querySelector('#studentGrade');
 
 let displayModalForGrade = (student) => {
 	studentInfo = student;
-	let action = document.querySelector('#btnModal').innerHTML;
-	if (action.includes('Add')) {
-			document.querySelector('#modalTitle').innerHTML = `Add grade for ${student.fullname}`;
+	studentGrade.value = '';
+	let action = document.querySelector('#btnModal').innerHTML.toLowerCase();
+	if (action.includes('add')) {
+		document.querySelector('#modalTitle').innerHTML = `Add grade for ${studentInfo.fullname}`;
 	} else {
-			studentGrade.value = student.remarks;
-			document.querySelector('#modalTitle').innerHTML = `Edit grade for ${student.fullname}`;
+		document.querySelector('#modalTitle').innerHTML = `Edit grade for ${studentInfo.fullname}`;
+		(studentInfo.grade != null ) ? studentGrade.value = studentInfo.grade : '';
 	}
 	$('#modalAddGrade').modal('toggle');
 };
@@ -21,22 +22,15 @@ let addGrade = () => {
 	      body: JSON.stringify({
 				_token:token,
 				student_id:studentInfo.id,
-				student_grade:studentGrade,
-				student_subject_id:studentInfo.student_subject_id,
-				student_grade:studentGrade.value
+				student_subject_id:studentInfo.subject,
+				student_grade:studentGrade.value,
+				block:studentInfo.block,
+				year:studentInfo.year
 	     }),
 	      headers: new Headers({ "Content-Type": "application/json" })
 		}).then((res) => res.json())
             .then((data) =>{
-            	if (data.student_grade == 5.0) {
-            		document.querySelector('#studentGradeColumn').classList.add('text-danger')
-	            	document.querySelector('#studentGradeColumn').innerHTML = data.student_grade
-            	} else {
-            		document.querySelector('#studentGradeColumn').classList.add('text-black')
-	            	document.querySelector('#studentGradeColumn').innerHTML = data.student_grade
-            	}
             	console.log(data)
-            	// location.reload()
             });
 };
 
