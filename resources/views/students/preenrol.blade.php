@@ -84,9 +84,9 @@
                         <span class="text-uppercase page-subtitle">Add subject</span>
                     </div>
                 </div>
-               <span class="text-black">Current block for {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->block_name }}</span>
+              {{--  <span class="text-black">Current block for {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->block_name }}</span>
                <br>
-               <span class="text-black">No of enrolled. {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->no_of_enrolled }}</span>
+               <span class="text-black">No of enrolled. {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->no_of_enrolled }}</span> --}}
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                @include('errors.error')

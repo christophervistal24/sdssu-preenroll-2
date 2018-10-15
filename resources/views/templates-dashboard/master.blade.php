@@ -56,6 +56,8 @@
                <script src="/js/custom.js"></script>
         @elseif(\Request::path() == 'admin/subjects')
                <script src="/js/subjects.js"></script>
+        @elseif(\Request::path() == 'admin/block')
+               <script src="/js/block.js"></script>
         @elseif(\Request::path() == 'admin/index')
                 <script>
                     let listBox = document.querySelector('#semester');

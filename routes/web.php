@@ -59,6 +59,8 @@ Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() 
 	Route::get('/accept/preenroll/{student_info}',['uses' => 'Admin\Admincontroller@acceptpreenroll','roles' => ['Admin']]);
 
 	Route::post('/accept/preenroll/{student_info}',['uses' => 'Admin\Admincontroller@storeacceptpreenroll','roles' => ['Admin']]);
+	Route::get('/block',['uses' => 'Admin\Admincontroller@blockindex','roles' => ['Admin']]);
+	Route::post('/block',['uses' => 'Admin\Admincontroller@submitblock','roles' => ['Admin']]);
 	Route::get('/logout',['uses'                   =>'Admin\AdminController@logout','roles' => ['Admin']]);
 });
 

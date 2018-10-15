@@ -198,6 +198,19 @@ $start_time = [
 			</select>
 		</div>
 		<hr>
+		<label>Choose block : </label>
+		<select name="block"   class="form-control col-md-6">
+				<option disabled selected>Blocks</option>
+				@foreach ($blocks as $block)
+				<option
+					value="{{ $block->level . $block->course . $block->block_name }}"
+					{{ (old('block') == $block->level . $block->course . $block->block_name ? "selected":"") }}
+					>
+					{{  $block->level . $block->course . $block->block_name }}
+				</option>
+				@endforeach
+			</select>
+		<hr>
 		<div class="form-group">
 			<p>CE Subjects</p>
 		</div>

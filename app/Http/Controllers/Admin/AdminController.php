@@ -146,6 +146,7 @@ class AdminController extends Controller
 
     public function scheduling()
     {
+
     	return view('admins.scheduling');
     }
 
@@ -170,11 +171,6 @@ class AdminController extends Controller
 
     public function storeschedule(Request $request)
     {
-        $subject_level = Subject::where('sub_description',array_values($request->subject)[0])
-                                        ->first()
-                                        ->year;
-        $block = $subject_level . array_keys($request->subject)[0] .
-        Block::getNoOfEnrolled($subject_level)[0]->block_name;
         $request->validate([
             'start_time' => 'required',
             'end_time'   => 'required',
@@ -182,6 +178,7 @@ class AdminController extends Controller
             'room'       => 'required',
             'subject'    => 'required',
             'instructor' => 'nullable',
+            'block' => 'required'
         ]);
 
         $is_exists = $this->instructorSchedule->checkSchedule([
@@ -190,7 +187,7 @@ class AdminController extends Controller
              'days'       => $request->days,
              'room'       => $request->room,
              'subject'    => array_values($request->subject)[0],
-             'block'      => $block
+             'block'      => $request->block
         ]);
 
         if (!$is_exists) {
@@ -200,7 +197,7 @@ class AdminController extends Controller
                  'days'       => $request->days,
                  'room'       => $request->room,
                  'subject'    => array_values($request->subject)[0],
-                 'block'      => $block,
+                 'block'      => $request->block,
                  'instructor' => $request->instructor,
             ]);
             return redirect()->back()->with('status','Successfully add new schedule for ' . $request->instructor);
@@ -399,7 +396,11 @@ class AdminController extends Controller
         $update_student_block = Student::find($request->user_id);
         $update_student_block->block = $student[0]->block[3]; //get the block and get the last character
         $update_student_block->save();
-        Block::where('level',Student::find($request->user_id)->first()->year)->increment('no_of_enrolled');
+        $blockMatch = [
+            'level' => Student::find($request->user_id)->first()->year,
+            'block_name' => Student::find($request->user_id)->first()->block
+        ];
+        Block::where($blockMatch)->increment('no_of_enrolled');
         return redirect()->back()->with('status','Successfully add a subject');
     }
 
@@ -457,6 +458,36 @@ class AdminController extends Controller
         $rooms = Room::all();
         return view('admins.listrooms',compact('rooms'));
     }
+
+    public function blockindex()
+    {
+        $blocks = Block::all();
+        return view('admins.listblocks',compact('blocks'));
+    }
+
+    public function submitblock(Request $request)
+    {
+
+        if ($request->id != null) {
+            $block_information = Block::find($request->id);
+            $block_information->course      = $request->course;
+            $block_information->block_name  = strtoupper($request->block_name);
+            $block_information->block_limit = $request->block_limit;
+            $block_information->level       = $request->level;
+            $block_information->save();
+            return response()->json(['success' => true ]);
+        } else {
+             Block::create([
+                'course'         => $request->course,
+                'no_of_enrolled' => 0,
+                'block_name'     => strtoupper($request->block_name),
+                'block_limit'    => $request->block_limit,
+                'level'          => $request->level
+            ]);
+            return response()->json(['success' => true]);
+        }
+    }
+
     public function checkLogin(Request $request)
     {
         $validatedData = $request->validate([

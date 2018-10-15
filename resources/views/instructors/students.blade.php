@@ -95,8 +95,7 @@
 					$now = \Carbon\Carbon::now();
 					$expire_in = \Carbon\Carbon::parse($date->expiration);
 					@endphp
-					@if (@$now >= @$expire_in)
-
+					@if ($date && $now >= $expire_in)
 						<div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -121,7 +120,7 @@
 						<th>Course</th>
 						<th>Block</th>
 						<th>Remarks</th>
-						@if (@$now >= @$expire_in)
+						@if ($date && $now >= $expire_in)
 						@else
 						<th>Actions</th>
 						@endif
@@ -148,7 +147,7 @@
 												])
 											 }}
 									@endif
-								@if (@$now >= @$expire_in)
+								@if ($date && $now >= $expire_in)
 						@else
 								</td>
 								<td class="text-center">

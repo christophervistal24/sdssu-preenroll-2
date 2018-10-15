@@ -77,6 +77,32 @@ $route="admin";
                         </div>
                     </div>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ url("/$route/block") }}">
+                        <i class="material-icons"></i>
+                        <span>Blocks</span>
+                    </a>
+                </li>
+                  <li class="nav-item">
+                    <div class="dropdown show">
+                        <a class="nav-link" class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">person</i>
+                            <span>Students</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                             <a class="dropdown-item" href="{{ url("/$route/liststudents") }}" >
+                                <i class="material-icons">add_circle</i>
+                                <span>List of students</span>
+                            </a>
+                            <a class="dropdown-item" href="{{ url("/$route/addstudent") }}" >
+                                <i class="material-icons">add_circle</i>
+                                <span>Add student</span>
+                            </a>
+                        </div>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <div class="dropdown show">
                         <a class="nav-link" class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

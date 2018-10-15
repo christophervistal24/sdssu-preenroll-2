@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Block;
 use App\Instructor;
 use App\Room;
 use App\Semester;
@@ -52,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
             'admins.addstudent',
             'admins.studentaddsubject',
             'admins.view-preenrollrequest',
+            'admins.listblocks',
             'instructors.index',
             'instructors.schedule',
             'instructors.students',
@@ -69,6 +71,7 @@ class AppServiceProvider extends ServiceProvider
          view()->composer(['admins.scheduling','admins.schedule','admins.studentaddsubject'] , function ($view) {
             $view->with('rooms',Room::all());
             $view->with('instructors',Instructor::all());
+            $view->with('blocks',Block::orderBy('level', 'ASC')->get());
             $view->with('first_sem_first_year_subjects',
             DB::select(
                     DB::raw("SELECT * FROM subjects WHERE year = 1 AND semester = 1")
