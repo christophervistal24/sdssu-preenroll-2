@@ -63,12 +63,32 @@ class AdminController extends Controller
         return view('admins.pre-enrol',compact('student_preenroll'));
     }
 
-    public function acceptpreenroll($student_info)
+    public function acceptpreenroll(Student $student_info)
     {
         $student_request = PreEnroll::with('schedule')
-                            ->where('student_id',$student_info)
+                            ->where('student_id',$student_info->id)
                             ->get();
-       return view('admins.view-preenrollrequest',compact('student_request'));
+       return view('admins.view-preenrollrequest',compact('student_request','student_info'));
+    }
+
+    public function storeacceptpreenroll(Request $request)
+    {
+        $request->validate([
+            'sched_id.*' => 'required'
+        ]);
+        $schedule_request = $request->sched_id;
+        array_walk($schedule_request, function (&$values) use($request) {
+            StudentSubject::create([
+                'subject_id' => $values,
+                'student_id' => $request->student_id
+            ]);
+        });
+        PreEnroll::where('student_id',$request->student_id)->delete();
+        $update_student_block = Student::find($request->student_id);
+        $update_student_block->block = $request->block;
+        $update_student_block->save();
+        Block::where('level',Student::find($request->student_id)->first()->year)->increment('no_of_enrolled');
+        return redirect()->back()->with('status','Success!');
     }
 
     public function addgrades()

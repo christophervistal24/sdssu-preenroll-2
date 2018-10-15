@@ -82,9 +82,12 @@
                     </div>
                 </div>
                 @include('success.success-message')
+                <form method="POST">
+                    @csrf
                   <div class="form-group">
                             <br>
-                            <a class="float-left btn btn-primary text-white border-0 rounded-0">Accept this request</a>
+                            <button class="float-left btn btn-primary text-white border-0 rounded-0" type="submit">Accept this request</button>
+                            <br>
                         </div>
                 <div class="row">
 
@@ -99,20 +102,25 @@
                                     <th>Block</th>
                             </thead>
                             <tbody>
-                                @foreach ($student_request as $element)
-                                    @foreach ($element->schedule as $element)
+
+                                @foreach ($student_request as $pre_request)
+                                    @foreach ($pre_request->schedule as $instructor_sched)
                                        <tr>
-                                           <td class="text-center"> {{ $element->start_time  . ' - ' . $element->end_time}}</td>
-                                           <td class="text-center"> {{ $element->days}}</td>
-                                           <td class="text-center"> {{ $element->room}}</td>
-                                           <td> {{ $element->instructor }}</td>
-                                           <td> {{ $element->subject }}</td>
-                                           <td> {{ $element->block }}</td>
+                                    <input type="hidden" name="student_id" value="{{ $student_info->id }}">
+                                    <input type="hidden" name="block" value="{{ $instructor_sched->block }}">
+                                    <input  name="sched_id[]" type="hidden" value="{{ $instructor_sched->id }}">
+                                           <td class="text-center"> {{ $instructor_sched->start_time  . ' - ' . $instructor_sched->end_time}}</td>
+                                           <td class="text-center"> {{ $instructor_sched->days}}</td>
+                                           <td class="text-center"> {{ $instructor_sched->room}}</td>
+                                           <td> {{ $instructor_sched->instructor }}</td>
+                                           <td> {{ $instructor_sched->subject }}</td>
+                                           <td>{{  $instructor_sched->block }}</td>
                                        </tr>
                                     @endforeach
                                 @endforeach
                             </tbody>
                         </table>
+                        </form>
                     </div>
                 </div>
             </div>
