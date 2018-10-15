@@ -71,7 +71,7 @@ class AppServiceProvider extends ServiceProvider
          view()->composer(['admins.scheduling','admins.schedule','admins.studentaddsubject'] , function ($view) {
             $view->with('rooms',Room::all());
             $view->with('instructors',Instructor::all());
-            $view->with('blocks',Block::orderBy('level', 'ASC')->get());
+            $view->with('blocks',Block::where('status','open')->orderBy('level', 'ASC')->get());
             $view->with('first_sem_first_year_subjects',
             DB::select(
                     DB::raw("SELECT * FROM subjects WHERE year = 1 AND semester = 1")

@@ -85,9 +85,13 @@ class AdminController extends Controller
         });
         PreEnroll::where('student_id',$request->student_id)->delete();
         $update_student_block = Student::find($request->student_id);
-        $update_student_block->block = $request->block;
+        $update_student_block->block = $request->block[3];
         $update_student_block->save();
-        Block::where('level',Student::find($request->student_id)->first()->year)->increment('no_of_enrolled');
+        Block::checkifBlockIsAvailable([
+                'level'      => $update_student_block->year,
+                'block_name' => $request->block[3],
+                'course'     => Student::find($request->student_id)->course->course_code,
+        ]);
         return redirect()->back()->with('status','Success!');
     }
 
@@ -397,10 +401,11 @@ class AdminController extends Controller
         $update_student_block->block = $student[0]->block[3]; //get the block and get the last character
         $update_student_block->save();
         $blockMatch = [
-            'level' => Student::find($request->user_id)->first()->year,
-            'block_name' => Student::find($request->user_id)->first()->block
+            'level'      => $update_student_block->year,
+            'block_name' => $update_student_block->block,
+            'course'     => Student::find($request->user_id)->course->course_code,
         ];
-        Block::where($blockMatch)->increment('no_of_enrolled');
+        Block::checkifBlockIsAvailable($blockMatch);
         return redirect()->back()->with('status','Successfully add a subject');
     }
 
@@ -475,6 +480,12 @@ class AdminController extends Controller
             $block_information->block_limit = $request->block_limit;
             $block_information->level       = $request->level;
             $block_information->save();
+            Block::checkifBlockIsAvailable([
+                'level'       => $block_information->level,
+                'block_name'  => $block_information->block_name,
+                'course'      => $block_information->course,
+                'action_from' => 'submitblock'
+            ]);
             return response()->json(['success' => true ]);
         } else {
              Block::create([

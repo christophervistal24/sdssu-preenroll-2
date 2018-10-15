@@ -96,6 +96,7 @@
                                     <th class="text-center">Block</th>
                                     <th class="text-center">No. of enrolled</th>
                                     <th class="text-center">Maximum for block</th>
+                                    <th class="text-center">Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -105,7 +106,8 @@
                                     <td class="text-center">{{ $block->level . $block->course . $block->block_name }}</td>
                                     <td class="text-center">{{ $block->no_of_enrolled }}</td>
                                     <td class="text-center">{{ $block->block_limit }}</td>
-                                    <td class="text-center"><a onclick="editBlock (
+                                    <td class="text-center {{ ($block->status != 'closed') ? 'text-success' : 'text-danger' }}"><b>{{ strtoupper($block->status) }}</b></td>
+                                   <td class="text-center"><a onclick="editBlock (
                                         {{  json_encode(
                                                 [
                                                     'id'             => $block->id,

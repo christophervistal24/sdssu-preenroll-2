@@ -20,6 +20,7 @@ class CreateBlocksTable extends Migration
             $table->string('block_name');
             $table->integer('block_limit')->nullable();
             $table->enum('level', [1,2,3,4,5]);
+            $table->string('status')->default('open');
             $table->timestamps();
         });
     }

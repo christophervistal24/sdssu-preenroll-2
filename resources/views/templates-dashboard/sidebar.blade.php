@@ -80,7 +80,7 @@ $route="admin";
 
                 <li class="nav-item">
                     <a class="nav-link " href="{{ url("/$route/block") }}">
-                        <i class="material-icons"></i>
+                        <i class="material-icons">people</i>
                         <span>Blocks</span>
                     </a>
                 </li>
