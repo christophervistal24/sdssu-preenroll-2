@@ -17,6 +17,7 @@ class UserTableSeeder extends Seeder
         $role_admin = Role::where('name','Admin')->first();
         $role_student = Role::where('name','Student')->first();
         $role_instructor = Role::where('name','Instructor')->first();
+        $role_assistant_dean = Role::where('name','Assistant Dean')->first();
 
         $parent = new User();
         $parent->name = 'Joshua';
@@ -160,6 +161,15 @@ class UserTableSeeder extends Seeder
         $instructor->password = bcrypt(1234);
         $instructor->save();
         $instructor->roles()->attach($role_instructor);
-        
+
+        /*ASSISTANT DEAN*/
+        $instructor = new User();
+        $instructor->name = 'Engr. Jessie A. Demontano';
+        $instructor->id_number = '17';
+        $instructor->password = bcrypt(1234);
+        $instructor->save();
+        $instructor->roles()->attach($role_assistant_dean);
+        /*END OF ASSISTANT DEAN*/
+
     }
 }

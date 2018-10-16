@@ -67,8 +67,8 @@ $start_time = [
 				@endforeach
 			</select>
 		</div>
-		<label>Instructors : </label>
-		<div class="form-group row">
+		{{-- <label>Instructors : </label> --}}
+		{{-- <div class="form-group row " >
 			<select name="instructor" class="form-control col-md-12">
 				<option disabled selected>Select Instructor</option>
 				@foreach ($instructors as $instructor)
@@ -78,7 +78,7 @@ $start_time = [
 				>{{ ucwords($instructor->name) }}</option>
 				@endforeach
 			</select>
-		</div>
+		</div> --}}
 		<hr>
 		{{-- FIRST YEAR --}}
 		<p>CS Subjects</p>

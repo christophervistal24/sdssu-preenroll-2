@@ -8,6 +8,7 @@ use App\InstructorSchedule;
 use App\PreEnroll;
 use App\Semester;
 use App\Student;
+use App\StudentGrade;
 use App\StudentSubject;
 use App\User;
 use Illuminate\Http\Request;
@@ -71,7 +72,10 @@ class StudentController extends Controller
 
 	public function evaluate()
 	{
-		return view('students.evaluate');
+        $student_id = Student::where('id_number',Auth::user()->id_number)->first()->id;
+        $student_subjects = Student::with('subjects')->where('id',$student_id)->first();
+        $student_grades = StudentGrade::where('student_id',$student_id)->get();
+		return view('students.evaluate',compact('student_grades','student_subjects'));
 	}
 
 	public function schedule()

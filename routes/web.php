@@ -132,4 +132,15 @@ Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
     Route::get('/logout', ['uses' => 'Instructors\InstructorController@logout','roles' => ['Instructor']]);
 });
 
+/*ASSISTANT DEAN*/
+Route::get('/assistantdeanlogin',['uses' => 'Deans\AssistantDeanController@showLoginForm']);
+Route::post('/assistantdeanlogin',['uses' => 'Deans\AssistantDeanController@submitlogin']);
+Route::group(['prefix' => 'assistantdean','middleware' => 'roles'], function() {
+	Route::get('/index', ['uses' => 'Deans\AssistantDeanController@index','roles' => ['Assistant Dean']]);
+	Route::get('/assign/{schedule_info}', ['uses' => 'Deans\AssistantDeanController@assign','roles' => ['Assistant Dean']]);
+	Route::post('/assign/{schedule_info}', ['uses' => 'Deans\AssistantDeanController@submitassign','roles' => ['Assistant Dean']]);
+	Route::get('/instructors', ['uses' => 'Deans\AssistantDeanController@instructors','roles' => ['Assistant Dean']]);
+    Route::get('/logout', ['uses' => 'Deans\AssistantDeanController@logout','roles' => ['Assistant Dean']]);
+});
+
 Route::get('/test','User\UserController@index');

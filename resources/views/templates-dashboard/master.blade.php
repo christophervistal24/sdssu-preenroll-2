@@ -107,7 +107,30 @@
           group: "sorting",
           sort: false
         });
+
         </script>
 
+      @if (str_contains(request()->fullUrl(),'assign'))
+       <script>
+            // sort: true
+        Sortable.create(sortTrue, {
+            animation:200,
+          group: "sorting",
+          sort: true,
+            onMove: function (evt) {
+            if (evt.to.childElementCount > 0) {
+                return false;
+            }
+        }
+        });
+
+        // sort: false
+        Sortable.create(sortFalse, {
+            animation:200,
+          group: "sorting",
+          sort: false,
+        });
+        </script>
+      @endif
     </body>
 </html>

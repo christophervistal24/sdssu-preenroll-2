@@ -86,11 +86,11 @@
                 <div class="row">
                   <h3 class="text-muted ml-2">List of all schedules</h3>
                     <div class="container-fluid">
-                        <a class="float-right border-0 rounded-0 text-black"  style="cursor:pointer;" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                       {{--  <a class="float-right border-0 rounded-0 text-black"  style="cursor:pointer;" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                         <i class="material-icons" style="font-size : 2vw;">delete</i>
-                         </a>
+                         </a> --}}
                       <br>
-                      <div class="collapse" id="collapseExample">
+                      <!-- <div class="collapse" id="collapseExample">
                           <div class="card card-body rounded-0">
                                 <table class="table table-bordered" id="deleteTables">
                                    <thead>
@@ -124,7 +124,7 @@
                                 </tbody>
                                 </table>
                           </div>
-                     </div>
+                                           </div> -->
                         <br>
                         <table id="tables" class="table table-bordered" style="width:100%">
                             <thead>
@@ -132,7 +132,6 @@
                                     <th class="text-center">Time</th>
                                     <th class="text-center">Days</th>
                                     <th class="text-center">Room</th>
-                                    <th class="text-center">Instructor</th>
                                     <th class="text-center">Block</th>
                                     <th class="text-center">Subject</th>
                                     <th class="text-center">Actions</th>
@@ -144,9 +143,8 @@
                                     <td class="text-center">{{ $schedule->start_time . ' - ' .  $schedule->end_time }}</td>
                                     <td class="text-center">{{ $schedule->days }}</td>
                                     <td class="text-center">{{ $schedule->room }}</td>
-                                    <td>{{ $schedule->instructor }}</td>
                                     <td class="text-center">{{ $schedule->block }}</td>
-                                    <td>{{ $schedule->subject }}</td>
+                                    <td class="text-center">{{ $schedule->subject }}</td>
                                     <td class="text-center"><button class="btn btn-success rounded-0" onclick="displayEditSchedule({{ $schedule->id }})"><i class="material-icons">edit</i> EDIT</button>
                                     <button class="btn btn-danger rounded-0" onclick="displayDeleteModal({{ $schedule->id }})"> <i class="material-icons">delete</i> DELETE</button></td>
                                 </tr>
@@ -259,7 +257,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <label>Instructors : </label>
+                                    {{-- <label>Instructors : </label>
                                     <div class="form-group row">
                                         <select name="instructor" id="instructor" class="form-control col-md-12">
                                             <option disabled selected>Select Instructor</option>
@@ -270,7 +268,7 @@
                                             >{{ ucwords($instructor->name) }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     {{-- FIRST YEAR --}}
                                     <label>First yr. Subject : </label>
                                     <div class="form-group row">

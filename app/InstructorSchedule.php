@@ -29,4 +29,9 @@ class InstructorSchedule extends Model
       $this->primaryKey = 'id';
       return $this->belongsTo('App\PreEnroll','id','schedule_id');
    }
+
+   public function getSubjectById($id)
+   {
+      return $this->where('id',$id)->first()->subject;
+   }
 }

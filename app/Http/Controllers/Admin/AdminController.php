@@ -181,7 +181,6 @@ class AdminController extends Controller
             'days'       => 'required',
             'room'       => 'required',
             'subject'    => 'required',
-            'instructor' => 'nullable',
             'block' => 'required'
         ]);
 
@@ -202,7 +201,6 @@ class AdminController extends Controller
                  'room'       => $request->room,
                  'subject'    => array_values($request->subject)[0],
                  'block'      => $request->block,
-                 'instructor' => $request->instructor,
             ]);
             return redirect()->back()->with('status','Successfully add new schedule for ' . $request->instructor);
         } else {
@@ -240,11 +238,11 @@ class AdminController extends Controller
 
     public function updatescheduleinfo(Request $request)
     {
-        $schedule_info = instructorSchedule::where('id',$request->id)->first();
+        $schedule_info = InstructorSchedule::where('id',$request->id)->first();
         $schedule_info->start_time = $request->start_time;
         $schedule_info->end_time = $request->end_time;
-        $schedule_info->instructor = $request->instructor;
         $schedule_info->days = $request->days;
+        $schedule_info->room = $request->room;
         $schedule_info->subject = $request->subject;
         $schedule_info->save();
         if ($schedule_info) {

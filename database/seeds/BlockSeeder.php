@@ -16,6 +16,7 @@ class BlockSeeder extends Seeder
        	'course' => 'CS',
        	'no_of_enrolled' => 0,
        	'block_name' => 'A',
+        'block_limit' => 45,
        	'level' => 1
        ]);
 
@@ -23,6 +24,7 @@ class BlockSeeder extends Seeder
        	'course' => 'CS',
        	'no_of_enrolled' => 0,
        	'block_name' => 'A',
+        'block_limit' => 45,
        	'level' => 2
        ]);
 
@@ -30,6 +32,7 @@ class BlockSeeder extends Seeder
        	'course' => 'CS',
        	'no_of_enrolled' => 0,
        	'block_name' => 'A',
+         'block_limit' => 45,
        	'level' => 3
        ]);
 
@@ -37,6 +40,7 @@ class BlockSeeder extends Seeder
        	'course' => 'CS',
        	'no_of_enrolled' => 0,
        	'block_name' => 'A',
+        'block_limit' => 45,
        	'level' => 4
        ]);
 

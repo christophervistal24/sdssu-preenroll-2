@@ -1,4 +1,5 @@
 @inject('course','App\Course')
+@inject('block_object','App\Block')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -102,6 +103,14 @@
                             </thead>
                             <tbody>
                                 @foreach ($blocks as $block)
+                                @php
+                                    $block_object->checkifBlockIsAvailable([
+                                        'level'       => $block->level,
+                                        'block_name'  => $block->block_name,
+                                        'course'      => $block->course,
+                                        'action_from' => 'submitblock'
+                                    ]);
+                                @endphp
                                 <tr>
                                     <td class="text-center">{{ $block->level . $block->course . $block->block_name }}</td>
                                     <td class="text-center">{{ $block->no_of_enrolled }}</td>

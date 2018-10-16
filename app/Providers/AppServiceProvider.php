@@ -64,6 +64,9 @@ class AppServiceProvider extends ServiceProvider
             'students.preenrol',
             'students.schedule',
             'students.preenrolldetails',
+            'deans.assistant.index',
+            'deans.assistant.listschedule',
+            'deans.assistant.instructors',
         ] , function ($view) {
             $view->with('user_info',User::where('id',Auth::user()->id)->first());
         });

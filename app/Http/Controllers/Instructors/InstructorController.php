@@ -41,7 +41,6 @@ class InstructorController extends Controller
                   GROUP_CONCAT(DISTINCT days) AS days
               "))
             ->where('instructor','=',ucwords(Auth::user()->name))
-            ->where('status','=','active')
             ->groupBy('subject')
             ->get();
     	return view('instructors.schedule',compact('schedules'));

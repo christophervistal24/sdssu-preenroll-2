@@ -77,6 +77,7 @@
 				@if (!\Request::is('parentlogin'))
 					@if (!\Request::is('studentlogin'))
 						@if (!\Request::is('adminlogin'))
+							@if (!\Request::is('assistantdeanlogin'))
 				{{-- expr --}}
 				<!--==========================
 				Intro Section
@@ -97,6 +98,7 @@
 						<div class="item" style="background-image: url('img/intro-carousel/5.jpg');"></div>
 					</div>
 					</section><!-- #intro -->
+								@endif
 							@endif
 						@endif
 					@endif

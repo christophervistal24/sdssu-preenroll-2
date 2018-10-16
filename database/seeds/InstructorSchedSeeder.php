@@ -18,7 +18,7 @@ class InstructorSchedSeeder extends Seeder
 							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'instructor' => 'Erlina M. Ravelo',
+							'instructor' => null,
 							'subject' => 'Introduction Computing',
 							'block' => '1CSA'
        				],
@@ -27,7 +27,7 @@ class InstructorSchedSeeder extends Seeder
 							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'instructor' => 'Erlina M. Ravelo',
+							'instructor' => null,
 							'subject' => 'Fundamental of Programming - C++',
 							'block' => '1CSA'
        				],
@@ -36,15 +36,16 @@ class InstructorSchedSeeder extends Seeder
 							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'instructor' => 'Erlina M. Ravelo',
+							'instructor' => null,
 							'subject' => 'Understanding the Self',
 							'block' => '1CSA'
        				],
        				[
 							'start_time' => '7:30 AM',
+							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'instructor' => 'Erlina M. Ravelo',
+							'instructor' => null,
 							'subject' => 'Mathematics in the Modern World',
 							'block' => '1CSA'
        				],
@@ -53,7 +54,7 @@ class InstructorSchedSeeder extends Seeder
 							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'instructor' => 'Erlina M. Ravelo',
+							'instructor' => null,
 							'subject' => 'Purposive Communication',
 							'block' => '1CSA'
        				],
@@ -62,7 +63,7 @@ class InstructorSchedSeeder extends Seeder
 							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'instructor' => 'Erlina M. Ravelo',
+							'instructor' => null,
 							'subject' => 'Kontekstwalisadong Komunikasyon sa Filipino',
 							'block' => '1CSA'
        				],
@@ -71,7 +72,7 @@ class InstructorSchedSeeder extends Seeder
 							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'instructor' => 'Erlina M. Ravelo',
+							'instructor' => null,
 							'subject' => ' 	Living in the IT Era',
 							'block' => '1CSA'
        				],
@@ -80,7 +81,7 @@ class InstructorSchedSeeder extends Seeder
 							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'instructor' => 'Erlina M. Ravelo',
+							'instructor' => null,
 							'subject' => 'Physical Fitness & Health',
 							'block' => '1CSA'
        				],
@@ -89,11 +90,10 @@ class InstructorSchedSeeder extends Seeder
 							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'instructor' => 'Erlina M. Ravelo',
+							'instructor' => null,
 							'subject' => 'National Service Training Program 1',
 							'block' => '1CSA'
        				],
-
 
        			]);
     }

@@ -1,10 +1,9 @@
-@inject('subjectObject','App\Subject')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
     <!-- Main Navbar -->
     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
-        <form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+        <form action="" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
             <div class="input-group input-group-seamless ml-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
@@ -62,7 +61,7 @@
                                 <a class="dropdown-item" href="add-new-post.html">
                                 <i class="material-icons">note_add</i> Add New Post</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="{{ url('/student/logout') }}">
+                                <a class="dropdown-item text-danger" href="{{ url('/assistantdean/logout') }}">
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>
@@ -75,49 +74,13 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4 card">
+            <div class="main-content-container container-fluid px-4 card border-0 rounded-0">
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
-                    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                        <span class="text-uppercase page-subtitle">Dashboard</span>
+                    <div class="col-12 col-sm-2 offset-10 text-sm-left mb-0 float-right">
                     </div>
                 </div>
-                <!-- End Page Header -->
-                <!-- Small Stats Blocks -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <table id="tables" class="table table-bordered">
-                            <thead class="text-center">
-                                <th>Subjects</th>
-                                <th>Grades</th>
-                                <th>Semester</th>
-                                <th>Units</th>
-                                <th>Block</th>
-                            </thead>
-                            <tbody>
-                                @foreach ($student_subjects->subjects as $s)
-                                @php
-                                    $grade = "No grade";
-                                @endphp
-                                <tr>
-                                    <th>{{ $subjectForSemester = $s->subject }}</th>
-                                     @foreach ($student_grades as $sub)
-                                        @if ($s->id == $sub->subject_id)
-                                            @php
-                                                $grade = $sub->remarks;
-                                                $semester = $sub->semester;
-                                            @endphp
-                                        @endif
-                                    @endforeach
-                                    <th class="text-center">{{ $grade }}</th>
-                                    <td class="text-center">{{ $subjectObject->where('sub_description',$subjectForSemester)->first()->semester  }}</td>
-                                       <td class="text-center">{{ $subjectObject->where('sub_description',$subjectForSemester)->first()->units  }}</td>
-                                    <td class="text-center">{{ $s->block }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+
             </div>
-            @endsection
+        </div>
+        @endsection

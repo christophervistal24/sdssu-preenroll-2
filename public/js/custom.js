@@ -15,7 +15,7 @@ let starTime   = document.querySelector('#startTime');
 let endTime    = document.querySelector('#endTime');
 let days       = document.querySelector('#days');
 let room       = document.querySelector('#room');
-let instructor = document.querySelector('#instructor');
+// let instructor = document.querySelector('#instructor');
 let first_year_first_sem   = document.querySelector('#subject_1_1');
 let first_year_second_sem  = document.querySelector('#subject_1_2');
 let second_year_first_sem  = document.querySelector('#subject_2_1');
@@ -95,7 +95,7 @@ let displayEditSchedule = (schedule_id) => {
           scheduleId.value                = data.id,
           starTime.value                  = data.start_time,
           endTime.value                   = data.end_time,
-          instructor.value                = data.instructor,
+          // instructor.value                = data.instructor,
           room.value                      = data.room,
           days.value                      = data.days,
           findElement(data.subject).value = data.subject
@@ -116,7 +116,7 @@ let submitSchedule = () => {
                  id:scheduleId.value,
                  start_time:starTime.value,
                  end_time:endTime.value,
-                 instructor:instructor.value,
+                 // instructor:instructor.value,
                  days:days.value,
                  room:room.value,
                  subject:getNewSubject()
@@ -125,6 +125,7 @@ let submitSchedule = () => {
             })
             .then((res) => res.json())
             .then((data) =>{
+              console.log(data)
                 if (data.success == true) {
                     $('#editSchedule').modal('toggle');
                     swal("Good job!", `Please wait a couple of seconds to apply some changes`, "success")
