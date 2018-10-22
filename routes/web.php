@@ -24,7 +24,7 @@
 
 
 
-Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() {
+Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 	Route::get('/',['uses'                    =>'Admin\AdminController@index','roles' => ['Admin']]);
 	Route::get('/index',['uses'                    =>'Admin\AdminController@index','roles' => ['Admin']]);
 	Route::post('/index',['uses'                    =>'Admin\AdminController@changesemester','roles' => ['Admin']]);
@@ -47,9 +47,11 @@ Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() 
 	Route::post('/deleteschedule/{id}',['uses'     =>'Admin\AdminController@deleteschedule','roles' => ['Admin']]);
 	Route::post('/restoreschedule/{id}',['uses'    =>'Admin\AdminController@restoreschedule','roles' => ['Admin']]);
 	Route::post('/permanentdelete/{id}',['uses'    =>'Admin\AdminController@permanentdelete','roles' => ['Admin']]);
-	Route::get('/listofrooms',['uses'              => 'Admin\AdminController@listofrooms','roles' => ['Admin']]);
-	Route::post('/listofrooms',['uses'             => 'Admin\AdminController@addroom','roles' => ['Admin']]);
-	Route::post('/deleteroom/{id}',['uses'             => 'Admin\AdminController@deleteroom','roles' => ['Admin']]);
+
+	Route::get('/listofrooms',['uses'              => 'Admin\RoomController@index','roles' => ['Admin']]);
+	Route::post('/listofrooms',['uses'             => 'Admin\RoomController@store','roles' => ['Admin']]);
+	Route::post('/deleteroom/{room}',['uses'             => 'Admin\RoomController@delete','roles' => ['Admin']]);
+
 	Route::get('/subjects',['uses'                 => 'Admin\AdminController@subjects','roles' => ['Admin']]);
 	Route::post('/subjectcreate',['uses'                 => 'Admin\AdminController@subjectstore','roles' => ['Admin']]);
 	Route::get('/index',['uses'                    =>'Admin\AdminController@index','roles' => ['Admin']]);
@@ -59,8 +61,10 @@ Route::group(['prefix' => 'admin','middleware' => ['roles','auth']], function() 
 	Route::get('/accept/preenroll/{student_info}',['uses' => 'Admin\Admincontroller@acceptpreenroll','roles' => ['Admin']]);
 
 	Route::post('/accept/preenroll/{student_info}',['uses' => 'Admin\Admincontroller@storeacceptpreenroll','roles' => ['Admin']]);
-	Route::get('/block',['uses' => 'Admin\Admincontroller@blockindex','roles' => ['Admin']]);
-	Route::post('/block',['uses' => 'Admin\Admincontroller@submitblock','roles' => ['Admin']]);
+
+	Route::get('/block',['uses' => 'Admin\BlockController@index','roles' => ['Admin']]);
+	Route::post('/block',['uses' => 'Admin\BlockController@store','roles' => ['Admin']]);
+	
 	Route::get('/logout',['uses'                   =>'Admin\AdminController@logout','roles' => ['Admin']]);
 });
 
@@ -125,7 +129,9 @@ Route::post('/instructorlogin' , [
 
 Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
 	Route::get('/index', ['uses' => 'Instructors\InstructorController@index','roles' => ['Instructor']]);
-	Route::get('/schedule', ['uses' => 'Instructors\InstructorController@schedule','roles' => ['Instructor']]);
+	Route::get('/schedule',
+			 ['uses' => 'Instructors\InstructorController@schedule','roles' => ['Instructor']
+			]);
     Route::get('/sendsms', ['uses' => 'Instructors\InstructorController@sendsms','roles' => ['Instructor']]);
     Route::get('/students/{first_subject}/{second_subject?}', ['uses' => 'Instructors\InstructorController@students','roles' => ['Instructor']]);
     Route::post('/addstudentgrade/', ['uses' => 'Instructors\InstructorController@addstudentgrade','roles' => ['Instructor']]);
@@ -136,7 +142,7 @@ Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
 Route::get('/assistantdeanlogin',['uses' => 'Deans\AssistantDeanController@showLoginForm']);
 Route::post('/assistantdeanlogin',['uses' => 'Deans\AssistantDeanController@submitlogin']);
 Route::group(['prefix' => 'assistantdean','middleware' => 'roles'], function() {
-	Route::get('/index', ['uses' => 'Deans\AssistantDeanController@index','roles' => ['Assistant Dean']]);
+	Route::get('/index', ['uses' => 'Deans\AssistantDeanController@index','roles' => ['Admin','Assistant Dean']]);
 	Route::get('/assign/{schedule_info}', ['uses' => 'Deans\AssistantDeanController@assign','roles' => ['Assistant Dean']]);
 	Route::post('/assign/{schedule_info}', ['uses' => 'Deans\AssistantDeanController@submitassign','roles' => ['Assistant Dean']]);
 	Route::get('/instructors', ['uses' => 'Deans\AssistantDeanController@instructors','roles' => ['Assistant Dean']]);
