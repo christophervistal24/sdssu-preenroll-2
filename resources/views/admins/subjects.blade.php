@@ -1,3 +1,4 @@
+@inject('course', 'App\Course')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -86,55 +87,43 @@
                 <div class="row">
                     <h4 class="text-muted ml-2">List of all Subjects</h4>
                     <div class="container">
-                        <button class="btn btn-primary mb-2 rounded-0" onclick="addSubjectModal()">Add new subject</button>
-                        <table id="tables" class="table table-bordered" style="width:100%">
+                        <button class="btn btn-primary mb-2 rounded-0" id="addSubject">Add new subject</button>
+                        <table id="subjectTable" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th class="text-center">Subjects</th>
                                     <th class="text-center">Subjects Desc.</th>
                                     <th class="text-center">Units</th>
                                     <th class="text-center">Pre-requisite</th>
+                                    <th class="text-center">Course</th>
                                     <th class="text-center">Year</th>
                                     <th class="text-center">Semester</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($subjects as $subject)
+                                @foreach ($list_of_subjects as $subject)
                                 <tr>
                                     <td>{{ $subject->sub }}</td>
                                     <td>{{ $subject->sub_description }}</td>
                                     <td class="text-center">{{ $subject->units }}</td>
-                                    <td class="text-center">{{ ($subject->prereq == '') ? 'No Pre-requisite' : $subject->prereq }}</td>
-                                    <td class="text-center">
-                                        @if ($subject->year == 1)
-                                            {{ 'First year' }}
-                                        @elseif($subject->year == 2)
-                                            {{ 'Second year' }}
-                                        @elseif($subject->year == 3)
-                                            {{ 'Third year' }}
-                                        @elseif($subject->year == 4)
-                                            {{ 'Fourth year' }}
-                                        @elseif($subject->year == 5)
-                                            {{ 'Fifth year' }}
-                                        @endif
-                                    </td>
+                                    <td class="text-center font-weight-bold">{{ $subject->subject_pre_requisites }}</td>
+                                    <td class="text-center"> {{ $course->getCourseCode($subject->course)}}</td>
+                                    <td class="text-center">{{ digitToYearLevel($subject->year) }}</td>
                                     <td>{{ ($subject->semester == 1) ? 'First semester' : 'Second Semester' }}</td>
                                     <td class="text-success text-center">
-                                        <button onclick="editSubjectModal(
-                                        ({{  json_encode(
-                                                [
-                                                    'subject_id' => $subject->id,
-                                                    'subject_sub' => $subject->sub,
-                                                    'subject_description' => $subject->sub_description,
-                                                    'subject_units' => $subject->units,
-                                                    'subject_prereq' => $subject->prereq,
-                                                    'subject_year' => $subject->year,
-                                                    'subject_semester' => $subject->semester,
-                                                ]
+                                        <button id="displayEditModal" params="{{json_encode(
+                                        [
+                                        'subject_id'          => $subject->id,
+                                        'subject_sub'         => $subject->sub,
+                                        'subject_description' => $subject->sub_description,
+                                        'subject_units'       => $subject->units,
+                                        'subject_prereq'      => $subject->subject_pre_requisites,
+                                        'subject_year'        => $subject->year,
+                                        'subject_semester'    => $subject->semester,
+                                        ]
                                         )
-                                        }})
-                                        )" class="text-white btn btn-success rounded-0"
+                                        }}" class="text-white btn btn-success rounded-0"
                                         ><i class="material-icons">edit</i> <b>EDIT</b></button>
                                     </td>
                                 </tr>
@@ -147,7 +136,7 @@
             </div>
             {{-- MODAL START --}}
             <!-- Modal -->
-            <div class="modal fade" id="subjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="subjectModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -157,13 +146,12 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" id="subjectForm" onsubmit="event.preventDefault(); createOrUpdateSubject();" autocomplete="off">
+                            <form  id="subjectForm" autocomplete="off">
                                 <div class="form">
-                                    @csrf
-                                    <input type="hidden" class="form-control" id="subjectId" value="0" name="subject_id">
+                                    {!! csrf_field() !!}
                                     <div class="form-group">
-                                         <label>Subject Code : </label>
-                                         <input type="text" id="subjectCode" class="form-control" name="subject" placeholder="Subject">
+                                        <label>Subject Code : </label>
+                                        <input type="text" id="subjectCode" class="form-control" name="subject" placeholder="Subject">
                                     </div>
                                     <div class="form-group">
                                         <label>Subject Desc.</label>
@@ -183,27 +171,35 @@
                                             <option value="5">Fifth year</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                         <label>Pre requisite : <small class="text-gery">(optional)</small> </label>
-                                        <select class="form-control" id="subjectPre" name="pre-req">
-                                            <option disabled selected>Pre-req</option>
+                                    <label>Pre requisite : <span class="text-warning">Optional and to remove an item select it again</span> </label>
+                                    <div class="form-group row">
+                                        <select  data-live-search="true" title="Choose one of the following..." class="selectpicker form-control show-menu-arrow" id="subjectPre" name="pre_req[]" multiple>
                                             <option value="4th year Standing">4th year Standing</option>
                                             <option value="3rd year Standing">3rd year Standing</option>
-                                            @foreach ($subjects as $subject)
-                                            <option value="{{ ($subject->sub != "") ? $subject->sub : "" }}">{{ ($subject->sub != "") ? $subject->sub : "" }}</option>
+                                            @foreach ($list_of_subjects as $subject)
+                                            <option value="{{ ($subject->sub != null) ? $subject->sub : "" }}">{{ ($subject->sub != "") ? $subject->sub : "" }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <label>Course : </label>
+                                     <div class="form-group row">
+                                        <select  data-live-search="true" title="Course for subject..." class="selectpicker form-control show-menu-arrow" id="course" name="course">
+                                            @foreach ($courses as $course)
+                                               <option value="{{ $course->id }}">{{ $course->course_code }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Semester : </label>
                                         <select class="form-control" id="subjectSemester" name="semester">
-                                        <option value="1">First sem.</option>
-                                        <option value="2">Second sem.</option>
-                                    </select>
+                                            <option value="1">First sem.</option>
+                                            <option value="2">Second sem.</option>
+                                        </select>
                                     </div>
                                 </div>
+                                <input type="hidden" id="action" value="add">
                                 <div class="modal-footer">
-                                    <button type="reset" class="btn btn-default">Reset</button>
+                                    {{-- <button type="reset" class="btn btn-default">Reset</button> --}}
                                     <button type="submit" class="btn btn-primary" id="btnSave">Save changes</button>
                                 </div>
                             </form>

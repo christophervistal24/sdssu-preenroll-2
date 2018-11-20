@@ -13,16 +13,10 @@ class CreateInstructorSchedulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('instructor_schedules', function (Blueprint $table) {
+        Schema::create('instructor_schedule', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('start_time');
-            $table->string('end_time');
-            $table->string('days');
-            $table->string('room');
-            $table->string('instructor')->nullable();
-            $table->string('subject');
-            $table->string('block');
-            $table->enum('status',['delete','active'])->default('active');
+            $table->integer('instructor_id_number');
+            $table->integer('schedule_id');
             $table->timestamps();
         });
     }
@@ -34,6 +28,6 @@ class CreateInstructorSchedulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('instructor_schedules');
+        Schema::dropIfExists('instructor_schedule');
     }
 }

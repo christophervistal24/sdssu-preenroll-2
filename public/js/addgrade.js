@@ -1,5 +1,5 @@
-let studentInfo = {};
-let token      = document.querySelector('meta[name="csrf-token"]').content;
+let studentInfo;
+// let token      = document.querySelector('meta[name="csrf-token"]').content;
 let studentGrade = document.querySelector('#studentGrade');
 
 let displayModalForGrade = (student) => {

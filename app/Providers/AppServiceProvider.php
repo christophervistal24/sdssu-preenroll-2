@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Admin;
+use App\AssistantDean;
 use App\Block;
+use App\Course;
 use App\Instructor;
 use App\Room;
 use App\Semester;
+use App\Student;
 use App\Subject;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -68,66 +72,40 @@ class AppServiceProvider extends ServiceProvider
             'deans.assistant.listschedule',
             'deans.assistant.instructors',
         ] , function ($view) {
-            $view->with('user_info',User::where('id',Auth::user()->id)->first());
+    foreach (User::where('id',Auth::user()->id)->first()->roles as $role) {
+        switch ($role->name) {
+            case 'Instructor':
+                $view->with('user_info',Instructor::where('id_number',Auth::user()->id_number)->first());
+                break;
+
+            case 'Assistant Dean':
+                $view->with('user_info',AssistantDean::where('id_number',Auth::user()->id_number)->first());
+                break;
+
+            case 'Student':
+                $view->with('user_info',Instructor::where('id',Auth::user()->id)->first());
+                break;
+
+            case 'Admin':
+                $view->with('user_info',Admin::where('id_number',Auth::user()->id_number)->first());
+                break;
+
+        }
+    }
         });
+
+         view()->composer(['admins.subjects'] , function ($view) {
+            $view->with('courses',Course::all());
+         });
 
          view()->composer(['admins.scheduling','admins.schedule','admins.studentaddsubject'] , function ($view) {
             $view->with('rooms',Room::all());
             $view->with('instructors',Instructor::all());
             $view->with('blocks',Block::where('status','open')->orderBy('level', 'ASC')->get());
-            $view->with('first_sem_first_year_subjects',
-            DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 1 AND semester = 1")
-                )
-            );
-            $view->with('first_sem_first_year_subjects',
-             DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 1 AND semester = 1")
-                )
-            );
-            $view->with('second_sem_first_year_subjects',
-            DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 1 AND semester = 2")
-                )
-            );
-            $view->with('first_sem_second_year_subjects',
-            DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 2 AND semester = 1")
-                )
-            );
-            $view->with('second_sem_second_year_subjects',
-            DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 2 AND semester = 2")
-                )
-            );
-
-            $view->with('first_sem_third_year_subjects',
-            DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 3 AND semester = 1")
-                )
-            );
-            $view->with('second_sem_third_year_subjects',
-            DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 3 AND semester = 2")
-                )
-            );
-
-            $view->with('third_year_summer',
-            DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 3 AND semester = ''")
-                )
-            );
-
-            $view->with('first_sem_fourth_year_subjects',
-            DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 4 AND semester = 1")
-                )
-            );
-            $view->with('second_sem_fourth_year_subjects',
-            DB::select(
-                    DB::raw("SELECT * FROM subjects WHERE year = 4 AND semester = 2")
-                )
-            );
+            $view->with('first_year_subjects',Subject::where('year',1)->get());
+            $view->with('second_year_subjects',Subject::where('year',2)->get());
+            $view->with('third_year_subjects',Subject::where('year',3)->get());
+            $view->with('fourth_year_subjects',Subject::where('year',4)->get());
          });
     }
 }

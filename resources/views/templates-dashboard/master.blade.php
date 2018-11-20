@@ -16,6 +16,10 @@
         <link rel="stylesheet" href="/dashboard/styles/extras.1.1.0.min.css">
         <script async defer src="/js/third_party/button.js"></script>
         <script src="/js/third_party/sortable.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+
+
         <style>
         table.dataTable thead th, table.dataTable thead td { border-color: #ddd!important; }
         table.dataTable.no-footer {border-color: #ddd!important;}
@@ -34,8 +38,12 @@
                <script src="/js/room.js"></script>
         @endif
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+         <!-- Latest compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
         <script src="/dashboard/scripts/extras.1.1.0.min.js"></script>
@@ -50,10 +58,15 @@
                 "aLengthMenu": [[2, 50, 75, -1], [2, 50, 75, "All"]],
                 "iDisplayLength": 2
             });
+
+            $('#subjectTable').DataTable({
+                "order": [[ 4, "asc" ]]
+            });
+
         });
         </script>
         @if (\Request::path() == 'admin/schedule'  || \Request::path() == 'admin/instructors' || \Request::path() == 'admin/scheduling')
-               <script src="/js/custom.js"></script>
+               {{-- <script src="/js/custom.js"></script> --}}
         @elseif(\Request::path() == 'admin/subjects')
                <script src="/js/subjects.js"></script>
         @elseif(\Request::path() == 'admin/block')
@@ -92,7 +105,8 @@
                     });
                 </script>
         @endif
-        <script src="/js/addgrade.js"></script>
+        {{-- <script src="/js/addgrade.js"></script> --}}
+        <script src="/js/schedule.js"></script>
         <script>
          // sort: true
         Sortable.create(sortTrue, {

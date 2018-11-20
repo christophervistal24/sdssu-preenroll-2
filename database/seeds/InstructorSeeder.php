@@ -164,7 +164,7 @@ class InstructorSeeder extends Seeder
                 'status' => 'permanent',
                 'mobile_number' => '+639950523688',
                 'active' => 1,
-            ]
+            ],
        	]);
     }
 }

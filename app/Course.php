@@ -16,4 +16,9 @@ class Course extends Model
 	{
 		return $this->belongsTo('App\Student');
 	}
+
+	public function getCourseCode($id)
+	{
+		return $this->where('id',$id)->first()->course_code;
+	}
 }

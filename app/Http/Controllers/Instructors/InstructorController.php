@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Instructors;
 use App\Http\Controllers\Controller;
 use App\InstructorSchedule;
 use App\Semester;
+use App\Instructor;
 use App\Student;
 use App\StudentGrade;
 use App\StudentSubject;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Redirect;
 class InstructorController extends Controller
 {
     protected $student_subject;
+    protected $instructor_info;
     public function __construct(StudentSubject $student_sub)
     {
         $this->student_subject = $student_sub;

@@ -10,11 +10,14 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
         $this->call(RoomSeeder::class);
         $this->call(InstructorSeeder::class);
-        $this->call(CSSubjectSeeder::class);
         $this->call(CourseSeeder::class);
+        $this->call(CSSubjectSeeder::class);
         $this->call(StudentSeeder::class);
         $this->call(SemesterSeeder::class);
         $this->call(BlockSeeder::class);
         $this->call(InstructorSchedSeeder::class);
+        $this->call(AdminSeeder::class);
+        $this->call(AssistantDeanSeeder::class);
+        $this->call(SubjectPrerequisite::class);
     }
 }

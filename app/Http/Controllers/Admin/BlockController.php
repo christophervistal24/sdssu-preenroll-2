@@ -21,8 +21,8 @@ class BlockController extends Controller
             $this->update($request);
             return response()->json(['success' => true ]);
         } else {
-            //create new block
-             Block::create([
+
+             Block::create([  //create new block
                 'course'         => $request->course,
                 'no_of_enrolled' => 0,
                 'block_name'     => strtoupper($request->block_name),
@@ -31,8 +31,8 @@ class BlockController extends Controller
             ]);
             return response()->json(['success' => true]);
         }
-    } 
-    
+    }
+
     private function update(Request $request)
     {
         $block_information = Block::find($request->id);
@@ -51,6 +51,6 @@ class BlockController extends Controller
         );
     }
 
-    
+
 
 }

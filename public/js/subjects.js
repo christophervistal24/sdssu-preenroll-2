@@ -1,80 +1,87 @@
-/* FIELDS */
-let subjectId       = document.querySelector('#subjectId');
-let subjectCode     = document.querySelector('#subjectCode');
-let subjectDesc     = document.querySelector('#subjectDesc');
-let subjectUnits    = document.querySelector('#subjectUnits');
-let subjectYear     = document.querySelector('#subjectYear');
-let subjectPre      = document.querySelector('#subjectPre');
-let subjectSemester = document.querySelector('#subjectSemester');
-let token      = document.querySelector('meta[name="csrf-token"]').content;
+$(document).ready(function () {
 
+	$('.selectpicker').selectpicker({ maxOptions:2});
+	let subject_info;
+	$('#addSubject').click(  function() {
+		$('#action').val('add');
+		$('.selectpicker').selectpicker('val','');
+		$('#subjectModal').modal('toggle');
+		$('#subjectForm')[0].reset();
+		$('#subjectTitle').html('Add new subject');
+	});
 
-let editSubjectModal = (subject_info) => {
-	$('#subjectModal').modal('toggle');
-	document.querySelector('#btnSave')
-			.innerHTML = 'Save changes';
-	document.querySelector('#subjectTitle')
-			.innerHTML = 'Edit ' + subject_info.subject_sub;
-	subjectId.value       = subject_info.subject_id;
-	subjectCode.value     = subject_info.subject_sub;
-	subjectDesc.value     = subject_info.subject_description;
-	subjectUnits.value    = subject_info.subject_units;
-	subjectPre.value      = subject_info.subject_prereq;
-	subjectYear.value     = subject_info.subject_year;
-	subjectSemester.value = subject_info.subject_semester;
-};
+	$(document).on('click' ,'#displayEditModal ' , function () {
+		$('#action').val('edit');
+		$('.selectpicker').selectpicker('val','');
+		$('#subjectModal').modal('toggle');
+		 subject_info = JSON.parse($(this).attr('params'));
 
-let addSubjectModal = (subject_info) => {
-	document.querySelector('#subjectForm').reset();
-	$('#subjectModal').modal('toggle');
-	document.querySelector('#btnSave')
-			.innerHTML = 'Create';
-	document.querySelector('#subjectTitle')
-			.innerHTML = 'Add new subject';
-};
+		$('#subjectTitle').html('Edit ' + subject_info.subject_sub);
+		$('#subjectCode').val(subject_info.subject_sub);
+		$('#subjectDesc').val(subject_info.subject_description);
+		$('#subjectUnits').val(subject_info.subject_units);
+		$('#subjectYear').val(subject_info.subject_year);
 
-let createOrUpdateSubject = () => {
-	if (subjectPre.value == 'Pre-req') {
-		subjectPre.value = '';
-	}
-	if (subjectId.value == 0) {
-			 fetch(`/admin/subjectcreate`,{
-              method: 'POST',
-              body: JSON.stringify({
-            	_token: token,
-		      	subject_description: subjectDesc.value,
-				subject_id: subjectId.value,
-				subject_prereq: subjectPre.value,
-				subject_semester: subjectSemester.value,
-				subject_sub: subjectCode.value,
-				subject_units: subjectUnits.value,
-				subject_year: subjectYear.value
-             }),
-              headers: new Headers({ "Content-Type": "application/json" })
-            }).then((res) => res.json())
-	  	      .then((data) => {
-           		console.log(data)
-        	  });
+		if (subject_info.subject_prereq.includes(',')) {
+			let splitted_string = subject_info.subject_prereq.split(',');
+			$('.selectpicker').selectpicker('val',splitted_string);
+			$('.selectpicker').selectpicker('refresh');
 		} else {
-			fetch('/admin/subjectcreate',{
-		      method: 'POST',
-		      body: JSON.stringify({
-		      	_token: token,
-		      	subject_description: subjectDesc.value,
-				subject_id: subjectId.value,
-				subject_prereq: subjectPre.value,
-				subject_semester: subjectSemester.value,
-				subject_sub: subjectCode.value,
-				subject_units: subjectUnits.value,
-				subject_year: subjectYear.value
-		      }),
-		      headers: new Headers({ "Content-Type": "application/json" })
-		    }).then((res) => res.json())
-		      .then((data) => {
-	           	console.log(data)
-	          });
+		 	$('.selectpicker').selectpicker('val',subject_info.subject_prereq);
+			$('.selectpicker').selectpicker('refresh');
 		}
+		$('#subjectSemester').val(subject_info.subject_semester);
+	});
 
+	$('#subjectForm').submit(function (event) {
+		event.preventDefault();
+		let formAction = $('#action').val();
+		if (formAction.toLowerCase() == 'add') {
+			 $.ajax({ // create subject
+                    /* the route pointing to the post function */
+                    url: '/admin/subjectcreate',
+                    type: 'POST',
+                    /* send the csrf-token and the input to the controller */
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    /* remind that 'data' is the response of the AjaxController */
+                    success: function (data) {
+                        if (data.success == true) {
+                        	swal("Subject created",'Successfully create new subject',"success")
+							.then((value) => {
+							  location.reload();
+							});
+                        }
+                    },
+                    error: function (data) {
+				        swal({
+						  title: "Please check all you input",
+						  text: "We detect that you miss some fields don't leave it blank",
+						  icon: "error",
+						  buttons: true,
+						  dangerMode: true,
+						})
+    				}
+      		});
+			} else {
+				$.ajax({ // create subject
+                    /* the route pointing to the post function */
+                    url: '/admin/subjectupdate/'+subject_info.subject_id,
+                    type: 'PUT',
+                    /* send the csrf-token and the input to the controller */
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    /* remind that 'data' is the response of the AjaxController */
+                    success: function (data) {
+                        if (data.success == true) {
+                        	swal("Subject updated",'Successfully updated a subject',"success")
+							.then((value) => {
+							  location.reload();
+							});
+                        }
+                    },
+      			});
+			}
 
-	      location.reload();
-};
+	});
+});

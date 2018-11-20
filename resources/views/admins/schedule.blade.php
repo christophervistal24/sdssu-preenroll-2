@@ -84,48 +84,8 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                  <h3 class="text-muted ml-2">List of all schedules</h3>
+                    <h3 class="text-muted ml-2">List of all schedules</h3>
                     <div class="container-fluid">
-                       {{--  <a class="float-right border-0 rounded-0 text-black"  style="cursor:pointer;" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        <i class="material-icons" style="font-size : 2vw;">delete</i>
-                         </a> --}}
-                      <br>
-                      <!-- <div class="collapse" id="collapseExample">
-                          <div class="card card-body rounded-0">
-                                <table class="table table-bordered" id="deleteTables">
-                                   <thead>
-                                    <tr>
-                                        <th class="text-center">Time</th>
-                                        <th class="text-center">Days</th>
-                                        <th class="text-center">Room</th>
-                                        <th class="text-center">Instructor</th>
-                                        <th class="text-center">Block</th>
-                                        <th class="text-center">Subject</th>
-                                        <th class="text-center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                       @foreach ($deleted_schedules as $deleted)
-                                        <tr>
-                                            <td class="text-center">{{ $deleted->start_time . ' - ' . $deleted->end_time }}</td>
-                                            <td class="text-center">{{ $deleted->days }}</td>
-                                            <td class="text-center">{{ $deleted->room}}</td>
-                                            <td class="text-center">{{ $deleted->instructor }}</td>
-                                            <td class="text-center">{{ $deleted->block }}</td>
-                                            <td class="text-center">{{ $deleted->subject }}</td>
-                                            <td class="text-center">
-                                              <a class="btn btn-success text-white rounded-0"
-                                             onclick="restoreSchedule({{ $deleted->id }})"><i class="material-icons">restore</i></a>
-                                              <a class="btn btn-danger text-white rounded-0"
-                                             onclick="permanentDeleteSchedule({{ $deleted->id }})"><i class="material-icons">delete</i></a>
-                                         </td>
-                                        </tr>
-                                @endforeach
-                                </tbody>
-                                </table>
-                          </div>
-                                           </div> -->
-                        <br>
                         <table id="tables" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -134,19 +94,38 @@
                                     <th class="text-center">Room</th>
                                     <th class="text-center">Block</th>
                                     <th class="text-center">Subject</th>
+                                    <th class="text-center">Instructors</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($schedules as $schedule)
                                 <tr>
-                                    <td class="text-center">{{ $schedule->start_time . ' - ' .  $schedule->end_time }}</td>
+                                    <td class="text-center">{{ $schedule->start_time . ' - ' . $schedule->end_time }}</td>
                                     <td class="text-center">{{ $schedule->days }}</td>
                                     <td class="text-center">{{ $schedule->room }}</td>
                                     <td class="text-center">{{ $schedule->block }}</td>
-                                    <td class="text-center">{{ $schedule->subject }}</td>
-                                    <td class="text-center"><button class="btn btn-success rounded-0" onclick="displayEditSchedule({{ $schedule->id }})"><i class="material-icons">edit</i> EDIT</button>
-                                    <button class="btn btn-danger rounded-0" onclick="displayDeleteModal({{ $schedule->id }})"> <i class="material-icons">delete</i> DELETE</button></td>
+                                    <td>{{ $schedule->subject }}</td>
+                                    <td class="text-center">
+                                        @foreach ($schedule->instructors as $instructor)
+                                        {{ ucwords($instructor->name) }}
+                                        @endforeach
+                                    </td>
+                                    <td class="text-center">
+                                        <button id="btnEditSchedule" params='{{
+                                        json_encode(
+                                            [
+                                                'schedule_id' => $schedule->id,
+                                                'start_time'  => $schedule->start_time,
+                                                'end_time'    => $schedule->end_time,
+                                                'days'        => $schedule->days,
+                                                'room'        => $schedule->room,
+                                                'block'       => $schedule->block,
+                                                'subject'     => $schedule->subject,
+                                            ]
+                                        )
+                                        }}' class="btn btn-success">EDIT</button>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -178,7 +157,7 @@
             {{-- END OF DELETE MODAL --}}
             {{-- MODAL START --}}
             <!-- Modal -->
-            <div class="modal fade" id="editSchedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="editSchedule" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content rounded-0">
                         <div class="modal-header">
@@ -215,20 +194,30 @@
                             ];
                             @endphp
                             @include('errors.error')
-                            <form id="scheduleForm" autocomplete="off"  onsubmit="event.preventDefault(); submitSchedule()" method="POST">
+                            <form id="scheduleForm" autocomplete="off"  onsubmit="event.preventDefault();" method="POST">
                                 @csrf
                                 <div class="form">
+                                    <div class="row">
+                                    <div class="form-check col-md-3 offset-3">
+                                        <input type="checkbox" class="form-check-input" checked id="csCheckBox">
+                                        <label class="form-check-label" for="csCheckBox">CS Subjects</label>
+                                    </div>
+                                    <div class="form-check col-md-3">
+                                        <input type="checkbox" class="form-check-input" id="ceCheckBox">
+                                        <label class="form-check-label" for="ceCheckBox">CE Subjects</label>
+                                    </div>
+                                </div>
                                     {{-- TIME --}}
                                     <input type="hidden" id="scheduleId">
                                     <label>Time : </label>
                                     <div class="row form-group">
-                                        <select name="start_time" onchange="getTime(this)" id="startTime" class="form-control col-md-6">
+                                        <select name="start_time" id="start_time"  data-live-search="true" class="selectpicker form-control col-md-6">
                                             <option selected disabled>Start time</option>
                                             @foreach ($start_time as $time)
                                             <option  value="{{ $time }}">{{ $time }}</option>
                                             @endforeach
                                         </select>
-                                        <select name="end_time" onchange="getTime(this)" id="endTime" class="form-control col-md-6">
+                                        <select name="end_time" id="end_time" data-live-search="true" class="selectpicker form-control col-md-6">
                                             <option selected disabled>End time</option>
                                             @foreach ($start_time as $time)
                                             <option  value="{{ $time }}">{{ $time }}</option>
@@ -238,138 +227,96 @@
                                     {{-- DAYS --}}
                                     <label>Days : </label>
                                     <div class="form-group row">
-                                        <select name="days" id="days" class="form-control col-md-12">
+                                        <select name="days" id="days" data-live-search="true" class="selectpicker form-control col-md-12">
                                             <option selected disabled>Select Days</option>
                                             <option value="MWF" {{ (old('days') == 'MWF' ? "selected":"") }}>MWF</option>
                                             <option value="TTH" {{ (old('days') == 'TTH' ? "selected":"") }}>TTH</option>
                                             <option value="S" {{ (old('days') == 'S' ? "selected":"") }}>S</option>
                                         </select>
                                     </div>
-                                    {{-- ROOM --}}
-                                    <label>Rooms:</label>
-                                    <div class="form-group row">
-                                        <select name="room" id="room" class="form-control col-md-12">
-                                            <option disabled selected>Select Room</option>
-                                            @foreach ($rooms as $room)
-                                            <option value="{{ $room->room_number }}"
-                                                {{ (old('room') == $room->room_number ? "selected":"") }}
-                                            >Room {{ $room->room_number }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    {{-- <label>Instructors : </label>
-                                    <div class="form-group row">
-                                        <select name="instructor" id="instructor" class="form-control col-md-12">
-                                            <option disabled selected>Select Instructor</option>
-                                            @foreach ($instructors as $instructor)
-                                            <option
-                                                value="{{ ucwords($instructor->name) }}"
-                                                {{ (old('instructor') == ucwords($instructor->name) ? "selected":"") }}
-                                            >{{ ucwords($instructor->name) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div> --}}
-                                    {{-- FIRST YEAR --}}
-                                    <label>First yr. Subject : </label>
-                                    <div class="form-group row">
-                                        <select name="subject" onchange="clearOtherSelect(this)" id="subject_1_1" class="form-control col-md-6">
-                                            <option disabled selected>First semester</option>
-                                            @foreach ($first_sem_first_year_subjects as $subjects)
-                                            <option
-                                                value="{{ $subjects->sub_description }}"
-                                                {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
-                                                >
-                                                {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <select name="subject" onchange="clearOtherSelect(this)"  id="subject_1_2" class="form-control col-md-6">
-                                            <option disabled selected>Second semester</option>
-                                            @foreach ($second_sem_first_year_subjects as $subjects)
-                                            <option value="{{ $subjects->sub_description }}">
-                                                {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    {{-- SECOND YEAR --}}
-                                    <label>Second yr. Subject : &nbsp;</label>
-                                    <div class="form-group row">
-                                        <select name="subject" onchange="clearOtherSelect(this)" id="subject_2_1" class="form-control col-md-6">
-                                            <option disabled selected>First semester</option>
-                                            @foreach ($first_sem_second_year_subjects as $subjects)
-                                            <option value="{{ $subjects->sub_description }}">
-                                                {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <select name="subject" onchange="clearOtherSelect(this)" id="subject_2_2" class="form-control col-md-6">
-                                            <option disabled selected>Second semester</option>
-                                            @foreach ($second_sem_second_year_subjects as $subjects)
-                                            <option value="{{ $subjects->sub_description }}">
-                                                {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    {{-- THIRD YEAR --}}
-                                    <label>Third year Subject :</label>
-                                    <div class="form-group row">
-                                        <select name="subject" onchange="clearOtherSelect(this)" id="subject_3_1" class="form-control col-md-6">
-                                            <option disabled selected>First semester</option>
-                                            @foreach ($first_sem_third_year_subjects as $subjects)
-                                            <option value="{{ $subjects->sub_description }}">
-                                                {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <select name="subject" onchange="clearOtherSelect(this)" id="subject_3_2" class="form-control col-md-6">
-                                            <option disabled selected>Second semester</option>
-                                            @foreach ($second_sem_third_year_subjects as $subjects)
-                                            <option value="{{ $subjects->sub_description }}">
-                                                {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <select name="subject" onchange="clearOtherSelect(this)" id="subject_3" class="form-control col-md-12 mt-2">
-                                            <option disabled selected>Third year Summer</option>
-                                            @foreach ($third_year_summer as $subjects)
-                                            <option value="{{ $subjects->sub_description }}">
-                                                {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    {{-- FOURTH YEAR --}}
-                                    <label>Fourth year subject : </label>
-                                    <div class="form-group row">
-                                        <select name="subject" onchange="clearOtherSelect(this)" id="subject_4_1" class="form-control col-md-6">
-                                            <option disabled selected>First semester</option>
-                                            @foreach ($first_sem_fourth_year_subjects as $subjects)
-                                            <option value="{{ $subjects->sub_description }}">
-                                                {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <select name="subject" onchange="clearOtherSelect(this)" id="subject_4_2" class="form-control col-md-6">
-                                            <option disabled selected>Second semester</option>
-                                            @foreach ($second_sem_fourth_year_subjects as $subjects)
-                                            <option value="{{ $subjects->sub_description }}">
-                                                {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <div class="float-right">
-                                            <button class="btn btn-success" type="reset">Reset</button>
-                                            <button class="btn btn-primary" type="submit">Update Schedule</button>
-                                        </div>
+
+                                </div>
+                                {{-- ROOM --}}
+                                <label>Rooms & Blocks : </label>
+                                <div class="form-group row">
+                                    <select name="room" id="room"  data-live-search="true" class="selectpicker form-control col-md-6">
+                                        <option disabled selected>Select Room</option>
+                                        @foreach ($rooms as $room)
+                                        <option value="{{ $room->room_number }}"
+                                            {{ (old('room') == $room->room_number ? "selected":"") }}
+                                        >Room {{ $room->room_number }}</option>
+                                        @endforeach
+                                    </select>
+                                    <select name="block" id="block"  data-live-search="true" class="selectpicker form-control col-md-6">
+                                        <option disabled selected>Select Block</option>
+                                        @foreach ($blocks as $block)
+                                        <option value="{{ $block->id }}"
+                                        >{{ $block->level . $block->course . $block->block_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                {{-- FIRST YEAR --}}
+                                <label>First yr. Subject : </label>
+                                <div class="form-group row">
+                                    <select name="subject"  id="subject_1" data-live-search="true" class="selectpicker form-control col-md-12">
+                                        <option disabled selected>First year</option>
+                                        @foreach ($first_year_subjects as $subjects)
+                                        <option
+                                            value="{{ $subjects->sub_description }}"
+                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
+                                            >
+                                            {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                {{-- SECOND YEAR --}}
+                                <label>Second yr. Subject : &nbsp;</label>
+                                <div class="form-group row">
+                                    <select name="subject" id="subject_2" data-live-search="true" class="selectpicker form-control col-md-12">
+                                        <option disabled selected>Second year</option>
+                                        @foreach ($second_year_subjects as $subjects)
+                                        <option value="{{ $subjects->sub_description }}">
+                                            {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                {{-- THIRD YEAR --}}
+                                <label>Third year Subject :</label>
+                                <div class="form-group row">
+                                    <select name="subject" data-live-search="true" id="subject_3" class="selectpicker form-control col-md-12">
+                                        <option disabled selected>Third year</option>
+                                        @foreach ($third_year_subjects as $subjects)
+                                        <option value="{{ $subjects->sub_description }}">
+                                            {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                {{-- FOURTH YEAR --}}
+                                <label>Fourth year subject : </label>
+                                <div class="form-group row">
+                                    <select name="subject" id="subject_4" data-live-search="true" class="selectpicker form-control col-md-12">
+                                        <option disabled selected>Fourth year</option>
+                                        @foreach ($fourth_year_subjects as $subjects)
+                                        <option value="{{ $subjects->sub_description }}">
+                                            {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="float-right">
+                                        <button class="btn btn-success" type="reset">Reset</button>
+                                        <button class="btn btn-primary" type="submit">Update Schedule</button>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                {{-- MODAL END --}}
-                @endsection
+            </div>
+            {{-- MODAL END --}}
+            @endsection

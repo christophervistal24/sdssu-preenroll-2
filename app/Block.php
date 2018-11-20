@@ -36,5 +36,10 @@ class Block extends Model
         }
     }
 
+    public function schedule()
+    {
+        return $this->belongsTo('App\Schedule','id','block');
+    }
+
 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Block;
 use App\Course;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateSubject;
 use App\Instructor;
 use App\InstructorSchedule;
 use App\PreEnroll;
@@ -15,6 +16,7 @@ use App\Student;
 use App\StudentParent;
 use App\StudentSubject;
 use App\Subject;
+use App\SubjectPreRequisite as SubPre;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -141,19 +143,6 @@ class AdminController extends Controller
         }
     }
 
-    public function schedule()
-    {
-        $schedules = InstructorSchedule::where('status','active')->get();
-        $deleted_schedules = InstructorSchedule::where('status','delete')->get();
-        return view('admins.schedule',compact('schedules','deleted_schedules'));
-    }
-
-    public function scheduling()
-    {
-
-    	return view('admins.scheduling');
-    }
-
     public function restoreschedule($id)
     {
         $schedule = InstructorSchedule::where('id',$id)->first();
@@ -173,40 +162,6 @@ class AdminController extends Controller
         }
     }
 
-    public function storeschedule(Request $request)
-    {
-        $request->validate([
-            'start_time' => 'required',
-            'end_time'   => 'required',
-            'days'       => 'required',
-            'room'       => 'required',
-            'subject'    => 'required',
-            'block' => 'required'
-        ]);
-
-        $is_exists = $this->instructorSchedule->checkSchedule([
-             'start_time' => $request->start_time,
-             'end_time'   => $request->end_time,
-             'days'       => $request->days,
-             'room'       => $request->room,
-             'subject'    => array_values($request->subject)[0],
-             'block'      => $request->block
-        ]);
-
-        if (!$is_exists) {
-            $user = InstructorSchedule::create([
-                 'start_time' => $request->start_time,
-                 'end_time'   => $request->end_time,
-                 'days'       => $request->days,
-                 'room'       => $request->room,
-                 'subject'    => array_values($request->subject)[0],
-                 'block'      => $request->block,
-            ]);
-            return redirect()->back()->with('status','Successfully add new schedule for ' . $request->instructor);
-        } else {
-            return redirect()->back()->withErrors('This schedule is already exists');
-        }
-    }
 
     public function instructors()
     {
@@ -262,37 +217,6 @@ class AdminController extends Controller
         return response()->json(InstructorSchedule::where('id',$id)->first());
     }
 
-
-    public function subjects()
-    {
-        $subjects = Subject::all();
-        return view('admins.subjects',compact('subjects'));
-    }
-
-    public function subjectstore(Request $request)
-    {
-        if ($request->subject_id == 0) {
-            Subject::create([
-                'sub'             => $request->subject_sub,
-                'sub_description' => $request->subject_description,
-                'units'           => $request->subject_units,
-                'prereq'          => $request->subject_prereq,
-                'year'            => $request->subject_year,
-                'semester'        => $request->subject_semester,
-            ])->save();
-        }
-        else {
-            $subject = Subject::find($request->subject_id);
-            $subject->sub             = $request->subject_sub;
-            $subject->sub_description = $request->subject_description;
-            $subject->units           = $request->subject_units;
-            $subject->prereq          = $request->subject_prereq;
-            $subject->year            = $request->subject_year;
-            $subject->semester        = $request->subject_semester;
-            $subject->save();
-        }
-        return response()->json(['data' => 'success']);
-    }
 
     public function addstudent()
     {
@@ -429,7 +353,7 @@ class AdminController extends Controller
             return redirect()->back()->with('status','Successfully send a message to ' . $request->phone_number);
         }
     }
-   
+
 
     public function checkLogin(Request $request)
     {

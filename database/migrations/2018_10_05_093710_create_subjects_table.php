@@ -18,11 +18,12 @@ class CreateSubjectsTable extends Migration
             $table->string('sub');
             $table->string('sub_description');
             $table->integer('units');
-            $table->string('prereq')->nullable();
             $table->string('year');
+            $table->string('course')->nullable();
             $table->string('semester')->nullable();
             $table->timeStamps();
         });
+
     }
 
     /**

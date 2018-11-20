@@ -31,7 +31,6 @@ class StudentSeeder extends Seeder
    		$student->save();
 
    		$s = new User();
-      $s->name = 'Christopher P. Vistal';
       $s->id_number = 1501755;
       $s->password = bcrypt(1234);
       $s->save();

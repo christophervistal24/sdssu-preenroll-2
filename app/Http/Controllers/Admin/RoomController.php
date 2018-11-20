@@ -19,12 +19,11 @@ class RoomController extends Controller
         $request->validate([
             'room_number' => 'required|unique:rooms'
         ]);
-        $room = Room::find($request->id);
-        if (!$room) {
-            Room::create([
-              'room_number' => $request->room_number,
-            ]);
+
+        if ($request->id == null) {
+            Room::create(['room_number' => $request->room_number]);
         } else {
+            $room = Room::find($request->id);
             $room->room_number = $request->room_number;
             $room->save();
         }
