@@ -104,8 +104,14 @@
                                     <td class="text-center">{{ $schedule->start_time . ' - ' . $schedule->end_time }}</td>
                                     <td class="text-center">{{ $schedule->days }}</td>
                                     <td class="text-center">{{ $schedule->room }}</td>
-                                    <td class="text-center">{{ $schedule->block }}</td>
-                                    <td>{{ $schedule->subject }}</td>
+                                    <td class="text-center">
+                                        {{
+                                            $schedule->block_schedule['level'] .
+                                            $schedule->block_schedule['course'] .
+                                            $schedule->block_schedule['block_name']
+                                        }}
+                                    </td>
+                                    <td>{{ $schedule->subject->sub_description }}</td>
                                     <td class="text-center">
                                         @foreach ($schedule->instructors as $instructor)
                                         {{ ucwords($instructor->name) }}
@@ -120,11 +126,11 @@
                                                 'end_time'    => $schedule->end_time,
                                                 'days'        => $schedule->days,
                                                 'room'        => $schedule->room,
-                                                'block'       => $schedule->block,
-                                                'subject'     => $schedule->subject,
+                                                'block'       => [$schedule->block_schedule['id'] , $schedule->block_schedule['level']],
+                                                'subject'     => $schedule->subject->sub_description,
                                             ]
                                         )
-                                        }}' class="btn btn-success">EDIT</button>
+                                        }}' class="btn btn-success"><i class="material-icons">edit</i> EDIT</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -197,18 +203,17 @@
                             <form id="scheduleForm" autocomplete="off"  onsubmit="event.preventDefault();" method="POST">
                                 @csrf
                                 <div class="form">
-                                    <div class="row">
-                                    <div class="form-check col-md-3 offset-3">
-                                        <input type="checkbox" class="form-check-input" checked id="csCheckBox">
-                                        <label class="form-check-label" for="csCheckBox">CS Subjects</label>
-                                    </div>
-                                    <div class="form-check col-md-3">
-                                        <input type="checkbox" class="form-check-input" id="ceCheckBox">
-                                        <label class="form-check-label" for="ceCheckBox">CE Subjects</label>
-                                    </div>
-                                </div>
+                                    {{-- <div class="row"> --}}
+                                        {{-- @foreach ($courses as $course)
+                                           <div class="form-check col-md-3">
+                                        <input type="checkbox" class="form-check-input  course_checkbox" name="course"
+                                         value="{{ $course->id }}"  id="courseCheckBox{{ $loop->index }}">
+                                            <label class="form-check-label"  for="courseCheckBox{{ $loop->index }}">{{ $course->course_code }} Subjects</label>
+                                          </div>
+                                        @endforeach --}}
+                                    {{-- </div> --}}
                                     {{-- TIME --}}
-                                    <input type="hidden" id="scheduleId">
+                                    <input type="hidden" id="scheduleId" name="schedule_id">
                                     <label>Time : </label>
                                     <div class="row form-group">
                                         <select name="start_time" id="start_time"  data-live-search="true" class="selectpicker form-control col-md-6">
@@ -261,10 +266,9 @@
                                 <div class="form-group row">
                                     <select name="subject"  id="subject_1" data-live-search="true" class="selectpicker form-control col-md-12">
                                         <option disabled selected>First year</option>
-                                        @foreach ($first_year_subjects as $subjects)
+                                        @foreach ($first_year as $subjects)
                                         <option
                                             value="{{ $subjects->sub_description }}"
-                                            {{ (old('subject') == $subjects->sub_description ? "selected":"") }}
                                             >
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
@@ -276,7 +280,7 @@
                                 <div class="form-group row">
                                     <select name="subject" id="subject_2" data-live-search="true" class="selectpicker form-control col-md-12">
                                         <option disabled selected>Second year</option>
-                                        @foreach ($second_year_subjects as $subjects)
+                                        @foreach ($second_year as $subjects)
                                         <option value="{{ $subjects->sub_description }}">
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
@@ -288,7 +292,7 @@
                                 <div class="form-group row">
                                     <select name="subject" data-live-search="true" id="subject_3" class="selectpicker form-control col-md-12">
                                         <option disabled selected>Third year</option>
-                                        @foreach ($third_year_subjects as $subjects)
+                                        @foreach ($third_year as $subjects)
                                         <option value="{{ $subjects->sub_description }}">
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
@@ -300,16 +304,29 @@
                                 <div class="form-group row">
                                     <select name="subject" id="subject_4" data-live-search="true" class="selectpicker form-control col-md-12">
                                         <option disabled selected>Fourth year</option>
-                                        @foreach ($fourth_year_subjects as $subjects)
+                                        @foreach ($fourth_year as $subjects)
                                         <option value="{{ $subjects->sub_description }}">
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
                                         </option>
                                         @endforeach
                                     </select>
                                 </div>
+
+                                {{-- FIFTH YEAR --}}
+                                <label>Fifth year subject : </label>
+                                <div class="form-group row">
+                                    <select name="subject" id="subject_4" data-live-search="true" class="selectpicker form-control col-md-12">
+                                        <option disabled selected>Fourth year</option>
+                                        @foreach ($fifth_year as $subjects)
+                                        <option value="{{ $subjects->sub_description }}">
+                                            {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div class="form-group col-md-12">
                                     <div class="float-right">
-                                        <button class="btn btn-success" type="reset">Reset</button>
                                         <button class="btn btn-primary" type="submit">Update Schedule</button>
                                     </div>
                                 </div>

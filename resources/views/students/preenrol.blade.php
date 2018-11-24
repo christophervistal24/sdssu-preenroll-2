@@ -1,4 +1,3 @@
-@inject('Block','App\Block')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -84,35 +83,36 @@
                         <span class="text-uppercase page-subtitle">Add subject</span>
                     </div>
                 </div>
-              {{--  <span class="text-black">Current block for {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->block_name }}</span>
-               <br>
-               <span class="text-black">No of enrolled. {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->no_of_enrolled }}</span> --}}
+                {{--  <span class="text-black">Current block for {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->block_name }}</span>
+                <br>
+                <span class="text-black">No of enrolled. {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->no_of_enrolled }}</span> --}}
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
-               @include('errors.error')
-               @include('success.success-message')
+                @include('errors.error')
+                @include('success.success-message')
                 <div class="row">
                     <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
                         <span class="text-uppercase page-subtitle text-center">List of subjects</span>
                         <hr>
-                        <div id="sortTrue" style="cursor:pointer;">
+                        <div id="sortTrue" style="cursor:pointer; height:auto;">
                             <br>
-                            @foreach ($schedules as $key => $schedule)
-                                <input style="cursor:pointer; background:white;" name="subjects[{{ $schedule->id }}]" class="p-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ $schedule->start_time .'-'. $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room .  ' - ' .  $schedule->subject . ' - ' . $schedule->block }}">
+                            @foreach ($schedules as $schedule)
+                            <input style="cursor:pointer; background:white;" name="subjects[{{ $schedule->subject_id }}][{{ $schedule->id }}]" data-units="{{ $schedule->units }}" class="p-3 mb-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{$schedule->start_time . ' - ' . $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room . ' - ' . $schedule->sub_description . ' - ' . $schedule->units . ' Units'
+                            }}">
                             @endforeach
-
                         </div>
                     </div>
-
                     <!-- sort: false -->
                     <form method="POST" class="list-group col-md-6 p-4 card rounded-0" style="height : auto;">
                         @csrf
-                        <span class="text-uppercase page-subtitle text-center"> Drag subjects here<button type="submit" class="btn btn-primary float-right btn-sm rounded-0 border-0">Save</button></span>
+                        <span class="text-uppercase page-subtitle text-center"> Drag subjects here<button type="submit" class="btn btn-primary float-right btn-sm rounded-0 border-0">Save</button>
+                        </span>
+                        <span id="noOfUnits">Total units : 0</span>
                         <hr>
-                        <div id="sortFalse" class="list-group col-md-12">
-                            <input type="hidden" name="user_id" value={{ $student->id }}>
+                        <div id="sortFalse" class="list-group col-md-12" id="dragged-subject">
+                            <input type="hidden" name="user_id" value="{{ $user_info->id_number }}">
                         </div>
-                   </form>
+                    </form>
                 </div>
             </div>
         </div>

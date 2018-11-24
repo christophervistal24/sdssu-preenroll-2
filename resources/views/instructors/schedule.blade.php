@@ -79,42 +79,110 @@
 				<!-- Page Header -->
 				<div class="page-header row no-gutters py-4">
 					<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-						<span class="text-uppercase page-subtitle">Dashboard</span>
 					</div>
 				</div>
 				<!-- End Page Header -->
-				<h3 class="text-muted">List of Schedules</h3>
-				<table id="tables" class="table table-bordered" style="width:100%">
+				<div class="row">
+					<div class="col-md-6 offset-1">
+						<p>Name : <span class="font-weight-bold">{{ ucwords($user_info->name) }}</span></p>
+						<p>Years in service : </p>
+						<p>Status : <span class="font-weight-bold">{{ ucwords($user_info->status) }}</span></p>
+					</div>
+					<div class="col-md-4">
+						<p class="">Educ. Qualifaction : <span class="font-weight-bold"> {{ strtoupper($user_info->education_qualification) }}</span></p>
+						<p class="">Major : <span class="font-weight-bold">{{ ucwords($user_info->major) }}</span></p>
+					</div>
+				</div>
+				<table id="sched-table" class="table table-bordered" style="width:100%">
 					<thead class="text-center">
-						<th>Time</th>
-						<th>Days</th>
-						<th>Rooms</th>
-						<th>Subjects</th>
-						<th>Block</th>
-						<th>No. of students</th>
-						<th>Actions</th>
+						<th>Time & Day</th>
+						<th>Course No.</th>
+						<th>Description</th>
+						<th>Course Year</th>
+						<th>No. of Students</th>
+						<th>Units</th>
+						<th>Room</th>
+						<th>Action</th>
 					</thead>
 					<tbody class="text-center">
-						@foreach ($schedules as $schedule)
-							@php
-									$ids = explode(',', $schedule->ids);
-							@endphp
+						@php
+							$sum = 0;
+						@endphp
+							@foreach ($schedules as $schedule)
+								@foreach ($schedule->schedules as $instructor_sched)
+									<tr>
+									<td>
+										{{ $instructor_sched->days . ' ' .  $instructor_sched->start_time . ' - ' . $instructor_sched->end_time }}
+									</td>
+									<td>{{ $instructor_sched->subject->sub }}</td>
+									<td class="text-left">{{ $instructor_sched->subject->sub_description }}</td>
+									<td>
+										{{
+											$instructor_sched->block_schedule->level .
+											$instructor_sched->block_schedule->course .
+											$instructor_sched->block_schedule->block_name
+										}}
+									</td>
+									<td>{{ $instructor_sched->subject->schedule_sub->students->count() }}</td>
+									@php $sum += $instructor_sched->subject->units; @endphp
+									<td>{{ $instructor_sched->subject->units }}</td>
+									<td>{{ $instructor_sched->room }}</td>
+									<td><a href="/instructor/students/{{ $instructor_sched->subject->schedule_sub->subject_id }}">View students</a></td>
+									</tr>
+								@endforeach
+							@endforeach
+						@if ($sum != 0)
 							<tr>
-								<td>{{ $schedule->time }}</td>
-								<td>{{ $schedule->days }}</td>
-								<td>{{ $schedule->rooms }}</td>
-								<td>{{ $schedule->subject }}</td>
-								<td>{{ $schedule->blocks }}</td>
-								<td> {{
-									$student_sub->getStudents([
-											'first_subject'  => $ids[0],
-											'second_subject' => @$ids[1]
-										])->count()
-									 }}</td>
-
-								<td><a href="/instructor/students/{{ $ids[0] }}/{{ @$ids[1] }}" class="btn btn-success rounded-0 border-0"><i class="material-icons">visibility</i> <b>View students</b></a></td>
-							</tr>
-						@endforeach
+							<th>No. of Units</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th>{{ $sum }}</th>
+							<th></th>
+						</tr>
+						<tr>
+							<th>no</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+						<tr>
+							<th>no</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+						<tr>
+							<th>no</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+						<tr>
+							<th>no</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+						@endif
 					</tbody>
 				</table>
 			</div>

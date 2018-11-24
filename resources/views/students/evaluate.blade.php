@@ -1,4 +1,3 @@
-@inject('subjectObject','App\Subject')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -86,34 +85,25 @@
                 <!-- Small Stats Blocks -->
                 <div class="row">
                     <div class="col-md-12">
-                        <table id="tables" class="table table-bordered">
+                        <table id="sched-table" class="table table-bordered">
                             <thead class="text-center">
-                                <th>Subjects</th>
+                                <th>Subject Code</th>
+                                <th>Description</th>
                                 <th>Grades</th>
                                 <th>Semester</th>
                                 <th>Units</th>
-                                <th>Block</th>
                             </thead>
                             <tbody>
-                                @foreach ($student_subjects->subjects as $s)
-                                @php
-                                    $grade = "No grade";
-                                @endphp
-                                <tr>
-                                    <th>{{ $subjectForSemester = $s->subject }}</th>
-                                     @foreach ($student_grades as $sub)
-                                        @if ($s->id == $sub->subject_id)
-                                            @php
-                                                $grade = $sub->remarks;
-                                                $semester = $sub->semester;
-                                            @endphp
-                                        @endif
-                                    @endforeach
-                                    <th class="text-center">{{ $grade }}</th>
-                                    <td class="text-center">{{ $subjectObject->where('sub_description',$subjectForSemester)->first()->semester  }}</td>
-                                       <td class="text-center">{{ $subjectObject->where('sub_description',$subjectForSemester)->first()->units  }}</td>
-                                    <td class="text-center">{{ $s->block }}</td>
-                                </tr>
+                                @foreach ($student->student_subjects as $student_sub)
+                                    <tr>
+                                        <td>{{ $student_sub->sub }}</td>
+                                        <td>{{ $student_sub->sub_description }}</td>
+                                        <td class="text-center">
+
+                                        </td>
+                                        <td class="text-center">{{ $student_sub->semester }}</td>
+                                        <td class="text-center">{{ $student_sub->units }}</td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

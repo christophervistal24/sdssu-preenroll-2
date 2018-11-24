@@ -93,6 +93,7 @@
                                     <th class="text-center">Name</th>
                                     <th class="text-center">Position</th>
                                     <th class="text-center">Status</th>
+                                    <th class="text-center">#</th>
                                     <th class="text-center">Active</th>
                                     <th class="text-center">Action</th>
                                 </tr>
@@ -104,10 +105,23 @@
                                     <td>{{ ucwords($instructor->name) . ' , ' . strtoupper($instructor->education_qualification) }}</td>
                                     <td>{{ ucwords($instructor->position) }}</td>
                                     <td class="text-center">{{ ucwords($instructor->status) }}</td>
+                                    <td class="text-center">{{ ucwords($instructor->mobile_number) }}</td>
                                     <td class="text-success text-center">{!! ($instructor->active == 1) ? '<span class="material-icons">check</span>' : '<span class="material-icons text-danger">close</span>' !!}</td>
                                     <td class="text-success text-center">
                                         <button class="text-white btn btn-success rounded-0"
-                                        onclick="displayEditModal({{ $instructor->id }})" ><i class="material-icons">edit</i> <b>EDIT</b></button>
+                                        id="btnEditInstructorInfo" params="
+                                        {{
+                                            json_encode([
+                                                'id_number' => $instructor->id_number,
+                                                'name' => ucwords($instructor->name),
+                                                'edu' => strtoupper($instructor->education_qualification),
+                                                'position' => ucwords($instructor->position),
+                                                'status' => ($instructor->status),
+                                                'active' => $instructor->active,
+                                                'mobile' => $instructor->mobile_number
+                                            ])
+                                        }}
+                                        "><i class="material-icons">edit</i> <b>EDIT</b></button>
                                         <a class="text-white btn btn-primary rounded-0" href="{{ url("/admin/send/$instructor->mobile_number") }}"
                                          ><i class="material-icons">message</i> <b>SEND MESSAGE</b></a>
                                     </td>
@@ -130,14 +144,14 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" onsubmit="event.preventDefault(); submitInstructorInfo()" autocomplete="off">
+                            <form method="POST" id="instructorInfoForm" autocomplete="off">
                                 <div class="form">
                                     @csrf
                                     {{-- INSTRUCTOR FULLNAME --}}
                                     <input type="hidden" id="instructorId" class="form-control" value="{{ old('name') }}"  required />
                                     <div class="form-group col-md-12">
                                         <label>Fullname</label>
-                                        <input type="text" id="instructorFullname" class="form-control" value="{{ old('name') }}"    placeholder="Instructor Fullname"  required />
+                                        <input type="text" id="instructorFullname" name="name" class="form-control" value="{{ old('name') }}"    placeholder="Instructor Fullname"  required />
                                     </div>
                                     {{-- ID NUMBER --}}
                                     <div class="form-group col-md-12">

@@ -11,6 +11,6 @@ class SubjectPreRequisite extends Model
 	public function subjects()
 	{
 		$this->primaryKey = 'subject_id';
-		return $this->belongsTo('App\Subject','id');
+		return $this->belongsTo('App\Subject','subject_id','id');
 	}
 }

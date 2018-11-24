@@ -19,7 +19,8 @@ class CreateSchedulesTable extends Migration
             $table->string('end_time');
             $table->string('days');
             $table->string('room');
-            $table->string('subject');
+            // $table->string('subject');
+            $table->integer('subject_id');
             $table->string('block');
             $table->enum('status',['delete','active'])->default('active');
             $table->timestamps();

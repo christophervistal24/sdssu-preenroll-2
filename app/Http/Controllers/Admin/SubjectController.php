@@ -14,7 +14,6 @@ class SubjectController extends Controller
 {
 
     protected $subject;
-
     public function __construct(Subject $subject)
     {
         $this->subject = $subject;
@@ -26,24 +25,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $list_of_subjects = DB::select('
-        SELECT
-        subjects.id,
-        subjects.sub,
-        subjects.sub_description,
-        subjects.course,
-        subjects.units,
-        subjects.year,
-        subjects.semester,
-        GROUP_CONCAT(
-            subject_pre_requisites.pre_requisite_code
-        ) AS subject_pre_requisites
-        FROM
-            subjects
-        LEFT JOIN subject_pre_requisites ON subjects.id = subject_pre_requisites.subject_id
-        GROUP BY
-            subjects.id'
-        );
+        $list_of_subjects = $this->subject
+                                  ->subjectWithPrerequisite();
         return view('admins.subjects',compact('list_of_subjects'));
     }
 
@@ -74,7 +57,8 @@ class SubjectController extends Controller
                 'semester'        => request('semester'),
        ]);
             $subject = Subject::find($new_subject->id);
-            $this->subject->addPrerequisite($subject,$request->pre_req);
+            $this->subject
+                 ->addPrerequisite($subject,$request->pre_req);
             return response()->json(['success' => true]);
     }
 
@@ -84,9 +68,11 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($course)
     {
-        //
+        $subjects = Subject::where(['course' => $course])
+                    ->get(['id','sub','sub_description','units','year','course','semester']);
+        return response()->json($subjects);
     }
 
     /**

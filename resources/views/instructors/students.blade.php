@@ -1,7 +1,4 @@
-@inject('studentSubject','App\StudentSubject')
-@inject('inject_subject','App\Subject')
-@inject('course','App\Course')
-@inject('student_grade','App\StudentGrade')
+@inject('student_model','App\Student')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -85,143 +82,98 @@
 						<span class="text-uppercase page-subtitle">Dashboard</span>
 					</div>
 				</div>
-				<h4 class="text-muted">List of your students in <b> {{ $subject->subject  }}</b></h4>
-				@php
-					$date = $student_grade->where('subject_id',$subject->id)->orderBy('expiration','ASC')->first();
-				@endphp
-				@if ($date)
-
-					@php
-					$now = \Carbon\Carbon::now();
-					$expire_in = \Carbon\Carbon::parse($date->expiration);
-					@endphp
-					@if ($date && $now >= $expire_in)
-						<div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-							<span class="text-white">{{ 'Your modification power is expired you already reach the 45 days' }}</span>
-						</div>
-						<br>
-						@else
-						<div class="alert alert-success alert-dismissible fade show text-white" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-							<span>You can modify student grades until 	{{ $date->expiration->format('jS \o\f F, Y g:i A') }}</span>
-						</div>
-					@endif
-				@endif
+				{{-- ADD 45 DAYS  --}}
+				<h4 class="text-muted"><span class="font-weight-bold">{{  $subject->sub . ' ' . $subject->sub_description }}</span></h4>
+				{{-- <div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+					<span class="text-white">{{ 'Your modification power is expired you already reach the 45 days' }}</span>
+				</div> --}}
+				<br>
 				@include('success.success-message')
 				<table id="tables" class="table table-bordered" style="width:100%">
 					<thead class="text-center">
 						<th>Student ID no.</th>
 						<th>Student Fullname</th>
 						<th>Course</th>
-						<th>Block</th>
 						<th>Remarks</th>
-						@if ($date && $now >= $expire_in)
-						@else
 						<th>Actions</th>
-						@endif
 					</thead>
 					<tbody>
-						@foreach ($students_infos as $student)
-							<tr>
-								<td class="text-black">{{ substr_replace($student->id_number, '-', 2, 0) }}</td>
-								<td class="text-black">{{ $student->fullname }}</td>
-								<td class="text-black text-center">{{
-											 $course->getCourse($student->course_id)
-															->course_code
-														}}</td>
-								<td class="text-black text-center">{{ $student->block }}</td>
-								<td class="text-black text-center">
+						@foreach ($sched_students->subject_students as $student)
+						<tr>
+							<td class="text-center font-weight-bold">
+								{{ hyphenate($student->id_number) }}
+							</td>
+							<td class="text-center font-weight-bold">{{ $student->fullname }}</td>
+							<td class="text-center">{{ $student->course->course_code }}</td>
+							<td class="text-center">
+								@foreach ($student->grades as $element)
+									{{ $element->grades }}
+								@endforeach
+								@php
+								//check if the student has a grade
+								//note:refactor this code
+								$check_grade = $student_model->find($student->id_number)
+															->grades
+															->where('subject_id',$sched_students->id)
+															->first();
+								@endphp
+								 @if (isset($check_grade->remarks))
+								{{ $check_grade->remarks }}
+								<td class="text-center"><button type="button" id="btnEditGrade" class="btn btn-success" params="{{ json_encode([
+									'subject_id'        =>  $sched_students->id ,
+									'fullname'          => $student->fullname,
+									'remarks'           => $check_grade->remarks,
+									'student_id_number' =>  $student->id_number
+								]) }}"> Edit grade</button></td>
+								@else
+								<td class="text-center"><button type="button" id="btnAddGrade" class="btn btn-primary" params="{{ json_encode([
+									'subject_id'        =>  $sched_students->id ,
+									'fullname'          => $student->fullname,
+									'student_id_number' =>  $student->id_number
+								]) }}"> Add grade</button></td>
+								@endif
+							</td>
 
-
-
-									@if (in_array($student->id,$students_with_grades))
-											{{
-												$grade = $student_grade->getStudentGrades([
-													'student_id' => $student->id,
-													'subject_id' => $subject->id
-												])
-											 }}
-									@endif
-								@if ($date && $now >= $expire_in)
-						@else
-								</td>
-								<td class="text-center">
-									@if (!in_array($student->id,$students_with_grades))
-									<button id="btnModal" onclick="displayModalForGrade(
-											 ({{  json_encode(
-                                    [
-											'id'        => $student->id,
-											'id_number' => $student->id_number,
-											'fullname'  => $student->fullname,
-											'block'		=> $student->block,
-											'year'		=> $student->year,
-											'subject'	=> $subject->id
-
-                                     ]
-                                        )
-                                        }})
-									)" class="btn btn-primary rounded-0 border-0" ><i class="material-icons">add</i> Add grade</button>
-									@else
-									<button id="btnModal" onclick="displayModalForGrade(
-											 ({{  json_encode(
-                                    [
-											'id'        => $student->id,
-											'id_number' => $student->id_number,
-											'fullname'  => $student->fullname,
-											'block'     => $student->block,
-											'year'      => $student->year,
-											'subject'   => $subject->id,
-											'grade'     => $grade
-
-                                     ]
-                                        )
-                                        }})
-									)" class="btn btn-success rounded-0 border-0" ><i class="material-icons">edit</i><b> Edit grade</b></button>
-									@endif
-					@endif
-								</td>
-							</tr>
+						</tr>
 						@endforeach
 					</tbody>
 				</table>
 			</div>
 		</div>
-		  {{-- MODAL START --}}
-            <!-- Modal -->
-            <div class="modal fade" id="modalAddGrade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalTitle">Add grade for.</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="POST" id="remarksForm" onsubmit="event.preventDefault(); addGrade();">
-                                <div class="form">
-                                    @csrf
-                                    {{-- MOBILE --}}
-                                    <div class="form-group col-md-12">
-                                        <label>Remarks :</label>
-                                        <div id="modalBody">
-                                            <input type="text" required id="studentGrade"  class="form-control" placeholder="Input grade">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="modalBtnSave">Save & Send</button>
-                        </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        {{-- MODAL END --}}
-		@endsection
+		{{-- MODAL START --}}
+		<!-- Modal -->
+		<div class="modal fade" id="modalAddGrade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalTitle">Add grade for.</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="remarksForm" autocomplete="off">
+							<div class="form">
+								@csrf
+								<div class="form-group col-md-12">
+									<label>Remarks :</label>
+									<div id="modalBody">
+										<input type="hidden" name="action" value="add" id="action">
+										<input type="text" name="grade" required id="studentGrade"  class="form-control" placeholder="Input grade">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary" id="modalBtnSave">Save & Send</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{{-- MODAL END --}}
+	@endsection

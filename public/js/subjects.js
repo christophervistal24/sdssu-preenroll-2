@@ -21,6 +21,9 @@ $(document).ready(function () {
 		$('#subjectDesc').val(subject_info.subject_description);
 		$('#subjectUnits').val(subject_info.subject_units);
 		$('#subjectYear').val(subject_info.subject_year);
+		$('#subjectSemester').val(subject_info.subject_semester);
+		$('#course').selectpicker('val',subject_info.subject_course);
+		$('#course').selectpicker('refresh');
 
 		if (subject_info.subject_prereq.includes(',')) {
 			let splitted_string = subject_info.subject_prereq.split(',');
@@ -30,7 +33,7 @@ $(document).ready(function () {
 		 	$('.selectpicker').selectpicker('val',subject_info.subject_prereq);
 			$('.selectpicker').selectpicker('refresh');
 		}
-		$('#subjectSemester').val(subject_info.subject_semester);
+
 	});
 
 	$('#subjectForm').submit(function (event) {

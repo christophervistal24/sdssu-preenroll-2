@@ -71,6 +71,7 @@ class AppServiceProvider extends ServiceProvider
             'deans.assistant.index',
             'deans.assistant.listschedule',
             'deans.assistant.instructors',
+            'deans.assistant.editassign',
         ] , function ($view) {
     foreach (User::where('id',Auth::user()->id)->first()->roles as $role) {
         switch ($role->name) {
@@ -83,7 +84,7 @@ class AppServiceProvider extends ServiceProvider
                 break;
 
             case 'Student':
-                $view->with('user_info',Instructor::where('id',Auth::user()->id)->first());
+                $view->with('user_info',Student::where('id_number',Auth::user()->id_number)->first());
                 break;
 
             case 'Admin':
@@ -99,13 +100,19 @@ class AppServiceProvider extends ServiceProvider
          });
 
          view()->composer(['admins.scheduling','admins.schedule','admins.studentaddsubject'] , function ($view) {
+            $view->with('courses',Course::all());
             $view->with('rooms',Room::all());
             $view->with('instructors',Instructor::all());
             $view->with('blocks',Block::where('status','open')->orderBy('level', 'ASC')->get());
-            $view->with('first_year_subjects',Subject::where('year',1)->get());
-            $view->with('second_year_subjects',Subject::where('year',2)->get());
-            $view->with('third_year_subjects',Subject::where('year',3)->get());
-            $view->with('fourth_year_subjects',Subject::where('year',4)->get());
+            $view->with('first_year_cs',Subject::where(['year' => 1 , 'course' => 2])->get());
+            $view->with('second_year_cs',Subject::where(['year' => 2 , 'course' => 2])->get());
+            $view->with('third_year_cs',Subject::where(['year'  => 3, 'course' => 2])->get());
+            $view->with('fourth_year_cs',Subject::where(['year' => 4, 'course' => 2])->get());
+            $view->with('first_year_ce',Subject::where(['year'  => 1, 'course' => 1])->get());
+            $view->with('second_year_ce',Subject::where(['year'  => 2, 'course' => 1])->get());
+            $view->with('third_year_ce',Subject::where(['year'  => 3, 'course' => 1])->get());
+            $view->with('fourth_year_ce',Subject::where(['year' => 4, 'course' => 1])->get());
+            $view->with('fifth_year_ce',Subject::where(['year'  => 5, 'course' => 1])->get());
          });
     }
 }

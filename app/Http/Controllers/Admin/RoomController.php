@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoomRequest;
 use App\Room;
+use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
@@ -14,24 +15,24 @@ class RoomController extends Controller
         return view('admins.listrooms',compact('rooms'));
     }
 
-    public function store()
+    public function store(RoomRequest $request)
     {
-        $request->validate([
-            'room_number' => 'required|unique:rooms'
-        ]);
+        Room::create(['room_number' => $request->room_number]);
+        return response()->json(['success' => true]);
+/*        } else {
 
-        if ($request->id == null) {
-            Room::create(['room_number' => $request->room_number]);
-        } else {
-            $room = Room::find($request->id);
-            $room->room_number = $request->room_number;
-            $room->save();
-        }
+        }*/
+    }
+
+    public function update(RoomRequest $request)
+    {
+        Room::find($request->action)->update(['room_number' => $request->room_number]);
+        return response()->json(['success' => true]);
     }
 
     public function delete(Room $room)
     {
         $room->delete();
-        return redirect()->back()->with('status', 'Successfully delete a room');
+        return response()->json(['success' => true]);
     }
 }

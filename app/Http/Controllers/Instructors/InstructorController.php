@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Instructors;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\InstructorSchedule;
 use App\Semester;
 use App\Instructor;
@@ -32,38 +33,10 @@ class InstructorController extends Controller
         return view('instructors.index');
     }
 
-    public function schedule()
-    {
-        $schedules = DB::table('instructor_schedules')
-            ->select(DB::raw("
-                  subject,GROUP_CONCAT(block) as blocks,
-                  GROUP_CONCAT(id) AS ids ,
-                  GROUP_CONCAT(room) AS rooms ,
-                  GROUP_CONCAT(CONCAT(start_time,' - ',end_time)) AS time ,
-                  GROUP_CONCAT(DISTINCT days) AS days
-              "))
-            ->where('instructor','=',ucwords(Auth::user()->name))
-            ->groupBy('subject')
-            ->get();
-    	return view('instructors.schedule',compact('schedules'));
-    }
-
     public function students($first_subject,$second_subject = null)
     {
-        //students with has already grades
-        $students_with_grades = array_flatten(Student::whereHas('grades')->pluck('id'));
-        $subject = InstructorSchedule::find($first_subject);
-        $id = $this->student_subject->getStudents([
-                'first_subject'  => $first_subject,
-                'second_subject' => @$second_subject
-        ]);
 
-        $students_infos = DB::table('students')
-                ->whereIn('id',$id)
-                ->get(
-                    ['id','id_number','fullname','year','course_id','block']
-                );
-        return view('instructors.students',compact(['students_infos','subject','students_with_grades']));
+        return view('instructors.students');
     }
 
     public function addstudentgrade(Request $request)
@@ -105,13 +78,8 @@ class InstructorController extends Controller
     }
 
 
-    public function checkLogin(Request $request)
+    public function checkLogin(LoginRequest $request)
     {
-        $validatedData = $request->validate([
-            'id_number' => 'required',
-            'password' => 'required',
-        ]);
-
         $credentials = $request->only('id_number', 'password');
         $user = User::where('id_number',$request->id_number)->first();
         if (Auth::attempt($credentials) && $user->hasRole('Instructor')) {

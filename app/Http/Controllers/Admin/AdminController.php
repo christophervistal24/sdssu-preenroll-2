@@ -5,6 +5,9 @@ use App\Block;
 use App\Course;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateSubject;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\StoreNewStudent;
+use App\Http\Requests\StoreInstructor;
 use App\Instructor;
 use App\InstructorSchedule;
 use App\PreEnroll;
@@ -107,18 +110,8 @@ class AdminController extends Controller
     	return view('admins.addinstructor');
     }
 
-    public function storeinstructor(Request $request)
+    public function storeinstructor(StoreInstructor $request)
     {
-        $request->validate([
-            'name'                    => 'required',
-            'id_number'               => 'required|unique:instructors',
-            'password'                => 'required',
-            'education_qualification' => 'required',
-            'position'                => 'required',
-            'status'                  => 'required',
-            'mobile_number'           => 'required',
-        ]);
-
         $instructor_create = Instructor::create(
             [
                 'name'                    => $request->name,
@@ -129,7 +122,7 @@ class AdminController extends Controller
                 'status'                  => $request->status,
                 'mobile_number'           => $request->mobile_number,
             ]
-        )->save();
+        );
 
         if ($instructor_create) {
             $user = User::create([
@@ -162,13 +155,6 @@ class AdminController extends Controller
         }
     }
 
-
-    public function instructors()
-    {
-        $instructors = Instructor::all();
-        return view('admins.list-instructors',compact('instructors'));
-    }
-
     public function instructorinfo($id)
     {
         return response()->json(Instructor::where('id',$id)->first());
@@ -177,13 +163,13 @@ class AdminController extends Controller
     public function updateinstructorinfo(Request $request)
     {
         $instructor_info = Instructor::where('id_number',$request->id_number)->first();
-        $instructor_info->id_number = $request->id_number;
-        $instructor_info->name = $request->name;
+        $instructor_info->id_number               = $request->id_number;
+        $instructor_info->name                    = $request->name;
         $instructor_info->education_qualification = $request->education_qualification;
-        $instructor_info->position = $request->position;
-        $instructor_info->status = $request->status;
-        $instructor_info->mobile_number = $request->mobile_number;
-        $instructor_info->active = $request->active;
+        $instructor_info->position                = $request->position;
+        $instructor_info->status                  = $request->status;
+        $instructor_info->mobile_number           = $request->mobile_number;
+        $instructor_info->active                  = $request->active;
         $instructor_info->save();
 
         if ($instructor_info) {
@@ -217,50 +203,9 @@ class AdminController extends Controller
         return response()->json(InstructorSchedule::where('id',$id)->first());
     }
 
-
-    public function addstudent()
+    public function storestudent(StoreNewStudent $request)
     {
-        $courses = Course::all();
-        return view('admins.addstudent',compact('courses'));
-    }
 
-    public function storestudent(Request $request)
-    {
-        $role_student = Role::where('name','Student')->first();
-        $request->validate([
-            'id_number'        => 'required|unique:students',
-            'student_fullname' => 'required',
-            'course'           => 'required',
-            'student_mobile'   => 'required',
-            'mothersname'      => 'required',
-            'fathersname'      => 'required',
-            'parent_mobile'    => 'required'
-        ]);
-
-        $parent = new StudentParent;
-        $parent->mothername = $request->mothersname;
-        $parent->fathername = $request->fathersname;
-        $parent->mobile_number = $request->parent_mobile;
-        $parent->save();
-
-        $student_create = Student::create([
-            'id_number' => $request->id_number,
-            'fullname'  => $request->student_fullname,
-            'year'      => 1,
-            'course_id' => $request->course,
-            'student_parent_id' => $parent->id
-        ]);
-
-        $new_student = User::create([
-            'name'      => $request->student_fullname,
-            'id_number' => $request->id_number,
-            'password'  => bcrypt(1234),
-        ]);
-        $new_student->roles()->attach($role_student);
-
-        if ($student_create) {
-             return redirect()->back()->with('status',"<a href=/admin/studentsubject/".$student_create->id." class=alert-link> Successfully add new student name " . $request->student_fullname . " click this message to add a subject</a>");
-        }
     }
 
     public function studentaddsubject(Student $student)
@@ -304,11 +249,6 @@ class AdminController extends Controller
         return redirect()->back()->with('status','Successfully add a subject');
     }
 
-    public function students()
-    {
-        $students = Student::with('parents')->get();
-        return view('admins.list-of-students',compact('students'));
-    }
 
     public function login()
     {
@@ -355,13 +295,8 @@ class AdminController extends Controller
     }
 
 
-    public function checkLogin(Request $request)
+    public function checkLogin(LoginRequest $request)
     {
-        $validatedData = $request->validate([
-            'id_number' => 'required',
-            'password'  => 'required',
-        ]);
-
         $credentials = $request->only('id_number', 'password');
         $admin = User::where('id_number',$request->id_number)->first();
         if (Auth::attempt($credentials) && $admin->hasRole('Admin')) {

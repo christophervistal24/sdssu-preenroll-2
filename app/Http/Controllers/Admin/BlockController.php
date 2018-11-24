@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Block;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBlock;
+use Illuminate\Http\Request;
 
 class BlockController extends Controller
 {
@@ -14,43 +15,28 @@ class BlockController extends Controller
         return view('admins.listblocks',compact('blocks'));
     }
 
-    public function store(Request $request)
+    public function store(StoreBlock $request)
     {
-        if ($request->id != null) {
-            //update block
-            $this->update($request);
-            return response()->json(['success' => true ]);
-        } else {
+        Block::create([
+            'block_limit'    => $request->block_limit,
+            'no_of_enrolled' => 0,
+            'block_name'     =>  $request->block_name,
+            'course'         =>  $request->course,
+            'year'           =>  $request->year,
+        ]);
 
-             Block::create([  //create new block
-                'course'         => $request->course,
-                'no_of_enrolled' => 0,
-                'block_name'     => strtoupper($request->block_name),
-                'block_limit'    => $request->block_limit,
-                'level'          => $request->level
-            ]);
-            return response()->json(['success' => true]);
-        }
+        return response()->json(['success' => true]);
     }
 
-    private function update(Request $request)
+    public function update(Request $request)
     {
-        $block_information = Block::find($request->id);
-        $block_information->course      = $request->course;
-        $block_information->block_name  = strtoupper($request->block_name);
-        $block_information->block_limit = $request->block_limit;
-        $block_information->level       = $request->level;
-        $block_information->save();
-        Block::checkifBlockIsAvailable(
-            [
-                'level'       => $block_information->level,
-                'block_name'  => $block_information->block_name,
-                'course'      => $block_information->course,
-                'action_from' => 'submitblock'
-            ]
-        );
+        Block::findOrFail($request->block_id)->update([
+                'course'      => $request->course,
+                'block_name'  => strtoupper($request->block_name),
+                'block_limit' => $request->block_limit,
+                'level'       => $request->year,
+        ]);
+        return response()->json(['success' => true]);
     }
-
-
 
 }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Students;
 
 use App\Block;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\InstructorSchedule;
 use App\PreEnroll;
+use App\Schedule;
 use App\Semester;
 use App\Student;
 use App\StudentGrade;
@@ -14,16 +16,20 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Exception;
 
 class StudentController extends Controller
 {
     private $student;
     private $sem;
-    public function __construct(Student $studnt,Semester $sem)
+    private $schedule;
+    public function __construct(Student $studnt,Semester $sem , Schedule $sched)
     {
         $this->student = $studnt;
         $this->sem = $sem;
+        $this->schedule = $sched;
         $this->middleware('preventBackHistory');
     }
 
@@ -34,33 +40,34 @@ class StudentController extends Controller
 
 	public function preenrol()
 	{
-        $student       = Student::where('id_number',Auth::user()->id_number)->first();
-        $check_pending = PreEnroll::where('student_id',$student->id)->first();
-        if ($check_pending) {
-            return redirect('/student/preenroldetails')->with('status','Successfully send! below is your request details');
-        }
-          //combine the year level and course of student to get specific subjects
-        $bracket = $student->year . $student->course->course_code;
-        //get by year
-        $schedules = InstructorSchedule::where('status','active')
-                                        ->where('block','like','%' . $bracket . '%')
-                                        ->get();
-        return view('students.preenrol',compact(['student','schedules']));
+        $student_info = Student::where('id_number',Auth::user()->id_number)
+                               ->first();
+        $match = [
+            'blocks.level'     => $student_info->year,
+            'blocks.course'    => $student_info->course->course_code,
+            'schedules.status' => 'active',
+        ];
+        $schedules = $this->schedule
+                          ->getScheduleWithMatch($match);
+        return view('students.preenrol')->with('schedules',$schedules);
 	}
 
     public function submitpreenrol(Request $request)
     {
-         if ($request->subjects == null) { //check if the admin add some subjects
-            return Redirect::back()->withErrors('Please add some subject.');
-         }
-           array_map(function ($schedule_id) use($request)  { //iterate and insert the subjects
-            $student_subject = new PreEnroll();
-            $student_subject->student_id = $request->user_id;
-            $student_subject->schedule_id = $schedule_id;
-            $student_subject->save();
-        },array_keys($request->subjects));
-
-        return redirect()->back()->with('status','Success!');
+      $subjects = $request->subjects;
+      $subject_ids = array_keys($subjects);
+      $collected_ids  = [];
+      array_walk_recursive($subjects, function ($v , $k) use (&$collected_ids) {
+            $collected_ids[] = $k;
+      });
+      $student = Student::where('id_number',Auth::user()->id_number)->first();
+      try {
+            $student->schedules()->attach($collected_ids);
+            $student->student_subjects()->attach($subject_ids);
+        } catch (Exception $e) {
+            return redirect()->back()->with('status','Success!');
+        }
+      return redirect()->back()->with('status','Successfully enrolled those subjects');
     }
 
     public function preenroldetails()
@@ -70,25 +77,7 @@ class StudentController extends Controller
         return view('students.preenrolldetails',compact('preenroll_request'));
     }
 
-	public function evaluate()
-	{
-        $student_id = Student::where('id_number',Auth::user()->id_number)->first()->id;
-        $student_subjects = Student::with('subjects')->where('id',$student_id)->first();
-        $student_grades = StudentGrade::where('student_id',$student_id)->get();
-		return view('students.evaluate',compact('student_grades','student_subjects'));
-	}
 
-	public function schedule()
-	{
-        $id_number = User::find(Auth::user()->id)
-                    ->id_number;
-
-        $student_information =  Student::where('id',
-                    Student::where('id_number',$id_number)->first()->id)
-                    ->with('subjects')
-                    ->first();
-		return view('students.schedule',compact('student_information'));
-	}
 
 
 	public function login()
@@ -102,22 +91,17 @@ class StudentController extends Controller
     	return redirect('/studentlogin');
     }
 
-    public function checkLogin(Request $request)
+    public function checkLogin(LoginRequest $request)
     {
-        $request->validate([
-            'id_number' => 'required',
-            'password' => 'required',
-        ]);
-
         $credentials = $request->only('id_number', 'password');
         $user = User::where('id_number',$request->id_number)->first();
-        $isStudentCanLogin = $this->student
-                                ->checkIfCanLogin($request->id_number,$this->sem);
-        if ($isStudentCanLogin) {
-          return Redirect::back()
-                    ->withInput()
-                    ->withErrors('You can\'t login on this page please wait till administrator make an action');
-        }
+        // $isStudentCanLogin = $this->student
+        //                         ->checkIfCanLogin($request->id_number,$this->sem);
+        // if ($isStudentCanLogin) {
+        //   return Redirect::back()
+        //             ->withInput()
+        //             ->withErrors('You can\'t login on this page please wait till administrator make an action');
+        // }
         if (Auth::attempt($credentials) && $user->hasRole('Student')) {
             return redirect()->intended('/student/index');
         }

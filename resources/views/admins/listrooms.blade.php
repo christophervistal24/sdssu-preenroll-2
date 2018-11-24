@@ -88,7 +88,7 @@
                 <div class="row">
                     <div class="container">
                            <h4 class="text-muted ml-2">List of all Rooms</h4>
-                         <button class="btn btn-primary mb-2 rounded-0" onclick="modalAdd()">Add new room</button>
+                         <button class="btn btn-primary mb-2 rounded-0" id="btnAddNewRoom">Add new room</button>
                         <table id="tables" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -102,7 +102,13 @@
                                 <tr class="text-center">
                                     <td>{{ $room->room_number }}</td>
                                     <td>{{ $room->created_at->diffForHumans() }}</td>
-                                    <td><button class="btn btn-success rounded-0" onclick="modalEdit( {{ $room->id }}, {{ $room->room_number }})" >EDIT</button> <button onclick="modalDelete({{ $room->id }})" class="btn btn-danger rounded-0" >DELETE</button></td>
+                                    <td><button class="btn btn-success rounded-0" params="{{ json_encode([
+                                        'room_id' => $room->id,
+                                        'room_number' => $room->room_number,
+                                        ]) }}" id="btnEditRoom" >EDIT</button> <button class="btn btn-danger rounded-0" id="btnDeleteRoom" params="{{ json_encode([
+                                        'room_id' => $room->id,
+                                        'room_number' => $room->room_number,
+                                        ]) }}">DELETE</button></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -117,19 +123,18 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalTitle">Edit room.</h5>
+                            <h5 class="modal-title" id="modalTitle">Add room</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" id="roomForm" onsubmit="event.preventDefault(); createOrUpdate();">
+                            <form method="POST" id="roomForm" >
                                 <div class="form">
-                                    @csrf
-                                    {{-- MOBILE --}}
+                                    {!! csrf_field() !!}
+                                    <input type="hidden" name="action" value="add" id="action">
                                     <div class="form-group col-md-12">
                                         <label>Room number</label>
-                                        <input type="hidden" name="room_id" id="roomId" class="form-control" placeholder="Room id">
                                         <div id="modalBody">
                                             <input type="number" name="room_number" id="roomNumber"  class="form-control" placeholder="Room number">
                                         </div>

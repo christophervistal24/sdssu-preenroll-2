@@ -110,12 +110,13 @@
                                     <td class="text-center font-weight-bold">{{ $subject->subject_pre_requisites }}</td>
                                     <td class="text-center"> {{ $course->getCourseCode($subject->course)}}</td>
                                     <td class="text-center">{{ digitToYearLevel($subject->year) }}</td>
-                                    <td>{{ ($subject->semester == 1) ? 'First semester' : 'Second Semester' }}</td>
+                                    <td>{{ ($subject->semester == 1) ? 'First sem.' : 'Second sem.' }}</td>
                                     <td class="text-success text-center">
                                         <button id="displayEditModal" params="{{json_encode(
                                         [
                                         'subject_id'          => $subject->id,
                                         'subject_sub'         => $subject->sub,
+                                        'subject_course'      => $subject->course,
                                         'subject_description' => $subject->sub_description,
                                         'subject_units'       => $subject->units,
                                         'subject_prereq'      => $subject->subject_pre_requisites,
@@ -171,6 +172,14 @@
                                             <option value="5">Fifth year</option>
                                         </select>
                                     </div>
+                                    <label>Course : </label>
+                                     <div class="form-group row">
+                                        <select   title="Course for subject..." class="form-control show-menu-arrow"  id="course" name="course">
+                                            @foreach ($courses as $course)
+                                               <option value="{{ $course->id }}">{{ $course->course_code }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <label>Pre requisite : <span class="text-warning">Optional and to remove an item select it again</span> </label>
                                     <div class="form-group row">
                                         <select  data-live-search="true" title="Choose one of the following..." class="selectpicker form-control show-menu-arrow" id="subjectPre" name="pre_req[]" multiple>
@@ -181,14 +190,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <label>Course : </label>
-                                     <div class="form-group row">
-                                        <select  data-live-search="true" title="Course for subject..." class="selectpicker form-control show-menu-arrow" id="course" name="course">
-                                            @foreach ($courses as $course)
-                                               <option value="{{ $course->id }}">{{ $course->course_code }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+
                                     <div class="form-group">
                                         <label>Semester : </label>
                                         <select class="form-control" id="subjectSemester" name="semester">

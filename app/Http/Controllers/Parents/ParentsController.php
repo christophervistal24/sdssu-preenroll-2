@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Parents;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,12 +43,8 @@ class ParentsController extends Controller
         return redirect('/parentlogin');
     }
 
-    public function checkLogin(Request $request)
+    public function checkLogin(LoginRequest $request)
     {
-        $validatedData = $request->validate([
-            'id_number' => 'required',
-            'password' => 'required',
-        ]);
 
         $credentials = $request->only('id_number', 'password');
         $user = User::where('id_number',$request->id_number)->first();

@@ -51,7 +51,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <img class="user-avatar rounded-circle mr-2" src="/dashboard/images/avatars/0.jpg" alt="User Avatar">
-                <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
+                <span class="d-none d-md-inline-block">{{ ucwords($user_info->name) }}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-small">
                 <a class="dropdown-item" href="user-profile-lite.html">
@@ -80,91 +80,7 @@
           <div class="col-12 col-sm-2 offset-10 text-sm-left mb-0 float-right">
           </div>
         </div>
-        <!-- End Page Header -->
-        <!-- Small Stats Blocks -->
-        <!--   <div class="row">
-          <div class="col-lg col-md-6 col-sm-6 mb-4">
-            <div class="stats-small stats-small--1 card card-small">
-              <div class="card-body p-0 d-flex">
-                <div class="d-flex flex-column m-auto">
-                  <div class="stats-small__data text-center">
-                    <span class="stats-small__label text-uppercase">Posts</span>
-                    <h6 class="stats-small__value count my-3">2,390</h6>
-                  </div>
-                  <div class="stats-small__data">
-                    <span class="stats-small__percentage stats-small__percentage--increase">4.7%</span>
-                  </div>
-                </div>
-                <canvas height="120" class="blog-overview-stats-small-1"></canvas>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg col-md-6 col-sm-6 mb-4">
-            <div class="stats-small stats-small--1 card card-small">
-              <div class="card-body p-0 d-flex">
-                <div class="d-flex flex-column m-auto">
-                  <div class="stats-small__data text-center">
-                    <span class="stats-small__label text-uppercase">Pages</span>
-                    <h6 class="stats-small__value count my-3">182</h6>
-                  </div>
-                  <div class="stats-small__data">
-                    <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
-                  </div>
-                </div>
-                <canvas height="120" class="blog-overview-stats-small-2"></canvas>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg col-md-4 col-sm-6 mb-4">
-            <div class="stats-small stats-small--1 card card-small">
-              <div class="card-body p-0 d-flex">
-                <div class="d-flex flex-column m-auto">
-                  <div class="stats-small__data text-center">
-                    <span class="stats-small__label text-uppercase">Comments</span>
-                    <h6 class="stats-small__value count my-3">8,147</h6>
-                  </div>
-                  <div class="stats-small__data">
-                    <span class="stats-small__percentage stats-small__percentage--decrease">3.8%</span>
-                  </div>
-                </div>
-                <canvas height="120" class="blog-overview-stats-small-3"></canvas>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg col-md-4 col-sm-6 mb-4">
-            <div class="stats-small stats-small--1 card card-small">
-              <div class="card-body p-0 d-flex">
-                <div class="d-flex flex-column m-auto">
-                  <div class="stats-small__data text-center">
-                    <span class="stats-small__label text-uppercase">Users</span>
-                    <h6 class="stats-small__value count my-3">2,413</h6>
-                  </div>
-                  <div class="stats-small__data">
-                    <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
-                  </div>
-                </div>
-                <canvas height="120" class="blog-overview-stats-small-4"></canvas>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg col-md-4 col-sm-12 mb-4">
-            <div class="stats-small stats-small--1 card card-small">
-              <div class="card-body p-0 d-flex">
-                <div class="d-flex flex-column m-auto">
-                  <div class="stats-small__data text-center">
-                    <span class="stats-small__label text-uppercase">Subscribers</span>
-                    <h6 class="stats-small__value count my-3">17,281</h6>
-                  </div>
-                  <div class="stats-small__data">
-                    <span class="stats-small__percentage stats-small__percentage--decrease">2.4%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
         <div class="row">
-
           <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
             <span class="text-uppercase page-subtitle text-center">List of instructors</span>
             <hr>
@@ -175,9 +91,10 @@
             </div>
           </div>
           <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
-            <form method="POST" action="/assistantdean/assign/{{ $schedule_info->id }}" style="height :50vh;">
+            <form method="POST" action="/assistantdean/assign/{{ $schedule_info->id }}{{ isset($schedule_info2->id) ? '/' . $schedule_info2->id : null }}" style="height :50vh;">
               @csrf
-            <span class="text-uppercase page-subtitle text-center">Subject : {{ $schedule_info->subject }}</span>
+            <span class="text-uppercase page-subtitle text-center">Subject : {{ $schedule_info->subject->sub_description }}</span>
+
               <input type="submit" value="Assign" class="rounded-0 border-0 float-right btn btn-primary">
               <hr>
               <div id="sortFalse" class="list-group col-md-12 bg-faded p-4" style="height:150vh;">

@@ -97,22 +97,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($scheds as $schedule)
-                                <tr>
-                                    <td class="text-center">{{ $schedule->start_time . ' - ' .  $schedule->end_time }}</td>
-                                    <td class="text-center">{{ $schedule->days }}</td>
-                                    <td class="text-center">{{ $schedule->room }}</td>
-                                    <td class="text-center">{{ $schedule->block }}</td>
-                                    <td class="text-center">{{ $schedule->subject }}</td>
-                                    @if (!$schedule->instructor)
-                                        <td class="text-danger text-center">No Instructor</td>
-                                          <td class="text-center"><a href="/assistantdean/assign/{{ $schedule->id }}"><i class="material-icons">person</i> Assign a Instructor</a>
+                                @foreach ($schedules as $schedule)
+                                    <tr>
+                                        <td class="text-center">{{ $schedule->time }}</td>
+                                        <td class="text-center">{{ $schedule->days }}</td>
+                                        <td class="text-center">{{ $schedule->room }}</td>
+                                        <td class="text-center">{{ $schedule->block }}</td>
+                                        <td>
+                                        {{ findCharacterPosWithDelimeter($schedule->subject,',') }}</td>
+                                        <td class="text-center">{{ ucwords($schedule->instructor_name) }}</td>
+                                        @if (isset($schedule->instructor_name))
+                                            <td><a  href="/assistantdean/editassign/{{ $schedule->instructor_id_number }}/{{ $schedule->schedule_id }}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
                                         @else
-                                        <td class="text-center">{{ $schedule->instructor }}</td>
-                                         <td class="text-center"><a  class="text-success" href="/assistantdean/assign/{{ $schedule->id }}"><i class="material-icons">person</i> Change Instructor</a>
-                                    @endif
-
-                                </tr>
+                                        @php
+                                            $schedule = explode(',',$schedule->schedule_id);
+                                        @endphp
+                                            <td><a href="/assistantdean/assign/{{$schedule[0] }}/{{ isset($schedule[1]) ? $schedule[1] : null }}" class="text-white btn btn-primary">ASSIGN INSTRUCTOR</a></td>
+                                        @endif
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

@@ -107,25 +107,13 @@
                                     <td class="text-center">{{ $student->id_number }}</td>
                                     <td>{{ ucwords($student->fullname) }}</td>
                                     <td>{{ $student->mobile_number }}</td>
-                                    <td class="text-center">
-                                        @if ($student->year == 1)
-                                            {{ 'First year' }}
-                                        @elseif($student->year == 2)
-                                            {{ 'Second year' }}
-                                        @elseif($student->year == 3)
-                                            {{ 'Third year' }}
-                                        @elseif($student->year == 4)
-                                            {{ 'Fourth year' }}
-                                        @elseif($student->year == 5)
-                                            {{ 'Fifth year' }}
-                                        @endif
-                                     </td>
-                                    <td class="text-center">{{ $course->getCourse($student->course_id)->course_code }}</td>
+                                    <td class="text-center">{{ digitToYearLevel($student->year) }}</td>
+                                    <td class="text-center">BS{{ $student->course->course_code}}</td>
                                     <td class="text-center">{{ $student->parents->mothername }}</td>
                                     <td class="text-center text-truncate">{{ $student->parents->fathername }}</td>
                                     <td class="text-center">{{ $student->parents->mobile_number }}</td>
                                     <td class="text-center"><a class="text-white btn btn-success border-0 rounded-0"><b>Evaluate grades</b></a>
-                                        <a href="/admin/studentsubject/{{ $student->id }}" class="text-white btn btn-primary border-0 rounded-0"><b>Add subject</b></a></td>
+                                        </td>
                                 </tr>
                                 @endforeach
                             </tbody>

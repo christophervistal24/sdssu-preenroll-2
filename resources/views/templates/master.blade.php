@@ -137,11 +137,7 @@
 					<script src="lib/owlcarousel/owl.carousel.min.js"></script>
 					<script src="lib/magnific-popup/magnific-popup.min.js"></script>
 					<script src="lib/sticky/sticky.js"></script>
-					<!-- Uncomment below if you want to use dynamic Google Maps -->
-					<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script> -->
-					<!-- Contact Form JavaScript File -->
 					<script src="contactform/contactform.js"></script>
-					<!-- Template Main Javascript File -->
 					<script src="js/main.js"></script>
 				</body>
 			</html>

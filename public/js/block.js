@@ -1,80 +1,89 @@
-let token      = document.querySelector('meta[name="csrf-token"]').content;
-let course     = document.querySelector('#course');
-let year       = document.querySelector('#year');
-let block      = document.querySelector('#blockName');
-let blockLimit = document.querySelector('#blockLimit');
-let blockInfo;
+$(document).ready(function () {
+	let course     = $('#course');
+	let year       = $('#year');
+	let block      = $('#blockName');
+	let blockLimit = $('#blockLimit');
+	let blockInfo;
+	let action;
 
-let addNewBlock = () => {
-	document.querySelector('#blockForm').reset();
-	document.querySelector('#modalTitle').innerHTML = `Add block information`;
-	document.querySelector('#blockBtn').innerHTML = `Add new block`;
-	$('#blockModal').modal('toggle');
-};
+	$(document).on('click','#btnAddNewBlock' , function () {
+		$('#blockModal').modal('toggle');
+	});
 
-let editBlock = (block_info) => {
-	document.querySelector('#blockForm').reset();
-	blockInfo = block_info;
-	document.querySelector('#modalTitle').innerHTML = `Edit block ${block_info.block}`;
-	document.querySelector('#blockBtn').innerHTML = `Update block ${block_info.block}`;
-	course.value     = block_info.course;
-	year.value       = block_info.year;
-	block.value      = block_info.block;
-	blockLimit.value = block_info.blockLimit;
-	$('#blockModal').modal('toggle');
-}
+	$(document).on('click','#btnEditBlock' , function () {
+		blockInfo = $.parseJSON($(this).attr('params'));
+		$('#blockForm').attr('data-action','edit');
+		$('#blockBtn').html('Save changes');
+		$('#modalTitle').html('Edit <b>' + blockInfo.year + blockInfo.course + blockInfo.block + '</b>');
+		setValueForBlock();
+		$('#blockModal').modal('toggle');
+	});
 
-
-let submitNewBlock = () => {
-	try {
-		fetch(`/admin/block/`,{
-	      method: 'POST',
-	      body: JSON.stringify({
-				_token:token,
-				id:blockInfo.id,
-				course:course.value,
-				block_limit:blockLimit.value,
-				block_name:block.value,
-				level:year.value
-	     }),
-	      headers: new Headers({ "Content-Type": "application/json" })
-		}).then((res) => res.json())
-            .then((data) =>{
-            	console.log(data)
-            	if (data.success == true) {
-				swal("Good job!", `Block ${block.value.toUpperCase()}  successfully update`, "success")
-				.then(() => {
-						document.querySelector('#blockForm').reset()
-						$('#blockModal').modal('toggle')
-						location.reload()
-					})
-            	}
-            })
-	}
-	catch(err) {
-		fetch(`/admin/block/`,{
-	      method: 'POST',
-	      body: JSON.stringify({
-				_token:token,
-				course:course.value,
-				block_limit:blockLimit.value,
-				block_name:block.value,
-				level:year.value
-	     }),
-	      headers: new Headers({ "Content-Type": "application/json" })
-		}).then((res) => res.json())
-            .then((data) =>{
-            	console.log(data)
-            	if (data.success == true) {
-				swal("Good job!", `Block ${block.value.toUpperCase()} successfully create`, "success")
-				.then(() => {
-						document.querySelector('#blockForm').reset()
-						$('#blockModal').modal('toggle')
-						location.reload()
-					})
-            	}
-            })
+	function setValueForBlock()
+	{
+		course.val(blockInfo.course);
+		year.val(blockInfo.year);
+		block.val(blockInfo.block);
+		blockLimit.val(blockInfo.blockLimit);
 	}
 
 
-};
+	$('#blockForm').submit(function (event) {
+		event.preventDefault();
+		action = $(this).attr('data-action');
+		if (action == 'add') {
+			$.ajax({
+                    /* the route pointing to the post function */
+                    url: '/admin/block',
+                    type: 'POST',
+                    /* send the csrf-token and the input to the controller */
+                    data:$(this).serialize(),
+                    dataType: 'json',
+                    /* remind that 'data' is the response of the AjaxController */
+                    success: function (data) {
+                        if (data.success == true) {
+                        	swal("Successfully create new block", {
+						      icon: "success",
+						    }).then((value) => {
+							  location.reload();
+							});
+                        }
+                    },
+                    error:function (xhr) {
+                    	 $('#validation-errors').html('');
+						   $.each(xhr.responseJSON.errors, function(key,value) {
+						   	 $('#validation-errors').append('<div class="alert alert-danger">'+value+'</div');
+						 });
+                    }
+            });
+		} else {
+			var data = $(this).serializeArray(); // convert form to array
+			data.push({name: "block_id", value: blockInfo.id});
+			$.ajax({
+                    /* the route pointing to the post function */
+                    url: '/admin/upblock',
+                    type: 'PUT',
+                    /* send the csrf-token and the input to the controller */
+                    data:$.param(data),
+                    dataType: 'json',
+                    /* remind that 'data' is the response of the AjaxController */
+                    success: function (data) {
+                        if (data.success == true) {
+                        	swal("Successfully create new block", {
+						      icon: "success",
+						    }).then((value) => {
+							  location.reload();
+							});
+                        }
+                    },
+                    error:function (xhr) {
+                    	 $('#validation-errors').html('');
+						   $.each(xhr.responseJSON.errors, function(key,value) {
+						   	 $('#validation-errors').append('<div class="alert alert-danger">'+value+'</div');
+						 });
+                    }
+            });
+		}
+
+	});
+});

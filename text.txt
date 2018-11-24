@@ -1,0 +1,4 @@
+//seperate the script of the dragged and drop (Student Pre Enroll)
+//create a function for ajax validation of pre-requisite
+//make  front & back validation for pre-requisite of the subject
+//pop-up message if the student can't get the subject

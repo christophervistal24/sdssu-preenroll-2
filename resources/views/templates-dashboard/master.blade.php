@@ -34,12 +34,9 @@
                 </main>
             </div>
         </div>
-        @if (\Request::path() == 'admin/listofrooms')
-               <script src="/js/room.js"></script>
-        @endif
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
+        <script src="/js/room.js"></script>
          <!-- Latest compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 
@@ -53,7 +50,17 @@
         <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
         <script>
         $(document).ready( function () {
-            $('#tables').DataTable();
+            $('#tables').DataTable({ "order": [[ 0, "desc" ]]});
+            $('#sched-table').DataTable({
+                "ordering": false,
+                 "aLengthMenu": [[2, 50, 75, -1], [2, 50, 75, "All"]],
+                 "iDisplayLength": -1,
+                 "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false
+            });
             $('#deleteTables').DataTable({
                 "aLengthMenu": [[2, 50, 75, -1], [2, 50, 75, "All"]],
                 "iDisplayLength": 2
@@ -66,11 +73,8 @@
         });
         </script>
         @if (\Request::path() == 'admin/schedule'  || \Request::path() == 'admin/instructors' || \Request::path() == 'admin/scheduling')
-               {{-- <script src="/js/custom.js"></script> --}}
         @elseif(\Request::path() == 'admin/subjects')
                <script src="/js/subjects.js"></script>
-        @elseif(\Request::path() == 'admin/block')
-               <script src="/js/block.js"></script>
         @elseif(\Request::path() == 'admin/index')
                 <script>
                     let listBox = document.querySelector('#semester');
@@ -105,25 +109,11 @@
                     });
                 </script>
         @endif
-        {{-- <script src="/js/addgrade.js"></script> --}}
+        <script src="/js/addgrade.js"></script>
+        <script src="/js/block.js"></script>
         <script src="/js/schedule.js"></script>
-        <script>
-         // sort: true
-        Sortable.create(sortTrue, {
-            animation:200,
-          group: "sorting",
-          sort: true,
-        });
-
-        // sort: false
-        Sortable.create(sortFalse, {
-            animation:200,
-          group: "sorting",
-          sort: false
-        });
-
-        </script>
-
+        <script src="/js/instructor.js"></script>
+        <script src="/js/pre_dragged.js"></script>
       @if (str_contains(request()->fullUrl(),'assign'))
        <script>
             // sort: true

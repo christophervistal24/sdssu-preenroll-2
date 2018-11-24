@@ -1,5 +1,4 @@
 @inject('course','App\Course')
-@inject('block_object','App\Block')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -89,7 +88,7 @@
                     <h4 class="text-muted ml-2">List of all blocks</h4>
                     <div class="container">
                         <div class="form-group">
-                            <button class="btn btn-primary border-0 rounded-0" onclick="addNewBlock()">Add new block</button>
+                            <button class="btn btn-primary border-0 rounded-0" id="btnAddNewBlock">Add new block</button>
                         </div>
                         <table id="tables" class="table table-bordered" style="width:100%">
                             <thead>
@@ -103,20 +102,12 @@
                             </thead>
                             <tbody>
                                 @foreach ($blocks as $block)
-                                @php
-                                    $block_object->checkifBlockIsAvailable([
-                                        'level'       => $block->level,
-                                        'block_name'  => $block->block_name,
-                                        'course'      => $block->course,
-                                        'action_from' => 'submitblock'
-                                    ]);
-                                @endphp
                                 <tr>
-                                    <td class="text-center">{{ $block->level . $block->course . $block->block_name }}</td>
+                                    <td class="text-center">{{ $block->level . $block->course . strtoupper( $block->block_name) }}</td>
                                     <td class="text-center">{{ $block->no_of_enrolled }}</td>
                                     <td class="text-center">{{ $block->block_limit }}</td>
                                     <td class="text-center {{ ($block->status != 'closed') ? 'text-success' : 'text-danger' }}"><b>{{ strtoupper($block->status) }}</b></td>
-                                   <td class="text-center"><a onclick="editBlock (
+                                   <td class="text-center"><button id="btnEditBlock" params="
                                         {{  json_encode(
                                                 [
                                                     'id'             => $block->id,
@@ -128,7 +119,7 @@
                                                 ]
                                         )
                                         }}
-                                        )" class="btn btn-success border-0 rounded-0 text-white">EDIT</a></td>
+                                        " class="btn btn-success border-0 rounded-0 text-white">EDIT</button></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -149,7 +140,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" id="blockForm" onsubmit="event.preventDefault(); submitNewBlock()" autocomplete="off">
+                            <div id='validation-errors'>
+
+                            </div>
+                            <form method="POST" id="blockForm" autocomplete="off" data-action="add">
                                 <div class="form">
                                     @csrf
                                     <div class="form-group">

@@ -23,3 +23,30 @@
 			}
 	}
 
+	function findCharacterPosWithDelimeter(string $text , $delimeter)
+	{
+		$position = strpos($text , $delimeter);
+		if ($position !== false) {
+			return str_limit($text,$position);
+		} else {
+			return $text;
+		}
+	}
+
+
+	function filterSubjectId($array = [])
+	{
+		$count_values     = count(session('old_dragged_subjects')) - 1;
+		//get the previous dragged subject
+		$prev_dragged_sub = session('old_dragged_subjects')[$count_values-1];
+		//get the new dragged subject
+		$new_dragged_sub  = session('old_dragged_subjects')[$count_values];
+		//compare previous and new
+		$collect_id       = array_diff($new_dragged_sub, $prev_dragged_sub);
+        return $collect_id;
+	}
+
+	function hyphenate(string $str) : string {
+		return substr($str , 0 , 2) . ' - ' . substr($str,2);
+	}
+

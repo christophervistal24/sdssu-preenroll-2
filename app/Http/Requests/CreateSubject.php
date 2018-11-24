@@ -26,9 +26,10 @@ class CreateSubject extends FormRequest
         return [
             'subject'             => 'required',
             'subject_description' => 'required',
-            'units'           => 'required',
-            'year'            => 'required',
-            'semester'        => 'required',
+            'course'              => 'required',
+            'units'               => 'required',
+            'year'                => 'required',
+            'semester'            => 'required',
         ];
     }
 }

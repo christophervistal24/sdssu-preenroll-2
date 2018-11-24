@@ -13,14 +13,10 @@ class CreateStudentGradesTable extends Migration
      */
     public function up()
     {
-        Schema::create('student_grades', function (Blueprint $table) {
-            $table->integer('student_id');
-            $table->integer('subject_id');
-            $table->decimal('remarks',10,1)->nullable();
-            $table->string('block');
-            $table->integer('semester');
-            $table->integer('year');
-            $table->primary(['student_id','subject_id']);
+        Schema::create('grade_student', function (Blueprint $table) {
+            $table->integer('student_id_number');
+            $table->integer('grade_id');
+            $table->primary(['student_id_number','grade_id']);
             $table->timestamp('expiration')->nullable();
             $table->timestamps();
         });
@@ -33,6 +29,6 @@ class CreateStudentGradesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_grades');
+        Schema::dropIfExists('grade_student');
     }
 }

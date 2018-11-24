@@ -14,9 +14,9 @@ class CreateInstructorSchedulesTable extends Migration
     public function up()
     {
         Schema::create('instructor_schedule', function (Blueprint $table) {
-            $table->increments('id');
             $table->integer('instructor_id_number');
             $table->integer('schedule_id');
+            $table->primary(['instructor_id_number', 'schedule_id']);
             $table->timestamps();
         });
     }

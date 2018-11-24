@@ -36,10 +36,21 @@ class Block extends Model
         }
     }
 
+    public function blockMatch(string $block) :int 
+    {
+        $matchThese = [
+            'level'      => $block[0],
+            'course'     => $block[1] . $block[2],
+            'block_name' => $block[3],
+        ];
+        return $this->where($matchThese)->first()->id;
+    }
+
     public function schedule()
     {
         return $this->belongsTo('App\Schedule','id','block');
     }
+
 
 
 }

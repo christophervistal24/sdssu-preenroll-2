@@ -105,7 +105,7 @@
                                 </select>
                                 <br>
                                 <label>Student mobile number</label>
-                                <input type="text" class="form-control" name="student_mobile">
+                                <input type="text" class="form-control" name="mobile_number">
                                 <hr>
                                 <p>Parent's Information</p>
                                 <label>Mother's name</label>

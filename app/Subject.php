@@ -2,8 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\SubjectPreRequisite as SubPre;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Subject extends Model
 {
@@ -13,8 +14,18 @@ class Subject extends Model
 
 	public function pre_req()
 	{
-		return $this->hasMany('App\SubjectPreRequisite');
+		return $this->hasMany('App\SubjectPreRequisite','subject_id');
 	}
+
+    public function schedule_sub()
+    {
+        return $this->belongsTo('App\Schedule','id','subject_id');
+    }
+
+    public function subject_students()
+    {
+        return $this->belongsToMany(Student::class,'student_subject','subject_id','student_id_number');
+    }
 
 	public function addPrerequisite($subject,$request_pre)
 	{
@@ -61,5 +72,32 @@ class Subject extends Model
                 );
             }
             $subject->pre_req()->saveMany($pre_requisite);
+        }
+
+        public function getPreRequisite($search_id)
+        {
+            return SubjectPreRequisite::where('subject_id',$search_id)->first();
+        }
+
+        public function subjectWithPrerequisite()
+        {
+           return DB::select('
+                 SELECT
+                    subjects.id,
+                    subjects.sub,
+                    subjects.sub_description,
+                    subjects.units,
+                    subjects.year,
+                    subjects.course,
+                    subjects.semester,
+                    GROUP_CONCAT(
+                        subject_pre_requisites.pre_requisite_code
+                    ) AS subject_pre_requisites
+                FROM
+                    subjects
+                LEFT JOIN subject_pre_requisites ON subjects.id = subject_pre_requisites.subject_id
+                GROUP BY
+                    subjects.id
+                ');
         }
 }
