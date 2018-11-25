@@ -125,8 +125,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'subjects' => [
+            'required' => 'Please dragged some subjects',
         ],
     ],
 

@@ -89,8 +89,9 @@ Route::post('/studentlogin' , [
 ]);
 
 Route::group(['prefix' => 'student','middleware' => 'roles'], function() {
-	Route::get('/preenrol',['uses'=>'Students\StudentController@preenrol','roles' => ['Student']]);
-	Route::post('/preenrol',['uses'=>'Students\StudentController@submitpreenrol','roles' => ['Student']]);
+	Route::get('/preenrol',['uses'=>'Students\PreEnrollController@create','roles' => ['Student']]);
+	Route::post('/preenrol',['uses'=>'Students\PreEnrollController@store','roles' => ['Student']]);
+	Route::put('/preenrol',['uses'=>'Students\ScheduleController@checkSchedule','roles' => ['Student']]);
 
 	Route::get('/preenroldetails',['uses'=>'Students\StudentController@preenroldetails','roles' => ['Student']]);
 
@@ -145,6 +146,7 @@ Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
     Route::get('/students/{subject}', ['uses' => 'Instructors\StudentsController@index','roles' => ['Instructor']]);
     Route::post('/students/{subject}', ['uses' => 'Instructors\StudentsController@addgrade','roles' => ['Instructor']]);
     Route::put('/students/{subject}', ['uses' => 'Instructors\StudentsController@editgrade','roles' => ['Instructor']]);
+
 
     Route::get('/logout', ['uses' => 'Instructors\InstructorController@logout','roles' => ['Instructor']]);
 });

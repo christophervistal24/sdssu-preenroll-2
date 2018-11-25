@@ -96,10 +96,13 @@
                         <hr>
                         <div id="sortTrue" style="cursor:pointer; height:auto;">
                             <br>
+
                             @foreach ($schedules as $schedule)
-                            <input style="cursor:pointer; background:white;" name="subjects[{{ $schedule->subject_id }}][{{ $schedule->id }}]" data-units="{{ $schedule->units }}" class="p-3 mb-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{$schedule->start_time . ' - ' . $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room . ' - ' . $schedule->sub_description . ' - ' . $schedule->units . ' Units'
+                            <input style="cursor:pointer; background:white;"  data-toggle="tooltip" data-html="true" title="<b style='color:red'>{{ (is_null($schedule->pre_requisite_code)) ? 'No Pre requisite' :  'Pre requisite : ' . $schedule->pre_requisite_code }}</b>" name="subjects[{{ $schedule->subject_id }}][{{ $schedule->id }}]" data-units="{{ $schedule->units }}" class="p-3 mb-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{$schedule->start_time . ' - ' . $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room . ' - ' . $schedule->sub_description . ' - ' . $schedule->units . ' Units'
                             }}">
-                            @endforeach
+
+                            {{-- <div class="text-warning">{{ $schedule->pre_requisite_code }}</div> --}}
+                           @endforeach
                         </div>
                     </div>
                     <!-- sort: false -->
@@ -110,7 +113,7 @@
                         <span id="noOfUnits">Total units : 0</span>
                         <hr>
                         <div id="sortFalse" class="list-group col-md-12" id="dragged-subject">
-                            <input type="hidden" name="user_id" value="{{ $user_info->id_number }}">
+                            <input type="hidden" id="studentIdNumber" name="user_id" value="{{ $user_info->id_number }}">
                         </div>
                     </form>
                 </div>

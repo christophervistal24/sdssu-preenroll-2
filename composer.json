@@ -27,7 +27,8 @@
     },
     "autoload": {
         "files":[
-            "app/Helpers/Helper.php"
+            "app/Helpers/Helper.php",
+            "app/Traits/SchedUtils.php"
         ],
         "classmap": [
             "database/seeds",

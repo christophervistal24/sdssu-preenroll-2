@@ -3,12 +3,22 @@
 namespace App\Http\Controllers\Students;
 
 use App\Http\Controllers\Controller;
+use App\Schedule;
 use App\Student;
+use App\Traits\SchedUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
+    use SchedUtils;
+    protected $student;
+
+    public function __construct(Student $student)
+    {
+        $this->student = $student;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +26,22 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $student_information = Student::where('id_number',Auth::user()->id_number)
+        $student_information = $this->student
+                                ->where('id_number',Auth::user()->id_number)
                                 ->first();
         return view('students.schedule',compact('student_information'));
+    }
+
+    public function checkSchedule(Request $request)
+    {
+        $schedule_credentials = $this->explodeGivenSubject(' - ',$request->subject);
+        $sched =     $this->student
+                          ->find($request->student_id_number) //get student schedules
+                          ->schedules()
+                          ->where($schedule_credentials)
+                          ->get();
+
+        return response()->json(['schedule_data' => $sched]);
     }
 
     /**

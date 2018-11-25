@@ -86,7 +86,8 @@ class Schedule extends Model
     return DB::table('schedules')
             ->join('blocks','schedules.block' , '=' , 'blocks.id')
             ->join('subjects','schedules.subject_id' , '=' , 'subjects.id')
-            ->select('subjects.*' , 'blocks.*' ,'schedules.*')
+            ->leftjoin('subject_pre_requisites','subject_pre_requisites.subject_id','=','subjects.id')
+            ->select('subjects.*' , 'blocks.*' ,'schedules.*' , 'subject_pre_requisites.pre_requisite_code')
             ->where($match)
             ->get();
    }

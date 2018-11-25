@@ -37,7 +37,7 @@ class StudentController extends Controller
 	{
 		return view('students.index');
 	}
-
+/*
 	public function preenrol()
 	{
         $student_info = Student::where('id_number',Auth::user()->id_number)
@@ -69,7 +69,7 @@ class StudentController extends Controller
         }
       return redirect()->back()->with('status','Successfully enrolled those subjects');
     }
-
+*/
     public function preenroldetails()
     {
         $student  = Student::where('id_number',Auth::user()->id_number)->first();
