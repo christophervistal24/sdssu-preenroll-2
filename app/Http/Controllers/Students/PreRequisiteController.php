@@ -26,7 +26,6 @@ class PreRequisiteController extends Controller
             $search_id = $request->subjects;
         }
         $noPrereq = $this->subject->getPreRequisite($search_id);
-        $getSubjectId = $this->subject->where('sub',$noPrereq->pre_requisite_code)->get();
         //add validation for grade
         if (!is_null($noPrereq)) {
            return response()->json(['success' => false , 'message' =>  'Grade for ' . $noPrereq->pre_requisite_code . ' is require to get the subject '
