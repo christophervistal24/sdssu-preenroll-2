@@ -1,3 +1,4 @@
+@inject('subject_inject','App\Subject')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -83,11 +84,9 @@
                         <span class="text-uppercase page-subtitle">Add subject</span>
                     </div>
                 </div>
-                {{--  <span class="text-black">Current block for {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->block_name }}</span>
-                <br>
-                <span class="text-black">No of enrolled. {{ $student->year }} :  {{ $Block::getNoOfEnrolled($student->year)[0]->no_of_enrolled }}</span> --}}
-                <!-- End Page Header -->
-                <!-- Small Stats Blocks -->
+            <div class="alert alert-info" role="alert">
+              <b>You can click the subject to view the Pre requisite</b>
+            </div>
                 @include('errors.error')
                 @include('success.success-message')
                 <div class="row">
@@ -96,9 +95,24 @@
                         <hr>
                         <div id="sortTrue" style="cursor:pointer; height:auto;">
                             <br>
-
+                            <script>
+                                function sample(subject)
+                                {
+                                    if(subject.pre_requisite_code != null)
+                                    {
+                                        swal(
+                                            subject.pre_requisite_code+  ' ' + subject.subject_pre,
+                                            ''
+                                        );
+                                    } else {
+                                        swal('No Pre requisite','');
+                                    }
+                                }
+                            </script>
                             @foreach ($schedules as $schedule)
-                            <input style="cursor:pointer; background:white;"  data-toggle="tooltip" data-html="true" title="<b style='color:red'>{{ (is_null($schedule->pre_requisite_code)) ? 'No Pre requisite' :  'Pre requisite : ' . $schedule->pre_requisite_code }}</b>" name="subjects[{{ $schedule->subject_id }}][{{ $schedule->id }}]" data-units="{{ $schedule->units }}" class="p-3 mb-3 form-control border-0 rounded-0 font-weight-bold" readonly value="{{$schedule->start_time . ' - ' . $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room . ' - ' . $schedule->sub_description . ' - ' . $schedule->units . ' Units'
+                            <input onclick="return sample({{
+                                json_encode(['pre_requisite_code' => $schedule->pre_requisite_code  , 'subject_pre' => @$subject_inject->where('sub',$schedule->pre_requisite_code)->first()->sub_description ]) }});
+                            " data-id="{{ $schedule->id }}"  style="cursor:pointer; background:white;"  name="subjects[{{ $schedule->subject_id }}][{{ $schedule->id }}]" data-units="{{ $schedule->units }}" class="p-3 mb-3 form-control border-0 rounded-0 font-weight-bold js-remove" readonly value="{{$schedule->start_time . ' - ' . $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room . ' - ' . $schedule->sub_description . ' - ' . $schedule->units . ' Units'
                             }}">
 
                             {{-- <div class="text-warning">{{ $schedule->pre_requisite_code }}</div> --}}
@@ -108,11 +122,12 @@
                     <!-- sort: false -->
                     <form method="POST" class="list-group col-md-6 p-4 card rounded-0" style="height : auto;">
                         @csrf
-                        <span class="text-uppercase page-subtitle text-center"> Drag subjects here<button type="submit" class="btn btn-primary float-right btn-sm rounded-0 border-0">Save</button>
+
+                        <span class="text-uppercase page-subtitle text-center"> Drag subjects here<button type="submit" id="preEnrollBtnSave"  class="btn btn-primary float-right btn-sm rounded-0 border-0">Save</button>
                         </span>
                         <span id="noOfUnits">Total units : 0</span>
                         <hr>
-                        <div id="sortFalse" class="list-group col-md-12" id="dragged-subject">
+                        <div id="sortFalse" class="list-group col-md-12">
                             <input type="hidden" id="studentIdNumber" name="user_id" value="{{ $user_info->id_number }}">
                         </div>
                     </form>

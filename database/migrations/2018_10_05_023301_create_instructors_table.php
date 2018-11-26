@@ -19,6 +19,7 @@ class CreateInstructorsTable extends Migration
             $table->string('name');
             $table->string('education_qualification');
             $table->string('position');
+            $table->string('major');
             $table->enum('status', ['permanent', 'contractual']);
             $table->string('mobile_number');
             $table->integer('active')->default(1);

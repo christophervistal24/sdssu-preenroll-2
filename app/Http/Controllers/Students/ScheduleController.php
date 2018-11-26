@@ -40,7 +40,6 @@ class ScheduleController extends Controller
                           ->schedules()
                           ->where($schedule_credentials)
                           ->get();
-
         return response()->json(['schedule_data' => $sched]);
     }
 

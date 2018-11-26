@@ -22,7 +22,13 @@
 				default : return ucwords('1st Year');
 			}
 	}
-
+	function semesterWord(string $text) :string
+	{
+		if ($text == 1) {
+			return 'First Semester';
+		}
+		return 'Second Semester';
+	}
 	function findCharacterPosWithDelimeter(string $text , $delimeter)
 	{
 		$position = strpos($text , $delimeter);
@@ -49,4 +55,6 @@
 	function hyphenate(string $str) : string {
 		return substr($str , 0 , 2) . ' - ' . substr($str,2);
 	}
+
+
 

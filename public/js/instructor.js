@@ -7,6 +7,7 @@ $(document).ready(function () {
 	let instructorStatus        = $('#instructorStatus');
 	let instructorIsActive      = $('#instructorIsActive');
 	let instructorNumber        = $('#mobileNumber');
+	let instructorMajor 		= $('#instructorMajor');
 	let info;
 
 	$.ajaxSetup({
@@ -29,6 +30,7 @@ $(document).ready(function () {
 		instructorStatus.val(info.status);
 		instructorIsActive.val((info.active == 1) ? 'Active' : 'In Active');
 		instructorNumber.val(info.mobile);
+		instructorMajor.val(info.major);
 	}
 
 

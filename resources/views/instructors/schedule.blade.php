@@ -85,7 +85,8 @@
 				<div class="row">
 					<div class="col-md-6 offset-1">
 						<p>Name : <span class="font-weight-bold">{{ ucwords($user_info->name) }}</span></p>
-						<p>Years in service : </p>
+						<p>Years in service : <span class="font-weight-bold">{{ ucwords($user_info->created_at->diff(\Carbon\Carbon::now())
+         ->format('%y years, %m months and %d days')) }}</span></p>
 						<p>Status : <span class="font-weight-bold">{{ ucwords($user_info->status) }}</span></p>
 					</div>
 					<div class="col-md-4">
@@ -93,9 +94,12 @@
 						<p class="">Major : <span class="font-weight-bold">{{ ucwords($user_info->major) }}</span></p>
 					</div>
 				</div>
+				<div class="fixed-bottom mb-5">
+					<a href="/instructor/schedule/print" class="btn btn-secondary float-right">PRINT</a>
+				</div>
 				<table id="sched-table" class="table table-bordered" style="width:100%">
 					<thead class="text-center">
-						<th>Time & Day</th>
+						<th scope="col">Time & Day</th>
 						<th>Course No.</th>
 						<th>Description</th>
 						<th>Course Year</th>
@@ -106,54 +110,95 @@
 					</thead>
 					<tbody class="text-center">
 						@php
-							$sum = 0;
+						$sum = 0;
 						@endphp
-							@foreach ($schedules as $schedule)
-								@foreach ($schedule->schedules as $instructor_sched)
-									<tr>
-									<td>
-										{{ $instructor_sched->days . ' ' .  $instructor_sched->start_time . ' - ' . $instructor_sched->end_time }}
-									</td>
-									<td>{{ $instructor_sched->subject->sub }}</td>
-									<td class="text-left">{{ $instructor_sched->subject->sub_description }}</td>
-									<td>
-										{{
-											$instructor_sched->block_schedule->level .
-											$instructor_sched->block_schedule->course .
-											$instructor_sched->block_schedule->block_name
-										}}
-									</td>
-									<td>{{ $instructor_sched->subject->schedule_sub->students->count() }}</td>
-									@php $sum += $instructor_sched->subject->units; @endphp
-									<td>{{ $instructor_sched->subject->units }}</td>
-									<td>{{ $instructor_sched->room }}</td>
-									<td><a href="/instructor/students/{{ $instructor_sched->subject->schedule_sub->subject_id }}">View students</a></td>
-									</tr>
-								@endforeach
-							@endforeach
+						@foreach ($instructors as $schedule)
+							@if (isset($instructor_sched->days))
+								<td colspan="8"  class="text-left"><span class="font-weight-bold ml-5" >MWF</span></td>
+							@endif
+						@foreach ($schedule->schedules as $instructor_sched)
+						<tr>
+							@if($instructor_sched->days === 'MWF' || $instructor_sched->days === 'MW')
+							<td>{{  $instructor_sched->start_time . ' - ' . $instructor_sched->end_time }}</td>
+							<td>{{ $instructor_sched->subject->sub }}</td>
+							<td class="text-left">{{ $instructor_sched->subject->sub_description }}</td>
+							<td>
+								{{
+								$instructor_sched->block_schedule->level .
+								$instructor_sched->block_schedule->course .
+								$instructor_sched->block_schedule->block_name
+								}}
+							</td>
+							<td>{{ $instructor_sched->subject->schedule_sub->students->count() }}</td>
+							@php $sum += $instructor_sched->subject->units; @endphp
+							<td>{{ $instructor_sched->subject->units }}</td>
+							<td>{{ $instructor_sched->room }}</td>
+							<td><a href="/instructor/students/{{ $instructor_sched->subject->schedule_sub->subject_id }}">View students</a></td>
+							@endif
+						</tr>
+						@endforeach
+						@if (isset($instructor_sched->days))
+						<td colspan="8"  class="text-left"><span class="font-weight-bold  ml-5">TTH</span></td>
+						@endif
+						@foreach ($schedule->schedules as $instructor_sched)
+						<tr>
+							@if($instructor_sched->days === 'TTH')
+							<td>{{  $instructor_sched->start_time . ' - ' . $instructor_sched->end_time }}</td>
+							<td>{{ $instructor_sched->subject->sub }}</td>
+							<td class="text-left">{{ $instructor_sched->subject->sub_description }}</td>
+							<td>
+								{{
+								$instructor_sched->block_schedule->level .
+								$instructor_sched->block_schedule->course .
+								$instructor_sched->block_schedule->block_name
+								}}
+							</td>
+							<td>{{ $instructor_sched->subject->schedule_sub->students->count() }}</td>
+							@php $sum += $instructor_sched->subject->units; @endphp
+							<td>{{ $instructor_sched->subject->units }}</td>
+							<td>{{ $instructor_sched->room }}</td>
+							<td><a href="/instructor/students/{{ $instructor_sched->subject->schedule_sub->subject_id }}">View students</a></td>
+							@endif
+						</tr>
+						@endforeach
+						@if (isset($instructor_sched->days))
+						<td colspan="8"  class="text-left"><span class="font-weight-bold ml-5">S</span></td>
+						@endif
+						@foreach ($schedule->schedules as $instructor_sched)
+						<tr>
+							@if($instructor_sched->days === 'S')
+							<td>{{  $instructor_sched->start_time . ' - ' . $instructor_sched->end_time }}</td>
+							<td>{{ $instructor_sched->subject->sub }}</td>
+							<td class="text-left">{{ $instructor_sched->subject->sub_description }}</td>
+							<td>
+								{{
+								$instructor_sched->block_schedule->level .
+								$instructor_sched->block_schedule->course .
+								$instructor_sched->block_schedule->block_name
+								}}
+							</td>
+							<td>{{ $instructor_sched->subject->schedule_sub->students->count() }}</td>
+							@php $sum += $instructor_sched->subject->units; @endphp
+							<td>{{ $instructor_sched->subject->units }}</td>
+							<td>{{ $instructor_sched->room }}</td>
+							<td><a href="/instructor/students/{{ $instructor_sched->subject->schedule_sub->subject_id }}">View students</a></td>
+							@endif
+						</tr>
+						@endforeach
+						@endforeach
 						@if ($sum != 0)
-							<tr>
-							<th>No. of Units</th>
-							<th></th>
+						<tr>
+							<th class="text-left">No. of Units</th>
 							<th></th>
 							<th></th>
 							<th></th>
 							<th></th>
 							<th>{{ $sum }}</th>
 							<th></th>
-						</tr>
-						<tr>
-							<th>no</th>
-							<th></th>
-							<th></th>
-							<th></th>
-							<th></th>
-							<th></th>
-							<th></th>
 							<th></th>
 						</tr>
 						<tr>
-							<th>no</th>
+							<th class="text-left">No. of Preparation</th>
 							<th></th>
 							<th></th>
 							<th></th>
@@ -163,7 +208,7 @@
 							<th></th>
 						</tr>
 						<tr>
-							<th>no</th>
+							<th class="text-left">Add Designation</th>
 							<th></th>
 							<th></th>
 							<th></th>
@@ -173,7 +218,17 @@
 							<th></th>
 						</tr>
 						<tr>
-							<th>no</th>
+							<th class="text-left">Add special assignmnt</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+						<tr>
+							<th class="text-left">Total no. of Units</th>
 							<th></th>
 							<th></th>
 							<th></th>

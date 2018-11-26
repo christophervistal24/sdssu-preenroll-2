@@ -37,39 +37,7 @@ class StudentController extends Controller
 	{
 		return view('students.index');
 	}
-/*
-	public function preenrol()
-	{
-        $student_info = Student::where('id_number',Auth::user()->id_number)
-                               ->first();
-        $match = [
-            'blocks.level'     => $student_info->year,
-            'blocks.course'    => $student_info->course->course_code,
-            'schedules.status' => 'active',
-        ];
-        $schedules = $this->schedule
-                          ->getScheduleWithMatch($match);
-        return view('students.preenrol')->with('schedules',$schedules);
-	}
 
-    public function submitpreenrol(Request $request)
-    {
-      $subjects = $request->subjects;
-      $subject_ids = array_keys($subjects);
-      $collected_ids  = [];
-      array_walk_recursive($subjects, function ($v , $k) use (&$collected_ids) {
-            $collected_ids[] = $k;
-      });
-      $student = Student::where('id_number',Auth::user()->id_number)->first();
-      try {
-            $student->schedules()->attach($collected_ids);
-            $student->student_subjects()->attach($subject_ids);
-        } catch (Exception $e) {
-            return redirect()->back()->with('status','Success!');
-        }
-      return redirect()->back()->with('status','Successfully enrolled those subjects');
-    }
-*/
     public function preenroldetails()
     {
         $student  = Student::where('id_number',Auth::user()->id_number)->first();

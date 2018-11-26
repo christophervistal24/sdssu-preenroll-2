@@ -84,7 +84,7 @@ class InstructorController extends Controller
         $user = User::where('id_number',$request->id_number)->first();
         if (Auth::attempt($credentials) && $user->hasRole('Instructor')) {
             // Authentication passed...
-            return redirect()->intended('/instructor/index');
+            return redirect()->intended('/instructor/schedule');
         }
         return Redirect::back()->withInput()->withErrors('Wrong ID number/password combination.');
     }

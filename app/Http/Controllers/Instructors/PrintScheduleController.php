@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\Instructors;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Instructor;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ScheduleController extends Controller
+class PrintScheduleController extends Controller
 {
+
     public function index()
     {
     	$instructors = Instructor::where('id_number',Auth::user()->id_number)
                             ->with('schedules')
                             ->get();
-    	return view('instructors.schedule',compact('instructors'));
+    	$pdf = \App::make('dompdf.wrapper');
+		$pdf->loadView('instructors.printforms.schedule',compact('instructors'));
+		$pdf->setPaper('legal');
+		return $pdf->stream();
     }
-
 }

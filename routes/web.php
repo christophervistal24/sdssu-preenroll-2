@@ -25,7 +25,7 @@ Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 	Route::get('/',['uses'                    =>'Admin\AdminController@index','roles' => ['Admin']]);
 	Route::get('/index',['uses'                    =>'Admin\AdminController@index','roles' => ['Admin']]);
 	Route::post('/index',['uses'                    =>'Admin\AdminController@changesemester','roles' => ['Admin']]);
-	Route::get('/pre-enrol',['uses'                =>'Admin\AdminController@preenrol','roles' => ['Admin']]);
+	Route::get('/student-deanslist',['uses'                =>'Admin\DeansListController@index','roles' => ['Admin']]);
 	Route::get('/addgrades',['uses'                =>'Admin\AdminController@addgrades','roles' => ['Admin']]);
 
 	Route::get('/schedule',['uses' =>'Admin\ScheduleController@index','roles' => ['Admin']]);
@@ -70,6 +70,8 @@ Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 	Route::get('/block',['uses' => 'Admin\BlockController@index','roles' => ['Admin']]);
 	Route::post('/block',['uses' => 'Admin\BlockController@store','roles' => ['Admin']]);
 	Route::put('/upblock',['uses' => 'Admin\BlockController@update','roles' => ['Admin']]);
+
+	Route::get('/student/{id_number}',['uses' => 'Admin\StudentEvaluateController@show','roles' => ['Admin']]);
 
 	Route::get('/logout',['uses'                   =>'Admin\AdminController@logout','roles' => ['Admin']]);
 });
@@ -147,6 +149,7 @@ Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
     Route::post('/students/{subject}', ['uses' => 'Instructors\StudentsController@addgrade','roles' => ['Instructor']]);
     Route::put('/students/{subject}', ['uses' => 'Instructors\StudentsController@editgrade','roles' => ['Instructor']]);
 
+    Route::get('/schedule/print', ['uses' => 'Instructors\PrintScheduleController@index','roles' => ['Instructor']]);
 
     Route::get('/logout', ['uses' => 'Instructors\InstructorController@logout','roles' => ['Instructor']]);
 });

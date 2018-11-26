@@ -46,8 +46,8 @@ class InstructorController extends Controller
                 'id_number'               => $request->id_number,
                 'name'                    => $request->name,
                 'education_qualification' => $request->education_qualification,
-                'major'                   => $request->major,
                 'position'                => $request->position,
+                'major'                   => $request->major,
                 'status'                  => $request->status,
                 'mobile_number'           => $request->mobile_number,
             ]);
@@ -96,6 +96,7 @@ class InstructorController extends Controller
     {
         $info->active                  = ($request->active == 'Active') ? 1 : 0;
         $info->education_qualification = $request->education_qualification;
+        $info->major                   = $request->major;
         $info->id_number               = $request->id_number;
         $info->mobile_number           = $request->mobile_number;
         $info->name                    = $request->name;

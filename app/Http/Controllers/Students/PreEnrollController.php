@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePreEnroll as StorePreEnrollRequest;
 use App\Schedule;
 use App\Student;
+use App\Traits\SchedUtils;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PreEnrollController extends Controller
 {
+	use SchedUtils;
 
 	protected $schedule;
 

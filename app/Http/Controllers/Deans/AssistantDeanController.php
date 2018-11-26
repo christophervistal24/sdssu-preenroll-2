@@ -34,12 +34,16 @@ class AssistantDeanController extends Controller
 	    GROUP_CONCAT(subjects.sub_description) AS subject,
 	    schedules.block,
 	    instructors.id_number as instructor_id_number,
-	    instructors.name as instructor_name
+	    instructors.name as instructor_name ,
+	    blocks.level ,
+	    blocks.block_name ,
+	    blocks.course 
 	FROM
 	    schedules
 	LEFT JOIN instructor_schedule ON schedules.id = instructor_schedule.schedule_id
 	LEFT JOIN instructors ON instructor_schedule.instructor_id_number = instructors.id_number
 	INNER JOIN subjects ON schedules.subject_id = subjects.id
+	INNER JOIN blocks ON schedules.block = blocks.id
 	GROUP BY
 	    subject_id
         ');

@@ -93,6 +93,7 @@
                                     <th class="text-center">Name</th>
                                     <th class="text-center">Position</th>
                                     <th class="text-center">Status</th>
+                                    <th class="text-center">Major</th>
                                     <th class="text-center">#</th>
                                     <th class="text-center">Active</th>
                                     <th class="text-center">Action</th>
@@ -105,6 +106,7 @@
                                     <td>{{ ucwords($instructor->name) . ' , ' . strtoupper($instructor->education_qualification) }}</td>
                                     <td>{{ ucwords($instructor->position) }}</td>
                                     <td class="text-center">{{ ucwords($instructor->status) }}</td>
+                                    <td class="text-center">{{ ucwords($instructor->major) }}</td>
                                     <td class="text-center">{{ ucwords($instructor->mobile_number) }}</td>
                                     <td class="text-success text-center">{!! ($instructor->active == 1) ? '<span class="material-icons">check</span>' : '<span class="material-icons text-danger">close</span>' !!}</td>
                                     <td class="text-success text-center">
@@ -116,6 +118,7 @@
                                                 'name' => ucwords($instructor->name),
                                                 'edu' => strtoupper($instructor->education_qualification),
                                                 'position' => ucwords($instructor->position),
+                                                'major'     => ucwords($instructor->major),
                                                 'status' => ($instructor->status),
                                                 'active' => $instructor->active,
                                                 'mobile' => $instructor->mobile_number
@@ -169,10 +172,10 @@
                                         <input type="text" id="instructorEducationQual" class="form-control" value="{{ old('education_qualification') }}"   name="education_qualification"  placeholder="Education Qualification" required />
                                     </div>
                                     {{-- MAJOR --}}
-                                    {{-- <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12">
                                         <label>Major</label>
-                                        <input type="text" class="form-control" value="{{ old('major') }}" name="major"  placeholder="Instructor Major" required />
-                                    </div> --}}
+                                        <input type="text" class="form-control" value="{{ old('major') }}" name="major" id="instructorMajor" placeholder="Instructor Major" required />
+                                    </div>
                                     {{-- POSITION --}}
                                     <div class="form-group col-md-12">
                                         <label>Position</label>

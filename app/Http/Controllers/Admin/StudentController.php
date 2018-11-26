@@ -61,7 +61,9 @@ class StudentController extends Controller
 			'id_number'         => $request->id_number,
 			'fullname'          => $request->student_fullname,
 			'year'              => 1,
+            'address'           => $request->address,
 			'course_id'         => $request->course,
+            'address'           => $request->address,
 			'student_parent_id' => $student_parent->id,
 			'mobile_number'		=> $request->mobile_number,
 		]);

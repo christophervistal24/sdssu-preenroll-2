@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Instructor extends Model
 {
 	protected $table = 'instructors';
-    protected $fillable = ['id_number','name','education_qualification','position','status','mobile_number','active'];
+    protected $fillable = ['id_number','name','education_qualification','position','major','status','mobile_number','active'];
 
    public function schedules()
    {

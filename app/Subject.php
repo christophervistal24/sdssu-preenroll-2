@@ -100,4 +100,14 @@ class Subject extends Model
                     subjects.id
                 ');
         }
+
+        public static function getSubjectByYear(int $year_level , int $semester = null)
+        {
+            if ($semester != null) {
+                return self::where(['year' => $year_level,'semester' => $semester])
+                            ->get();
+            }
+            return self::where('year',$year_level)->get();
+        }
+
 }

@@ -1,40 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Students;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Subject;
-use App\SubjectPreRequisite;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class PreRequisiteController extends Controller
+class StudentEvaluatePrintController extends Controller
 {
-    protected $subject;
-
-    public function __construct(Subject $sub)
-    {
-        $this->subject = $sub;
-    }
-    public function checkSubject(Request $request)
-    {
-        $subjects = $request->session()->push('old_dragged_subjects',$request->subjects);
-        $filtered = array_values(filterSubjectId($subjects)); //rebase the keys
-        $search_id = null;
-        if (!empty($filtered)) {
-            $search_id = $filtered;
-        } else {
-            $search_id = $request->subjects;
-        }
-        $noPrereq = $this->subject->getPreRequisite($search_id);
-        $getSubjectId = $this->subject->where('sub',$noPrereq->pre_requisite_code)->get();
-        //add validation for grade
-        if (!is_null($noPrereq)) {
-           return response()->json(['success' => false , 'message' =>  'Grade for ' . $noPrereq->pre_requisite_code . ' is require to get the subject '
-           . $this->subject->where('id',$noPrereq->subject_id)->first()->sub_description]);
-        }
-
-        return response()->json($noPrereq);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -74,7 +46,13 @@ class PreRequisiteController extends Controller
      */
     public function show($id)
     {
-        //
+        // $instructors = Instructor::where('id_number',Auth::user()->id_number)
+        //                     ->with('schedules')
+        //                     ->get();
+        // $pdf = \App::make('dompdf.wrapper');
+        // $pdf->loadView('instructors.printforms.schedule',compact('instructors'));
+        // $pdf->setPaper('legal');
+        // return $pdf->stream();
     }
 
     /**

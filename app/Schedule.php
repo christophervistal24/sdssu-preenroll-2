@@ -27,7 +27,7 @@ class Schedule extends Model
           'subject_id' => $data['subject'],
           'block'      => $data['block'],
      	 	];
-   		return $this->where($checkMatch)->count();
+   		return $this->where($checkMatch)->exists();
    }
 
    public function block_schedule()

@@ -1,15 +1,16 @@
 $(document).ready(function () {
   let timeAndDay = [];
   let studentIdNumber = $('#studentIdNumber').val();
-
-
+  let sum = 0;
+  let noOfUnitsEl = $('#noOfUnits');
+  let selectedSubject = null;
 
    //students pre enroll
       let dragged_subject = $('#dragged-subject');
          // sort: true
         Sortable.create(sortTrue, {
           animation:200,
-          group: "sorting",
+          group: {name:'sorting', pull:'clone' ,put:'dragged_subjects'},
           sort: true,
         });
 
@@ -17,15 +18,17 @@ $(document).ready(function () {
         Sortable.create(sortFalse, {
           animation:200,
           group: "sorting",
+          name:'dragged_subjects',
           sort: false,
+          put:false,
           ghostClass: 'sortable-ghost',
           onAdd: function (/**Event*/evt) {
             let item = evt.item;
             let child = $(evt.to).children();
-            let noOfUnitsEl = $('#noOfUnits');
             let units = 0;
-            let sum = 0;
+            sum = 0;
             let subjects = [];
+            selectedSubject= item;
             $.each(child , function (key , value) {
               //get all dragged subjects
                 if(units = $(value).attr('data-units'))
@@ -35,15 +38,17 @@ $(document).ready(function () {
                     noOfUnitsEl.html('Total units : ' + sum);
                 }
             });
-            checkConflictSubject($(item).val());
+            // $(item).attr('id','dragged_s');
+            if (checkConflictSubject(item)) {
+                $(item).remove();
+            }
             checkPrerequisite(subjects);
         },
         onRemove: function (/**Event*/evt) {
             let item = evt.item;
             let child = $(evt.to).children();
-            let noOfUnitsEl = $('#noOfUnits');
             let units = 0;
-            let sum = 0;
+            sum = 0;
             $.each(child , function (key , value) {
               //get all dragged subjects
               // add ajax here
@@ -58,16 +63,29 @@ $(document).ready(function () {
             });
             removeSubjectInArray(timeAndDay,$(item).val()); //remove the selected item in the array
         },
+        filter: ".js-remove",
+        onFilter: function (evt) {
+          var item = evt.item,
+            ctrl = evt.target;
+          if (Sortable.utils.is(ctrl, ".js-remove")) {  // Click on remove button
+                removeSubjectInArray(timeAndDay,$(item).val());
+                sum = sum - $(item).attr('data-units');
+                noOfUnitsEl.html('Total units : ' + sum);
+                item.parentNode.removeChild(item); // remove sortable item
+          }
+        },
+         // Called when creating a clone of element
+        onClone: function (/**Event*/evt) {
+            var origEl = evt.item;
+            var cloneEl = evt.clone;
+        }
   });
 
-  function ajaxRunSetup()
+  function sample()
   {
-      $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-      });
+    alert(1);
   }
+
 
   function removeSubjectInArray(array, element) {
     element = element.match(/(((.*?)-(.*?)-){2})/)[0];
@@ -78,18 +96,22 @@ $(document).ready(function () {
   }
 
   //check conflict subject that dragged
-  function checkConflictSubject(dayTime)
+  function checkConflictSubject(dayTime,item)
   {
-      let getDateAndTime = dayTime.match(/(((.*?)-(.*?)-){2})/)[0];
+      let getDateAndTime = $(dayTime).val().match(/(((.*?)-(.*?)-){2})/)[0];
       let check = null;
       check = timeAndDay.includes(getDateAndTime); //check dragged
       if (check) {
-        alert(dayTime + ' is conflict to your other subjects');
+        sum = sum  - $(dayTime).attr('data-units');
+        noOfUnitsEl.html('Total units : ' + sum);
+        alert($(dayTime).val() + ' is conflict to your other subjects');
+        return true;
       } else {
         checkScheduleInDB(getDateAndTime,studentIdNumber);
         timeAndDay.push(getDateAndTime);
+        return false;
       }
-      console.log(timeAndDay);
+
 
   }
 
@@ -112,16 +134,19 @@ $(document).ready(function () {
                     success: function (data) {
                         if (data.schedule_data  === undefined || data.schedule_data .length == 0) {
                         } else {
+                          $('#preEnrollBtnSave').attr('disabled','disabled');
+                          removeSubjectInArray(timeAndDay,$(selectedSubject).val());
+                          sum  = sum - $(selectedSubject).attr('data-units');
+                          noOfUnitsEl.html('Total units : ' + sum);
                           swal({
                             title: 'Fail to load',
-                            text: 'This subject may cause conflict to your other subjects better to check your schedule',
+                            text: $(selectedSubject).val() + ' may cause conflict to your other subjects better to check your schedule ... ',
                             icon: "error",
-                          })
-                          .then((willDelete) => {
-                            if (willDelete) {
-                                location.reload();
-                            }
                           });
+                            $(selectedSubject).remove();
+                            setTimeout(function(){
+                                $('#preEnrollBtnSave').removeAttr('disabled');
+                            }, 3000);
                         }
                     },
             });
@@ -140,14 +165,19 @@ $(document).ready(function () {
                     /* remind that 'data' is the response of the AjaxController */
                     success: function (data) {
                       if (data.success == false) {
+
+                          removeSubjectInArray(timeAndDay,$(selectedSubject).val());
+                          sum  = sum - $(selectedSubject).attr('data-units');
+                          noOfUnitsEl.html('Total units : ' + sum);
+                          $(selectedSubject).remove();
                             swal({
                             title: 'Failed',
-                            text: data.message,
+                            text: data.message  ,
                             icon: "error",
                           })
                           .then((willDelete) => {
                             if (willDelete) {
-                                location.reload();
+                                // location.reload();
                               // swal("Poof! Your imaginary file has been deleted!", {
                               //   icon: "success",
                               // });

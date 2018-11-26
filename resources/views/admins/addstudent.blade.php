@@ -106,6 +106,10 @@
                                 <br>
                                 <label>Student mobile number</label>
                                 <input type="text" class="form-control" name="mobile_number">
+                                <br>
+                                <label>Address : </label>
+                                <textarea name="address" class="form-control" cols="30" rows="10"></textarea>
+
                                 <hr>
                                 <p>Parent's Information</p>
                                 <label>Mother's name</label>

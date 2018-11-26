@@ -1,40 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Students;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Subject;
-use App\SubjectPreRequisite;
+use App\Student;
 use Illuminate\Http\Request;
 
-class PreRequisiteController extends Controller
+class StudentEvaluateController extends Controller
 {
-    protected $subject;
-
-    public function __construct(Subject $sub)
-    {
-        $this->subject = $sub;
-    }
-    public function checkSubject(Request $request)
-    {
-        $subjects = $request->session()->push('old_dragged_subjects',$request->subjects);
-        $filtered = array_values(filterSubjectId($subjects)); //rebase the keys
-        $search_id = null;
-        if (!empty($filtered)) {
-            $search_id = $filtered;
-        } else {
-            $search_id = $request->subjects;
-        }
-        $noPrereq = $this->subject->getPreRequisite($search_id);
-        $getSubjectId = $this->subject->where('sub',$noPrereq->pre_requisite_code)->get();
-        //add validation for grade
-        if (!is_null($noPrereq)) {
-           return response()->json(['success' => false , 'message' =>  'Grade for ' . $noPrereq->pre_requisite_code . ' is require to get the subject '
-           . $this->subject->where('id',$noPrereq->subject_id)->first()->sub_description]);
-        }
-
-        return response()->json($noPrereq);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +15,7 @@ class PreRequisiteController extends Controller
      */
     public function index()
     {
-        //
+        //display all
     }
 
     /**
@@ -72,9 +45,26 @@ class PreRequisiteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Student $id_number)
     {
-        //
+        $student = $id_number;
+        $first = [];
+        foreach ($student->schedules as $s) {
+                $first['subject'][] = $s->subject->sub;
+                $first['subject_description'][] = $s->subject->sub_description;
+                $first['block'][] = $s->block_schedule->level . '' . $s->block_schedule->course . '' . $s->block_schedule->block_name;
+                $first['time'][] =  $s->start_time . ' - ' . $s->end_time;
+                $first['days'][] =  $s->days;
+                $first['rooms'][] = $s->room;
+                foreach ($student->grades as $grade) {
+                    if($grade->id == $s->subject->id) {
+                        $first['grades'][] = $grade->remarks;
+                    }
+                }
+                $first['semester'][] = (int) $s->subject->semester;
+        }
+        dd($first);
+        return view('admins.studentevaluate',compact('student'));
     }
 
     /**

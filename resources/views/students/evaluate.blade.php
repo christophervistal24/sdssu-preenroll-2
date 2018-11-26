@@ -96,13 +96,20 @@
                             <tbody>
                                 @foreach ($student->student_subjects as $student_sub)
                                     <tr>
-                                        <td>{{ $student_sub->sub }}</td>
-                                        <td>{{ $student_sub->sub_description }}</td>
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td class="text-center">{{ $student_sub->semester }}</td>
-                                        <td class="text-center">{{ $student_sub->units }}</td>
+                                        <th>{{ $student_sub->sub }}</th>
+                                        <th>{{ $student_sub->sub_description }}</th>
+                                            @foreach ($student->grades as $grade)
+                                                @if ($grade->subject_id == $student_sub->id)
+                                                        @if ($grade->remarks >= 3)
+                                                                <th class="text-center text-danger">{{ $grade->remarks }}</th>
+                                                        @else
+                                                                <th class="text-center text-success">{{ $grade->remarks }}</th>
+                                                        @endif
+                                                @endif
+                                            @endforeach
+                                        </th>
+                                        <th class="text-center">{{ $student_sub->semester }}</th>
+                                        <th class="text-center">{{ $student_sub->units }}</th>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -16,7 +16,7 @@ class StudentSeeder extends Seeder
     public function run()
     {
     	$role_student = Role::where('name','Student')->first();
-      
+
       $parent = new StudentParent;
       $parent->mothername = 'Regina Vistal';
       $parent->fathername = 'Crisogono Vistal';
@@ -28,6 +28,7 @@ class StudentSeeder extends Seeder
    		$student->fullname = 'Christopher P. Vistal';
    		$student->year = 1;
    		$student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
       $student->student_parent_id = $parent->id;
    		$student->save();
 
@@ -48,6 +49,7 @@ class StudentSeeder extends Seeder
       $student->fullname = 'Christopher P. Vistal2';
       $student->year = 1;
       $student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
       $student->student_parent_id = $parent->id;
       $student->save();
 
@@ -62,6 +64,7 @@ class StudentSeeder extends Seeder
       $student->fullname = 'Christopher P. Vistal3';
       $student->year = 1;
       $student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
       $student->student_parent_id = $parent->id;
       $student->save();
 

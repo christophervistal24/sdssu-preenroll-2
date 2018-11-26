@@ -112,7 +112,7 @@
                                     <td class="text-center">{{ $student->parents->mothername }}</td>
                                     <td class="text-center text-truncate">{{ $student->parents->fathername }}</td>
                                     <td class="text-center">{{ $student->parents->mobile_number }}</td>
-                                    <td class="text-center"><a class="text-white btn btn-success border-0 rounded-0"><b>Evaluate grades</b></a>
+                                    <td class="text-center"><a href="/admin/student/{{ $student->id_number }}" class="text-white btn btn-success border-0 rounded-0"><b>Evaluate grades</b></a>
                                         </td>
                                 </tr>
                                 @endforeach

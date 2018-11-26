@@ -35,9 +35,9 @@ $route="admin";
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ url("/$route/pre-enrol") }}">
+                    <a class="nav-link " href="{{ url("/$route/student-deanslist") }}">
                         <i class="material-icons">assignment_turned_in</i>
-                        <span>Pre Enroll <span class="float-right badge badge-pill badge-danger"> {{ $preenroll->noOfRequest() }}</span></span>
+                        <span>Deans List <span class="float-right badge badge-pill badge-danger"> {{ $preenroll->noOfRequest() }}</span></span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -258,14 +258,14 @@ $route="admin";
                     </form>
                     <div class="nav-wrapper">
                         <ul class="nav flex-column">
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link active" href="{{ url("/$route/index") }}">
                                     <i class="material-icons">dashboard</i>
                                     <span>Dashboard</span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url("/$route/schedule") }}">
+                                <a class="nav-link active" href="{{ url("/$route/schedule") }}">
                                     <i class="material-icons">note_add</i>
                                     <span>Schedules</span>
                                 </a>

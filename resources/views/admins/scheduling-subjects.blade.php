@@ -51,6 +51,7 @@ $start_time = [
 			<select name="days" data-live-search="true"  class="selectpicker form-control">
 				<option selected disabled>Select Days</option>
 				<option value="MWF" {{ (old('days') == 'MWF' ? "selected":"") }}>MWF</option>
+				<option value="MW" {{ (old('days') == 'MW' ? "selected":"") }}>MW</option>
 				<option value="TTH" {{ (old('days') == 'TTH' ? "selected":"") }}>TTH</option>
 				<option value="S" {{ (old('days') == 'S' ? "selected":"") }}>S</option>
 			</select>

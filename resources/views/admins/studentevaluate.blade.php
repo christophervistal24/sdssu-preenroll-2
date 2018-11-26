@@ -61,7 +61,7 @@
                                 <a class="dropdown-item" href="add-new-post.html">
                                 <i class="material-icons">note_add</i> Add New Post</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="{{ url('/assistantdean/logout') }}">
+                                <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>
@@ -74,53 +74,80 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4 card border-0 rounded-0">
+            <div class="main-content-container card rounded-0 container-fluid px-4">
                 <!-- Page Header -->
+                <div class="container">
+                </div>
                 <div class="page-header row no-gutters py-4">
-                    <div class="col-12 col-sm-2 offset-10 text-sm-left mb-0 float-right">
+                    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                          @include('success.student-success')
-                        <table id="tables" class="table table-bordered">
-                           <thead>
-                                <tr>
-                                    <th class="text-center">Time</th>
-                                    <th class="text-center">Days</th>
-                                    <th class="text-center">Room</th>
-                                    <th class="text-center">Block</th>
-                                    <th class="text-center">Subject</th>
-                                    <th class="text-center">Instructor</th>
-                                    <th class="text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($schedules as $schedule)
-                                    <tr>
-                                        <td class="text-center">{{ $schedule->time }}</td>
-                                        <td class="text-center">{{ $schedule->days }}</td>
-                                        <td class="text-center">{{ $schedule->room }}</td>
-                                        <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
-                                        <td>
-                                        {{ findCharacterPosWithDelimeter($schedule->subject,',') }}</td>
-                                        <td class="text-center">{{ ucwords($schedule->instructor_name) }}</td>
-                                        @if (isset($schedule->instructor_name))
-                                            <td class="text-center"><a  href="/assistantdean/editassign/{{ $schedule->instructor_id_number }}/{{ $schedule->schedule_id }}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
-                                        @else
-                                        @php
-                                            $schedule = explode(',',$schedule->schedule_id);
-                                        @endphp
-                                            <td class="text-center"><a href="/assistantdean/assign/{{$schedule[0] }}/{{ isset($schedule[1]) ? $schedule[1] : null }}" class="text-white btn btn-primary">ASSIGN INSTRUCTOR</a></td>
-                                        @endif
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+               @include('errors.error')
+               @include('success.success-message')
+                <div class="row text-center">
+						<div class="col-md-4 "><span class="font-weight-bold">{{ $student->id_number }}</span></div>
+						<div class="col-md-4 "><span class="font-weight-bold"> {{ $student->fullname }}</span></div>
+						<div class="col-md-4 "><span class="font-weight-bold">(GENDER HERE)</span></div>
                 </div>
-
+                <div class="row text-center">
+						<div class="col-md-4"><span class="font-weight-bold">Student No.</span></div>
+						<div class="col-md-4"><span class="font-weight-bold">Fullname</span></div>
+						<div class="col-md-4"><span class="font-weight-bold">Gender</span></div>
+                </div>
+                <br>
+                <div class="row text-left">
+						<div class="col-md-3"><span class="font-weight-bold">Course Code : BS{{ $student->course->course_code }}</span></div>
+						<div class="col-md-3"><span class="font-weight-bold">Department Code : CECST</span></div>
+						<div class="col-md-3"><span class="font-weight-bold">Year Level : {{ $student->level }}</span></div>
+						<div class="col-md-3"><span class="font-weight-bold">Semestral GPA : (Lorem)</span></div>
+                </div>
+                <br>
+                {{-- id="sched-table" --}}
+                <table  class="table">
+                	<thead>
+                		<tr>
+                			<th>Subject Name</th>
+                			<th>Subject Description</th>
+                			<th>Section</th>
+                			<th class="text-center">Time</th>
+                			<th>Day</th>
+                			<th>Room</th>
+                			<th>Grade</th>
+                			<th>GCompl Units</th>
+                		</tr>
+                	</thead>
+                	<tbody>
+                		@php $total_units = 0; @endphp
+                		@foreach ($student->schedules as $s)
+                		<tr>
+                			<th>{{ $s->subject->sub }}</th>
+                			<th>{{ $s->subject->sub_description }}</th>
+                			<th>{{ $s->block_schedule->level . '' . $s->block_schedule->course . '' . $s->block_schedule->block_name }}</th>
+                			<th>{{ $s->start_time . ' - ' . $s->end_time }}</th>
+                			<th>{{ $s->days }}</th>
+                			<th class="text-center">{{ $s->room }}</th>
+                			<th>
+                				@foreach ($student->grades as $grade)
+                					@if ($grade->id == $s->subject->id)
+                						{{ $grade->remarks }}
+                					@endif
+                				@endforeach
+                			</th>
+                			@php
+                				$total_units += $s->subject->units
+                			@endphp
+                			<th class="text-right">{{ number_format($s->subject->units, 1, '.', ',') }}</th>
+                		</tr>
+                		@if ($loop->last)
+                			<tr>
+                				<th colspan="8" class="text-right">Total Credited Units : {{ number_format($total_units,1,'.',',') }}</th>
+                			</tr>
+                		@endif
+                		@endforeach
+                	</tbody>
+                </table>
+                </div>
             </div>
         </div>
-        @endsection
+    </div>
+    @endsection
