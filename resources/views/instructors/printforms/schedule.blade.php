@@ -1,3 +1,4 @@
+@inject('instructor','App\Instructor')
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -81,7 +82,7 @@
 										$instructor_sched->block_schedule->block_name
 										}}
 									</center></td>
-									<td><center>{{ $instructor_sched->subject->schedule_sub->students->count() }}</center></td>
+									<td><center>{{  $no_of_students = $instructor->sched_student($instructor_sched->id) }}</center></td>
 									@php $sum += $instructor_sched->subject->units; @endphp
 									<td><center>{{ $instructor_sched->subject->units }}</center></td>
 									<td><center>{{ $instructor_sched->room }}</center></td>
@@ -103,7 +104,7 @@
 										$instructor_sched->block_schedule->block_name
 										}}
 									</center></td>
-									<td><center>{{ $instructor_sched->subject->schedule_sub->students->count() }}</center></td>
+									<td><center>{{  $no_of_students = $instructor->sched_student($instructor_sched->id) }}</center></td>
 									@php $sum += $instructor_sched->subject->units; @endphp
 									<td><center>{{ $instructor_sched->subject->units }}</center></td>
 									<td><center>{{ $checkMW = $instructor_sched->room }}</center></td>
@@ -125,7 +126,7 @@
 										$instructor_sched->block_schedule->block_name
 										}}
 									</center></td>
-									<td><center>{{ $instructor_sched->subject->schedule_sub->students->count() }}</center></td>
+									<td><center>{{  $no_of_students = $instructor->sched_student($instructor_sched->id) }}</center></td>
 									@php $sum += $instructor_sched->subject->units; @endphp
 									<td><center>{{ $instructor_sched->subject->units }}</center></td>
 									<td><center>{{ $checkTTH = $instructor_sched->room }}</center></td>
@@ -147,7 +148,7 @@
 										$instructor_sched->block_schedule->block_name
 										}}
 									</center></td>
-									<td><center>{{ $instructor_sched->subject->schedule_sub->students->count() }}</center></td>
+									<td><center>{{  $no_of_students = $instructor->sched_student($instructor_sched->id) }}</center></td>
 									@php $sum += $instructor_sched->subject->units; @endphp
 									<td><center>{{ $instructor_sched->subject->units }}</center></td>
 									<td><center>{{ $checkS = $instructor_sched->room }}</center></td>

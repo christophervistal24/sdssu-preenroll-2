@@ -4,17 +4,12 @@ namespace App;
 
 use App\Semester;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Student extends Model
 {
     protected $fillable = ['id_number','fullname','year','address','course_id','student_parent_id','mobile_number'];
     protected $primaryKey = 'id_number';
-
-    /*public function subjects()
-    {
-    	return $this->belongsToMany(InstructorSchedule::class,'student_subject','student_id','subject_id');
-    }
-    */
 
     public function grades()
     {
@@ -44,6 +39,11 @@ class Student extends Model
         return $this->belongsToMany('App\Schedule','schedule_student','student_id_number','schedule_id');
     }
 
+    public function deanslister()
+    {
+        return $this->hasOne('App\DeansList','student_id_number');
+    }
+
     public function getStudentYearLevel($id_number)
     {
     	$getStudenYear = $this->where('id_number',$id_number)->first();
@@ -53,5 +53,34 @@ class Student extends Model
     public function checkIfCanLogin($id_number,Semester $semester)
     {
      return $this->getStudentYearLevel($id_number) == 1 && $semester->getCurrentSemester() != 'Second semester';
+    }
+
+    public function getGrades($parameters)
+    {
+        /**
+         * [as total_units "Subjects that meet the below 2.0 remarks"]
+         */
+        $current_sem = Semester::where('current',1)->first()->id;
+        return DB::table('students')
+                ->join('grade_student', 'students.id_number', '=', 'grade_student.student_id_number')
+                ->join('grades', 'grade_student.grade_id', '=', 'grades.id')
+                ->join('subjects', function ($join) use($parameters , $current_sem){
+                        $join->on('subjects.id','=','grades.subject_id')
+                        ->where(
+                                //depending on current semester , student course , and student year_level
+                                [
+                                    'subjects.semester' => $current_sem,
+                                    'subjects.course'   => $parameters['student_course'],
+                                    'subjects.year'     => $parameters['student_year'],
+                                ]
+                        );
+                })
+                ->whereNotNull('grades.remarks')
+                ->whereBetween('grades.remarks',[1.0,2.0])
+                ->groupBy('students.id_number')
+                ->orderBy('students.id_number','DESC')
+                ->selectRaw('students.id_number,SUM(subjects.units) as total_units , students.year , students.course_id')
+                ->get()
+                ->toArray();
     }
 }

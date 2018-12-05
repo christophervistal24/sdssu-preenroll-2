@@ -6,14 +6,16 @@ use App\Block;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBlock;
 use Illuminate\Http\Request;
+use App\Events\UpdateBlock;
 
 class BlockController extends Controller
 {
     public function index()
     {
-        $blocks = Block::all();
+        $blocks = Block::orderBy('created_at','ASC')->get();
         return view('admins.listblocks',compact('blocks'));
     }
+
 
     public function store(StoreBlock $request)
     {
@@ -36,7 +38,16 @@ class BlockController extends Controller
                 'block_limit' => $request->block_limit,
                 'level'       => $request->year,
         ]);
+        \Event::fire( new UpdateBlock(new Block,$request->block_id));
         return response()->json(['success' => true]);
+    }
+
+    public function retrieveblock()
+    {
+        $blocks = Block::orderBy('created_at','ASC')
+                         ->get()
+                         ->toArray();
+        return $blocks;
     }
 
 }

@@ -28,6 +28,7 @@ class StoreNewStudent extends FormRequest
             'student_fullname' => 'required',
             'course'           => 'required',
             'address'          => 'required',
+            'gender'           => 'required',
             'mobile_number'   => 'required|unique:students',
             'mothersname'      => 'required',
             'fathersname'      => 'required',

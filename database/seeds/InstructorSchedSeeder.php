@@ -22,7 +22,7 @@ class InstructorSchedSeeder extends Seeder
 							'subject_id'=> Subject::where('sub_description','Introduction Computing')->first()->id,
 							'block' => 1
        				],
-       				/*[
+       				[
 							'start_time' => '9:00 AM',
 							'end_time'   => '10:00 AM',
 							'days'       => 'TTH',
@@ -30,7 +30,7 @@ class InstructorSchedSeeder extends Seeder
 							'subject_id'=> Subject::where('sub_description','Introduction Computing')->first()->id,
 							'block' => 1
        				],
-*/       				[
+       				[
 							'start_time' => '10:00 AM',
 							'end_time'   => '12:00 PM',
 							'days'       => 'MWF',
@@ -126,31 +126,25 @@ class InstructorSchedSeeder extends Seeder
 							'subject_id'=> Subject::where('sub_description','Embedded systems')->first()->id,
 							'block' => 2
        				],
+
+       				/*ENGINEERING SCHEDULES*/
+
        				[
 							'start_time' => '7:30 AM',
 							'end_time'   => '8:30 AM',
 							'days'       => 'MWF',
 							'room'       => '401',
-							'subject_id'=> Subject::where('sub_description','Engineering 1')->first()->id,
-							'block' => 5
-       				],
-       				[
-							'start_time' => '7:30 AM',
-							'end_time'   => '8:30 AM',
-							'days'       => 'MWF',
-							'room'       => '401',
-							'subject_id'=> Subject::where('sub_description','Engineering 2')->first()->id,
-							'block' => 5
-       				],
-       				[
-							'start_time' => '7:30 AM',
-							'end_time'   => '8:30 AM',
-							'days'       => 'MWF',
-							'room'       => '401',
-							'subject_id'=> Subject::where('sub_description','Engineering 3')->first()->id,
+							'subject_id'=> Subject::where('sub_description','General Chemistry 1')->first()->id,
 							'block' => 6
        				],
-
+       				[
+							'start_time' => '7:30 AM',
+							'end_time'   => '8:30 AM',
+							'days'       => 'MWF',
+							'room'       => '401',
+							'subject_id'=> Subject::where('sub_description','Calculus with Analytic Geometry 1')->first()->id,
+							'block' => 6
+       				],
        			]);
 
 				DB::table('instructor_schedule')
@@ -186,7 +180,8 @@ class InstructorSchedSeeder extends Seeder
 							[
 								'instructor_id_number' => 1,
 								'schedule_id' => 8,
-							],[
+							],
+                            [
 								'instructor_id_number' => 1,
 								'schedule_id' => 9,
 							],

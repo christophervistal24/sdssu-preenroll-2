@@ -38,11 +38,11 @@ $(document).ready(function () {
                     noOfUnitsEl.html('Total units : ' + sum);
                 }
             });
-            // $(item).attr('id','dragged_s');
             if (checkConflictSubject(item)) {
                 $(item).remove();
+            } else {
+              checkPrerequisite(subjects);
             }
-            checkPrerequisite(subjects);
         },
         onRemove: function (/**Event*/evt) {
             let item = evt.item;
@@ -147,6 +147,9 @@ $(document).ready(function () {
                             setTimeout(function(){
                                 $('#preEnrollBtnSave').removeAttr('disabled');
                             }, 3000);
+                              if (sum < 0) {
+                                noOfUnitsEl.html('Total units : 0');
+                              }
                         }
                     },
             });
@@ -165,28 +168,22 @@ $(document).ready(function () {
                     /* remind that 'data' is the response of the AjaxController */
                     success: function (data) {
                       if (data.success == false) {
-
+                          $('#preEnrollBtnSave').attr('disabled','disabled');
                           removeSubjectInArray(timeAndDay,$(selectedSubject).val());
                           sum  = sum - $(selectedSubject).attr('data-units');
                           noOfUnitsEl.html('Total units : ' + sum);
                           $(selectedSubject).remove();
                             swal({
-                            title: 'Failed',
+                            title: 'Fail',
                             text: data.message  ,
                             icon: "error",
-                          })
-                          .then((willDelete) => {
-                            if (willDelete) {
-                                // location.reload();
-                              // swal("Poof! Your imaginary file has been deleted!", {
-                              //   icon: "success",
-                              // });
-                            }
                           });
+                          setTimeout(function(){
+                                $('#preEnrollBtnSave').removeAttr('disabled');
+                            }, 3000);
                       }
                     },
             });
   }
-
 
 });

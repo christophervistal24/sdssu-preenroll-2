@@ -51,7 +51,11 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                 <img class="user-avatar rounded-circle mr-2" src="/dashboard/images/avatars/0.jpg" alt="User Avatar">
-                                <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
+                                @if (request()->is('admin/*'))
+                                    <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
+                                    @else
+                                @endif
+                                    <span class="d-none d-md-inline-block">{{ $user_info->fullname }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
                                 <a class="dropdown-item" href="user-profile-lite.html">
@@ -61,7 +65,11 @@
                                 <a class="dropdown-item" href="add-new-post.html">
                                 <i class="material-icons">note_add</i> Add New Post</a>
                                 <div class="dropdown-divider"></div>
+                                @if (request()->is('admin/*'))
                                 <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
+                                    @else
+                                <a class="dropdown-item text-danger" href="{{ url('/student/logout') }}">
+                                @endif
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>
@@ -82,72 +90,140 @@
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                     </div>
                 </div>
-               @include('errors.error')
-               @include('success.success-message')
+                @php
+                $total_units = 0;
+                $sum = 0;
+                $count = 0;
+                @endphp
+                @include('errors.error')
+                @include('success.success-message')
                 <div class="row text-center">
-						<div class="col-md-4 "><span class="font-weight-bold">{{ $student->id_number }}</span></div>
-						<div class="col-md-4 "><span class="font-weight-bold"> {{ $student->fullname }}</span></div>
-						<div class="col-md-4 "><span class="font-weight-bold">(GENDER HERE)</span></div>
+                    <div class="col-md-4 "><span class="font-weight-bold">{{ ($student->id_number) }}</span></div>
+                    <div class="col-md-4 "><span class="font-weight-bold"> {{ $student->fullname }}</span></div>
+                    <div class="col-md-4 "><span class="font-weight-bold">{{ ucwords($student->gender) }}</span></div>
                 </div>
                 <div class="row text-center">
-						<div class="col-md-4"><span class="font-weight-bold">Student No.</span></div>
-						<div class="col-md-4"><span class="font-weight-bold">Fullname</span></div>
-						<div class="col-md-4"><span class="font-weight-bold">Gender</span></div>
+                    <div class="col-md-4"><span class="font-weight-bold">Student No.</span></div>
+                    <div class="col-md-4"><span class="font-weight-bold">Fullname</span></div>
+                    <div class="col-md-4"><span class="font-weight-bold">Gender</span></div>
                 </div>
                 <br>
                 <div class="row text-left">
-						<div class="col-md-3"><span class="font-weight-bold">Course Code : BS{{ $student->course->course_code }}</span></div>
-						<div class="col-md-3"><span class="font-weight-bold">Department Code : CECST</span></div>
-						<div class="col-md-3"><span class="font-weight-bold">Year Level : {{ $student->level }}</span></div>
-						<div class="col-md-3"><span class="font-weight-bold">Semestral GPA : (Lorem)</span></div>
+                    <div class="col-md-4"><span class="font-weight-bold">Course Code : BS{{ $student->course->course_code }}</span></div>
+                    <div class="col-md-4 text-center"><span class="font-weight-bold">Department Code : CECST</span></div>
+                    <div class="col-md-4 text-right"><span class="font-weight-bold">Year Level : {{ digitToYearLevel($student->year) }}</span></div>
                 </div>
+                @if (request()->is('admin/*'))
+                    <div class="fixed-bottom">
+                        <button id="withRange" data-id_number="{{$student->id_number}}" data-course="{{ $student->course->course_code}}" class="btn btn-success rounded-0 float-right"><b>PRINT WITH RANGE</b></button>
+                     </div>
+                @endif
                 <br>
-                {{-- id="sched-table" --}}
-                <table  class="table">
-                	<thead>
-                		<tr>
-                			<th>Subject Name</th>
-                			<th>Subject Description</th>
-                			<th>Section</th>
-                			<th class="text-center">Time</th>
-                			<th>Day</th>
-                			<th>Room</th>
-                			<th>Grade</th>
-                			<th>GCompl Units</th>
-                		</tr>
-                	</thead>
-                	<tbody>
-                		@php $total_units = 0; @endphp
-                		@foreach ($student->schedules as $s)
-                		<tr>
-                			<th>{{ $s->subject->sub }}</th>
-                			<th>{{ $s->subject->sub_description }}</th>
-                			<th>{{ $s->block_schedule->level . '' . $s->block_schedule->course . '' . $s->block_schedule->block_name }}</th>
-                			<th>{{ $s->start_time . ' - ' . $s->end_time }}</th>
-                			<th>{{ $s->days }}</th>
-                			<th class="text-center">{{ $s->room }}</th>
-                			<th>
-                				@foreach ($student->grades as $grade)
-                					@if ($grade->id == $s->subject->id)
-                						{{ $grade->remarks }}
-                					@endif
-                				@endforeach
-                			</th>
-                			@php
-                				$total_units += $s->subject->units
-                			@endphp
-                			<th class="text-right">{{ number_format($s->subject->units, 1, '.', ',') }}</th>
-                		</tr>
-                		@if ($loop->last)
-                			<tr>
-                				<th colspan="8" class="text-right">Total Credited Units : {{ number_format($total_units,1,'.',',') }}</th>
-                			</tr>
-                		@endif
-                		@endforeach
-                	</tbody>
-                </table>
-                </div>
-            </div>
+
+                  @foreach ($grades as $key => $grade)
+                  @php
+                   $count     = 0;
+                   $gpa       = 0;
+                   $semestral = 0;
+                   $gpa       = array_sum((array_column($grades[$key],'remarks')));
+                   $count     = count(array_column($grades[$key],'subject_id'));
+                   $semestral = $gpa / $count;
+                  @endphp
+                   <div class="row">
+                    <div class="col-md-6 text-left">
+                      <!--Semester-->
+                      <h5 class="text-capitalize"><span class="font-weight-bold">{{str_replace('_',' ',$key)}}</span></h5>
+                    </div>
+                    <div class="col-md-6 text-right">
+                      <span class="font-weight-bold ">Semestral GPA : {{ number_format($semestral,1,'.',',') }} </span>
+                    </div>
+                  </div>
+                   @php
+                      $total_units = 0;
+                   @endphp
+                      @if ($loop->last)
+                          <div><a href="/admin/student/print/grade/{{ $student->id_number }}/{{$grade[0]->subject->semester}}/{{$grade[0]->subject->year}}/report" class="btn btn-secondary rounded-0 float-right">PRINT</a>
+                          </div>
+                            <table class="table table-inverse">
+                              <thead>
+                                 <tr>
+                                    <th>Subject Name</th>
+                                    <th>Subject Description</th>
+                                    <th>Section</th>
+                                    <th>Time</th>
+                                    <th>Days</th>
+                                    <th>Room</th>
+                                    <th class="text-center">Grade</th>
+                                    <th class="text-right">GCompl Units</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              @foreach ($grade as $grade_sub)
+                                <tr>
+                                  <td class="border-0">{{$grade_sub->subject->sub}}</td>
+                                  <td class="border-0">{{$grade_sub->subject->sub_description}}</td>
+                                  <td class="text-center border-0">{{
+                                    $grade_sub->subject->schedule_sub->block_schedule->level .
+                                    $grade_sub->subject->schedule_sub->block_schedule->course .
+                                    $grade_sub->subject->schedule_sub->block_schedule->block_name
+                                      }}</td>
+                                         @foreach ($grade_sub->subject->schedule_sub->where('subject_id',$grade_sub->subject->id)->get() as $sched)
+                                            <td class="border-0">{{$sched->start_time . ' - ' . $sched->end_time}}</td>
+                                            <td class="border-0">{{$sched->days}}</td>
+                                            <td class="border-0">{{$sched->room}}</td>
+                                            @if ($loop->index == 0)
+                                             @if ($grade_sub->remarks > 3)
+                                                <td class="border-0 text-center text-danger">{{$grade_sub->remarks}}</td>
+                                                @else
+                                                <td class="border-0 text-center">{{$grade_sub->remarks}}</td>
+                                             @endif
+                                            @php $total_units += $grade_sub->subject->units; @endphp
+                                            <td class="border-0 text-right">{{$grade_sub->subject->units}}</td>
+                                                <tr class="text-center"></tr>
+                                                <td class="border-0"></td>
+                                                <td class="border-0"></td>
+                                                <td class="border-0"></td>
+                                            @endif
+                                        @endforeach
+                                </tr>
+                              @endforeach
+                              </tbody>
+                                <tr ><td colspan="8" class="text-right"><span class="font-weight-bold">Total Credited Units : {{$total_units}}</span></td></tr>
+                            </table>
+                        @else
+                        <div><a href="/admin/student/print/grade/{{ $student->id_number }}/{{$grade[0]->subject->semester}}/{{$grade[0]->subject->year}}" class="btn btn-secondary rounded-0 float-right">PRINT</a>
+                          </div>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Subject Name</th>
+                              <th>Subject Description</th>
+                              <th class="text-center">Grade</th>
+                              <th class="text-right">GCompl Units</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($grade as $grade_sub)
+                            <tr>
+                              <td>{{$grade_sub->subject->sub}}</td>
+                              <td>{{$grade_sub->subject->sub_description}}</td>
+                              @if ($grade_sub->remarks > 3)
+                                  <td class="text-center text-danger">{{$grade_sub->remarks}}</td>
+                                  @else
+                                  <td class="text-center">{{$grade_sub->remarks}}</td>
+                              @endif
+                              @php $total_units += $grade_sub->subject->units; @endphp
+                              <td class="text-right">{{$grade_sub->subject->units}}</td>
+                            </tr>
+                            @endforeach
+                              <tr ><td colspan="8" class="text-right"><span class="font-weight-bold">Total Credited Units : {{$total_units}}</span></td></tr>
+                          </tbody>
+                        </table>
+                      @endif
+                  @endforeach
+                <br>
         </div>
     </div>
-    @endsection
+</div>
+@include('templates-dashboard.modal-range')
+@endsection

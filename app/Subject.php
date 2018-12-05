@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Semester;
 use App\SubjectPreRequisite as SubPre;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,11 @@ class Subject extends Model
     public function subject_students()
     {
         return $this->belongsToMany(Student::class,'student_subject','subject_id','student_id_number');
+    }
+
+    public function grade()
+    {
+        return $this->hasOne(Grade::class,'subject_id');
     }
 
 	public function addPrerequisite($subject,$request_pre)
@@ -76,7 +82,7 @@ class Subject extends Model
 
         public function getPreRequisite($search_id)
         {
-            return SubjectPreRequisite::where('subject_id',$search_id)->first();
+            return SubjectPreRequisite::where('subject_id',$search_id)->pluck('pre_requisite_code');
         }
 
         public function subjectWithPrerequisite()
@@ -110,4 +116,23 @@ class Subject extends Model
             return self::where('year',$year_level)->get();
         }
 
+        public static function getSubjectsByYearAndCourse(array $credentials = [])
+        {
+            return self::where([
+                    'year'     => $credentials['year'],
+                    'course'   => $credentials['course'],
+                    'semester' => $credentials['semester'],
+            ])
+            ->get(['id','sub','sub_description','units','year','course','semester']);
+        }
+
+        public function getTotalUnits(array $credentials)
+        {
+            $semester = Semester::where('current',1)->first()->id;
+            return $this->where([
+                'year'     => $credentials['year'],
+                'course'   => $credentials['course'],
+                'semester' => $semester,
+            ])->pluck('units')->sum();
+        }
 }

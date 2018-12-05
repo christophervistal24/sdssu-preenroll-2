@@ -29,6 +29,7 @@ class StudentSeeder extends Seeder
    		$student->year = 1;
    		$student->course_id = 2;
       $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
       $student->student_parent_id = $parent->id;
    		$student->save();
 
@@ -50,6 +51,7 @@ class StudentSeeder extends Seeder
       $student->year = 1;
       $student->course_id = 2;
       $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
       $student->student_parent_id = $parent->id;
       $student->save();
 
@@ -65,6 +67,7 @@ class StudentSeeder extends Seeder
       $student->year = 1;
       $student->course_id = 2;
       $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
       $student->student_parent_id = $parent->id;
       $student->save();
 

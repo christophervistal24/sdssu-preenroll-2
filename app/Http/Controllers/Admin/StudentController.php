@@ -64,6 +64,7 @@ class StudentController extends Controller
             'address'           => $request->address,
 			'course_id'         => $request->course,
             'address'           => $request->address,
+            'gender'            => $request->gender,
 			'student_parent_id' => $student_parent->id,
 			'mobile_number'		=> $request->mobile_number,
 		]);
@@ -113,9 +114,21 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Student $student)
     {
-        //
+        $student->fullname      = $request->fullname;
+        $student->address       = $request->student_address;
+        $student->gender        = $request->student_gender;
+        $student->mobile_number = $request->student_mobile;
+        $student->year          = $request->student_year;
+        $student->course_id     = $request->student_course;
+        $student_parents = $student->parents;
+        $student_parents->mothername = $request->student_mother;
+        $student_parents->fathername = $request->student_father;
+        $student_parents->mobile_number = $request->parent_mobile;
+        $student->save();
+        $student_parents->save();
+        return response()->json(['success' => true]);
     }
 
     /**

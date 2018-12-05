@@ -85,13 +85,15 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                    <h4 class="text-muted ml-2">List of all Instructors</h4>
-                    <div class="container">
-                        <table id="tables" class="table table-bordered" style="width:100%">
+                    <h4 class="text-muted ml-2">List of all Students</h4>
+                    <div class="container-fluid">
+                        <table id="student-table" class="table table-bordered" style="width :auto;">
                             <thead>
                                 <tr>
                                     <th class="text-center">ID Number</th>
                                     <th class="text-center">Name</th>
+                                    <th class="text-center">Gender</th>
+                                    <th class="text-center">Address</th>
                                     <th class="text-center">Mobile #</th>
                                     <th class="text-center">Year</th>
                                     <th class="text-center">Course</th>
@@ -106,13 +108,31 @@
                                 <tr>
                                     <td class="text-center">{{ $student->id_number }}</td>
                                     <td>{{ ucwords($student->fullname) }}</td>
+                                    <td>{{ ucwords($student->gender) }}</td>
+                                    <td>{{ $student->address }}</td>
                                     <td>{{ $student->mobile_number }}</td>
                                     <td class="text-center">{{ digitToYearLevel($student->year) }}</td>
                                     <td class="text-center">BS{{ $student->course->course_code}}</td>
                                     <td class="text-center">{{ $student->parents->mothername }}</td>
                                     <td class="text-center text-truncate">{{ $student->parents->fathername }}</td>
                                     <td class="text-center">{{ $student->parents->mobile_number }}</td>
-                                    <td class="text-center"><a href="/admin/student/{{ $student->id_number }}" class="text-white btn btn-success border-0 rounded-0"><b>Evaluate grades</b></a>
+
+                                    <td class="text-center">
+                                        <span class="font-weight-bold"><button id="btnEditInfo" params="{{json_encode([
+                                        'id_number'     => $student->id_number,
+                                        'fullname'      => $student->fullname,
+                                        'gender'      => $student->gender,
+                                        'address'       => $student->address,
+                                        'mobile'        => $student->mobile_number,
+                                        'year'          => $student->year,
+                                        'course'        => $student->course->id,
+                                        'mothers_name'  => $student->parents->mothername,
+                                        'fathers_name'  => $student->parents->fathername,
+                                        'parent_mobile' => $student->parents->mobile_number,
+                                    ])}}" class="btn btn-secondary rounded-0">EDIT INFO</button></span>
+
+                                     <a href="/admin/student/{{ $student->id_number }}" class="text-white btn btn-success border-0 rounded-0"><b>EVALUATE</b></a>
+
                                         </td>
                                 </tr>
                                 @endforeach
@@ -124,70 +144,79 @@
             </div>
             {{-- MODAL START --}}
             <!-- Modal -->
-            <div class="modal fade" id="editInstructor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="editStudentInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Edit Instructor Info.</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Student Info.</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" onsubmit="event.preventDefault(); submitInstructorInfo()" autocomplete="off">
+                            <form id="editStudentForm" autocomplete="off">
                                 <div class="form">
-                                    @csrf
-                                    {{-- INSTRUCTOR FULLNAME --}}
-                                    <input type="hidden" id="instructorId" class="form-control" value="{{ old('name') }}"  required />
                                     <div class="form-group col-md-12">
                                         <label>Fullname</label>
-                                        <input type="text" id="instructorFullname" class="form-control" value="{{ old('name') }}"    placeholder="Instructor Fullname"  required />
+                                        <input type="text" name="fullname" id="studentFullname" class="form-control"  required />
                                     </div>
-                                    {{-- ID NUMBER --}}
+
                                     <div class="form-group col-md-12">
                                         <label>ID Number</label>
-                                        <input type="text" id="instructorIdNumber" name="id_number" class="form-control" value="{{ old('id_number') }}"   placeholder="Instructor ID Number"  required />
+                                        <input type="text" name="id_number"  id="studentIdNumber"  class="form-control"  required />
                                     </div>
-                                    {{-- PASSWORD --}}
-                                    {{-- <div class="form-group col-md-12">
-                                        <label>Password</label>
-                                        <input type="password" class="form-control" name="password"  placeholder="Your password" required />
-                                    </div> --}}
-                                    {{-- EDUCATION QUALIFICATION --}}
+
                                     <div class="form-group col-md-12">
-                                        <label>Education Qualification</label>
-                                        <input type="text" id="instructorEducationQual" class="form-control" value="{{ old('education_qualification') }}"   name="education_qualification"  placeholder="Education Qualification" required />
-                                    </div>
-                                    {{-- MAJOR --}}
-                                    {{-- <div class="form-group col-md-12">
-                                        <label>Major</label>
-                                        <input type="text" class="form-control" value="{{ old('major') }}" name="major"  placeholder="Instructor Major" required />
-                                    </div> --}}
-                                    {{-- POSITION --}}
-                                    <div class="form-group col-md-12">
-                                        <label>Position</label>
-                                        <input type="text" id="instructorPosition" class="form-control" value="{{ old('position') }}" name="position"  placeholder="Position" required />
-                                    </div>
-                                    {{-- STATUS --}}
-                                    <div class="form-group col-md-12">
-                                        <label>Status</label>
-                                        <select name="status" id="instructorStatus" class="form-control">
-                                            <option value="permanent">Permanent</option>
-                                            <option value="contractual">Contractual</option>
+                                        <select name="student_gender" class="form-control" id="studentGender">
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
                                         </select>
                                     </div>
-                                    {{-- MOBILE --}}
+
                                     <div class="form-group col-md-12">
-                                        <label>Mobile Number</label>
-                                        <input type="text" name="mobile_number" id="mobileNumber" class="form-control" placeholder="+639127961717">
+                                        <textarea class="form-control"  name="student_address" id="studentAddress" cols="30" rows="5"></textarea>
                                     </div>
-                                    {{-- ACTIVE --}}
+
+
+
+
                                     <div class="form-group col-md-12">
-                                        <label>Active</label>
-                                        <select name="active" id="instructorIsActive" class="form-control">
-                                            <option value="Active">Active</option>
-                                            <option value="In Active">In Active</option>
+                                        <label>Mobile Number : </label>
+                                        <input type="text" name="student_mobile"  id="studentMobileNumber" class="form-control"   required />
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>Year : </label>
+                                        <select name="student_year" class="form-control" id="studentYear">
+                                            @foreach (range(1,5) as $year)
+                                                <option value="{{$year}}" id="studentYear">{{$year}}</option>
+                                            @endforeach
                                         </select>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>Course : </label>
+                                        <select name="student_course" id="studentCourse" class="form-control">
+                                            <option value="2">CS</option>
+                                            <option value="1">CE</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="row">
+                                         <div class="form-group col-md-6">
+                                            <label>Father's name : </label>
+                                            <input name="student_father" type="text" id="studentFathersname" class="form-control">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label>Mother's name : </label>
+                                            <input type="text" name="student_mother" id="studentMothersname" class="form-control" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>Parent Mobile number : </label>
+                                        <input  name="parent_mobile" class="form-control" type="text" id="parentMobileNumber">
                                     </div>
                                 </div>
                             </div>

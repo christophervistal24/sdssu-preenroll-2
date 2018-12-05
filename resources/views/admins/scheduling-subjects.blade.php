@@ -100,7 +100,7 @@ $start_time = [
 				</option>
 				@endforeach
 			</select>
-			<select name="subject[CS]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
+			<select name="subject[CE]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
 				<option disabled selected>First year subjects</option>
 				@foreach ($first_year_ce as $subjects)
 				<option
@@ -112,7 +112,7 @@ $start_time = [
 				@endforeach
 			</select>
 		</div>
-		{{-- SECOND YEAR --}}
+
 		<label>Second year subject : </label>
 		<div class="form-group row">
 			<select name="subject[CS]" data-live-search="true" id="subject_2_1" class="selectpicker form-control col-md-6">
@@ -126,8 +126,9 @@ $start_time = [
 				</option>
 				@endforeach
 			</select>
-			<select name="subject[CS]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
-				<option disabled selected>First year subjects</option>
+			{{-- SECOND YEAR CE --}}
+			<select name="subject[CE]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
+				<option disabled selected>Second year subjects</option>
 				@foreach ($second_year_ce as $subjects)
 				<option
 					value="{{ $subjects->sub_description }}"
@@ -152,8 +153,8 @@ $start_time = [
 				</option>
 				@endforeach
 			</select>
-			<select name="subject[CS]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
-				<option disabled selected>First year subjects</option>
+			<select name="subject[CE]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
+				<option disabled selected>Third year subjects</option>
 				@foreach ($third_year_ce as $subjects)
 				<option
 					value="{{ $subjects->sub_description }}"
@@ -177,8 +178,8 @@ $start_time = [
 				</option>
 				@endforeach
 			</select>
-			<select name="subject[CS]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
-				<option disabled selected>First year subjects</option>
+			<select name="subject[CE]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
+				<option disabled selected>Fourth year subjects</option>
 				@foreach ($fourth_year_ce as $subjects)
 				<option
 					value="{{ $subjects->sub_description }}"
@@ -189,7 +190,7 @@ $start_time = [
 				@endforeach
 			</select>
 		</div>
-			<select name="subject[CS]"  id="subject_1_1" class="form-control float-right  col-md-6 selectpicker" data-live-search="true">
+			<select name="subject[CE]"  id="subject_1_1" class="form-control float-right  col-md-6 selectpicker" data-live-search="true">
 				<option disabled selected>Fifth year subjects</option>
 				@foreach ($fifth_year_ce as $subjects)
 				<option
@@ -207,8 +208,8 @@ $start_time = [
 				<option disabled selected>Blocks</option>
 				@foreach ($blocks as $block)
 				<option
-					value="{{ $block->level . $block->course . $block->block_name }}"
-					{{ (old('block') == $block->level . $block->course . $block->block_name ? "selected":"") }}
+					value="{{ $block->id }}"
+					{{ (old('block') == $block->id ? "selected":"") }}
 					>
 					{{  $block->level . $block->course . $block->block_name }}
 				</option>

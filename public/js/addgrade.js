@@ -40,7 +40,8 @@ $(document).ready(function() {
                     data : {
                     	student_id_number:information.student_id_number,
                     	subject_id:information.subject_id,
-                    	student_grade:inputGrade.val()
+                    	student_grade:inputGrade.val(),
+                        grade_id:information.grade_id
                     },
                     dataType: 'json',
                     /* remind that 'data' is the response of the AjaxController */
@@ -63,7 +64,8 @@ $(document).ready(function() {
                     data : {
                     	student_id_number:information.student_id_number,
                     	subject_id:information.subject_id,
-                    	student_grade:inputGrade.val()
+                    	student_grade:inputGrade.val(),
+                        grade_id:information.grade_id
                     },
                     dataType: 'json',
                     /* remind that 'data' is the response of the AjaxController */

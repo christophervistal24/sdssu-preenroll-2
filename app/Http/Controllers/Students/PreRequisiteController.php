@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Students;
 
+use App\Grade;
 use App\Http\Controllers\Controller;
 use App\Subject;
 use App\SubjectPreRequisite;
@@ -25,14 +26,28 @@ class PreRequisiteController extends Controller
         } else {
             $search_id = $request->subjects;
         }
-        $noPrereq = $this->subject->getPreRequisite($search_id);
-        //add validation for grade
-        if (!is_null($noPrereq)) {
-           return response()->json(['success' => false , 'message' =>  'Grade for ' . $noPrereq->pre_requisite_code . ' is require to get the subject '
-           . $this->subject->where('id',$noPrereq->subject_id)->first()->sub_description]);
-        }
+        $noPrereq = $this->subject
+                         ->getPreRequisite($search_id)
+                         ->toArray();
+        if (!empty($noPrereq)) {
+            $no_of_pre_req = count($noPrereq);
+            $remarks = [];
+           foreach ($noPrereq as $key => $value) {
+                $remarks['subject' . $key] = Grade::where('subject_id',$this->subject->where('sub',$value)->first()->id)->pluck('remarks')->toJson();
+           }
+            array_walk_recursive($remarks , function (&$value , $key) {
+                if ($value == '[]' || strtolower($value) == "INC" || $value > 3.0) {
+                    $value = null;
+                }
+            });
 
-        return response()->json($noPrereq);
+            $count_remarks = count(array_filter($remarks));
+            if ($count_remarks === $no_of_pre_req) {
+                return response()->json(['success' => true]);
+            } else  {
+                return response()->json(['success' => false , 'message' => 'You can click the subject to view the pre-requisite maybe you don\'t a have grade.']);
+            }
+        }
     }
     /**
      * Display a listing of the resource.

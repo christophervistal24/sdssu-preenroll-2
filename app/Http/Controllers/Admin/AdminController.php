@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Admin;
 use App\Block;
 use App\Course;
+use App\DeansList;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateSubject;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\StoreNewStudent;
 use App\Http\Requests\StoreInstructor;
+use App\Http\Requests\StoreNewStudent;
 use App\Instructor;
 use App\InstructorSchedule;
 use App\PreEnroll;
 use App\PreEnrolled;
 use App\Role;
 use App\Room;
+use App\Schedule;
 use App\Semester;
 use App\Student;
 use App\StudentParent;
@@ -35,11 +37,11 @@ use SMSGatewayMe\Client\Model\SendMessageRequest;
 class AdminController extends Controller
 {
 
-    private $instructorSchedule;
-
-    public function __construct(InstructorSchedule $instructorSchedule)
+    private $semester , $schedule , $student , $subject , $deans_list;
+    public function __construct(Semester $semester , DeansList $deans_list)
     {
-        $this->instructorSchedule = $instructorSchedule;
+        $this->semester = $semester;
+        $this->deans_list = $deans_list;
         $this->middleware('preventBackHistory');
     }
 
@@ -50,11 +52,36 @@ class AdminController extends Controller
 
     public function changesemester(Request $request)
     {
-        Semester::query()->update(['current' => 0]);
-        $sem = Semester::find($request->semested_id);
-        $sem->current = 1;
-        $sem->save();
-        return response()->json(['success' => true]);
+        $id_number = Auth::user()->id_number;
+        $admin     = User::where('id_number',$id_number)->first();
+        $current_sem  = $this->semester //get the current semester
+                                 ->where('current',1)->first()->id;
+
+        $this->deans_list //find all students that qualified for deanslist
+             ->insertQualifiedForDeansLister(new Student , new Subject);
+
+        if (Auth::attempt(['id_number' => $id_number , 'password' => $request->password])
+            && $admin->hasRole('Admin')) { // Authentication passed...
+
+            $this->semester //update all
+                 ->query()
+                 ->update(['current' => 0]);
+
+            $sem = $this->semester //find the request semester and update
+                 ->find($request->semester_id);
+            $sem->current = 1;
+            $sem->save();
+
+            $this->semester //check action for changing semester
+                 ->actionBySemester($current_sem,$request->semester_id,[
+                    'schedule_model'  => new Schedule(),
+            ]);
+
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false , 'value' => $current_sem]);
+        }
+
     }
 
     public function preenrol()

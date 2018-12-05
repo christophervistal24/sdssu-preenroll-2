@@ -84,45 +84,64 @@
                     <!-- End Page Header -->
                     <!-- Small Stats Blocks -->
                     <div class="row">
-                        <div class="col-md-12">
-                             <span>Name : {{ $student_information->fullname }}</span>
-                             <br>
-                             <span>ID No : {{ $student_information->id_number }}</span>
-                             <br>
-                             <span>Level : {{ digitToYearLevel($student_information->year) }}
-                         </span>
-                             <br>
-                             <span>Course : {{  $student_information->course->course_name }}
-                             </span>
-                              <hr>
-                        </div>
-                        <div class="col-md-12">
 
+                            <div class="col-lg-4 text-left">
+                             <span class="font-weight-bold">Student No : {{ hyphenate($student_information->id_number) }} </span>
+                         </div>
+                             <div class="col-lg-4 text-left">
+                                 <span class="font-weight-bold">Student Name : {{ ucwords($student_information->fullname) }}</span>
+                            </div>
+                             <div class="col-lg-4 text-right">
+                                 <span>Address :  {{ $student_information->address }}</span>
+                            </div>
+                              <div class="col-lg-12 text-left border-bottom">
+                                 <span>Year Level : {{ digitToYearLevel($student_information->year) }}    </span>
+                            </div>
+                            <div class="col-lg-12 text-left">
+                                <span>Course : {{  $student_information->course->course_name }}
+                             </span>
+                            </div>
+                            <div class="col-lg-12 text-left border-bottom">
+                                <span>Department : COLLEGE OF ENGINEERING, COMPUTERING STUDIES AND TECHNOLOGY
+                             </span>
+                            </div>
+                            <div class="col-lg-12 text-left border-bottom">
+                                <span>Department/Grant : <span class="font-weight-bold">(SCHOLARSHIP)</span>
+                             </span>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
                             <table id="sched-table" class="table table-bordered">
                             <thead class="text-center">
-                                <th>Time</th>
-                                <th>Days</th>
-                                <th>Rooms</th>
-                                <th>Instructor</th>
-                                <th>Subjects</th>
+                                <tr class="p-0"><th colspan="8" class="p-0 border-bottom-0 pt-1"><h5 class="text-center">CLASS SCHEDULE</h5></th></tr>
+                                <th class="border-right-0">SUB. NAME</th>
+                                <th class="text-left border-right-0">SUBJECT DESCRIPTION</th>
+                                <th class="border-right-0">SECTION</th>
+                                <th class="border-right-0">UNITS</th>
+                                <th class="border-right-0">ROOM</th>
+                                <th class="border-right-0">DAYS</th>
+                                <th class="border-right-0">TIME</th>
+                                <th>PAY UNITS</th>
                             </thead>
                             <tbody>
                                 @foreach ($student_information->schedules as $schedule)
                                     <tr>
-                                        <td class="text-center">{{ $schedule->start_time . ' - ' . $schedule->end_time  }}</td>
-                                        <td class="text-center">{{ $schedule->days }}</td>
-                                        <td class="text-center">{{ $schedule->room }}</td>
-                                        <th class="text-center">
-                                            @foreach ($schedule->subject->schedule_sub->instructors as $instructor)
-                                                    {{ ucwords($instructor->name) }}
-                                            @endforeach
-                                        </th>
-                                        <th class="text-left">{{ $schedule->subject->sub  . ' - ' . $schedule->subject->sub_description }}</th>
+                                        <td class="text-left border-right-0">{{ $schedule->subject->sub }}</td>
+                                        <td class="text-left border-right-0">{{ $schedule->subject->sub_description }}</td>
+                                        <td class="text-center border-right-0">{{ $schedule->block_schedule->level . $schedule->block_schedule->course . $schedule->block_schedule->block_name }}</td>
+                                        <td class="text-center border-right-0">{{ number_format($schedule->subject->units, 1, '.', ',')}}</td>
+                                        <td class="text-center border-right-0">{{ $schedule->room }}</td>
+                                        <td class="text-center border-right-0">{{ $schedule->days }}</td>
+                                        <td class="text-center font-weight-bold text-sm border-right-0">{{ $schedule->start_time . ' - ' . $schedule->end_time  }}</td>
+                                        <td class="text-center border-right-0">{{ number_format($schedule->subject->units, 1, '.', ',')}}</td>
+
                                     </tr>
                                 @endforeach
 
                             </tbody>
                         </table>
+                        <br>
                         </div>
                     </div>
             </div>

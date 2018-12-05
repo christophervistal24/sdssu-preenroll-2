@@ -316,7 +316,7 @@
                                 <label>Fifth year subject : </label>
                                 <div class="form-group row">
                                     <select name="subject" id="subject_4" data-live-search="true" class="selectpicker form-control col-md-12">
-                                        <option disabled selected>Fourth year</option>
+                                        <option disabled selected>Fifth year</option>
                                         @foreach ($fifth_year as $subjects)
                                         <option value="{{ $subjects->sub_description }}">
                                             {{  $subjects->sub . ' - ' . ucwords($subjects->sub_description) }}

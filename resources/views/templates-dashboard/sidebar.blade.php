@@ -1,5 +1,6 @@
+
 @if (request()->is('admin/*'))
-@inject('preenroll','App\PreEnroll')
+@inject('deans_list_model','App\DeansList')
 @php
 $route="admin";
 @endphp
@@ -8,7 +9,7 @@ $route="admin";
         <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
             <a class="navbar-brand w-100 mr-0" href="#" style="line-height: 25px;">
                 <div class="d-table m-auto">
-                    <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="{{ url('/storage/img/sdssu.png') }}" alt="Shards Dashboard">
+                    <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="{{ asset('storage/img/sdssu.png') }}" alt="Shards Dashboard">
                     <span class="d-none d-md-inline ml-1">{{ ucfirst($route) }} Dashboard</span>
                 </div>
             </a>
@@ -37,7 +38,7 @@ $route="admin";
                 <li class="nav-item">
                     <a class="nav-link " href="{{ url("/$route/student-deanslist") }}">
                         <i class="material-icons">assignment_turned_in</i>
-                        <span>Deans List <span class="float-right badge badge-pill badge-danger"> {{ $preenroll->noOfRequest() }}</span></span>
+                        <span>Deans List <span class="float-right badge badge-pill badge-danger"> {{ $deans_list_model->all()->count() }}</span></span>
                     </a>
                 </li>
                 <li class="nav-item">

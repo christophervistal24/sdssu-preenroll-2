@@ -101,7 +101,7 @@
 						<th>Actions</th>
 					</thead>
 					<tbody>
-						@foreach ($sched_students->subject_students as $student)
+						@foreach ($sched_students->students as $student)
 						<tr>
 							<td class="text-center font-weight-bold">
 								{{ hyphenate($student->id_number) }}
@@ -109,30 +109,30 @@
 							<td class="text-center font-weight-bold">{{ $student->fullname }}</td>
 							<td class="text-center">{{ $student->course->course_code }}</td>
 							<td class="text-center">
-								@foreach ($student->grades as $element)
-									{{ $element->grades }}
-								@endforeach
 								@php
 								//check if the student has a grade
 								//note:refactor this code
+
 								$check_grade = $student_model->find($student->id_number)
 															->grades
-															->where('subject_id',$sched_students->id)
+															->where('subject_id',$sched_students->subject->id)
 															->first();
 								@endphp
 								 @if (isset($check_grade->remarks))
 								{{ $check_grade->remarks }}
 								<td class="text-center"><button type="button" id="btnEditGrade" class="btn btn-success" params="{{ json_encode([
-									'subject_id'        =>  $sched_students->id ,
+									'subject_id'        =>  $sched_students->subject->id ,
 									'fullname'          => $student->fullname,
 									'remarks'           => $check_grade->remarks,
-									'student_id_number' =>  $student->id_number
+									'student_id_number' =>  $student->id_number ,
+									'grade_id'			=> $check_grade->id
 								]) }}"> Edit grade</button></td>
 								@else
 								<td class="text-center"><button type="button" id="btnAddGrade" class="btn btn-primary" params="{{ json_encode([
-									'subject_id'        =>  $sched_students->id ,
+									'subject_id'        =>  $sched_students->subject->id ,
 									'fullname'          => $student->fullname,
-									'student_id_number' =>  $student->id_number
+									'student_id_number' =>  $student->id_number,
+									'grade_id'			=> $check_grade->id
 								]) }}"> Add grade</button></td>
 								@endif
 							</td>

@@ -2,21 +2,30 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\DeansList;
 use App\Http\Controllers\Controller;
+use App\Semester;
 use App\Student;
 use App\Subject;
+use App\Traits\DeansListUtils;
+use Illuminate\Http\Request;
 
 class DeansListController extends Controller
 {
+    use DeansListUtils;
+
+    private $student , $subject;
+
+    public function __construct(Student $student , Subject $subject)
+    {
+        $this->student = $student;
+        $this->subject = $subject;
+    }
+
     public function index()
     {
-    	$s = Student::with('grades')->get();
-		foreach ($s as $value) {
-			if (!$value->grades->isEmpty()) {
-				echo $value->id_number . "<br>";
-			}
-		}
-     	//display all students who are qualified for deans list
+        $list = DeansList::with('student')
+                            ->get();
+        return view('admins.list-of-deanslist',compact('list'));
     }
 }

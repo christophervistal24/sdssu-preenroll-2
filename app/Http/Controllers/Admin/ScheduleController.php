@@ -7,17 +7,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ScheduleRequest;
 use App\Schedule;
 use App\Subject;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class ScheduleController extends Controller
 {
 
 	protected $schedule;
-    protected $block;
+  protected $block;
 
 	public function __construct(Schedule $schedule , Block $block)
 	{
-		$this->schedule = $schedule;
+		    $this->schedule = $schedule;
         $this->block = $block;
 	}
 
@@ -29,8 +32,8 @@ class ScheduleController extends Controller
         $third_year  = Subject::getSubjectByYear(3);
         $fourth_year = Subject::getSubjectByYear(4);
         $fifth_year  = Subject::getSubjectByYear(5);
-    	$schedules = Schedule::with('instructors')->get();
-    	return view('admins.schedule',compact('schedules','first_year','second_year','third_year','fourth_year','fifth_year'));
+    	  $schedules = Schedule::with('instructors')->where('status','!=','delete')->get();
+    	  return view('admins.schedule',compact('schedules','first_year','second_year','third_year','fourth_year','fifth_year'));
     }
 
     public function create()
@@ -40,6 +43,12 @@ class ScheduleController extends Controller
 
     public function store(ScheduleRequest $request)
     {
+       $check = $this->schedule->checkBetween($request);  //check in between
+       if ($check->isNotEmpty()) {
+          return Redirect::back()
+                    ->withInput()
+                    ->withErrors('Sorry but this schedule is conflict to others.');
+       }
 
     	 $is_exists = $this->schedule
                            ->check([
@@ -50,7 +59,7 @@ class ScheduleController extends Controller
                      'subject'    => Subject::where('sub_description',array_values($request->subject)[0])
                                        ->first()
                                         ->id,
-                     'block'      => $request->block[0]
+                     'block'      => $request->block
         ]);
 
         if (!$is_exists) {
@@ -60,17 +69,57 @@ class ScheduleController extends Controller
                  'days'       => $request->days,
                  'room'       => $request->room,
                  'subject_id' => $this->schedule::getIdOfSubject(array_values($request->subject)[0]),
-                 'block'      => $this->block->blockMatch($request->block),
+                 'block'      => $request->block,
             ]);
             return redirect()->back()->with('status','Successfully add new schedule');
         } else {
             return redirect()->back()->withErrors('This schedule is already exists');
         }
     }
+    public function show($information)
+    {
+        $params = [];
+        parse_str($information,$params);
+        $schedules = DB::select(
+          DB::raw('SELECT
+          subjects.*,
+          blocks.*,
+          schedules.*,
+          subject_pre_requisites.pre_requisite_code,
+          GROUP_CONCAT(
+              subject_pre_requisites.pre_requisite_code
+          ) AS pre_requisite_code
+          FROM
+              schedules
+          LEFT JOIN subjects ON schedules.subject_id = subjects.id
+          LEFT JOIN blocks ON schedules.block = blocks.id
+          LEFT JOIN subject_pre_requisites ON subjects.id = subject_pre_requisites.subject_id
+          WHERE
+          blocks.level = :level
+          AND
+          blocks.course = :course
+          AND
+          schedules.status = "active"
+          AND
+          blocks.block_name = :block_name
+          AND
+          subjects.semester = :semester
+          GROUP BY
+              schedules.id
+          ORDER BY blocks.course DESC
+          '),$params
+        );
+        return response()->json(['schedules' => $schedules]);
+    }
 
     public function update(ScheduleRequest $request)
     {
-      //check first if the schedule is already exists
+
+      $check = $this->schedule->checkBetween($request); //check if in between
+      if ($check->isNotEmpty()) {
+          return response()->json(['success' => false]);
+      }
+      //check if the schedule is already exists
       $is_exists = $this->schedule
                            ->check([
                      'start_time' => $request->start_time,

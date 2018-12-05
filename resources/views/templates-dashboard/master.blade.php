@@ -1,10 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js h-100" lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>SDSSU</title>
         <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
         <script src="/js/third_party/sweetalert.js"></script>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
         <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
@@ -34,6 +35,31 @@
                 </main>
             </div>
         </div>
+ <!-- The Modal -->
+<div class="modal fade" id="semesterInputPasswod">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-0">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <label>Password : </label>
+          <input id="password" type="password" name="password" class="form-control">
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnChangeSem">Submit</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
@@ -53,6 +79,13 @@
         <script>
         $(document).ready( function () {
             $('#tables').DataTable({ "order": [[ 0, "desc" ]]});
+            $('#student-table').DataTable({ "order": [[ 0, "asc" ]]});
+            $('#block_tables').DataTable({
+             "order": [[ 4, "asc" ]],
+             "bPaginate": false,
+             "bInfo" : false,
+             "lengthChange": false
+           });
             $('#sched-table').DataTable({
                 "ordering": false,
                  "aLengthMenu": [[2, 50, 75, -1], [2, 50, 75, "All"]],
@@ -90,11 +123,19 @@
                        let confirmation = confirm('Would you like to change the semester?');
                        if(confirmation)
                        {
-                           fetch(`/admin/index`,{
+                          $('#password').val('')
+                          $('#semesterInputPasswod').modal('toggle');
+                       } else {
+                            listBox.value = PrevValue;
+                       }
+                    });
+                    $(document).on('click','#btnChangeSem' , function () {
+                        fetch(`/admin/index`,{
                               method: 'POST',
                               body: JSON.stringify({
                                  _token:token,
-                                semested_id:listBox.value
+                                semester_id:listBox.value ,
+                                password:$('#password').val(),
                              }),
                               headers: new Headers({ "Content-Type": "application/json" })
                             })
@@ -102,20 +143,23 @@
                             .then((data) => {
                                 if(data.success == true)
                                 {
+                                      $('#semesterInputPasswod').modal('toggle');
                                       swal("Good job!", `Semester changed`, "success")
+                                } else {
+                                      listBox.value = data.value;
+                                      swal("Wrong password!", ``, "error")
                                 }
                             })
-                       } else {
-                            listBox.value = PrevValue;
-                       }
                     });
                 </script>
         @endif
         <script src="/js/addgrade.js"></script>
-        <script src="/js/block.js"></script>
+        {{-- <script src="/js/block.js"></script> --}}
         <script src="/js/schedule.js"></script>
         <script src="/js/instructor.js"></script>
         <script src="/js/pre_dragged.js"></script>
+        <script src="/js/print-with-range.js"></script>
+        <script src="/js/student.js"></script>
       @if (str_contains(request()->fullUrl(),'assign'))
        <script>
             // sort: true
@@ -139,10 +183,5 @@
 
         </script>
       @endif
-      <script>
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
-</script>
     </body>
 </html>

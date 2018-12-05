@@ -15,7 +15,7 @@ class CreateDeansListsTable extends Migration
     {
         Schema::create('deans_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('student_id_number');
+            $table->integer('student_id_number')->unique();
             $table->timestamps();
         });
     }

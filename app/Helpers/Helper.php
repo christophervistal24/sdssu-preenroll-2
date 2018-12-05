@@ -22,13 +22,19 @@
 				default : return ucwords('1st Year');
 			}
 	}
-	function semesterWord(string $text) :string
+	function semesterWord($text) :string
 	{
 		if ($text == 1) {
 			return 'First Semester';
 		}
 		return 'Second Semester';
 	}
+
+	function digitToWord(string $number)
+	{
+		return ($number == 1) ? strtoupper('1st') : strtoupper('2nd');
+	}
+
 	function findCharacterPosWithDelimeter(string $text , $delimeter)
 	{
 		$position = strpos($text , $delimeter);
@@ -54,6 +60,14 @@
 
 	function hyphenate(string $str) : string {
 		return substr($str , 0 , 2) . ' - ' . substr($str,2);
+	}
+
+	function convertKeySemesterToWord(string $semester)
+	{
+		$semesters = ['First semester' , 'Second semester'];
+		$get_sem_portion = substr($semester,7);
+		preg_match_all('/^\d/',$get_sem_portion, $digit);
+		return $semesters[$digit[0][0] - 1];
 	}
 
 

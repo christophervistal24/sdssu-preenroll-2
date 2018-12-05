@@ -37,15 +37,16 @@ class AssistantDeanController extends Controller
 	    instructors.name as instructor_name ,
 	    blocks.level ,
 	    blocks.block_name ,
-	    blocks.course 
+	    blocks.course
 	FROM
 	    schedules
 	LEFT JOIN instructor_schedule ON schedules.id = instructor_schedule.schedule_id
 	LEFT JOIN instructors ON instructor_schedule.instructor_id_number = instructors.id_number
 	INNER JOIN subjects ON schedules.subject_id = subjects.id
 	INNER JOIN blocks ON schedules.block = blocks.id
+    WHERE schedules.status = "active"
 	GROUP BY
-	    subject_id
+	    subject_id , instructors.id_number
         ');
     	return view('deans.assistant.listschedule',compact('schedules'));
 	}

@@ -13,12 +13,17 @@ use Illuminate\Http\Request;
 
 class StudentsController extends Controller
 {
+    protected $grade;
+    public function __construct(Grade $grade)
+    {
+        $this->grade = $grade;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Subject $subject)
+    public function index(Schedule $subject)
     {
         $sched_students = $subject;
         return view('instructors.students',compact('sched_students','subject'));
@@ -26,22 +31,17 @@ class StudentsController extends Controller
 
     public function addgrade(StoreGradeRequest $request, Subject $subject)
     {
-        $student = Student::findOrFail($request->student_id_number);
-        $grade = Grade::create(
-            [
-                'subject_id' => $request->subject_id,
-                'remarks'    => $request->student_grade,
-            ]
-       );
-        //add grade
-        $student->grades()->attach($grade);
+        $grade = $this->grade->find($request->grade_id);
+        $grade->remarks = $request->student_grade;
+        $grade->save();
         return response()->json(['success' => true]);
     }
 
     public function editgrade(EditGradeRequest $request,$subject)
     {
-        Grade::where('subject_id',$subject)->first()
-                    ->update(['remarks' => $request->student_grade]);
+         $grade = $this->grade->find($request->grade_id);
+        $grade->remarks = $request->student_grade;
+        $grade->save();
         return response()->json(['success' => true]);
     }
     /**

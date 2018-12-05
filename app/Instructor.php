@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Instructor extends Model
 {
@@ -13,6 +14,11 @@ class Instructor extends Model
    {
    		$this->primaryKey = 'id_number';
    		return $this->belongsToMany('App\Schedule','instructor_schedule','instructor_id_number','schedule_id');
+   }
+
+   public function sched_student($id)
+   {
+   		return DB::table('schedule_student')->where('schedule_id',$id)->count();
    }
 
 }

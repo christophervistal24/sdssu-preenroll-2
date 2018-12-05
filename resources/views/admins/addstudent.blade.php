@@ -84,42 +84,47 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="">
-                    <form method="POST">
+                    <form method="POST" autocomplete="off">
                         @include('errors.error')
                         @include('success.student-success')
                         <div class="form row">
                             @csrf
                             <div class="col-md-6 offset-3">
                                 <p>Student Information</p>
-                                <label>Student ID No.</label>
-                                <input type="text" name="id_number"  class="form-control" placeholder="e.g 1501755">
+                                <label>Student ID No. : </label>
+                                <input type="text" value="{{ old('id_number') }}" name="id_number"  class="form-control" placeholder="e.g 1501755">
                                 <br>
-                                <label>Student Fullname</label>
-                                <input type="text" name="student_fullname"  class="form-control" placeholder="e.g Christian De Leon">
+                                <label>Student Fullname : </label>
+                                <input type="text" name="student_fullname"  value="{{ old('student_fullname') }}" class="form-control" placeholder="e.g Christian De Leon">
                                 <br>
-                                <label>Course</label>
-                                <select name="course" id="" class="form-control">
+                                <label>Course : </label>
+                                <select name="course"  id="" class="form-control">
                                     @foreach ($courses as $course)
-                                    <option value="{{ $course->id }}">{{ $course->course_code . ' - ' . $course->course_name }}</option>
+                                    <option {{ (old('course') == $course->id) ? "selected" : "" }}value="{{ $course->id }}">{{ $course->course_code . ' - ' . $course->course_name }}</option>
                                     @endforeach
                                 </select>
                                 <br>
-                                <label>Student mobile number</label>
-                                <input type="text" class="form-control" name="mobile_number">
+                                <label>Student mobile number : </label>
+                                <input type="text" value="{{ old('mobile_number') }}" class="form-control" placeholder="+639193693499" name="mobile_number">
+                                <br>
+                                <label>Gender : </label>
+                                <select name="gender" class="form-control">
+                                    <option {{ (old('gender') == 'male') ? "selected" : "" }} value="male">Male</option>
+                                    <option {{ (old('gender') == 'female') ? "selected" : "" }} value="female">Female</option>
+                                </select>
                                 <br>
                                 <label>Address : </label>
-                                <textarea name="address" class="form-control" cols="30" rows="10"></textarea>
-
+                                <textarea placeholder="Brgy. Awasian Tandag City" name="address" class="form-control" cols="30"  rows="10">{{ old('address') }}</textarea>
                                 <hr>
                                 <p>Parent's Information</p>
-                                <label>Mother's name</label>
+                                <label>Mother's name : </label>
                                 <br>
-                                <input type="text" class="form-control" name="mothersname">
-                                <label>Father's name</label>
-                                <input type="text" class="form-control" name="fathersname">
+                                <input type="text"  value="{{ old('mothersname') }}" placeholder="Cecil Nunez" class="form-control" name="mothersname">
+                                <label>Father's name : </label>
+                                <input type="text" placeholder="Gabby Nunez"  value="{{ old('fathersname') }}" class="form-control" name="fathersname">
                                 <br>
-                                <label>Mobile number of your parent's <small>(in case of emergency)</small></label>
-                                <input type="text" class="form-control" name="parent_mobile">
+                                <label>Mobile number of your parent's <small>(in case of emergency) : </small></label>
+                                <input placeholder="+639193693284" value="{{ old('parent_mobile') }}" type="text" class="form-control" name="parent_mobile">
                                 <br>
                                 <div class="form-group float-right">
                                     <input type="submit" class="btn btn-primary rounded-0" value="Add student">

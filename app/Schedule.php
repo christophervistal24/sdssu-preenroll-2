@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -19,6 +20,7 @@ class Schedule extends Model
 
      public function check($data = [])
    	 {
+      // add some in between validation
      	 	$checkMatch = [
           'start_time' => $data['start_time'],
           'end_time'   => $data['end_time'],
@@ -33,7 +35,7 @@ class Schedule extends Model
    public function block_schedule()
    {
         $this->primaryKey = 'block';
-        return $this->hasOne('App\Block','id');
+        return $this->belongsTo(Block::class,'block','id');
    }
 
    public function subject()
@@ -51,6 +53,7 @@ class Schedule extends Model
    {
       return Subject::where('sub_description',$subject)->first()->id;
    }
+
    public function getAllSchedule()
    {
       return  DB::select('
@@ -81,15 +84,48 @@ class Schedule extends Model
             ');
    }
 
+
    public function getScheduleWithMatch($match = [])
    {
-    return DB::table('schedules')
-            ->join('blocks','schedules.block' , '=' , 'blocks.id')
-            ->join('subjects','schedules.subject_id' , '=' , 'subjects.id')
-            ->leftjoin('subject_pre_requisites','subject_pre_requisites.subject_id','=','subjects.id')
-            ->select('subjects.*' , 'blocks.*' ,'schedules.*' , 'subject_pre_requisites.pre_requisite_code')
-            ->where($match)
-            ->get();
+    return DB::select(
+          DB::raw('SELECT
+          subjects.*,
+          blocks.*,
+          schedules.*,
+          subject_pre_requisites.pre_requisite_code,
+          GROUP_CONCAT(
+              subject_pre_requisites.pre_requisite_code
+          ) AS pre_requisite_code
+          FROM
+              schedules
+          LEFT JOIN subjects ON schedules.subject_id = subjects.id
+          LEFT JOIN blocks ON schedules.block = blocks.id
+          LEFT JOIN subject_pre_requisites ON subjects.id = subject_pre_requisites.subject_id
+          WHERE
+          blocks.level = :block_level
+          AND
+          blocks.course = :block_course
+          AND
+          schedules.status = :sched_status
+          AND
+          subjects.semester = :current_semester
+          GROUP BY
+              schedules.id
+          '),$match
+    );
+   }
+
+   public function checkBetween($request) {
+      $s = $this->where(['block' => $request->block,'days' => $request->days ,'status' => 'active'])
+                 ->get(['start_time','end_time','days']); //get match block and days
+      //parse the selected start time
+      $selected_parse = Carbon::parse($request->start_time)->timestamp;
+      //iterate
+      return $s->filter(function ($item , $key) use ($selected_parse) {
+          $start_time = Carbon::parse($item->start_time)->timestamp;
+          $end_time   = Carbon::parse($item->end_time)->timestamp;
+          return (($start_time <= $selected_parse) && ($selected_parse <= $end_time));
+       });
    }
 
 }

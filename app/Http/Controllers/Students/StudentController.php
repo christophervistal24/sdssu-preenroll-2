@@ -12,24 +12,21 @@ use App\Semester;
 use App\Student;
 use App\StudentGrade;
 use App\StudentSubject;
+use App\Subject;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use Exception;
 
 class StudentController extends Controller
 {
-    private $student;
-    private $sem;
-    private $schedule;
-    public function __construct(Student $studnt,Semester $sem , Schedule $sched)
+    private $subject;
+    public function __construct(Subject $sub)
     {
-        $this->student = $studnt;
-        $this->sem = $sem;
-        $this->schedule = $sched;
+        $this->subject = $sub;
         $this->middleware('preventBackHistory');
     }
 
@@ -37,14 +34,6 @@ class StudentController extends Controller
 	{
 		return view('students.index');
 	}
-
-    public function preenroldetails()
-    {
-        $student  = Student::where('id_number',Auth::user()->id_number)->first();
-        $preenroll_request = PreEnroll::with('schedule')->where('student_id',$student->id)->get();
-        return view('students.preenrolldetails',compact('preenroll_request'));
-    }
-
 
 
 

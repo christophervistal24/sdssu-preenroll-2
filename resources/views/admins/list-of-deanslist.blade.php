@@ -79,50 +79,39 @@
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                        <span class="text-uppercase page-subtitle">Dashboard</span>
+                        <span class="text-uppercase page-subtitle">List of Deans lister</span>
                     </div>
                 </div>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                    <h4 class="text-muted ml-2">List of all blocks</h4>
-                    <div class="container">
-                        <div class="form-group">
-                            <button class="btn btn-primary border-0 rounded-0" id="btnAddNewBlock">Add new block</button>
-                        </div>
-                        {{-- id="block_tables"  --}}
-                        <table class="table table-bordered" style="width:100%">
+                    <h4 class="text-muted ml-2"></h4>
+                    <div class="container-fluid">
+                        <table id="student-table" class="table table-bordered" style="width :100%;">
                             <thead>
-                                <tr>
-                                    <th class="text-center">Block</th>
-                                    <th class="text-center">No. of enrolled</th>
-                                    <th class="text-center">Maximum for block</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
+                                <th>ID No.</th>
+                                <th>Fullname</th>
+                                <th>Address</th>
+                                <th class="text-center">Gender</th>
+                                <th class="text-center">Year</th>
+                                <th class="text-center">Course</th>
+                                <th class="text-center">Mobile No.</th>
+                                <th class="text-center">Action</th>
                             </thead>
-                            <tbody id="tableBlockBody">
-                                @foreach ($blocks as $block)
-                                <tr>
-                                    <td class="text-center">{{ $block->level . $block->course . strtoupper( $block->block_name) }}</td>
-                                    <td class="text-center">{{ $block->no_of_enrolled }}</td>
-                                    <td class="text-center">{{ $block->block_limit }}</td>
-                                    <td class="text-center {{ ($block->status != 'closed') ? 'text-success' : 'text-danger' }}"><b>{{ strtoupper($block->status) }}</b></td>
-                                   <td class="text-center"><button id="btnEditBlock" params="
-                                        {{  json_encode(
-                                                [
-                                                    'id'             => $block->id,
-                                                    'course'         => $block->course,
-                                                    'year'           => $block->level,
-                                                    'block'          => $block->block_name,
-                                                    'blockLimit'     => $block->block_limit,
-                                                    'no_of_enrolled' => $block->no_of_enrolled
-                                                ]
-                                        )
-                                        }}
-                                        " class="btn btn-success border-0 rounded-0 text-white">EDIT</button></td>
-                                </tr>
+                            <tbody>
+                                @foreach ($list as $list_info)
+                                    <tr>
+                                        <td class="text-center"> {{hyphenate($list_info->student->id_number)}}</td>
+                                        <td>{{$list_info->student->fullname}}</td>
+                                        <td class="text-center">{{$list_info->student->address}}</td>
+                                        <td class="text-capitalize text-center">{{$list_info->student->gender}}</td>
+                                        <td class="text-center">{{digitToYearLevel($list_info->student->year)}}</td>
+                                        <td class="text-center">BS{{$list_info->student->course->course_code}}</td>
+                                        <td >{{$list_info->student->mobile_number}}</td>
+                                        <td class="text-center"><a href="/admin/student/{{$list_info->student->id_number}}" class="text-white rounded-0 btn btn-success"><span class="font-weight-bold text-capitalize">View grades</span></a></td>
+                                    </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
                         <br>
@@ -131,53 +120,84 @@
             </div>
             {{-- MODAL START --}}
             <!-- Modal -->
-            <div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="editStudentInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content border-0 rounded-0">
+                    <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalTitle">Add new block.</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Student Info.</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div id='validation-errors'>
-
-                            </div>
-                            <form method="POST" id="blockForm" autocomplete="off" data-action="add">
+                            <form id="editStudentForm" autocomplete="off">
                                 <div class="form">
-                                    @csrf
-                                    <div class="form-group">
+                                    <div class="form-group col-md-12">
+                                        <label>Fullname</label>
+                                        <input type="text" name="fullname" id="studentFullname" class="form-control"  required />
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>ID Number</label>
+                                        <input type="text" name="id_number"  id="studentIdNumber"  class="form-control"  required />
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <select name="student_gender" class="form-control" id="studentGender">
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <textarea class="form-control"  name="student_address" id="studentAddress" cols="30" rows="5"></textarea>
+                                    </div>
+
+
+
+
+                                    <div class="form-group col-md-12">
+                                        <label>Mobile Number : </label>
+                                        <input type="text" name="student_mobile"  id="studentMobileNumber" class="form-control"   required />
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>Year : </label>
+                                        <select name="student_year" class="form-control" id="studentYear">
+                                            @foreach (range(1,5) as $year)
+                                                <option value="{{$year}}" id="studentYear">{{$year}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
                                         <label>Course : </label>
-                                        <select name="course" id="course" class="form-control">
-                                            @foreach ($course::all() as $crse)
-                                            <option value="{{ $crse->course_code }}">{{ $crse->course_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Year level : </label>
-                                        <select name="year" id="year" class="form-control">
-                                            @foreach (range(1,5) as $year_level)
-                                            <option value="{{ $year_level }}">{{ $year_level }}</option>
-                                            @endforeach
+                                        <select name="student_course" id="studentCourse" class="form-control">
+                                            <option value="2">CS</option>
+                                            <option value="1">CE</option>
                                         </select>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label>Block name : </label>
-                                        <input type="text" required id="blockName" name="block_name" placeholder="e.g A" class="form-control">
+                                    <div class="row">
+                                         <div class="form-group col-md-6">
+                                            <label>Father's name : </label>
+                                            <input name="student_father" type="text" id="studentFathersname" class="form-control">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label>Mother's name : </label>
+                                            <input type="text" name="student_mother" id="studentMothersname" class="form-control" >
+                                        </div>
                                     </div>
 
-
-                                    <div class="form-group">
-                                        <label>Maximum student's can enroll for this block : </label>
-                                        <input type="number" required id="blockLimit" name="block_limit" placeholder="e.g 35" class="form-control">
+                                    <div class="form-group col-md-12">
+                                        <label>Parent Mobile number : </label>
+                                        <input  name="parent_mobile" class="form-control" type="text" id="parentMobileNumber">
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="blockBtn">Add block</button>
+                                <button type="submit" class="btn btn-primary" id="editInstructorSave">Save changes</button>
                             </div>
                         </form>
                     </div>

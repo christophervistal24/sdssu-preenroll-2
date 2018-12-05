@@ -1,4 +1,4 @@
-@inject('student_sub','App\StudentSubject')
+@inject('instructor','App\Instructor')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -113,27 +113,24 @@
 						$sum = 0;
 						@endphp
 						@foreach ($instructors as $schedule)
-							@if (isset($instructor_sched->days))
-								<td colspan="8"  class="text-left"><span class="font-weight-bold ml-5" >MWF</span></td>
+							@if ($loop->first)
+							<td colspan="8"  class="text-left"><span class="font-weight-bold ml-5" >MWF</span></td>
 							@endif
 						@foreach ($schedule->schedules as $instructor_sched)
 						<tr>
-							@if($instructor_sched->days === 'MWF' || $instructor_sched->days === 'MW')
+							@if(strtolower($instructor_sched->days) === 'mwf' || strtolower($instructor_sched->days) === 'mwf')
 							<td>{{  $instructor_sched->start_time . ' - ' . $instructor_sched->end_time }}</td>
 							<td>{{ $instructor_sched->subject->sub }}</td>
 							<td class="text-left">{{ $instructor_sched->subject->sub_description }}</td>
 							<td>
-								{{
-								$instructor_sched->block_schedule->level .
-								$instructor_sched->block_schedule->course .
-								$instructor_sched->block_schedule->block_name
+								{{ $instructor_sched->block_schedule->level . $instructor_sched->block_schedule->course . $instructor_sched->block_schedule->block_name
 								}}
 							</td>
-							<td>{{ $instructor_sched->subject->schedule_sub->students->count() }}</td>
+							<td>{{ $no_of_students = $instructor->sched_student($instructor_sched->id) }}</td>
 							@php $sum += $instructor_sched->subject->units; @endphp
 							<td>{{ $instructor_sched->subject->units }}</td>
 							<td>{{ $instructor_sched->room }}</td>
-							<td><a href="/instructor/students/{{ $instructor_sched->subject->schedule_sub->subject_id }}">View students</a></td>
+							<td><a href="/instructor/students/{{ $instructor_sched->id }}">View students</a></td>
 							@endif
 						</tr>
 						@endforeach
@@ -144,8 +141,8 @@
 						<tr>
 							@if($instructor_sched->days === 'TTH')
 							<td>{{  $instructor_sched->start_time . ' - ' . $instructor_sched->end_time }}</td>
-							<td>{{ $instructor_sched->subject->sub }}</td>
-							<td class="text-left">{{ $instructor_sched->subject->sub_description }}</td>
+							<td>{{  $instructor_sched->subject->sub }}</td>
+							<td class="text-left">{{  $instructor_sched->subject->sub_description }}</td>
 							<td>
 								{{
 								$instructor_sched->block_schedule->level .
@@ -153,11 +150,12 @@
 								$instructor_sched->block_schedule->block_name
 								}}
 							</td>
-							<td>{{ $instructor_sched->subject->schedule_sub->students->count() }}</td>
+
+								<td>{{ $instructor->sched_student($instructor_sched->id) }}</td>
 							@php $sum += $instructor_sched->subject->units; @endphp
 							<td>{{ $instructor_sched->subject->units }}</td>
 							<td>{{ $instructor_sched->room }}</td>
-							<td><a href="/instructor/students/{{ $instructor_sched->subject->schedule_sub->subject_id }}">View students</a></td>
+							<td><a href="/instructor/students/{{ $instructor_sched->id }}">View students</a></td>
 							@endif
 						</tr>
 						@endforeach
@@ -177,11 +175,11 @@
 								$instructor_sched->block_schedule->block_name
 								}}
 							</td>
-							<td>{{ $instructor_sched->subject->schedule_sub->students->count() }}</td>
+							<td>{{ $instructor->sched_student($instructor_sched->id) }}</td>
 							@php $sum += $instructor_sched->subject->units; @endphp
 							<td>{{ $instructor_sched->subject->units }}</td>
 							<td>{{ $instructor_sched->room }}</td>
-							<td><a href="/instructor/students/{{ $instructor_sched->subject->schedule_sub->subject_id }}">View students</a></td>
+							<td><a href="/instructor/students/{{ $instructor_sched->id }}">View students</a></td>
 							@endif
 						</tr>
 						@endforeach

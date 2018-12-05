@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Semester;
 use App\Student;
+use App\Subject;
 use Illuminate\Http\Request;
 
 class StudentEvaluateController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('preventBackHistory');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -48,23 +55,16 @@ class StudentEvaluateController extends Controller
     public function show(Student $id_number)
     {
         $student = $id_number;
-        $first = [];
-        foreach ($student->schedules as $s) {
-                $first['subject'][] = $s->subject->sub;
-                $first['subject_description'][] = $s->subject->sub_description;
-                $first['block'][] = $s->block_schedule->level . '' . $s->block_schedule->course . '' . $s->block_schedule->block_name;
-                $first['time'][] =  $s->start_time . ' - ' . $s->end_time;
-                $first['days'][] =  $s->days;
-                $first['rooms'][] = $s->room;
-                foreach ($student->grades as $grade) {
-                    if($grade->id == $s->subject->id) {
-                        $first['grades'][] = $grade->remarks;
-                    }
-                }
-                $first['semester'][] = (int) $s->subject->semester;
-        }
-        dd($first);
-        return view('admins.studentevaluate',compact('student'));
+        $s_grades = Student::with(['grades' => function ($query) {
+                $query->orderBy('created_at');
+        }])->find($student->id_number);
+        $grades = [];
+        array_walk_recursive($s_grades->grades, function ($value , $key) use(&$grades) {
+            $grades[
+                $value->subject->year.'_year_'.$value->subject->semester.'_semester_subjects'
+            ][] = $value;
+        });
+        return view('admins.studentevaluate',compact(['student','grades']));
     }
 
     /**

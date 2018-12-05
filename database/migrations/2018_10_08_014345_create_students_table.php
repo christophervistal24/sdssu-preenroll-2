@@ -18,6 +18,7 @@ class CreateStudentsTable extends Migration
             $table->integer('id_number');
             $table->string('fullname');
             $table->string('address');
+            $table->enum('gender',['male','female']);
             $table->integer('year');
             $table->integer('course_id');
             $table->string('block')->nullable();
