@@ -45,6 +45,7 @@ class BlockController extends Controller
     public function retrieveblock()
     {
         $blocks = Block::orderBy('created_at','ASC')
+                         ->where('status','open')
                          ->get()
                          ->toArray();
         return $blocks;

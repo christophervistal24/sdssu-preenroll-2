@@ -2,8 +2,11 @@
 
 namespace App;
 
+use App\Block;
+use App\Events\UpdateBlock;
 use App\Semester;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Student extends Model
@@ -82,5 +85,19 @@ class Student extends Model
                 ->selectRaw('students.id_number,SUM(subjects.units) as total_units , students.year , students.course_id')
                 ->get()
                 ->toArray();
+    }
+
+    public function updateStudentBlock($block)
+    {
+        $student = $this->find(Auth::user()->id_number);
+        $blockModel = new Block;
+        if (empty($student->block)) {
+            $find_block = $blockModel->find($block); //get other columns of the block
+            $blockModel->findOrFail($find_block->id) //update the block
+                   ->update(['no_of_enrolled' => ($find_block->no_of_enrolled + 1)]) ;
+          \Event::fire( new UpdateBlock(new Block,$block)); // fire an event to check if block is full
+          $student->block =  $block; // assign block to student
+          $student->save();
+        }
     }
 }

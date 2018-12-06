@@ -154,7 +154,7 @@
                 </script>
         @endif
         <script src="/js/addgrade.js"></script>
-        {{-- <script src="/js/block.js"></script> --}}
+        <script src="/js/block.js"></script>
         <script src="/js/schedule.js"></script>
         <script src="/js/instructor.js"></script>
         <script src="/js/pre_dragged.js"></script>

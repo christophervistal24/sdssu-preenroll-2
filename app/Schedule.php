@@ -109,6 +109,8 @@ class Schedule extends Model
           schedules.status = :sched_status
           AND
           subjects.semester = :current_semester
+          AND
+          blocks.status = "open"
           GROUP BY
               schedules.id
           '),$match

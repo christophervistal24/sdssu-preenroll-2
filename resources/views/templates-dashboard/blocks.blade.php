@@ -1,4 +1,5 @@
 <div class="row">
+
 @if (strtolower($user_info->course->course_code) == 'cs')
         <div class="col-lg-12 text-center">
             {{-- CS BLOCKS --}}
