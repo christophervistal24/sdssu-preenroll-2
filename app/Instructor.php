@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -19,6 +20,18 @@ class Instructor extends Model
    public function sched_student($id)
    {
    		return DB::table('schedule_student')->where('schedule_id',$id)->count();
+   }
+
+   public function startToGrade(array $match)
+   {
+      $is_graded = DB::table('instructor_schedule')->where($match)
+                          ->first()
+                          ->updated_at;
+      if (!$is_graded) {
+            DB::table('instructor_schedule')
+                        ->where($match)
+                       ->update(['updated_at' => Carbon::now()]);
+      }
    }
 
 }

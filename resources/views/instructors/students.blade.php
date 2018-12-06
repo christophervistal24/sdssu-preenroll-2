@@ -84,12 +84,21 @@
 				</div>
 				{{-- ADD 45 DAYS  --}}
 				<h4 class="text-muted"><span class="font-weight-bold">{{  $subject->sub . ' ' . $subject->sub_description }}</span></h4>
-				{{-- <div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-					</button>
-					<span class="text-white">{{ 'Your modification power is expired you already reach the 45 days' }}</span>
-				</div> --}}
+				@if (isset($expiration) && $startToGrade)
+					<div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="text-white">{{ 'Your modification power is expired you already reach the 45 days' }}</span>
+					</div>
+				@elseif($startToGrade)
+					<div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="text-white">{{ 'You can modify some student grades within 45 days' }}</span>
+					</div>
+				@endif
 				<br>
 				@include('success.success-message')
 				<table id="tables" class="table table-bordered" style="width:100%">
@@ -120,20 +129,29 @@
 								@endphp
 								 @if (isset($check_grade->remarks))
 								{{ $check_grade->remarks }}
-								<td class="text-center"><button type="button" id="btnEditGrade" class="btn btn-success" params="{{ json_encode([
-									'subject_id'        =>  $sched_students->subject->id ,
-									'fullname'          => $student->fullname,
-									'remarks'           => $check_grade->remarks,
-									'student_id_number' =>  $student->id_number ,
-									'grade_id'			=> $check_grade->id
-								]) }}"> Edit grade</button></td>
+									@if (!isset($expiration))
+										<td class="text-center"><button type="button" id="btnEditGrade" class="btn btn-success" params="{{ json_encode([
+											'subject_id'        =>  $sched_students->subject->id ,
+											'fullname'          => $student->fullname,
+											'remarks'           => $check_grade->remarks,
+											'student_id_number' =>  $student->id_number ,
+											'grade_id'			=> $check_grade->id
+										]) }}"> Edit grade</button></td>
+										@else
+										<td></td>
+									@endif
 								@else
-								<td class="text-center"><button type="button" id="btnAddGrade" class="btn btn-primary" params="{{ json_encode([
-									'subject_id'        =>  $sched_students->subject->id ,
-									'fullname'          => $student->fullname,
-									'student_id_number' =>  $student->id_number,
-									'grade_id'			=> $check_grade->id
-								]) }}"> Add grade</button></td>
+									@if (!isset($expiration))
+										<td class="text-center"><button type="button" id="btnAddGrade" class="btn btn-primary" params="{{ json_encode([
+											'subject_id'        =>  $sched_students->subject->id ,
+											'fullname'          => $student->fullname,
+											'student_id_number' =>  $student->id_number,
+											'grade_id'          => $check_grade->id,
+											'schedule_id'       => $sched_students->id,
+										]) }}"> Add grade</button></td>
+										@else
+										<td></td>
+									@endif
 								@endif
 							</td>
 

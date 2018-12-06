@@ -41,7 +41,8 @@ $(document).ready(function() {
                     	student_id_number:information.student_id_number,
                     	subject_id:information.subject_id,
                     	student_grade:inputGrade.val(),
-                        grade_id:information.grade_id
+                        grade_id:information.grade_id,
+                        schedule_id:information.schedule_id
                     },
                     dataType: 'json',
                     /* remind that 'data' is the response of the AjaxController */

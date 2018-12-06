@@ -15,7 +15,7 @@ class Schedule extends Model
 
     public function instructors()
     {
-    	return $this->belongsToMany('App\Instructor','instructor_schedule','schedule_id','instructor_id_number');
+    	return $this->belongsToMany('App\Instructor','instructor_schedule','schedule_id','instructor_id_number')->withTimestamps();
     }
 
      public function check($data = [])

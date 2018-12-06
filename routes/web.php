@@ -154,8 +154,8 @@ Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
 	Route::get('/schedule',['uses' => 'Instructors\ScheduleController@index','roles' => ['Instructor']]);
     Route::get('/sendsms', ['uses' => 'Instructors\InstructorController@sendsms','roles' => ['Instructor']]);
     Route::get('/students/{subject}', ['uses' => 'Instructors\StudentsController@index','roles' => ['Instructor']]);
-    Route::post('/students/{subject}', ['uses' => 'Instructors\StudentsController@addgrade','roles' => ['Instructor']]);
-    Route::put('/students/{subject}', ['uses' => 'Instructors\StudentsController@editgrade','roles' => ['Instructor']]);
+    Route::post('/students/{subject?}', ['uses' => 'Instructors\StudentsController@addgrade','roles' => ['Instructor']]);
+    Route::put('/students/{subject?}', ['uses' => 'Instructors\StudentsController@editgrade','roles' => ['Instructor']]);
 
     Route::get('/schedule/print', ['uses' => 'Instructors\PrintScheduleController@index','roles' => ['Instructor']]);
 
