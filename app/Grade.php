@@ -9,6 +9,10 @@ class Grade extends Model
 {
     protected $fillable = ['subject_id','remarks','expiration'];
 
+    protected $events = [
+        'updated' => DeansList::class,
+    ];
+
     public function student()
     {
     	return $this->belongsToMany(Student::class,'grade_student','grade_id','student_id_number');

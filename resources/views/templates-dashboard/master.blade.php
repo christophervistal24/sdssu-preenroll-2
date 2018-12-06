@@ -7,7 +7,7 @@
         <title>SDSSU</title>
         <script>
           window.myApp = {
-            'deanslist_last' : '{{$deans_list_model::all()->last()->created_at}}'
+            'deanslist_last' : '{{($deans_list_model->count()!= 0) ? $deans_list_model::all()->last()->created_at : 0}}'
           };
         </script>
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">

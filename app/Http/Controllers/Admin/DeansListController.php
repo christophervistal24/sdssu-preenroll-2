@@ -6,6 +6,7 @@ use App\DeansList;
 use App\Http\Controllers\Controller;
 use App\Student;
 use App\Subject;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DeansListController extends Controller
@@ -25,11 +26,16 @@ class DeansListController extends Controller
 
     public function checkDeansList($last_record)
     {
-        $new_students = DeansList::where('created_at','>',$last_record)
+        $count_deans_lister = DeansList::count();
+        if ($count_deans_lister != 0) {
+            $new_students = DeansList::where('created_at','>',$last_record)
                  ->get();
-        $last_record = DeansList::all()->last()->created_at;
-        if (!empty($new_students)) {
-            return ['data' => $new_students , 'success' => true , 'last_record' => $last_record];
+            $last_created_at = DeansList::all()->last()->created_at;
+        }
+        if (!empty($last_created_at)) {
+            return ['data' => $new_students , 'count' => count_deans_lister , 'success' => true , 'last_record' => $last_created_at];
+        } else {
+            return ['data' => '' , 'success' => false , 'last_record' => 0];
         }
 
     }

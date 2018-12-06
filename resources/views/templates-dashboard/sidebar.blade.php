@@ -38,7 +38,7 @@ $route="admin";
                 <li class="nav-item">
                     <a class="nav-link " href="{{ url("/$route/student-deanslist") }}">
                         <i class="material-icons">assignment_turned_in</i>
-                        <span>Deans List <span class="float-right badge badge-pill badge-danger"> {{ $deans_list_model->all()->count() }}</span></span>
+                        <span>Deans List <span id="noOfDeansList" class="float-right badge badge-pill badge-danger"> {{ $deans_list_model->all()->count() }}</span></span>
                     </a>
                 </li>
                 <li class="nav-item">

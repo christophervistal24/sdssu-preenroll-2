@@ -89,8 +89,8 @@ class SemesterController extends Controller
         $current_sem  = $this->semester //get the current semester
                                  ->where('current',1)->first()->id;
 
-        $this->deans_list //find all students that qualified for deanslist
-             ->insertQualifiedForDeansLister(new Student , new Subject);
+        // $this->deans_list //find all students that qualified for deanslist
+        //      ->insertQualifiedForDeansLister(new Student , new Subject);
 
         if (Auth::attempt(['id_number' => $id_number , 'password' => $request->password])
             && $admin->hasRole('Admin')) { // Authentication passed...
