@@ -33,7 +33,7 @@ class DeansListController extends Controller
             $last_created_at = DeansList::all()->last()->created_at;
         }
         if (!empty($last_created_at)) {
-            return ['data' => $new_students , 'count' => count_deans_lister , 'success' => true , 'last_record' => $last_created_at];
+            return ['data' => $new_students , 'count' => $count_deans_lister , 'success' => true , 'last_record' => $last_created_at];
         } else {
             return ['data' => '' , 'success' => false , 'last_record' => 0];
         }
