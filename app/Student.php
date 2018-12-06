@@ -95,9 +95,9 @@ class Student extends Model
             $find_block = $blockModel->find($block); //get other columns of the block
             $blockModel->findOrFail($find_block->id) //update the block
                    ->update(['no_of_enrolled' => ($find_block->no_of_enrolled + 1)]) ;
-          \Event::fire( new UpdateBlock(new Block,$block)); // fire an event to check if block is full
-          $student->block =  $block; // assign block to student
-          $student->save();
+           \Event::fire( new UpdateBlock(new Block,$block)); // fire an event to check if block is full
+           $student->block =  $block; // assign block to student
+           $student->save();
         }
     }
 }

@@ -1,9 +1,17 @@
+@inject('deans_list_model','App\DeansList')
 <!DOCTYPE html>
 <html class="no-js h-100" lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>SDSSU</title>
+        <script>
+          window.myApp = {
+            'deanslist_last' : '{{$deans_list_model::all()->last()->created_at}}'
+          };
+        </script>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
         <script src="/js/third_party/sweetalert.js"></script>
@@ -160,6 +168,7 @@
         <script src="/js/pre_dragged.js"></script>
         <script src="/js/print-with-range.js"></script>
         <script src="/js/student.js"></script>
+        <script src="/js/deanslist.js"></script>
       @if (str_contains(request()->fullUrl(),'assign'))
        <script>
             // sort: true

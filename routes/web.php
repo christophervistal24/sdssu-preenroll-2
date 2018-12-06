@@ -24,7 +24,7 @@
 Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 	Route::get('/',['uses'                    =>'Admin\AdminController@index','roles' => ['Admin']]);
 	Route::get('/index',['uses'  => 'Admin\AdminController@index','roles' => ['Admin']]);
-	Route::post('/index',['uses' => 'Admin\AdminController@changesemester','roles' => ['Admin']]);
+	Route::post('/index',['uses' => 'Admin\SemesterController@update','roles' => ['Admin']]);
 	Route::get('/student-deanslist',['uses' => 'Admin\DeansListController@index','roles' => ['Admin']]);
 	Route::get('/addgrades',['uses' => 'Admin\AdminController@addgrades','roles' => ['Admin']]);
 
@@ -82,6 +82,7 @@ Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 
 	Route::post('/student/{id_number}',['uses' => 'Admin\StudentEvaluatePrintController@printrange','roles' => ['Admin']]);
 
+	Route::get('/api/deanslist/{last_record}',['uses' => 'Admin\DeansListController@checkDeansList','roles' => ['Admin']]);
 
 	Route::get('/logout',['uses' =>'Admin\AdminController@logout','roles' => ['Admin']]);
 });

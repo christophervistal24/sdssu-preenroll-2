@@ -40,5 +40,6 @@ class DeansList extends Model
                 unset($students[$keys]);
             }
         }
+        return $students;
     }
 }
