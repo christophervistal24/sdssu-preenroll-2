@@ -93,11 +93,12 @@
                                 {{-- PHONE NUMBER --}}
                               <div class="form-group col-md-12">
                                     <label>Phone number : </label>
-                                    <input type="text" name="phone_number" class="form-control" value="{{ ($number) ?? $number }}"    placeholder="+639127961717"  required />
+                                    <input type="text" name="phone_number" class="form-control" value="{{$instructor->mobile_number}}"    placeholder="+639127961717"  required />
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>Message : </label>
-                                    <textarea class="form-control" placeholder="Your message here" name="message" rows="10" cols="20"></textarea>
+                                    <textarea class="form-control" placeholder="Your message here" name="message" rows="10" cols="20">@foreach ($instructor->schedules as $sched){{$sched->start_time . ' - ' . $sched->end_time}} - {{$sched->days}} - {{$sched->room}} - {{$sched->subject->sub}} - Block {{$sched->block_schedule->block_name}}&#13;&#10;@endforeach
+                                    </textarea>
                                 </div>
                                 <div class="form-group col-md-12 ">
                                     <input type="submit" class="float-right btn btn-primary" value="Send">

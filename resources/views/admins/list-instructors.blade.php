@@ -125,7 +125,7 @@
                                             ])
                                         }}
                                         "><i class="material-icons">edit</i> <b>EDIT</b></button>
-                                        <a class="text-white btn btn-primary rounded-0" href="{{ url("/admin/send/$instructor->mobile_number") }}"
+                                        <a class="text-white btn btn-primary rounded-0" href="{{ url("/admin/send/$instructor->id") }}"
                                          ><i class="material-icons">message</i> <b>SEND MESSAGE</b></a>
                                     </td>
                                 </tr>

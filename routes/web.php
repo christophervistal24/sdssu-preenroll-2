@@ -63,8 +63,10 @@ Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 	Route::get('/index',['uses'                    =>'Admin\AdminController@index','roles' => ['Admin']]);
 	Route::get('/instructors',['uses'              =>'Admin\InstructorController@index','roles' => ['Admin']]);
 	Route::put('/instructor/{info}',['uses'              =>'Admin\InstructorController@update','roles' => ['Admin']]);
-	Route::get('/send/{number?}',['uses'           =>'Admin\AdminController@sendschedule','roles' => ['Admin']]);
-	Route::post('/send',['uses'                    =>'Admin\AdminController@sendtoschedule','roles' => ['Admin']]);
+
+	Route::get('/send/{id}',['uses' => 'Admin\InstructorSendSchedule@show','roles' => ['Admin']]);
+	Route::post('/send',['uses' => 'Admin\InstructorSendSchedule@send','roles' => ['Admin']]);
+
 	Route::get('/accept/preenroll/{student_info}',['uses' => 'Admin\Admincontroller@acceptpreenroll','roles' => ['Admin']]);
 
 	Route::post('/accept/preenroll/{student_info}',['uses' => 'Admin\Admincontroller@storeacceptpreenroll','roles' => ['Admin']]);
