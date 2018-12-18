@@ -62,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
             'admins.printforms.evaluate',
             'admins.printforms.evaluate_range',
             'admins.list-of-deanslist',
+            'admins.importstudents',
             'instructors.index',
             'instructors.schedule',
             'instructors.students',

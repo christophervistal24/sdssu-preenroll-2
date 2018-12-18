@@ -12,4 +12,14 @@ class StudentParent extends Model
     {
     	return $this->belongsTo('App\Student','id','student_parent_id');
     }
+
+    public static function getLastRecord()
+    {
+        return self::all()->last()->id;
+    }
+
+    public static function getRecordsAfterLast(int $id)
+    {
+        return self::where('id','>',$id)->get(['id']);
+    }
 }

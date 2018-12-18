@@ -10,45 +10,58 @@ use App\Events\UpdateBlock;
 
 class BlockController extends Controller
 {
+    protected $block;
+
+    public function __construct(Block $block)
+    {
+        $this->block = $block;
+    }
+
     public function index()
     {
-        $blocks = Block::orderBy('created_at','ASC')->get();
+        $blocks = $this->block //get all blocks
+                         ->orderBy('created_at')
+                        ->get();
         return view('admins.listblocks',compact('blocks'));
     }
 
 
     public function store(StoreBlock $request)
     {
-        Block::create([
-            'block_limit'    => $request->block_limit,
-            'no_of_enrolled' => 0,
-            'block_name'     =>  $request->block_name,
-            'course'         =>  $request->course,
-            'year'           =>  $request->year,
-        ]);
+        $this->block
+             ->create(
+                [
+                    'block_limit'    => $request->block_limit,
+                    'no_of_enrolled' => 0,
+                    'block_name'     =>  $request->block_name,
+                    'course'         =>  $request->course,
+                    'year'           =>  $request->year,
+               ]
+        );
 
         return response()->json(['success' => true]);
     }
 
     public function update(Request $request)
     {
-        Block::findOrFail($request->block_id)->update([
-                'course'      => $request->course,
-                'block_name'  => strtoupper($request->block_name),
-                'block_limit' => $request->block_limit,
-                'level'       => $request->year,
-        ]);
-        \Event::fire( new UpdateBlock(new Block,$request->block_id));
+        $this->block
+             ->findOrFail($request->block_id)
+             ->update([
+                    'course'      => $request->course,
+                    'block_name'  => strtoupper($request->block_name),
+                    'block_limit' => $request->block_limit,
+                    'level'       => $request->year,
+                ]);
+              \Event::fire( new UpdateBlock(new Block,$request->block_id));
         return response()->json(['success' => true]);
     }
 
     public function retrieveblock()
     {
-        $blocks = Block::orderBy('created_at','ASC')
-                         ->where('status','open')
-                         ->get()
-                         ->toArray();
-        return $blocks;
+        return $this->block->orderBy('created_at')
+                        ->where('status','open')
+                        ->get()
+                        ->toArray();
     }
 
 }

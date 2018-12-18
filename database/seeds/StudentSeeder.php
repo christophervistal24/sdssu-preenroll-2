@@ -42,7 +42,7 @@ class StudentSeeder extends Seeder
       $parent = new StudentParent;
       $parent->mothername = 'Regina Vistal';
       $parent->fathername = 'Crisogono Vistal';
-      $parent->mobile_number = '09193693499';
+      $parent->mobile_number = '09193693410';
       $parent->save();
 
       $student = new Student();

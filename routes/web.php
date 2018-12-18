@@ -86,6 +86,8 @@ Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 
 	Route::get('/api/deanslist/{last_record}',['uses' => 'Admin\DeansListController@checkDeansList','roles' => ['Admin']]);
 
+	Route::get('/import/students',['uses' => 'Admin\ImportStudentController@create','roles' => ['Admin']]);
+	Route::post('/import/students',['uses' => 'Admin\ImportStudentController@store','roles' => ['Admin']]);
 	Route::get('/logout',['uses' =>'Admin\AdminController@logout','roles' => ['Admin']]);
 });
 

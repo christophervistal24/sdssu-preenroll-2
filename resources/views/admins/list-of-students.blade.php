@@ -75,7 +75,7 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4 card" style="border-radius: 0px">
+            <div class="main-content-container  px-4 card" style="border-radius: 0px">
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -85,9 +85,14 @@
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
                 <div class="row">
-                    <h4 class="text-muted ml-2">List of all Students</h4>
-                    <div class="container-fluid">
-                        <table id="student-table" class="table table-bordered" style="width :auto;">
+                    <div class="col-md-6">
+                        <h4>List of all Students</h4>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a href="/admin/import/students" class="btn btn-primary border-0 p-2">Import students</a>
+                    </div>
+                </div>
+                        <table id="student-table" class="table table-bordered" >
                             <thead>
                                 <tr>
                                     <th class="text-center">ID Number</th>
@@ -97,27 +102,21 @@
                                     <th class="text-center">Mobile #</th>
                                     <th class="text-center">Year</th>
                                     <th class="text-center">Course</th>
-                                    <th class="text-center">Mother's name</th>
-                                    <th class="text-center">Father's name</th>
-                                    <th class="text-center">Parent mobile #</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($students as $student)
                                 <tr>
-                                    <td class="text-center">{{ $student->id_number }}</td>
+                                    <th class="text-center">{{ hyphenate($student->id_number) }}</th>
                                     <td>{{ ucwords($student->fullname) }}</td>
-                                    <td>{{ ucwords($student->gender) }}</td>
+                                    <td class="text-center">{{ ucwords($student->gender) }}</td>
                                     <td>{{ $student->address }}</td>
                                     <td>{{ $student->mobile_number }}</td>
                                     <td class="text-center">{{ digitToYearLevel($student->year) }}</td>
                                     <td class="text-center">BS{{ $student->course->course_code}}</td>
-                                    <td class="text-center">{{ $student->parents->mothername }}</td>
-                                    <td class="text-center text-truncate">{{ $student->parents->fathername }}</td>
-                                    <td class="text-center">{{ $student->parents->mobile_number }}</td>
 
-                                    <td class="text-center">
+                                    <td>
                                         <span class="font-weight-bold"><button id="btnEditInfo" params="{{json_encode([
                                         'id_number'     => $student->id_number,
                                         'fullname'      => $student->fullname,
@@ -129,18 +128,17 @@
                                         'mothers_name'  => $student->parents->mothername,
                                         'fathers_name'  => $student->parents->fathername,
                                         'parent_mobile' => $student->parents->mobile_number,
-                                    ])}}" class="btn btn-secondary rounded-0">EDIT INFO</button></span>
+                                    ])}}" class="p-2 btn btn-secondary rounded-0 btn-sm">EDIT INFO</button></span>
 
-                                     <a href="/admin/student/{{ $student->id_number }}" class="text-white btn btn-success border-0 rounded-0"><b>EVALUATE</b></a>
+                                       <a href="/admin/student/{{ $student->id_number }}" class="text-white p-2 btn btn-success border-0 rounded-0 btn-sm"><b>EVALUATE</b></a>
+                                     <a class="text-white btn btn-primary border-0 rounded-0 btn-sm p-2"><b>PARENTS</b></a>
 
-                                        </td>
+                                   </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
                         <br>
-                    </div>
-                </div>
             </div>
             {{-- MODAL START --}}
             <!-- Modal -->

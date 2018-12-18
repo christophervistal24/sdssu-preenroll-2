@@ -62,4 +62,14 @@ class User extends Authenticatable
     {
         return Role::where('name',$role)->first();
     }
+
+    public function getLastRecord()
+    {
+        return $this->all()->last()->id;
+    }
+
+    public function getRecordsAfterLast(int $last_record_id)
+    {
+        return $this->where('id','>',$last_record_id)->get(['id']);
+    }
 }

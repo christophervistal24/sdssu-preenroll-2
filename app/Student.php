@@ -100,4 +100,14 @@ class Student extends Model
            $student->save();
         }
     }
+
+    public static function getLastRecord()
+    {
+        return self::all()->last()->id;
+    }
+
+    public static function getRecordsAfterLast(int $id)
+    {
+        return self::where('id','>',$id)->get(['id']);
+    }
 }

@@ -70,10 +70,10 @@ $(document).ready(function () {
                     /* remind that 'data' is the response of the AjaxController */
                     success: function (data) {
                         if (data.success == true) {
-                        	swal("Successfully create new block", {
+                        	swal("Successfully updated block", {
 						      icon: "success",
 						    }).then((value) => {
-
+                                $('#blockModal').modal('toggle');
 							});
                         }
                     },

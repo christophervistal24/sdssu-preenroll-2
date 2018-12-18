@@ -17,7 +17,7 @@ class CreateStudentParentsTable extends Migration
             $table->increments('id');
             $table->string('mothername');
             $table->string('fathername');
-            $table->string('mobile_number');
+            $table->string('mobile_number')->unique();
             $table->timestamps();
         });
     }

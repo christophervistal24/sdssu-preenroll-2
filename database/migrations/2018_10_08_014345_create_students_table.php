@@ -15,7 +15,7 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_number');
+            $table->integer('id_number')->unique();
             $table->string('fullname');
             $table->string('address');
             $table->enum('gender',['male','female']);

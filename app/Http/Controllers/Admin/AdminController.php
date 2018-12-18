@@ -43,6 +43,9 @@ class AdminController extends Controller
             // Authentication passed...
             return redirect()->intended('/admin/index');
         }
-        return Redirect::back()->withInput()->withErrors('Wrong ID number/password combination.');
+        return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors('Wrong ID number/password combination.');
     }
 }
