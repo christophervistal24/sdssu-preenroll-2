@@ -42,19 +42,8 @@ class InstructorController extends Controller
     {
          DB::beginTransaction();
          try {
-            Instructor::create([
-                'id_number'               => $request->id_number,
-                'name'                    => $request->name,
-                'education_qualification' => $request->education_qualification,
-                'position'                => $request->position,
-                'major'                   => $request->major,
-                'status'                  => $request->status,
-                'mobile_number'           => $request->mobile_number,
-            ]);
-            $user = User::create([
-                'id_number' => $request->id_number,
-                'password'  => bcrypt($request->password),
-            ]);
+            Instructor::create($request->all());
+            $user = User::create($request->all());
             $user->roles()->attach($user->getRole('Instructor'));
             DB::commit();
         } catch (\Exception $e) { //rollback
@@ -92,17 +81,10 @@ class InstructorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Instructor $info)
+    public function update(Request $request, $id_number)
     {
-        $info->active                  = ($request->active == 'Active') ? 1 : 0;
-        $info->education_qualification = $request->education_qualification;
-        $info->major                   = $request->major;
-        $info->id_number               = $request->id_number;
-        $info->mobile_number           = $request->mobile_number;
-        $info->name                    = $request->name;
-        $info->position                = $request->position;
-        $info->status                  = $request->status;
-        $info->save();
+        $s = Instructor::where('id_number',$id_number)
+                        ->update($request->except(['id_number','_token']));
         return response()->json(['success' => true]);
     }
 

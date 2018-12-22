@@ -8,8 +8,6 @@ use App\InstructorSchedule;
 use App\Semester;
 use App\Instructor;
 use App\Student;
-use App\StudentGrade;
-use App\StudentSubject;
 use App\Subject;
 use App\User;
 use Carbon\Carbon;
@@ -22,9 +20,8 @@ class InstructorController extends Controller
 {
     protected $student_subject;
     protected $instructor_info;
-    public function __construct(StudentSubject $student_sub)
+    public function __construct()
     {
-        $this->student_subject = $student_sub;
         $this->middleware('preventBackHistory');
     }
 
@@ -39,27 +36,6 @@ class InstructorController extends Controller
         return view('instructors.students');
     }
 
-    public function addstudentgrade(Request $request)
-    {
-        $current_semester = Semester::where('current',1)->first()->id;
-        $student = StudentGrade::where(['student_id' => $request->student_id , 'subject_id' => $request->student_subject_id])->first();
-        if (is_null($student)) {
-             $student = new StudentGrade();
-             $student->student_id = $request->student_id;
-             $student->subject_id = $request->student_subject_id;
-             $student->remarks    = $request->student_grade;
-             $student->block      = $request->block;
-             $student->semester   = $current_semester;
-             $student->year       = $request->year;
-             $student->expiration = Carbon::now()->addDays(30);
-             $student->save();
-        } else  {
-            $student->remarks = $request->student_grade;
-            $student->save();
-        }
-
-        return response()->json(['success' => true]);
-    }
 
     public function sendsms()
     {

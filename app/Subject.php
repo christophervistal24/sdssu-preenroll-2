@@ -6,9 +6,12 @@ use App\Semester;
 use App\SubjectPreRequisite as SubPre;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 
 class Subject extends Model
 {
+    use Cachable;
     protected $fillable = [
     	'sub','sub_description','units','prereq','year','semester','course'
 	];

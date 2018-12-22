@@ -7,6 +7,7 @@ $(document).ready(function () {
 	let room;
 
 	$('#btnAddNewRoom').click(function () {
+        modalTitle.html('Add new room');
 		$('#roomForm')[0].reset();
 		$('#modalRoom').modal('toggle');
 	});
@@ -53,7 +54,7 @@ $(document).ready(function () {
                     }
             });
 		  } else {
-		    swal("Room " + room.room_number + " file is safe!");
+		    swal("Room " + room.room_number + " is safe!");
 		  }
 		});
 	});

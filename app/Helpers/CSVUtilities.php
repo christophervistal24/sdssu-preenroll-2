@@ -13,4 +13,22 @@ class CSVUtilities
         });
     }
 
+    public function removeHeader($request)
+    {
+       return preg_replace("/^\w.+/", '', file_get_contents($request->file('student_grades_csv')));
+    }
+
+    public function toArrayAndChunk($request,$chunked)
+    {
+       return array_chunk(
+                array_filter(
+                    preg_split("/\n/",
+                        str_replace(
+                            ',', "\n", $this->removeHeader($request)
+                        )
+                    )
+                )
+            , $chunked);
+    }
+
 }

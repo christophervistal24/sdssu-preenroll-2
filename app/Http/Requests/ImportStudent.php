@@ -24,8 +24,8 @@ class ImportStudent extends FormRequest
     public function rules()
     {
         return [
-            // mimes:csv
-            'student_csv' => 'required'
+            'student_csv' => 'required',
+            'student_grades_csv' => 'required'
         ];
     }
 }

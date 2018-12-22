@@ -5,9 +5,11 @@ namespace App;
 use App\Student;
 use App\Subject;
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class DeansList extends Model
 {
+    use Cachable;
     protected $primaryKey = 'student_id_number';
     protected $fillable = ['student_id_number'];
 

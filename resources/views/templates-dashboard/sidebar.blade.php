@@ -63,7 +63,6 @@ $route="admin";
                     <a class="nav-link " href="{{ url("/$route/block") }}">
                         <i class="material-icons">people</i>
                         <span>Blocks</span>
-                        <i class="material-icons">arrow_drop_down</i>
                     </a>
                 </li>
                 <li class="nav-item">

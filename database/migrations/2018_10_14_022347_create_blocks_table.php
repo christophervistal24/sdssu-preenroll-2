@@ -16,7 +16,7 @@ class CreateBlocksTable extends Migration
         Schema::create('blocks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('course');
-            $table->integer('no_of_enrolled')->nullable();
+            $table->integer('no_of_enrolled')->default(0);
             $table->string('block_name');
             $table->integer('block_limit')->nullable();
             $table->enum('level', [1,2,3,4,5]);

@@ -19,49 +19,33 @@ class BlockController extends Controller
 
     public function index()
     {
-        $blocks = $this->block //get all blocks
-                         ->orderBy('created_at')
-                        ->get();
+        $blocks = $this->block->get();
         return view('admins.listblocks',compact('blocks'));
     }
 
 
     public function store(StoreBlock $request)
     {
-        $this->block
-             ->create(
-                [
-                    'block_limit'    => $request->block_limit,
-                    'no_of_enrolled' => 0,
-                    'block_name'     =>  $request->block_name,
-                    'course'         =>  $request->course,
-                    'year'           =>  $request->year,
-               ]
-        );
-
+        $this->block->create($request->all());
         return response()->json(['success' => true]);
     }
 
     public function update(Request $request)
     {
-        $this->block
-             ->findOrFail($request->block_id)
-             ->update([
-                    'course'      => $request->course,
-                    'block_name'  => strtoupper($request->block_name),
-                    'block_limit' => $request->block_limit,
-                    'level'       => $request->year,
-                ]);
-              \Event::fire( new UpdateBlock(new Block,$request->block_id));
+        $fields = $request->except(['_token','year','block_id']);
+        $this->block->where('id',$request->block_id)->update($fields);
+
+        //fire an event this will check if the no. of students enrolled reach
+        //the maximum so the block will automatically closed
+        \Event::fire( new UpdateBlock(new Block,$request->block_id));
         return response()->json(['success' => true]);
     }
 
     public function retrieveblock()
     {
-        return $this->block->orderBy('created_at')
-                        ->where('status','open')
-                        ->get()
-                        ->toArray();
+        //for displaying real-time
+        //this is not the good way to display a data in real-time
+        return $this->block->disableCache()->get()->toArray();
     }
 
 }

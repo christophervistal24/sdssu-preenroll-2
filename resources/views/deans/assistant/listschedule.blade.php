@@ -99,7 +99,7 @@
                             <tbody>
                                 @foreach ($schedules as $schedule)
                                     <tr>
-                                        <td class="text-center">{{ $schedule->time }}</td>
+                                        <td class="text-center">{{ $schedule->start_time }}</td>
                                         <td class="text-center">{{ $schedule->days }}</td>
                                         <td class="text-center">{{ $schedule->room }}</td>
                                         <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>

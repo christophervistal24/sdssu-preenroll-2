@@ -22,7 +22,7 @@ class CreateInstructorsTable extends Migration
             $table->string('major');
             $table->enum('status', ['permanent', 'contractual']);
             $table->string('mobile_number');
-            $table->integer('active')->default(1);
+            $table->enum('active',['active','in active']);
             $table->timestamps();
         });
     }

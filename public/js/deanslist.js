@@ -1,4 +1,4 @@
-$(document).ready(function () {
+/*$(document).ready(function () {
     if (document.URL.includes('/admin/')) {
         (function(){
             let last_record_date = window.myApp.deanslist_last;
@@ -19,4 +19,4 @@ $(document).ready(function () {
             },2000);
         })();
     }
-});
+});*/

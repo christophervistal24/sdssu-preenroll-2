@@ -80,9 +80,15 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-12 mt-5">
-                                <label>Import CSV :
+                                <label>Import Students :
                                 </label>
                                     <input type="file" name="student_csv" class="form-control">
+                            </div>
+
+                            <div class="col-md-12 mt-5">
+                                <label>Import Students Grades :
+                                </label>
+                                    <input type="file" name="student_grades_csv" class="form-control">
                             </div>
                         </div>
 

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class Student extends Model
 {
-    protected $fillable = ['id_number','fullname','year','address','course_id','student_parent_id','mobile_number'];
+    protected $fillable = ['id_number','fullname','year','address','course_id','mobile_number','mothername','fathername','parent_mobile_number'];
     protected $primaryKey = 'id_number';
 
     public function grades()
@@ -24,11 +24,6 @@ class Student extends Model
         return $this->belongsToMany(Subject::class,'student_subject','student_id_number','subject_id');
     }
 
-
-    public function parents()
-    {
-        return $this->hasOne('App\StudentParent','id','student_parent_id');
-    }
 
     public function course()
     {
@@ -101,13 +96,4 @@ class Student extends Model
         }
     }
 
-    public static function getLastRecord()
-    {
-        return self::all()->last()->id;
-    }
-
-    public static function getRecordsAfterLast(int $id)
-    {
-        return self::where('id','>',$id)->get(['id']);
-    }
 }

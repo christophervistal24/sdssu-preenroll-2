@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class Grade extends Model
 {
     protected $fillable = ['subject_id','remarks','expiration'];
+    public const PASSING_GRADE  = 3.0;
 
     protected $events = [
         'updated' => DeansList::class,
@@ -18,7 +19,6 @@ class Grade extends Model
     	return $this->belongsToMany(Student::class,'grade_student','grade_id','student_id_number');
     }
 
-    //remove this relation
     public function subject()
     {
         $this->primaryKey = 'subject_id';
@@ -31,4 +31,19 @@ class Grade extends Model
         $this->where('subject_id',$request->subject_id)->first()
                     ->update(['remarks' => $request->student_grade]);
     }
+
+    public function scopeAllPassGrades($query)
+    {
+        return $query->where('remarks','<=',self::PASSING_GRADE);
+    }
+
+    public function scopeStudentPassGrades($query,$student_id_number)
+    {
+        return $this->AllPassGrades()
+        ->with(['student' => function ($query) use ($student_id_number) {
+            $query->where('id_number',$student_id_number);
+        }]);
+    }
+
+
 }

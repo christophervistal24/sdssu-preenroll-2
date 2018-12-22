@@ -108,7 +108,7 @@
                                     <td class="text-center">{{ ucwords($instructor->status) }}</td>
                                     <td class="text-center">{{ ucwords($instructor->major) }}</td>
                                     <td class="text-center">{{ ucwords($instructor->mobile_number) }}</td>
-                                    <td class="text-success text-center">{!! ($instructor->active == 1) ? '<span class="material-icons">check</span>' : '<span class="material-icons text-danger">close</span>' !!}</td>
+                                    <td class="text-success text-center">{!! ($instructor->active == 'active') ? '<span class="material-icons">check</span>' : '<span class="material-icons text-danger">close</span>' !!}</td>
                                     <td class="text-success text-center">
                                         <button class="text-white btn btn-success rounded-0"
                                         id="btnEditInstructorInfo" params="
@@ -200,8 +200,8 @@
                                     <div class="form-group col-md-12">
                                         <label>Active</label>
                                         <select name="active" id="instructorIsActive" class="form-control">
-                                            <option value="Active">Active</option>
-                                            <option value="In Active">In Active</option>
+                                            <option value="active">Active</option>
+                                            <option value="in active">In Active</option>
                                         </select>
                                     </div>
 

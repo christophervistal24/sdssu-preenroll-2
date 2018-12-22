@@ -28,7 +28,7 @@ $(document).ready(function () {
 		instructorEducationQual.val(info.edu);
 		instructorPosition.val(info.position);
 		instructorStatus.val(info.status);
-		instructorIsActive.val((info.active == 1) ? 'Active' : 'In Active');
+		instructorIsActive.val(info.active);
 		instructorNumber.val(info.mobile);
 		instructorMajor.val(info.major);
 	}

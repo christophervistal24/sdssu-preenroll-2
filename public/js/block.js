@@ -87,7 +87,7 @@ $(document).ready(function () {
 		}
 	});
 
-    (function(){
+    /*(function(){
          if (document.URL.includes('/admin/')) {
             window.setInterval(function () {
                 $.get( "/admin/blocks", function(data) {
@@ -100,7 +100,7 @@ $(document).ready(function () {
                             text_color = 'text-success';
                         }
                         $('#tableBlockBody').append(`<tr>
-                                <td class='text-center'>${value.level}${value.course}${value.block_name}</td>
+                                <td class='text-center'>${value.level}${value.course}${value.block_name.toUpperCase()}</td>
                                 <td class='text-center'>${value.no_of_enrolled}</td>
                                 <td class='text-center'>${value.block_limit}</td>
                                 <td class="text-center ${text_color}">${value.status.toUpperCase()}</td>
@@ -112,7 +112,7 @@ $(document).ready(function () {
                 });
             },3000);
         }
-    })();
+    })();*/
 
     $(document).on('click','.btnBlockCategory', function () {
             let information = $.param($.parseJSON($(this).attr('data')));

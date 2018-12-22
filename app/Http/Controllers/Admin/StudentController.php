@@ -21,7 +21,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('parents')->get();
+        $students = Student::orderBy('id_number','DESC')->get();
         return view('admins.list-of-students',compact('students'));
     }
 
@@ -49,24 +49,19 @@ class StudentController extends Controller
 
         DB::beginTransaction();
 		try {
-		//create new student parent
-		$student_parent =  StudentParent::create([
-			'mothername'    => $request->mothersname,
-			'fathername'    => $request->fathersname,
-			'mobile_number' => $request->parent_mobile,
-		]);
-
 		//create new student
 		$student = Student::create([
-			'id_number'         => $request->id_number,
-			'fullname'          => $request->student_fullname,
-			'year'              => 1,
-            'address'           => $request->address,
-			'course_id'         => $request->course,
-            'address'           => $request->address,
-            'gender'            => $request->gender,
-			'student_parent_id' => $student_parent->id,
-			'mobile_number'		=> $request->mobile_number,
+            'id_number'            => $request->id_number,
+            'fullname'             => $request->student_fullname,
+            'year'                 => 1,
+            'address'              => $request->address,
+            'course_id'            => $request->course,
+            'address'              => $request->address,
+            'gender'               => $request->gender,
+            'mobile_number'        => $request->mobile_number,
+            'mothername'           => $request->mothersname,
+            'fathername'           => $request->fathersname,
+            'parent_mobile_number' => $request->parent_mobile,
 		]);
 
 		//create new user for student
@@ -122,12 +117,10 @@ class StudentController extends Controller
         $student->mobile_number = $request->student_mobile;
         $student->year          = $request->student_year;
         $student->course_id     = $request->student_course;
-        $student_parents = $student->parents;
-        $student_parents->mothername = $request->student_mother;
-        $student_parents->fathername = $request->student_father;
-        $student_parents->mobile_number = $request->parent_mobile;
+        $student->mothername = $request->student_mother;
+        $student->fathername = $request->student_father;
+        $student->mobile_number = $request->parent_mobile;
         $student->save();
-        $student_parents->save();
         return response()->json(['success' => true]);
     }
 

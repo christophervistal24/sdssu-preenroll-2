@@ -5,32 +5,54 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Schedule extends Model
 {
-
+  use Cachable;
 	protected $table = 'schedules';
   protected $primaryKey = 'id';
 	protected $fillable = ['start_time','end_time','days','room','subject_id','instructor','block'];
+
+    public function getStartTimeAttribute($value)
+    {
+      return Carbon::parse($value)->format('g:i A');
+    }
+
+    public function getEndTimeAttribute($value)
+    {
+      return Carbon::parse($value)->format('g:i A');
+    }
+
+    public function setStartTimeAttribute($value)
+    {
+       $this->attributes['start_time'] = Carbon::parse($value);
+    }
+
+    public function setEndTimeAttribute($value)
+    {
+       $this->attributes['end_time'] = Carbon::parse($value);
+    }
 
     public function instructors()
     {
     	return $this->belongsToMany('App\Instructor','instructor_schedule','schedule_id','instructor_id_number')->withTimestamps();
     }
 
-     public function check($data = [])
-   	 {
-      // add some in between validation
-     	 	$checkMatch = [
-          'start_time' => $data['start_time'],
-          'end_time'   => $data['end_time'],
-          'days'       => $data['days'],
-          'room'       => $data['room'],
-          'subject_id' => $data['subject'],
-          'block'      => $data['block'],
-     	 	];
-   		return $this->where($checkMatch)->exists();
-   }
+   //   public function check($data = [])
+   // 	 {
+   //    // add some in between validation
+   //   	 	$checkMatch = [
+   //        'start_time' => $data->start_time,
+   //        'end_time'   => $data->end_time,
+   //        'days'       => $data->days,
+   //        'room'       => $data->room,
+   //        'subject_id' => $data->subject,
+   //        'block'      => $data->block,
+   //        'status'     => 'active',
+   //   	 	];
+   // 		return $this->where($checkMatch)->exists();
+   // }
 
    public function block_schedule()
    {
@@ -118,16 +140,9 @@ class Schedule extends Model
    }
 
    public function checkBetween($request) {
-      $s = $this->where(['block' => $request->block,'days' => $request->days ,'status' => 'active'])
-                 ->get(['start_time','end_time','days']); //get match block and days
-      //parse the selected start time
-      $selected_parse = Carbon::parse($request->start_time)->timestamp;
-      //iterate
-      return $s->filter(function ($item , $key) use ($selected_parse) {
-          $start_time = Carbon::parse($item->start_time)->timestamp;
-          $end_time   = Carbon::parse($item->end_time)->timestamp;
-          return (($start_time <= $selected_parse) && ($selected_parse <= $end_time));
-       });
+          return $this->where($request->only(['room','block','days','status' => 'active']))
+                  ->whereTime('start_time','<=',$request->start_time)
+                  ->whereTime('end_time','>=',$request->end_time)
+                  ->exists();
    }
-
 }

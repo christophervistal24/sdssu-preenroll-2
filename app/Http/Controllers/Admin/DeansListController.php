@@ -12,31 +12,44 @@ use Illuminate\Http\Request;
 class DeansListController extends Controller
 {
     protected $deans_list;
+    private $students = [];
     public function __construct(DeansList $deans_list)
     {
         $this->deans_list = $deans_list;
+        $this->students['count_deans_lister'] = $this->deans_list->count();
     }
 
     public function index()
     {
-        $list = DeansList::with('student')
-                            ->get();
+        $list = $this->deans_list
+                     ->with('student')
+                     ->get();
         return view('admins.list-of-deanslist',compact('list'));
     }
 
+    //checking if there's a new student qualified for deans list
+    //this will call every interval see at deanlist.js
     public function checkDeansList($last_record)
     {
-        $count_deans_lister = DeansList::count();
-        if ($count_deans_lister != 0) {
-            $new_students = DeansList::where('created_at','>',$last_record)
-                 ->get();
-            $last_created_at = DeansList::all()->last()->created_at;
+        if ($this->students['count_deans_lister'] !== 0) {
+            $this->students['new_students'] = $this->deans_list
+                                ->where('created_at','>',$last_record)
+                                ->get(); //check if there's new student in the table
+            $this->students['last_created_at'] = $this->deans_list
+                                                       ->all()
+                                                       ->last()
+                                                       ->created_at; //update the last value
         }
-        if (!empty($last_created_at)) {
-            return ['data' => $new_students , 'count' => $count_deans_lister , 'success' => true , 'last_record' => $last_created_at];
-        } else {
-            return ['data' => '' , 'success' => false , 'last_record' => 0];
-        }
+        return (!empty($this->students['last_created_at'])) ? [
+                'data'        => $this->students['new_students'] ,
+                'count'       => $this->students['count_deans_lister'],
+                'success'     => true ,
+                'last_record' => $this->students['last_created_at'],
+            ] : [
+                'data'        => '' ,
+                'success'     => false ,
+                'last_record' => 0
+            ];
 
     }
 }

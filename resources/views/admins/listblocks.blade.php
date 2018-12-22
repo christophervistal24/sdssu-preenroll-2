@@ -114,7 +114,7 @@
                                                     'id'             => $block->id,
                                                     'course'         => $block->course,
                                                     'year'           => $block->level,
-                                                    'block'          => $block->block_name,
+                                                    'block'          => strtoupper($block->block_name),
                                                     'blockLimit'     => $block->block_limit,
                                                     'no_of_enrolled' => $block->no_of_enrolled
                                                 ]

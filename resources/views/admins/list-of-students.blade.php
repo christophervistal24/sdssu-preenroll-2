@@ -125,13 +125,24 @@
                                         'mobile'        => $student->mobile_number,
                                         'year'          => $student->year,
                                         'course'        => $student->course->id,
-                                        'mothers_name'  => $student->parents->mothername,
-                                        'fathers_name'  => $student->parents->fathername,
-                                        'parent_mobile' => $student->parents->mobile_number,
+                                        'mothers_name'  => $student->mothername,
+                                        'fathers_name'  => $student->fathername,
+                                        'parent_mobile' => $student->parent_mobile_number,
                                     ])}}" class="p-2 btn btn-secondary rounded-0 btn-sm">EDIT INFO</button></span>
 
                                        <a href="/admin/student/{{ $student->id_number }}" class="text-white p-2 btn btn-success border-0 rounded-0 btn-sm"><b>EVALUATE</b></a>
-                                     <a class="text-white btn btn-primary border-0 rounded-0 btn-sm p-2"><b>PARENTS</b></a>
+                                     <a id="btnEditInfo" params="{{json_encode([
+                                        'id_number'     => $student->id_number,
+                                        'fullname'      => $student->fullname,
+                                        'gender'      => $student->gender,
+                                        'address'       => $student->address,
+                                        'mobile'        => $student->mobile_number,
+                                        'year'          => $student->year,
+                                        'course'        => $student->course->id,
+                                        'mothers_name'  => $student->mothername,
+                                        'fathers_name'  => $student->fathername,
+                                        'parent_mobile' => $student->parent_mobile_number,
+                                    ])}}" class="text-white btn btn-primary border-0 rounded-0 btn-sm p-2"><b>PARENTS</b></a>
 
                                    </td>
                                 </tr>

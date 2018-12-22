@@ -17,16 +17,14 @@ class RoomController extends Controller
 
     public function store(RoomRequest $request)
     {
-        Room::create(['room_number' => $request->room_number]);
+        Room::create($request->all());
         return response()->json(['success' => true]);
-/*        } else {
-
-        }*/
     }
 
     public function update(RoomRequest $request)
     {
-        Room::find($request->action)->update(['room_number' => $request->room_number]);
+        Room::where('id',$request->action)
+            ->update($request->except(['_token','action']));
         return response()->json(['success' => true]);
     }
 

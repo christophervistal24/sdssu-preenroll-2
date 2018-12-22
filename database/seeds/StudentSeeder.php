@@ -17,12 +17,6 @@ class StudentSeeder extends Seeder
     {
     	$role_student = Role::where('name','Student')->first();
 
-      $parent = new StudentParent;
-      $parent->mothername = 'Regina Vistal';
-      $parent->fathername = 'Crisogono Vistal';
-      $parent->mobile_number = '09193693499';
-      $parent->save();
-
    		$student = new Student();
    		$student->id_number = 1501755;
    		$student->fullname = 'Christopher P. Vistal';
@@ -30,7 +24,9 @@ class StudentSeeder extends Seeder
    		$student->course_id = 2;
       $student->address = 'Awasian Tandag City';
       $student->gender = 'male';
-      $student->student_parent_id = $parent->id;
+      $student->mothername = 'Regina Vistal';
+      $student->fathername = 'Crisogono Vistal';
+      $student->mobile_number = '09193693499';
    		$student->save();
 
    		$s = new User();
@@ -39,11 +35,6 @@ class StudentSeeder extends Seeder
       $s->save();
  		  $s->roles()->attach($role_student);
 
-      $parent = new StudentParent;
-      $parent->mothername = 'Regina Vistal';
-      $parent->fathername = 'Crisogono Vistal';
-      $parent->mobile_number = '09193693410';
-      $parent->save();
 
       $student = new Student();
       $student->id_number = 1501756;
@@ -52,27 +43,13 @@ class StudentSeeder extends Seeder
       $student->course_id = 2;
       $student->address = 'Awasian Tandag City';
       $student->gender = 'male';
-      $student->student_parent_id = $parent->id;
+      $student->mothername = 'Regina Vistal';
+      $student->fathername = 'Crisogono Vistal';
+      $student->mobile_number = '09193693410';
       $student->save();
 
       $s = new User();
       $s->id_number = 1501756;
-      $s->password = bcrypt(1234);
-      $s->save();
-      $s->roles()->attach($role_student);
-
-      $student = new Student();
-      $student->id_number = 1501757;
-      $student->fullname = 'Christopher P. Vistal3';
-      $student->year = 1;
-      $student->course_id = 2;
-      $student->address = 'Awasian Tandag City';
-      $student->gender = 'male';
-      $student->student_parent_id = $parent->id;
-      $student->save();
-
-      $s = new User();
-      $s->id_number = 1501757;
       $s->password = bcrypt(1234);
       $s->save();
       $s->roles()->attach($role_student);

@@ -20,7 +20,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523688',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -31,7 +31,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
 				'mobile_number' => '+639950523699',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -42,7 +42,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523677',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -53,7 +53,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523666',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -64,7 +64,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523655',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -75,7 +75,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523644',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -86,7 +86,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523633',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -97,7 +97,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523622',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -108,7 +108,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523611',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -119,7 +119,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523600',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -130,7 +130,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523612',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -141,7 +141,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523613',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -152,7 +152,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523614',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -163,7 +163,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523615',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -174,7 +174,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523616',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -185,7 +185,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523617',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -196,7 +196,7 @@ class InstructorSeeder extends Seeder
                 'major' => 'Sample',
                 'status' => 'permanent',
                 'mobile_number' => '+639950523618',
-                'active' => 1,
+                'active' => 'active',
                 'created_at' => \Carbon\Carbon::now(),
             ],
        	]);

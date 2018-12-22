@@ -105,7 +105,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('courses',Course::all());
          });
 
-         view()->composer(['admins.scheduling','admins.schedule','admins.studentaddsubject'] , function ($view) {
+         view()->composer(['admins.scheduling'] , function ($view) {
             $view->with('courses',Course::all());
             $view->with('rooms',Room::all());
             $view->with('instructors',Instructor::all());
@@ -120,5 +120,6 @@ class AppServiceProvider extends ServiceProvider
             $view->with('fourth_year_ce',Subject::where(['year' => 4, 'course' => 1])->get());
             $view->with('fifth_year_ce',Subject::where(['year'  => 5, 'course' => 1])->get());
          });
+
     }
 }
