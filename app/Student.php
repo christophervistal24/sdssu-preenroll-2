@@ -8,9 +8,11 @@ use App\Semester;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Student extends Model
 {
+    use Cachable;
     protected $fillable = ['id_number','fullname','year','address','course_id','mobile_number','mothername','fathername','parent_mobile_number'];
     protected $primaryKey = 'id_number';
 

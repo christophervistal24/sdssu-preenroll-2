@@ -1,21 +1,11 @@
 <?php
 
-	Route::get('/', function () {
-    	return view('welcome');
-	});
-
-	Route::get('/about',[
-			'uses' => 'Pages\AboutUsController@about',
-	]);
+	Route::get('/',['uses' => 'Pages\HomeController@index']);
+	Route::get('/about',['uses' => 'Pages\AboutUsController@about']);
 
 	//login route for admin
-	Route::get('/adminlogin' , [
-		'uses' => 'Admin\AdminController@login',
-	]);
-
-	Route::post('/adminlogin',[
-		'uses' => 'Admin\AdminController@checkLogin',
-	]);
+	Route::get('/adminlogin' , ['uses' => 'Admin\AdminController@login']);
+	Route::post('/adminlogin',['uses' => 'Admin\AdminController@checkLogin']);
 
 /**
  * Route for Admin

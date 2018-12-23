@@ -1,4 +1,3 @@
-@inject('course', 'App\Course')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -108,7 +107,7 @@
                                     <td>{{ $subject->sub_description }}</td>
                                     <td class="text-center">{{ $subject->units }}</td>
                                     <td class="text-center font-weight-bold">{{ $subject->subject_pre_requisites }}</td>
-                                    <td class="text-center"> {{ $course->getCourseCode($subject->course)}}</td>
+                                    <td class="text-center"> {{ ($subject->course == 1) ?  'CE' : 'CS' }}</td>
                                     <td class="text-center">{{ digitToYearLevel($subject->year) }}</td>
                                     <td>{{ ($subject->semester == 1) ? 'First sem.' : 'Second sem.' }}</td>
                                     <td class="text-success text-center">

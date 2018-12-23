@@ -5,14 +5,30 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Schedule extends Model
 {
+
   use Cachable;
 	protected $table = 'schedules';
   protected $primaryKey = 'id';
 	protected $fillable = ['start_time','end_time','days','room','subject_id','instructor','block'];
+
+     /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('status', function (Builder $builder) {
+            $builder->where('status', '!=', 'delete');
+        });
+    }
 
     public function getStartTimeAttribute($value)
     {
@@ -34,25 +50,20 @@ class Schedule extends Model
        $this->attributes['end_time'] = Carbon::parse($value);
     }
 
+    public function scopeExceptDelete($query)
+    {
+        return $query->where('status','!=','delete');
+    }
+
     public function instructors()
     {
     	return $this->belongsToMany('App\Instructor','instructor_schedule','schedule_id','instructor_id_number')->withTimestamps();
     }
 
-   //   public function check($data = [])
-   // 	 {
-   //    // add some in between validation
-   //   	 	$checkMatch = [
-   //        'start_time' => $data->start_time,
-   //        'end_time'   => $data->end_time,
-   //        'days'       => $data->days,
-   //        'room'       => $data->room,
-   //        'subject_id' => $data->subject,
-   //        'block'      => $data->block,
-   //        'status'     => 'active',
-   //   	 	];
-   // 		return $this->where($checkMatch)->exists();
-   // }
+    public function instructor_name_only()
+    {
+      return $this->belongsToMany('App\Instructor','instructor_schedule','schedule_id','instructor_id_number')->select('name');
+    }
 
    public function block_schedule()
    {
@@ -139,7 +150,8 @@ class Schedule extends Model
     );
    }
 
-   public function checkBetween($request) {
+   public function checkBetween($request)
+   {
           return $this->where($request->only(['room','block','days','status' => 'active']))
                   ->whereTime('start_time','<=',$request->start_time)
                   ->whereTime('end_time','>=',$request->end_time)

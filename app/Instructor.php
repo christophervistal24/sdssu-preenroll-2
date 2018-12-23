@@ -5,9 +5,11 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Instructor extends Model
 {
+  use Cachable;
 	protected $table = 'instructors';
     protected $fillable = ['id_number','name','education_qualification','position','major','status','mobile_number','active'];
 

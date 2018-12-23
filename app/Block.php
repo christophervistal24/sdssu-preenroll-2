@@ -5,8 +5,8 @@ namespace App;
 
 use App\InstructorSchedule;
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Block extends Model
 {

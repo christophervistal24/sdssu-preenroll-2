@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 
+
 class Subject extends Model
 {
     use Cachable;

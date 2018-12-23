@@ -31,7 +31,7 @@ class StudentSeeder extends Seeder
 
    		$s = new User();
       $s->id_number = 1501755;
-      $s->password = bcrypt(1234);
+      $s->password = 1234;
       $s->save();
  		  $s->roles()->attach($role_student);
 
@@ -50,7 +50,7 @@ class StudentSeeder extends Seeder
 
       $s = new User();
       $s->id_number = 1501756;
-      $s->password = bcrypt(1234);
+      $s->password = 1234;
       $s->save();
       $s->roles()->attach($role_student);
 

@@ -4,9 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Grade extends Model
 {
+    use Cachable;
     protected $fillable = ['subject_id','remarks','expiration'];
     public const PASSING_GRADE  = 3.0;
 

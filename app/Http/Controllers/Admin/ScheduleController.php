@@ -19,29 +19,19 @@ use Exception;
 class ScheduleController extends Controller
 {
 
-	protected $schedule,$scheduleRepo;
-  protected $block;
+	protected $schedule , $block;
 
-	public function __construct(Schedule $schedule , Block $block , ScheduleRepository $schedule_repositories)
+	public function __construct(Schedule $schedule , Block $block)
 	{
 		    $this->schedule = $schedule;
         $this->block = $block;
-        $this->scheduleRepo = $schedule_repositories;
 	}
 
 
     public function index()
     {
-        $courses = Course::all();
-        $rooms = Room::all();
-        $blocks = Block::where('status','open')->orderBy('level', 'ASC')->get();
-        $first_year  = Subject::getSubjectByYear(1);
-        $second_year = Subject::getSubjectByYear(2);
-        $third_year  = Subject::getSubjectByYear(3);
-        $fourth_year = Subject::getSubjectByYear(4);
-        $fifth_year  = Subject::getSubjectByYear(5);
-    	  $schedules = Schedule::with('instructors')->where('status','!=','delete')->get();
-    	  return view('admins.schedule',compact('schedules','first_year','second_year','third_year','fourth_year','fifth_year','rooms','blocks','courses'));
+        $schedules = Schedule::with('instructor_name_only')->get();
+    	  return view('admins.schedule',compact('schedules'));
     }
 
     public function create()
@@ -105,6 +95,8 @@ class ScheduleController extends Controller
 
     public function update(ScheduleRequest $request)
     {
+      //dapat kapag ang ineedit nya at yung lumabas checkbetween ay
+      //mismong schedule == passed
       if ($this->schedule->checkBetween($request)) {
           return response()->json(['success' => false]);
       }

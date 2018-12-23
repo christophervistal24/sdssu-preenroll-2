@@ -21,7 +21,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::orderBy('id_number','DESC')->get();
+        $students = Student::with('course')->orderBy('id_number','DESC')->get();
         return view('admins.list-of-students',compact('students'));
     }
 

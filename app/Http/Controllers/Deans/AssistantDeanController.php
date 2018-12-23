@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Deans;
 use App\Http\Controllers\Controller;
-use Exception;
 use App\Instructor;
 use App\Schedule;
 use App\Subject;
 use App\User;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,14 +20,9 @@ class AssistantDeanController extends Controller
 
 		$schedules =  DB::select('
 			SELECT
-	GROUP_CONCAT(schedules.id) as schedule_id,
-    GROUP_CONCAT(
-        CONCAT(
-            schedules.start_time,
-            "-",
-            schedules.end_time
-        )
-	    ) AS time,
+	   GROUP_CONCAT(schedules.id) as schedule_id,
+        schedules.start_time,
+        schedules.end_time,
 	    GROUP_CONCAT(schedules.days) AS days,
 	    schedules.room,
 	    subjects.id AS subject_id,

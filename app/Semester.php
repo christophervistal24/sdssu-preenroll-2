@@ -5,11 +5,9 @@ namespace App;
 use App\Student;
 use Illuminate\Database\Eloquent\Model;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
-
 class Semester extends Model
 {
-    use Cachable;
-
+   use Cachable;
    public function getCurrentSemester()
    {
    		return $this->where('current',1)->first()->semester;

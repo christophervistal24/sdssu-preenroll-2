@@ -1,4 +1,3 @@
-@inject('course','App\Course')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -114,7 +113,7 @@
                                     <td>{{ $student->address }}</td>
                                     <td>{{ $student->mobile_number }}</td>
                                     <td class="text-center">{{ digitToYearLevel($student->year) }}</td>
-                                    <td class="text-center">BS{{ $student->course->course_code}}</td>
+                                    <td class="text-center">BS{{ $student->course->course_code }}</td>
 
                                     <td>
                                         <span class="font-weight-bold"><button id="btnEditInfo" params="{{json_encode([

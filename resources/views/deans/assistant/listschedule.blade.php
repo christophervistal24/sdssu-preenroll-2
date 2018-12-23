@@ -99,7 +99,12 @@
                             <tbody>
                                 @foreach ($schedules as $schedule)
                                     <tr>
-                                        <td class="text-center">{{ $schedule->start_time }}</td>
+                                        <td class="text-center">{{
+                                            \Carbon\Carbon::parse($schedule->start_time)
+                                            ->format('g:i A')  }}
+                                             - {{
+                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
+                                                }}</td>
                                         <td class="text-center">{{ $schedule->days }}</td>
                                         <td class="text-center">{{ $schedule->room }}</td>
                                         <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>

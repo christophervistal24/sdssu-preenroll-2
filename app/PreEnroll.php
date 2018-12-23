@@ -4,9 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 class PreEnroll extends Model
 {
+    use Cachable;
     protected $fillable = ['student_id','schedule_id'];
 
     public function schedule()

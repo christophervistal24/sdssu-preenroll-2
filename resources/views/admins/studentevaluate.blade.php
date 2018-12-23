@@ -53,9 +53,13 @@
                                 <img class="user-avatar rounded-circle mr-2" src="/dashboard/images/avatars/0.jpg" alt="User Avatar">
                                 @if (request()->is('admin/*'))
                                     <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
-                                    @else
+                                @elseif (request()->is('parent/*'))
+                                    <span class="d-none d-md-inline-block">{{ $user_info->mothername }}</span>
+                                @else
+                                  <span class="d-none d-md-inline-block">{{ $user_info->fullname }}</span>
                                 @endif
-                                    <span class="d-none d-md-inline-block">{{ $user_info->fullname }}</span>
+
+
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
                                 <a class="dropdown-item" href="user-profile-lite.html">
