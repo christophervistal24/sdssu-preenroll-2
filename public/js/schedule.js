@@ -8,22 +8,10 @@ $(document).ready(function () {
 	let block = $('#block');
 	let schedule_id = $('#scheduleId');
 
-
-	// $(document).on('click','.course_checkbox',function () {
-	// 		let course = $(this).val();
-	// 		 if($(this).prop("checked") == true){
- //                $.get('/admin/subjects/'+course, function (data,status) {
-	// 				console.log(data);
-	// 			});
- //            } else {
- //            	console.log('unchecked');
- //            }
-	// });
-
 	$(document).on('click','#btnEditSchedule ', function () {
 		rebaseSelectOption();
 		schedule_info = $.parseJSON($(this).attr('params'));
-		schedule.html(`<b>Edit ${schedule_info.subject}</b>`);
+		schedule.html(`<b>Edit Schedule</b>`);
 		$('#editSchedule').modal('toggle');
 		setScheduleData();
 	});
@@ -40,19 +28,20 @@ $(document).ready(function () {
                     /* remind that 'data' is the response of the AjaxController */
                     success: function (data) {
                         if (data.success == true) {
-                        	swal("Subject created",'Schedule update',"success")
+                        	swal("Schedule update!","","success")
 							.then((value) => {
 							  location.reload();
 							});
-                        } else {
-                          swal({
-							  title: "Please check all you input",
-							  text: "This schedule is already exists please double check all the info",
-							  icon: "error",
-							  buttons: true,
-							  dangerMode: true,
-						 })
                         }
+                    },
+                    error: function (data) {
+                         swal({
+                              title: "Please check all you input",
+                              text: "This schedule is already exists please double check all the info",
+                              icon: "error",
+                              buttons: true,
+                              dangerMode: true,
+                         });
                     },
       		});
 	});

@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Requests;
-use App\Rules\ValidSchedule;
+
+use App\Rules\ValidScheduleUpdate;
 use App\Schedule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ScheduleRequest extends FormRequest
+class ScheduleRequestUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +26,11 @@ class ScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_time' => ['required' , new ValidSchedule(new Schedule)],
+            'start_time' => ['required' , new ValidScheduleUpdate(new Schedule)],
+            'subject_id' => 'required',
             'end_time'   => 'required',
             'days'       => 'required',
             'room'       => 'required',
-            'subject_id' => 'required',
             'block'      => 'required'
         ];
     }

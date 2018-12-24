@@ -72,11 +72,11 @@
                 {{-- FIRST YEAR --}}
                 <label>First yr. Subject : </label>
                 <div class="form-group row">
-                    <select name="subject"  id="subject_1" data-live-search="true" class="selectpicker form-control col-md-12">
+                    <select name="subject_id"  id="subject_1" data-live-search="true" class="selectpicker form-control col-md-12">
                         <option disabled selected>First year</option>
                         @foreach ($subjects[1] as $subject)
                             <option
-                                value="{{ $subject->sub_description }}"
+                                value="{{ $subject->id }}"
                                 >
                                 {{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
                             </option>
@@ -87,10 +87,10 @@
                 {{-- SECOND YEAR --}}
                 <label>Second yr. Subject : &nbsp;</label>
                 <div class="form-group row">
-                    <select name="subject" id="subject_2" data-live-search="true" class="selectpicker form-control col-md-12">
+                    <select name="subject_id" id="subject_2" data-live-search="true" class="selectpicker form-control col-md-12">
                         <option disabled selected>Second year</option>
                         @foreach ($subjects[2] as $subject)
-                        <option value="{{ $subject->sub_description }}">
+                        <option value="{{ $subject->id }}">
                             {{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
                         </option>
                         @endforeach
@@ -99,10 +99,10 @@
                 {{-- THIRD YEAR --}}
                 <label>Third year Subject :</label>
                 <div class="form-group row">
-                    <select name="subject" data-live-search="true" id="subject_3" class="selectpicker form-control col-md-12">
+                    <select name="subject_id" data-live-search="true" id="subject_3" class="selectpicker form-control col-md-12">
                         <option disabled selected>Third year</option>
                         @foreach ($subjects[3] as $subject)
-                        <option value="{{ $subject->sub_description }}">
+                        <option value="{{ $subject->id }}">
                             {{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
                         </option>
                         @endforeach
@@ -111,10 +111,10 @@
                 {{-- FOURTH YEAR --}}
                 <label>Fourth year subject : </label>
                 <div class="form-group row">
-                    <select name="subject" id="subject_4" data-live-search="true" class="selectpicker form-control col-md-12">
+                    <select name="subject_id" id="subject_4" data-live-search="true" class="selectpicker form-control col-md-12">
                         <option disabled selected>Fourth year</option>
                         @foreach ($subjects[4] as $subject)
-                        <option value="{{ $subject->sub_description }}">
+                        <option value="{{ $subject->id }}">
                             {{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
                         </option>
                         @endforeach
@@ -124,10 +124,10 @@
                 {{-- FIFTH YEAR --}}
                 <label>Fifth year subject : </label>
                 <div class="form-group row">
-                    <select name="subject" id="subject_4" data-live-search="true" class="selectpicker form-control col-md-12">
+                    <select name="subject_id" id="subject_4" data-live-search="true" class="selectpicker form-control col-md-12">
                         <option disabled selected>Fifth year</option>
                         @foreach ($subjects[5] as $subject)
-                        <option value="{{ $subject->sub_description }}">
+                        <option value="{{ $subject->id }}">
                             {{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
                         </option>
                         @endforeach

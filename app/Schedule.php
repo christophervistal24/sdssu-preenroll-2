@@ -2,11 +2,12 @@
 
 namespace App;
 
+use App\Subject;
 use Carbon\Carbon;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Builder;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Schedule extends Model
 {
@@ -150,11 +151,25 @@ class Schedule extends Model
     );
    }
 
-   public function checkBetween($request)
+   public function scopeIsExists($query)
    {
-          return $this->where($request->only(['room','block','days','status' => 'active']))
-                  ->whereTime('start_time','<=',$request->start_time)
-                  ->whereTime('end_time','>=',$request->end_time)
-                  ->exists();
+      return $query->exists();
    }
+
+   public function isInBetweenOfSchedule()
+   {
+      $params = [
+        'start_time' => Carbon::parse(request('start_time')),
+        'end_time'   => Carbon::parse(request('end_time')),
+        'room'       => request('room'),
+        'block'      => request('block'),
+        'days'       => request('days'),
+        'status'     => 'active'
+      ];
+
+      return $this->where(array_except($params , ['start_time','end_time']))
+        ->whereTime('start_time','<=',$params['start_time'])
+        ->whereTime('end_time','>=',$params['end_time']);
+   }
+
 }

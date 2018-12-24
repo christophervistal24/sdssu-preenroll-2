@@ -7,8 +7,7 @@ AdminComposer , AssistantDeanComposer , CourseComposer ,
 InstructorComposer , ParentComposer , StudentComposer ,
 ScheduleComposer
 };
-use App\Semester;
-use App\Subject;
+use App\{Semester , Subject};
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 

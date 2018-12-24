@@ -2,35 +2,28 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Block;
-use App\Course;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ScheduleRequest;
-use App\Repository\ScheduleRepository;
-use App\Room;
+use App\Http\Requests\ScheduleRequestUpdate;
 use App\Schedule;
-use App\Subject;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
-use Exception;
 
 class ScheduleController extends Controller
 {
 
-	protected $schedule , $block;
+	protected $schedule;
 
-	public function __construct(Schedule $schedule , Block $block)
+	public function __construct(Schedule $schedule)
 	{
 		    $this->schedule = $schedule;
-        $this->block = $block;
 	}
 
 
     public function index()
     {
-        $schedules = Schedule::with('instructor_name_only')->get();
+        $schedules = $this->schedule->with('instructor_name_only')
+                             ->get();
     	  return view('admins.schedule',compact('schedules'));
     }
 
@@ -41,25 +34,18 @@ class ScheduleController extends Controller
 
     public function store(ScheduleRequest $request)
     {
-        if($this->schedule->checkBetween($request)) {
-          return redirect()
-                 ->back()->withInput()->withErrors('Schedule is conflict to other');
-        } else {
-          $this->schedule->create([
-               'start_time' => $request->start_time,
-               'end_time'   => $request->end_time,
-               'days'       => $request->days,
-               'room'       => $request->room,
-               'subject_id' => $this->schedule::getIdOfSubject(array_values($request->subject)[0]),
-               'block'      => $request->block,
-          ]);
-          return redirect()->back()->with('status','Successfully add new schedule');
-        }
+        $this->schedule->create($request->all());
+        return redirect()->back()->with('status','Successfully add new schedule');
     }
 
+/**
+ * [@show What is this? check this!!]
+ * @param  [type] $information [description]
+ * @return [type]              [description]
+ */
     public function show($information)
     {
-        $params = [];
+       /* $params = [];
         parse_str($information,$params);
         $schedules = DB::select(
           DB::raw('SELECT
@@ -90,25 +76,13 @@ class ScheduleController extends Controller
           ORDER BY blocks.course DESC
           '),$params
         );
-        return response()->json(['schedules' => $schedules]);
+        return response()->json(['schedules' => $schedules]);*/
     }
 
-    public function update(ScheduleRequest $request)
+    public function update(ScheduleRequestUpdate $request)
     {
-      //dapat kapag ang ineedit nya at yung lumabas checkbetween ay
-      //mismong schedule == passed
-      if ($this->schedule->checkBetween($request)) {
-          return response()->json(['success' => false]);
-      }
-        $sched = $this->schedule->find($request->schedule_id)
-                        ->update([
-                            'start_time' => $request->start_time,
-                            'end_time'   => $request->end_time,
-                            'days'       => $request->days,
-                            'room'       => $request->room,
-                            'subject_id' => $this->schedule::getIdOfSubject($request->subject),
-                            'block'      => $request->block,
-                        ]);
+       $this->schedule->find($request->schedule_id)
+                       ->update($request->except(['schedule_id']));
         return response()->json(['success' => true]);
     }
 

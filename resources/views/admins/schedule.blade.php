@@ -127,7 +127,7 @@
                                                 'days'        => $schedule->days,
                                                 'room'        => $schedule->room,
                                                 'block'       => [$schedule->block_schedule['id'] , $schedule->block_schedule['level']],
-                                                'subject'     => $schedule->subject->sub_description,
+                                                'subject'     => $schedule->subject->id,
                                             ]
                                         )
                                         }}' class="btn btn-success"><i class="material-icons">edit</i> EDIT</button>

@@ -22,7 +22,7 @@
             <input onclick="return sample({{
                 json_encode(['pre_requisite_code' => $schedule->pre_requisite_code ])
             }});
-            " data-id="{{ $schedule->id }}"  style="cursor:pointer; background:white;"  name="subjects[{{ $schedule->subject_id }}][{{ $schedule->id }}]" data-units="{{ $schedule->units }}" class="p-3 mb-3 form-control border-0 rounded-0 font-weight-bold js-remove" readonly value="{{$schedule->start_time . ' - ' . $schedule->end_time . ' - ' . $schedule->days . ' - ' . $schedule->room . ' - ' . $schedule->sub_description . ' - ' . $schedule->units . ' Units'
+            " data-id="{{ $schedule->id }}"  style="cursor:pointer; background:white;"  name="subjects[{{ $schedule->subject_id }}][{{ $schedule->id }}]" data-units="{{ $schedule->units }}" class="p-3 mb-3 form-control border-0 rounded-0 font-weight-bold js-remove" readonly value="{{\Carbon\Carbon::parse($schedule->start_time)->format('g:i A') . ' - ' . \Carbon\Carbon::parse($schedule->end_time)->format('g:i A') . ' - ' . $schedule->days . ' - ' . $schedule->room . ' - ' . $schedule->sub_description . ' - ' . $schedule->units . ' Units'
             }}">
 
             {{-- <div class="text-warning">{{ $schedule->pre_requisite_code }}</div> --}}

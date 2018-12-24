@@ -1,7 +1,6 @@
 <?php
 
-Route::get('/blocks' ,
-    [
+Route::get('/blocks' ,[
         'uses' => 'Admin\BlockController@retrieveblock',
         'roles' => ['Admin']
     ]

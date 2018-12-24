@@ -77,22 +77,22 @@ $start_time = [
 		<br>
 		<label>First year subject : </label>
 		<div class="form-group row">
-			<select name="subject[CS]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
+			<select name="subject_id"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
 				<option disabled selected>First year subjects</option>
 				@foreach ($subjects[1][2] as $subject)
 				<option
-					value="{{ $subject->sub_description }}"
+					value="{{ $subject->id }}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
 				</option>
 				@endforeach
 			</select>
-			<select name="subject[CE]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
+			<select name="subject_id"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
 				<option disabled selected>First year subjects</option>
 				@foreach ($subjects[1][2] as $subject)
 				<option
-					value="{{ $subject->sub_description }}"
+					value="{{ $subject->id }}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description)  }}
@@ -103,11 +103,11 @@ $start_time = [
 
 		<label>Second year subject : </label>
 		<div class="form-group row">
-			<select name="subject[CS]" data-live-search="true" id="subject_2_1" class="selectpicker form-control col-md-6">
+			<select name="subject_id" data-live-search="true" id="subject_2_1" class="selectpicker form-control col-md-6">
 				<option disabled selected>Second year subjects</option>
 				@foreach ($subjects[2][2] as $subject)
 				<option
-					value="{{ $subject->sub_description }}"
+					value="{{ $subject->id }}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
@@ -115,11 +115,11 @@ $start_time = [
 				@endforeach
 			</select>
 			{{-- SECOND YEAR CE --}}
-			<select name="subject[CE]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
+			<select name="subject_id"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
 				<option disabled selected>Second year subjects</option>
 				@foreach ($subjects[2][1] as $subject)
 				<option
-					value="{{ $subject->sub_description }}"
+					value="{{$subject->id}}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
@@ -130,22 +130,22 @@ $start_time = [
 		{{-- THIRD YEAR --}}
 		<label>Third year subject : </label>
 		<div class="form-group row">
-			<select name="subject[CS]" data-live-search="true"  id="subject_3_1" class="selectpicker form-control col-md-6">
+			<select name="subject_id" data-live-search="true"  id="subject_3_1" class="selectpicker form-control col-md-6">
 				<option disabled selected>Third year subjects</option>
 				@foreach ($subjects[3][2] as $subject)
 				<option
-					value="{{ $subject->sub_description }}"
+					value="{{$subject->id}}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
 				</option>
 				@endforeach
 			</select>
-			<select name="subject[CE]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
+			<select name="subject_id"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
 				<option disabled selected>Third year subjects</option>
 				@foreach ($subjects[3][1] as $subject)
 				<option
-					value="{{ $subject->sub_description }}"
+					value="{{$subject->id}}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
@@ -155,22 +155,22 @@ $start_time = [
 		</div>
 		<label>Fourth year subject :</label>
 		<div class="form-group row">
-			<select name="subject[CS]" id="subject_3"  data-live-search="true"  class="selectpicker form-control col-md-6">
+			<select name="subject_id" id="subject_3"  data-live-search="true"  class="selectpicker form-control col-md-6">
 				<option disabled selected>Fourth year subjects</option>
 				@foreach ($subjects[4][2] as $subject)
 				<option
-					value="{{ $subject->sub_description }}"
+					value="{{$subject->id}}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
 				</option>
 				@endforeach
 			</select>
-			<select name="subject[CE]"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
+			<select name="subject_id"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
 				<option disabled selected>Fourth year subjects</option>
 				@foreach ($subjects[4][1] as $subject)
 				<option
-					value="{{ $subject->sub_description }}"
+					value="{{$subject->id}}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
@@ -178,11 +178,11 @@ $start_time = [
 				@endforeach
 			</select>
 		</div>
-			<select name="subject[CE]"  id="subject_1_1" class="form-control float-right  col-md-6 selectpicker" data-live-search="true">
+			<select name="subject_id"  id="subject_1_1" class="form-control float-right  col-md-6 selectpicker" data-live-search="true">
 				<option disabled selected>Fifth year subjects</option>
 				@foreach ($subjects[5][1] as $subject)
 				<option
-					value="{{ $subject->sub_description }}"
+					value="{{$subject->id}}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description)  }}
