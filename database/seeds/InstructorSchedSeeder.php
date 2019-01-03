@@ -73,7 +73,7 @@ class InstructorSchedSeeder extends Seeder
        				],
        				[
 							'start_time' => Carbon::parse('8:30 AM'),
-							'end_time' => Carbon::parse('10:30 AM'),
+							'end_time' => Carbon::parse('9:00 AM'),
 							'days'       => 'TTH',
 							'room'       => '401',
 							'subject_id'=> Subject::where('sub_description','Living in the IT Era')->first()->id,
@@ -153,38 +153,48 @@ class InstructorSchedSeeder extends Seeder
 							[
 								'instructor_id_number' => 1,
 								'schedule_id' => 1,
+								'created_at' => Carbon::now(),
 							],
 							[
 								'instructor_id_number' => 1,
 								'schedule_id' => 2,
+								'created_at' => Carbon::now(),
+
 							],
 							[
 								'instructor_id_number' => 1,
 								'schedule_id' => 3,
+								'created_at' => Carbon::now(),
 							],
 							[
 								'instructor_id_number' => 1,
 								'schedule_id' => 4,
+								'created_at' => Carbon::now(),
 							],
 							[
 								'instructor_id_number' => 1,
 								'schedule_id' => 5,
+								'created_at' => Carbon::now(),
 							],
 							[
 								'instructor_id_number' => 1,
 								'schedule_id' => 6,
+								'created_at' => Carbon::now(),
 							],
 							[
 								'instructor_id_number' => 1,
 								'schedule_id' => 7,
+								'created_at' => Carbon::now(),
 							],
 							[
 								'instructor_id_number' => 1,
 								'schedule_id' => 8,
+								'created_at' => Carbon::now(),
 							],
                             [
 								'instructor_id_number' => 1,
 								'schedule_id' => 9,
+								'created_at' => Carbon::now(),
 							],
 
 						]);

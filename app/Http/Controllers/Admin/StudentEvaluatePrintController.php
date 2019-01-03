@@ -52,15 +52,14 @@ class StudentEvaluatePrintController extends Controller
      */
     public function show(Student $id_number , $subject_semester , $subject_year,$is_report = null)
     {
-        //add some trigger
         $student = $id_number;
         $s_grades = Student::find($student->id_number)
                         ->grades()
-                        ->get()
-        ->filter(function ($value , $key) use($subject_semester,$subject_year) {
+                        ->get()->filter(function ($value , $key) use($subject_semester,$subject_year) {
             return ($value->subject->semester == $subject_semester)
             and ($value->subject->year == $subject_year);
         });
+
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('admins.printforms.evaluate',compact('subject_semester','student','s_grades'));
         $pdf->setPaper('legal');
@@ -69,36 +68,9 @@ class StudentEvaluatePrintController extends Controller
 
     public function printrange(Request $request)
     {
-        $current_semester = Semester::where('current',1)->first()->id;
-        $student = Student::findOrFail($request->id_number);
-        $sem = 1;
-        $signal = false;
-        //$s for subjects
-        for($i = $request->from_year; $i<=($request->to_year); $i++)
-        {
-            for($x = ($student->year-1); $x<=($student->year); $x++)
-            {
-                $subjects[$i . '_year' . '_' . $sem . '_sem']
-                = Subject::getSubjectsByYearAndCourse([
-                        'year'     => $i ,
-                        'course'   => $student->course->id ,
-                        'semester' => $sem,
-                    ]);
-                // echo $i . " , " . $sem .  " , " . $current_semester . "<br>";
-                if ($i == $student->year && $sem == $current_semester) {
-                    $signal = true;
-                    break;
-                }
-                $sem += 1;
-            }
-            if ($signal) {
-                break;
-            }
-            $sem = ($sem > 2) ? 1 : $sem;
-        }
-        $s_grades = Student::with('grades')->where('id_number',$student->id_number)->get();
+        $grades = preg_replace('/class=".*?"|\t/', '', $request->student_grades);;
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('admins.printforms.evaluate_range',compact('subjects','student','s_grades'));
+        $pdf->loadView('admins.printforms.evaluate_range',compact('grades'));
         $pdf->setPaper('legal');
         return $pdf->stream();
     }

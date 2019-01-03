@@ -4,15 +4,14 @@ namespace App;
 
 use App\Block;
 use App\Events\UpdateBlock;
+use App\Grade;
 use App\Semester;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Student extends Model
 {
-    use Cachable;
     protected $fillable = ['id_number','fullname','year','address','course_id','mobile_number','mothername','fathername','parent_mobile_number'];
     protected $primaryKey = 'id_number';
 
@@ -96,6 +95,16 @@ class Student extends Model
            $student->block =  $block; // assign block to student
            $student->save();
         }
+    }
+
+    public function sendSMS()
+    {
+        $grade = Grade::with('subject')->find(request('grade_id'));
+        $subject_code = $grade->subject->sub;
+        $subject_description = $grade->subject->sub_description;
+        $grade = request('student_grade');
+        dd($subject_code . '-' . $subject_description . ' , ' . $grade);
+        // dd(request('student_grade'));
     }
 
 }

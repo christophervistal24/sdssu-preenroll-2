@@ -6,11 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 
 class User extends Authenticatable
 {
-    use Notifiable , Cachable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.

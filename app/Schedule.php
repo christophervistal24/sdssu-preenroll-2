@@ -4,7 +4,6 @@ namespace App;
 
 use App\Subject;
 use Carbon\Carbon;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -12,24 +11,10 @@ use Illuminate\Support\Facades\DB;
 class Schedule extends Model
 {
 
-  use Cachable;
 	protected $table = 'schedules';
-  protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 	protected $fillable = ['start_time','end_time','days','room','subject_id','instructor','block'];
 
-     /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('status', function (Builder $builder) {
-            $builder->where('status', '!=', 'delete');
-        });
-    }
 
     public function getStartTimeAttribute($value)
     {

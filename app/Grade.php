@@ -4,16 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Grade extends Model
 {
-    use Cachable;
-    protected $fillable = ['subject_id','remarks','expiration'];
+    protected $fillable = ['subject_id','remarks'];
     public const PASSING_GRADE  = 3.0;
 
     protected $events = [
-        'updated' => DeansList::class,
+        'updated' => [DeansList::class,SendStudentGrade::class],
     ];
 
     public function student()
@@ -26,6 +24,7 @@ class Grade extends Model
         $this->primaryKey = 'subject_id';
         return $this->hasOne(Subject::class,'id');
     }
+
 
     public function updateGrade(Request $request , $subject_id = null)
     {

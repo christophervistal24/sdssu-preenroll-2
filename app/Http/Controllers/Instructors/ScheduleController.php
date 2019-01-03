@@ -18,4 +18,13 @@ class ScheduleController extends Controller
     	return view('instructors.schedule',compact('instructors'));
     }
 
+    public function previousSchedules()
+    {
+        $instructors = Instructor::where('id_number',Auth::user()->id_number)
+                            ->with(['schedules' => function ($query) {
+                                $query->where('status','=','delete');
+                            }])->get();
+        return view('instructors.previous-schedule',compact('instructors'));
+    }
+
 }

@@ -88,6 +88,8 @@
                         <h4 class="text-muted">Add Schedule</h4>
                     </div>
                     <div class="container-fluid">
+                        @include('errors.scheduling-error')
+                        @include('success.success-message')
                      @include('admins.scheduling-subjects')
                     </div>
                 </div>

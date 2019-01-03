@@ -6,11 +6,9 @@ namespace App;
 use App\InstructorSchedule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Block extends Model
 {
-    use Cachable;
     protected $primaryKey = 'id';
     protected $fillable = ['course','no_of_enrolled','block_name','block_limit','level','status'];
 

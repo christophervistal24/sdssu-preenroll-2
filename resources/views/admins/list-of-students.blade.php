@@ -115,8 +115,13 @@
                                     <td class="text-center">{{ digitToYearLevel($student->year) }}</td>
                                     <td class="text-center">BS{{ $student->course->course_code }}</td>
 
-                                    <td>
-                                        <span class="font-weight-bold"><button id="btnEditInfo" params="{{json_encode([
+                                    <td class="text-center">
+                                  <div class="dropdown">
+                                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       Actions
+                                      </button>
+                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a id="btnEditInfo" params="{{json_encode([
                                         'id_number'     => $student->id_number,
                                         'fullname'      => $student->fullname,
                                         'gender'      => $student->gender,
@@ -127,10 +132,10 @@
                                         'mothers_name'  => $student->mothername,
                                         'fathers_name'  => $student->fathername,
                                         'parent_mobile' => $student->parent_mobile_number,
-                                    ])}}" class="p-2 btn btn-secondary rounded-0 btn-sm">EDIT INFO</button></span>
-
-                                       <a href="/admin/student/{{ $student->id_number }}" class="text-white p-2 btn btn-success border-0 rounded-0 btn-sm"><b>EVALUATE</b></a>
-                                     <a id="btnEditInfo" params="{{json_encode([
+                                    ])}}" class="p-2 text-center text-black dropdown-item" style="cursor:pointer;"><b>EDIT INFO</b></a>
+                                    <a href="/admin/student/{{ $student->id_number }}" class=" dropdown-item p-2 text-center text-gray"><b>EVALUATE</b></a>
+                                      <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-center" data-target="parents" id="btnEditInfo" params="{{json_encode([
                                         'id_number'     => $student->id_number,
                                         'fullname'      => $student->fullname,
                                         'gender'      => $student->gender,
@@ -141,8 +146,12 @@
                                         'mothers_name'  => $student->mothername,
                                         'fathers_name'  => $student->fathername,
                                         'parent_mobile' => $student->parent_mobile_number,
-                                    ])}}" class="text-white btn btn-primary border-0 rounded-0 btn-sm p-2"><b>PARENTS</b></a>
-
+                                    ])}}" style="cursor:pointer;"><b>VIEW PARENTS</b></a>
+                                        <a href="" class="dropdown-item text-center"><b>SEND SCHEDULE <br> TO PARENTS</b></a>
+                                        <a href="" class="dropdown-item text-center"><b>SEND GRADES <br> TO PARENTS</b></a>
+                                      </div>
+                                      </div>
+                                    </div>
                                    </td>
                                 </tr>
                                 @endforeach
@@ -164,36 +173,36 @@
                         <div class="modal-body">
                             <form id="editStudentForm" autocomplete="off">
                                 <div class="form">
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12" id="studentFullnameContainer">
                                         <label>Fullname</label>
                                         <input type="text" name="fullname" id="studentFullname" class="form-control"  required />
                                     </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12" id="studentIdNumberContainer">
                                         <label>ID Number</label>
                                         <input type="text" name="id_number"  id="studentIdNumber"  class="form-control"  required />
                                     </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12" id="studentGenderContainer">
                                         <select name="student_gender" class="form-control" id="studentGender">
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12" id="studentAddressContainer">
                                         <textarea class="form-control"  name="student_address" id="studentAddress" cols="30" rows="5"></textarea>
                                     </div>
 
 
 
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12" id="studentMobileNumberContainer">
                                         <label>Mobile Number : </label>
                                         <input type="text" name="student_mobile"  id="studentMobileNumber" class="form-control"   required />
                                     </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12" id="studentYearContainer">
                                         <label>Year : </label>
                                         <select name="student_year" class="form-control" id="studentYear">
                                             @foreach (range(1,5) as $year)
@@ -202,7 +211,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12" id="studentCourseContainer">
                                         <label>Course : </label>
                                         <select name="student_course" id="studentCourse" class="form-control">
                                             <option value="2">CS</option>

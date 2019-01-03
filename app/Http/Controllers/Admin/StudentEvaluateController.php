@@ -55,7 +55,7 @@ class StudentEvaluateController extends Controller
     public function show(Student $id_number)
     {
         $student = $id_number;
-        $s_grades = Student::with(['grades' => function ($query) {
+        $s_grades = Student::with(['grades','schedules' => function ($query) {
                 $query->orderBy('created_at');
         }])->find($student->id_number);
         $grades = [];
@@ -64,6 +64,7 @@ class StudentEvaluateController extends Controller
                 $value->subject->year.'_year_'.$value->subject->semester.'_semester_subjects'
             ][] = $value;
         });
+
         return view('admins.studentevaluate',compact(['student','grades']));
     }
 

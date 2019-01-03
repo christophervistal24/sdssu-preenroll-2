@@ -14,17 +14,19 @@ use App\Traits\SchedUtils;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PreEnrollController extends Controller
 {
 	use SchedUtils;
 
 	protected $schedule;
-  protected $current_semester;
-  protected $student;
+    protected $current_semester;
+    protected $student;
+
 	public function __construct(Schedule $sched , Semester $semester , Student $student)
 	{
-		  $this->schedule = $sched;
+	  $this->schedule = $sched;
       $this->current_semester = $semester;
       $this->student = $student;
 	}
@@ -57,28 +59,32 @@ class PreEnrollController extends Controller
 	      $collected_ids  = [];
         $grade_id = [];
          array_walk_recursive($subjects, function ($v , $k) use (&$collected_ids) {
-                      $collected_ids[] = $k; //get the ids of all schedules that the student select
+             $collected_ids[] = $k; //get the ids of all schedules that the student select
           });
+        try {
+          DB::beginTransaction();
+           array_walk($subject_ids , function ($value , $key)  use(&$grade_id) {
+              $grade_id[] = Grade::updateOrCreate(['subject_id' => $value])->id;
+           });
 
-         array_walk($subject_ids , function ($value , $key)  use(&$grade_id) {
-            $grade_id[] = Grade::create(['subject_id' => $value])->id;
-         });
+        $student = Student::where('id_number',Auth::user()->id_number)->first();
 
-	      $student = Student::where('id_number',Auth::user()->id_number)->first();
-	      try {
 	            $student->schedules() // add student schedule
                       ->attach($collected_ids);
-	            $student->student_subjects() //add student subjects
+              $student->student_subjects() //add student subjects
                       ->attach($subject_ids);
               $student->grades() // student subject add grade
                       ->attach($grade_id);
-              $block = $this->schedule //get the block of the first schedule that the student select
+              //get the block of the first schedule that the student select
+              $block = $this->schedule
                             ->find($collected_ids[0])->block;
               $this->student->updateStudentBlock($block); // update student block
-	        } catch (Exception $e) {
-                  dd($e->getMessage());
-	            // return redirect()->back()->with('status','Successfully enrolled those subjects');
-	        }
+              DB::commit();
 	        return redirect()->back()->with('status','Successfully enrolled those subjects');
+          } catch (Exception $e) {
+              DB::rollback();
+                $student->schedules()->attach($collected_ids);
+            return redirect()->back()->with('status','Successfully enrolled those subjects');
+          }
     }
 }

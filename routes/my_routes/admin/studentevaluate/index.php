@@ -21,7 +21,7 @@ Route::get('/student/print/grades',
     ]
 );
 
-Route::post('/student/{id_number}',
+Route::post('/student/{student_id_number}',
     [
         'uses' => 'Admin\StudentEvaluatePrintController@printrange',
         'roles' => ['Admin']

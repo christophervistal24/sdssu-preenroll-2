@@ -25,7 +25,6 @@ class PreRequisiteController extends Controller
 
     public function checkSubject(Request $request)
     {
-
         $subjects = $request->session()->push('old_dragged_subjects',$request->subjects);
         $filtered = array_values(filterSubjectId($subjects)); //rebase the keys
         $search_id = null;
@@ -41,7 +40,8 @@ class PreRequisiteController extends Controller
             } else {
                 return response()->json(['success' => false , 'message' => 'You can click the subject to view the pre-requisite maybe you don\'t a have grade.']);
             }
-        }
+
+       }
     }
 
 }

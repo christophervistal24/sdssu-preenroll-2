@@ -3,11 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class Course extends Model
 {
-	use Cachable;
 	public function getCourse($id)
 	{
 		return $this->where('id',$id)->first();

@@ -24,8 +24,7 @@ $start_time = [
 '6:00 PM',
 ];
 @endphp
-@include('errors.error')
-@include('success.success-message')
+
 <form autocomplete="off" action="{{ url('/admin/scheduling') }}" method="POST">
 	@csrf
 	<div class="form">
@@ -35,13 +34,13 @@ $start_time = [
 			<select name="start_time" onchange="getTime(this)" id="startTime" data-live-search="true"  class="selectpicker form-control col-md-6" >
 				<option selected disabled>Start time</option>
 				@foreach ($start_time as $time)
-				<option  value="{{ $time }}" {{ (old('start_time') == $time ? "selected":"") }}>{{ $time }}</option>
+				<option  value="{{$time}}" {{ (old('start_time') == $time ? "selected":"") }}>{{ $time }}</option>
 				@endforeach
 			</select>
 			<select name="end_time" id="endTime" data-live-search="true"  class="selectpicker form-control col-md-6">
 				<option selected disabled>End time</option>
 				@foreach ($start_time as $time)
-				<option  value="{{ $time }}" {{ (old('end_time') == $time ? "selected":"") }}>{{ $time }}</option>
+				<option  value="{{$time}}" {{ (old('end_time') == $time ? "selected":"") }}>{{ $time }}</option>
 				@endforeach
 			</select>
 		</div>
@@ -62,7 +61,7 @@ $start_time = [
 			<select name="room" data-live-search="true" class="selectpicker form-control col-md-12">
 				<option disabled selected>Select Room</option>
 				@foreach ($rooms as $room)
-				<option value="{{ $room->room_number }}"
+				<option value="{{$room->room_number}}"
 					{{ (old('room') == $room->room_number ? "selected":"") }}
 				>Room {{ $room->room_number }}</option>
 				@endforeach
@@ -81,7 +80,7 @@ $start_time = [
 				<option disabled selected>First year subjects</option>
 				@foreach ($subjects[1][2] as $subject)
 				<option
-					value="{{ $subject->id }}"
+					value="{{$subject->id}}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
@@ -107,7 +106,7 @@ $start_time = [
 				<option disabled selected>Second year subjects</option>
 				@foreach ($subjects[2][2] as $subject)
 				<option
-					value="{{ $subject->id }}"
+					value="{{$subject->id}}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
 					>
 					{{  $subject->sub . ' - ' . ucwords($subject->sub_description) }}
@@ -196,7 +195,7 @@ $start_time = [
 				<option disabled selected>Blocks</option>
 				@foreach ($blocks as $block)
 				<option
-					value="{{ $block->id }}"
+					value="{{$block->id}}"
 					{{ (old('block') == $block->id ? "selected":"") }}
 					>
 					{{  $block->level . $block->course . $block->block_name }}

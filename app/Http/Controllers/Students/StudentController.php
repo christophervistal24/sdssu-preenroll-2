@@ -50,15 +50,9 @@ class StudentController extends Controller
 
     public function checkLogin(LoginRequest $request)
     {
-        $credentials = $request->only('id_number', 'password');
+        $request->id_number = str_replace('-','',$request->id_number);
+        $credentials = ['id_number' => $request->id_number, 'password' => $request->password];
         $user = User::where('id_number',$request->id_number)->first();
-        // $isStudentCanLogin = $this->student
-        //                         ->checkIfCanLogin($request->id_number,$this->sem);
-        // if ($isStudentCanLogin) {
-        //   return Redirect::back()
-        //             ->withInput()
-        //             ->withErrors('You can\'t login on this page please wait till administrator make an action');
-        // }
         if (Auth::attempt($credentials) && $user->hasRole('Student')) {
             return redirect()->intended('/student/index');
         }

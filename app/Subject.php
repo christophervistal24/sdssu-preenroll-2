@@ -2,17 +2,17 @@
 
 namespace App;
 
+use App\Grade;
+use App\Schedule;
 use App\Semester;
+use Illuminate\Support\Facades\DB;
 use App\SubjectPreRequisite as SubPre;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 
 
 class Subject extends Model
 {
-    use Cachable;
     protected $fillable = [
     	'sub','sub_description','units','prereq','year','semester','course'
 	];
@@ -20,11 +20,18 @@ class Subject extends Model
 	public function pre_req()
 	{
 		return $this->hasMany('App\SubjectPreRequisite','subject_id');
-	}
+    }
+
 
     public function schedule_sub()
     {
-        return $this->belongsTo('App\Schedule','id','subject_id');
+        return $this->belongsTo(Schedule::class,'id','subject_id');
+    }
+
+    public function scheduleTest()
+    {
+        $this->primaryKey = 'id';
+        return $this->hasOne(Schedule::class,'id');
     }
 
     public function subject_students()
@@ -34,8 +41,9 @@ class Subject extends Model
 
     public function grade()
     {
-        return $this->hasOne(Grade::class,'subject_id');
+        return $this->hasOne(Grade::class);
     }
+
 
 	public function addPrerequisite($subject,$request_pre)
 	{

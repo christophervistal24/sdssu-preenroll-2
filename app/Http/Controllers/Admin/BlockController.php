@@ -45,7 +45,7 @@ class BlockController extends Controller
     {
         //for displaying real-time
         //this is not the good way to display a data in real-time
-        return $this->block->disableCache()->get()->toArray();
+        return $this->block->get()->toArray();
     }
 
 }

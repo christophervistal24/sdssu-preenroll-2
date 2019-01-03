@@ -25,7 +25,6 @@ class ScheduleComposer
             $groupBy = ['year','course'];
         }
         $view->with('subjects',Subject::get()->groupBy($groupBy));
-
     }
 }
 

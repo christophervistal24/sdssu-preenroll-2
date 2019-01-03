@@ -35,10 +35,12 @@ class ScheduleController extends Controller
     public function checkSchedule(Request $request)
     {
         $schedule_credentials = $this->explodeGivenSubject(' - ',$request->subject);
-        $sched =     $this->student
-                          ->find($request->student_id_number) //get student schedules
+        $sched =     $this->student  //get student schedules it's eight inbetween or same
+                          ->find($request->student_id_number)
                           ->schedules()
-                          ->where($schedule_credentials)
+                          ->where('days',$schedule_credentials['days'])
+                          ->whereTime('start_time','<=',$schedule_credentials['start_time'])
+                          ->whereTime('end_time','>=',$schedule_credentials['end_time'])
                           ->get();
         return response()->json(['schedule_data' => $sched]);
     }

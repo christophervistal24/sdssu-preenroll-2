@@ -96,24 +96,43 @@
                             <td>{{$grade->subject->sub}}</td>
                             <td>{{$grade->subject->sub_description}}</td>
                             <td>{{
-                                $grade->subject->schedule_sub->block_schedule['level'] .
-                                $grade->subject->schedule_sub->block_schedule['course'] .
-                                $grade->subject->schedule_sub->block_schedule['block_name']
+                                @$grade->subject->schedule_sub->block_schedule['level'] .
+                                @$grade->subject->schedule_sub->block_schedule['course'] .
+                                @$grade->subject->schedule_sub->block_schedule['block_name']
                                 }}</td>
-                                 @foreach ($grade->subject->schedule_sub->where('subject_id',$grade->subject->id)->get() as $sched)
-                                            <td>{{$sched->start_time . ' - ' . $sched->end_time}}</td>
-                                            <td >{{$sched->days}}</td>
-                                            <td >{{$sched->room}}</td>
-                                            @if ($loop->index == 0)
-                                            <td><b>{{($grade->remarks != null) ? $grade->remarks : 'NG'}}</b></td>
-                                            @php $total_units += $grade->subject->units; @endphp
-                                            <td style="text-align:right;">{{number_format($grade->subject->units, 1, '.', ',')}}</td>
-                                            <tr>
-                                                <td ></td>
-                                                <td ></td>
-                                                <td ></td>
-                                            @endif
-                                        @endforeach
+          <td style="width:30%;" >
+                  @foreach ($student->schedules as $s)
+                    @if ($grade->subject_id == $s->subject_id)
+                      {{$s->start_time}} -
+                      {{$s->end_time}}
+                    <br>
+                    @endif
+                  @endforeach
+          </td>
+
+          <td >
+                  @foreach ($student->schedules as $s)
+                    @if ($grade->subject_id == $s->subject_id)
+                      {{$s->days}}
+                    <br>
+                    @endif
+                  @endforeach
+          </td>
+
+          <td >
+                  @foreach ($student->schedules as $s)
+                    @if ($grade->subject_id == $s->subject_id)
+                      {{$s->room}}
+                    <br>
+                    @endif
+                  @endforeach
+          </td>
+
+          <th>{{($grade->remarks) ? $grade->remarks : 'NG'}}</th>
+          <td>{{$grade->subject->units}}.0</td>
+          @php
+              $total_units += $grade->subject->units;
+          @endphp
 
                         </tr>
                         @endforeach
@@ -152,7 +171,9 @@
 
 	<br>
 	<br>
-		<span><b>Certified By : <span style="text-decoration: underline;">{{ strtoupper($user_info->name) }}</span></b></span>
+        @isset ($user_info)
+		    <span><b>Certified By : <span style="text-decoration: underline;">{{strtoupper($user_info->name)}}</span></b></span>
+        @endif
 		 <span style="float:right;"><b><i>Printed : {{ date('m/d/Y  h:i:sA',strtotime('now')) }}</i></b></span>
 
 

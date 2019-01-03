@@ -23,8 +23,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UpdateBlock' => [
                 'App\Listeners\UpdateBlockStatus',
         ],
-         'App\Events\DeansList' => [
+        'App\Events\DeansList' => [
                 'App\Listeners\InsertStudentDeansList',
+        ],
+        'App\Events\SendStudentGrade' => [
+                'App\Listeners\SendStudentGradeListener',
         ],
     ];
 

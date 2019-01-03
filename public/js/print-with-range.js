@@ -3,15 +3,27 @@ $(document).ready(function () {
   let fromYearValue  =  null;
   let toYearValue    =  null;
   let studentIdNumber = null;
+  let tableStudentGrades;
+
 
   $(document).on('click','#withRange' , function () {
       //get the student course
+      //
       studentCourse = $(this).attr('data-course');
       studentIdNumber = $(this).attr('data-id_number');
+      $('#studentGrades').val($('.grades').html().replace(/<a.*?<\/a>/gi,''));
       //display the modal
-      $('#printRangeInfo').modal('toggle');
+      // $('#printRangeInfo').modal('toggle');
+      $('#printWithRange').trigger('click');
       checkCourse(studentCourse);
   });
+
+  // $('#printWithRange').click(function(e) {
+  //   e.preventDefault();
+  //   // tableStudentGrades
+  //   location.replace(`/admin/student/print/${fromYearValue}/${toYearValue}`);
+  // });
+
 
   $('#fromYear').change(function () {
     //get the from year value

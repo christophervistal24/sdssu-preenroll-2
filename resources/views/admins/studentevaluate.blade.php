@@ -119,12 +119,13 @@
                 </div>
                 @if (request()->is('admin/*'))
                     <div class="fixed-bottom">
-                        <button id="withRange" data-id_number="{{$student->id_number}}" data-course="{{ $student->course->course_code}}" class="btn btn-success rounded-0 float-right"><b>PRINT WITH RANGE</b></button>
-                     </div>
+                        <button id="withRange" data-id_number="{{$student->id_number}}" data-course="{{ $student->course->course_code}}" class="btn btn-success rounded-0 float-right"><b>PRINT ALL</b></button>
+                   </div>
                 @endif
                 <br>
 
                   @foreach ($grades as $key => $grade)
+                  <div id="{{$key}}" class="grades">
                   @php
                    $count     = 0;
                    $gpa       = 0;
@@ -148,13 +149,13 @@
                       @if ($loop->last)
                           <div><a href="/admin/student/print/grade/{{ $student->id_number }}/{{$grade[0]->subject->semester}}/{{$grade[0]->subject->year}}/report" class="btn btn-secondary rounded-0 float-right">PRINT</a>
                           </div>
-                            <table class="table table-inverse">
+                            <table class="table table-inverse" width="100%">
                               <thead>
                                  <tr>
                                     <th>Subject Name</th>
                                     <th>Subject Description</th>
                                     <th>Section</th>
-                                    <th>Time</th>
+                                    <th class="text-center">Time</th>
                                     <th>Days</th>
                                     <th>Room</th>
                                     <th class="text-center">Grade</th>
@@ -165,39 +166,58 @@
                               @foreach ($grade as $grade_sub)
                                 <tr>
                                   <td class="border-0">{{$grade_sub->subject->sub}}</td>
-                                  <td class="border-0">{{$grade_sub->subject->sub_description}}</td>
-                                  <td class="text-center border-0">{{
-                                    $grade_sub->subject->schedule_sub->block_schedule->level .
-                                    $grade_sub->subject->schedule_sub->block_schedule->course .
-                                    $grade_sub->subject->schedule_sub->block_schedule->block_name
-                                      }}</td>
-                                         @foreach ($grade_sub->subject->schedule_sub->where('subject_id',$grade_sub->subject->id)->get() as $sched)
-                                            <td class="border-0">{{$sched->start_time . ' - ' . $sched->end_time}}</td>
-                                            <td class="border-0">{{$sched->days}}</td>
-                                            <td class="border-0">{{$sched->room}}</td>
-                                            @if ($loop->index == 0)
-                                             @if ($grade_sub->remarks > 3)
-                                                <td class="border-0 text-center text-danger">{{$grade_sub->remarks}}</td>
-                                                @else
-                                                <td class="border-0 text-center">{{$grade_sub->remarks}}</td>
-                                             @endif
-                                            @php $total_units += $grade_sub->subject->units; @endphp
-                                            <td class="border-0 text-right">{{$grade_sub->subject->units}}</td>
-                                                <tr class="text-center"></tr>
-                                                <td class="border-0"></td>
-                                                <td class="border-0"></td>
-                                                <td class="border-0"></td>
-                                            @endif
-                                        @endforeach
+                                  <td class="border-0">
+                                    {{$grade_sub->subject->sub_description}}
+
+                                    </td>
+                                     <td class="text-center border-0">
+                                      {{
+                                      @$grade_sub->subject->schedule_sub->block_schedule->level .
+                                      @$grade_sub->subject->schedule_sub->block_schedule->course .
+                                      @$grade_sub->subject->schedule_sub->block_schedule->block_name
+                                      }}
+                                    </td>
+          <td class="text-center border-0"  width="20%">
+                  @foreach ($student->schedules as $s)
+                    @if ($grade_sub->subject_id == $s->subject_id)
+                      {{$s->start_time}} - {{$s->end_time}}
+                    <br>
+                    @endif
+                  @endforeach
+          </td>
+
+           <td class="text-center border-0" >
+                  @foreach ($student->schedules as $s)
+                    @if ($grade_sub->subject_id == $s->subject_id)
+                      {{$s->days}}
+                    <br>
+                    @endif
+                  @endforeach
+          </td>
+           <td class="text-center border-0" >
+                  @foreach ($student->schedules as $s)
+                    @if ($grade_sub->subject_id == $s->subject_id)
+                      {{$s->room}}
+                    <br>
+                    @endif
+                  @endforeach
+            </td>
+           <td class="text-right border-0">{{(@$grade_sub->remarks) ? $grade_sub->remarks : 'NG'}}</td>
+                                    <td class="text-right border-0">{{@$grade_sub->subject->units}}</td>
+
+
+
+        @php
+          $total_units += @$grade_sub->subject->units;
+        @endphp
                                 </tr>
                               @endforeach
-                              </tbody>
-                                <tr ><td colspan="8" class="text-right"><span class="font-weight-bold">Total Credited Units : {{$total_units}}</span></td></tr>
+                               <td colspan="8" class="text-right">Total Credited Units : {{@$total_units}}</td>
                             </table>
                         @else
                         <div><a href="/admin/student/print/grade/{{ $student->id_number }}/{{$grade[0]->subject->semester}}/{{$grade[0]->subject->year}}" class="btn btn-secondary rounded-0 float-right">PRINT</a>
                           </div>
-                        <table class="table">
+                        <table class="table" width="100%">
                           <thead>
                             <tr>
                               <th>Subject Name</th>
@@ -212,9 +232,9 @@
                               <td>{{$grade_sub->subject->sub}}</td>
                               <td>{{$grade_sub->subject->sub_description}}</td>
                               @if ($grade_sub->remarks > 3)
-                                  <td class="text-center text-danger">{{$grade_sub->remarks}}</td>
+                                  <td class="text-center text-danger">{{($grade_sub->remarks) ? $grade_sub->remarks : 'NG'}}</td>
                                   @else
-                                  <td class="text-center">{{$grade_sub->remarks}}</td>
+                                  <td class="text-center">{{($grade_sub->remarks) ? $grade_sub->remarks : 'NG'}}</td>
                               @endif
                               @php $total_units += $grade_sub->subject->units; @endphp
                               <td class="text-right">{{$grade_sub->subject->units}}</td>
@@ -225,6 +245,7 @@
                         </table>
                       @endif
                   @endforeach
+                </div>
                 <br>
         </div>
     </div>

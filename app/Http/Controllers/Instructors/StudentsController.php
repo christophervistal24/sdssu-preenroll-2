@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Instructors;
 
 use App\Events\DeansList as EventDeansList;
+use App\Events\SendStudentGrade;
 use App\DeansList as DeansListModel;
 use App\Grade;
 use App\Http\Controllers\Controller;
@@ -44,7 +45,6 @@ class StudentsController extends Controller
             }
         }
 
-
         return view('instructors.students',compact('sched_students','subject','expiration','startToGrade'));
     }
 
@@ -59,6 +59,8 @@ class StudentsController extends Controller
         $grade->remarks = $request->student_grade;
         $grade->save();
         \Event::fire( new EventDeansList(new DeansListModel,new Semester));
+        \Event::fire( new SendStudentGrade(new Student));
+        //add an event for sending
         return response()->json(['success' => true]);
     }
 
@@ -68,6 +70,7 @@ class StudentsController extends Controller
         $grade->remarks = $request->student_grade;
         $grade->save();
         \Event::fire( new EventDeansList(new DeansListModel,new Semester));
+        \Event::fire( new SendStudentGrade(new Student));
         return response()->json(['success' => true]);
     }
     /**

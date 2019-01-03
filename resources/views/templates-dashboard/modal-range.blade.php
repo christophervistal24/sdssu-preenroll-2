@@ -37,10 +37,11 @@
         </div>
       </div>
 
+      <input type="hidden" id="studentGrades" name="student_grades">
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" id="printWithRange" class="btn btn-primary">Submit</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           </form>
-
       </div>
+

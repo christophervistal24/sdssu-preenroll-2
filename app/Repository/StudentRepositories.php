@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use App\Grade;
+use App\Student;
 
 class StudentRepositories
 {
@@ -17,11 +18,19 @@ class StudentRepositories
     {
        $subject_ids = $this->subject_repo
                            ->getPrequisiteIdBySubject($subjects);
-       return $this->grade
-                    ->whereIn('subject_id',$subject_ids)
-                    ->StudentPassGrades($student_id_number)
-                    ->get()
-                    ->count();
+        return Student::find($student_id_number)
+                         ->grades()
+                         ->whereIn('subject_id',$subject_ids)
+                         ->AllPassGrades()
+                         ->get(['remarks'])
+                         ->count();
+
+       // $s =  $this->grade
+       //              ->whereIn('subject_id',$subject_ids)
+       //              ->StudentPassGrades($student_id_number)
+       //              ->first()
+       //              ->count();
+       //              dd($s);
     }
 
 }

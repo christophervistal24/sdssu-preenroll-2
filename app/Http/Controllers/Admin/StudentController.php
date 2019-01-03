@@ -111,15 +111,15 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        $student->fullname      = $request->fullname;
-        $student->address       = $request->student_address;
-        $student->gender        = $request->student_gender;
-        $student->mobile_number = $request->student_mobile;
-        $student->year          = $request->student_year;
-        $student->course_id     = $request->student_course;
-        $student->mothername = $request->student_mother;
-        $student->fathername = $request->student_father;
-        $student->mobile_number = $request->parent_mobile;
+        $student->fullname             = $request->fullname;
+        $student->address              = $request->student_address;
+        $student->gender               = $request->student_gender;
+        $student->mobile_number        = $request->student_mobile;
+        $student->year                 = $request->student_year;
+        $student->course_id            = $request->student_course;
+        $student->mothername           = $request->student_mother;
+        $student->fathername           = $request->student_father;
+        $student->parent_mobile_number = $request->parent_mobile;
         $student->save();
         return response()->json(['success' => true]);
     }

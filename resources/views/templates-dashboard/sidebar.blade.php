@@ -269,6 +269,10 @@ $route="admin";
                                     <i class="material-icons">note_add</i>
                                     <span>Schedules</span>
                                 </a>
+                                <a class="nav-link" href="{{ url("/$route/previous/schedule") }}">
+                                    <i class="material-icons">note_add</i>
+                                    <span>Previous Schedules</span>
+                                </a>
                             </li>
                         </ul>
                     </div>

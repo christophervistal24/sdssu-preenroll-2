@@ -8,6 +8,7 @@ use App\Http\Requests\ScheduleRequestUpdate;
 use App\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ScheduleController extends Controller
 {
@@ -35,7 +36,8 @@ class ScheduleController extends Controller
     public function store(ScheduleRequest $request)
     {
         $this->schedule->create($request->all());
-        return redirect()->back()->with('status','Successfully add new schedule');
+        Session::flash('status','Schedule added succesfully');
+        return redirect('/admin/scheduling');
     }
 
 /**

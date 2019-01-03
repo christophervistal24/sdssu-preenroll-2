@@ -87,32 +87,32 @@ $(document).ready(function () {
 		}
 	});
 
-    /*(function(){
-         if (document.URL.includes('/admin/')) {
-            window.setInterval(function () {
-                $.get( "/admin/blocks", function(data) {
-                    $('#tableBlockBody').html('');
-                    let text_color;
-                    data.forEach(function(value,key) {
-                        if (value.status == 'closed') {
-                            text_color = 'text-danger';
-                        } else {
-                            text_color = 'text-success';
-                        }
-                        $('#tableBlockBody').append(`<tr>
-                                <td class='text-center'>${value.level}${value.course}${value.block_name.toUpperCase()}</td>
-                                <td class='text-center'>${value.no_of_enrolled}</td>
-                                <td class='text-center'>${value.block_limit}</td>
-                                <td class="text-center ${text_color}">${value.status.toUpperCase()}</td>
-                                <td class='text-center'>
-                                <button id="btnEditBlock" params={"id":${value.id},"course":"${value.course}","year":"${value.level}","block":"${value.block_name}","blockLimit":${value.block_limit},"no_of_enrolled":${value.no_of_enrolled}} class="btn btn-success border-0 rounded-0 text-white">EDIT</button></td>
-                            </tr>`);
-                        text_color = '';
-                    });
-                });
-            },3000);
-        }
-    })();*/
+    // (function(){
+    //      if (document.URL.includes('/admin/')) {
+    //         window.setInterval(function () {
+    //             $.get( "/admin/blocks", function(data) {
+    //                 $('#tableBlockBody').html('');
+    //                 let text_color;
+    //                 data.forEach(function(value,key) {
+    //                     if (value.status == 'closed') {
+    //                         text_color = 'text-danger';
+    //                     } else {
+    //                         text_color = 'text-success';
+    //                     }
+    //                     $('#tableBlockBody').append(`<tr>
+    //                             <td class='text-center'>${value.level}${value.course}${value.block_name.toUpperCase()}</td>
+    //                             <td class='text-center'>${value.no_of_enrolled}</td>
+    //                             <td class='text-center'>${value.block_limit}</td>
+    //                             <td class="text-center ${text_color}">${value.status.toUpperCase()}</td>
+    //                             <td class='text-center'>
+    //                             <button id="btnEditBlock" params={"id":${value.id},"course":"${value.course}","year":"${value.level}","block":"${value.block_name}","blockLimit":${value.block_limit},"no_of_enrolled":${value.no_of_enrolled}} class="btn btn-success border-0 rounded-0 text-white">EDIT</button></td>
+    //                         </tr>`);
+    //                     text_color = '';
+    //                 });
+    //             });
+    //         },3000);
+    //     }
+    // })();
 
     $(document).on('click','.btnBlockCategory', function () {
             let information = $.param($.parseJSON($(this).attr('data')));
