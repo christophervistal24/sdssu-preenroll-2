@@ -38,18 +38,15 @@ class ImportStudentGradeHelper {
             $grade_model->remarks = $this->student_records[$i][2]; // set value subject remarks
             $grade_model->save();
             //insert to pivot
-            ($grade_model->save()) ? $this->attachToPivot(['student' => $student,
-                'student_id_number' => $this->student_records[$i][0],
-                'grade_id'          => $grade_model->id
-            ]) : null;
+            ($grade_model->save()) ? $this->attachToPivot(['student_id_number' => $this->student_records[$i][0],'grade_id' => $grade_model->id]) : null;
 
         }
     }
 
     private function attachToPivot($items = [])
     {
-        return $items['student']->find($items['student_id_number'])
-            ->firstOrFail()->grades()->attach($items['grade_id']);
+        return Student::find($items['student_id_number'])
+                      ->grades()->attach($items['grade_id']);
     }
 }
 
