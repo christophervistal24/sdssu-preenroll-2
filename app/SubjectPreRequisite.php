@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SubjectPreRequisite extends Model
 {
 	protected $table = 'subject_pre_requisites';
-	protected $fillable = ['subject_id','pre_requisite_code'];
+	protected $fillable = ['subject_id','pre_requisite_code','course'];
 	public function subjects()
 	{
 		$this->primaryKey = 'subject_id';

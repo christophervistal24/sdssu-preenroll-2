@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ScheduleRequest;
 use App\Http\Requests\ScheduleRequestUpdate;
 use App\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -41,13 +42,13 @@ class ScheduleController extends Controller
     }
 
 /**
- * [@show What is this? check this!!]
+ * [@show api for request schedule in student pre-enroll]
  * @param  [type] $information [description]
  * @return [type]              [description]
  */
     public function show($information)
     {
-       /* $params = [];
+        $params = [];
         parse_str($information,$params);
         $schedules = DB::select(
           DB::raw('SELECT
@@ -78,7 +79,17 @@ class ScheduleController extends Controller
           ORDER BY blocks.course DESC
           '),$params
         );
-        return response()->json(['schedules' => $schedules]);*/
+
+        //FILTER REFACTOR THIS
+        array_walk_recursive($schedules, function (&$value , $key) {
+            array_walk($value ,function (&$schedule_value , $column_name) {
+                if ($column_name  === 'start_time' || $column_name === 'end_time') {
+                    $schedule_value = Carbon::parse($schedule_value)->format('g:i A');
+                }
+            });
+        });
+
+        return response()->json(['schedules' => $schedules]);
     }
 
     public function update(ScheduleRequestUpdate $request)

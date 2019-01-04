@@ -54,7 +54,7 @@
                                 <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
-                                <a class="dropdown-item text-danger" href="{{ url('/assistantdean/logout') }}">
+                                <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>
@@ -67,39 +67,41 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-      <div class="main-content-container container-fluid px-4 card border-0 rounded-0">
-        <!-- Page Header -->
-        <div class="page-header row no-gutters py-4">
-          <div class="col-12 col-sm-2 offset-10 text-sm-left mb-0 float-right">
-          </div>
-        </div>
-        <div class="row">
-          <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
-            <span class="text-uppercase page-subtitle text-center">
-              <b>Current instructor : {{ $instructor->name }}</b>
-            </span>
-            <hr>
-            <div id="sortTrue" class="list-group col-md-12" style="cursor:pointer;">
-              @foreach ($instructors as $ins)
-                  <input style="cursor:pointer;" name="instructor_name" class="p-3  mb-2 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ ucwords($ins->name) }}">
-              @endforeach
+            <div class="main-content-container container-fluid px-4 card" style="border-radius: 0px">
+                <!-- Page Header -->
+                <div class="page-header row no-gutters py-4">
+                    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                        <span class="text-uppercase page-subtitle">Dashboard</span>
+                    </div>
+                </div>
+                <!-- End Page Header -->
+                <!-- Small Stats Blocks -->
+                    @include('errors.error')
+                    @include('success.success-message')
+                <div class="row">
+                    <div class="container">
+                           <h4 class="text-uppercase ml-2">Send schedule of student to parent</h4>
+                           <hr>
+                           <form method="POST">
+                            @csrf
+                            <label for="parentMobile">Parent mobile no.</label>
+                            <input type="text" class="font-weight-bold form-control {{($student->parent_mobile_number ? : 'is-invalid')}}" name="parent_mobile_number"   value="{{($student->parent_mobile_number ? $student->parent_mobile_number : null)}}" readonly required="">
+                            <br>
+                            <div class="form-group">
+                                 <label>Schedules : </label>
+                                <textarea readonly name="student_schedules" class="form-control font-weight-bold text-justify text-left {{(($student_schedules->count() <= 0) ? 'is-invalid' : null )}}" rows="15">@if($student_schedules->count() >= 1)
+                                    @foreach ($student_schedules as $schedule){{ltrim($schedule->start_time) . ' - ' . $schedule->end_time}} - {{$schedule->days}} - {{$schedule->room}} - {{$schedule->block_schedule->level}}{{$schedule->block_schedule->course}}{{$schedule->block_schedule->block_name}} - ({{$schedule->subject->sub . ' - ' . $schedule->subject->sub_description}})
+                                    {{PHP_EOL}}
+                                    @endforeach
+                                    @endisset
+                                </textarea>
+                            </div>
+                            <input type="submit" class="float-right btn btn-primary" value="Send to parent">
+                            <br>
+                            <br>
+                           </form>
+
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
-            <form method="POST" action="/assistantdean/editassign/{{ $schedule->id }}" style="height :50vh;">
-              @csrf
-              <input type="hidden" name="instructor_id_number" value="{{ $instructor->id_number }}">
-              {{ method_field('PUT') }}
-            <span class="text-uppercase page-subtitle text-center">Subject : {{ $schedule->subject->sub_description }} & </span>
-              <span class="text-uppercase page-subtitle text-center">Units : {{ $schedule->subject->units }}</span>
-              <input type="submit" value="Assign" class="rounded-0 border-0 float-right btn btn-primary">
-              <hr>
-              <div id="sortFalse" class="list-group col-md-12 bg-faded p-4" style="height:150vh;">
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  @endsection
+        @endsection

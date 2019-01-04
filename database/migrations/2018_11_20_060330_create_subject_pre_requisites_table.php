@@ -17,6 +17,7 @@ class CreateSubjectPreRequisitesTable extends Migration
             $table->increments('id');
             $table->integer('subject_id');
             $table->string('pre_requisite_code');
+            $table->integer('course');
             $table->timestamps();
         });
     }

@@ -22,6 +22,7 @@ class CreateAssistantDeansTable extends Migration
             $table->enum('status', ['permanent', 'contractual']);
             $table->string('mobile_number');
             $table->integer('active')->default(1);
+            $table->string('profile')->default('no_image.png');
             $table->timestamps();
         });
     }

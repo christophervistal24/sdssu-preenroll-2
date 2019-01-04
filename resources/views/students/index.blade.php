@@ -50,8 +50,8 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <img class="user-avatar rounded-circle mr-2" src="/dashboard/images/avatars/0.jpg" alt="User Avatar">
-                                    <span class="d-none d-md-inline-block">{{ $user_info->fullname }}</span>
+                                    <img class="user-avatar rounded-circle mr-2"  src="{{url("storage/profile/$user_info->profile")}}" alt="User Avatar">
+                                    <span class="d-none d-md-inline-block text-capitalize">{{ $user_info->fullname }}</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-small">
                                     <a class="dropdown-item" href="user-profile-lite.html">
@@ -74,6 +74,8 @@
                     </nav>
                 </div>
                 <!-- / .main-navbar -->
+             @include('errors.error')
+             @include('success.success-message')
                 <div class="main-content-container container-fluid px-4">
                     <!-- Page Header -->
                     <div class="page-header row no-gutters py-4">
@@ -83,8 +85,86 @@
                     </div>
                     <!-- End Page Header -->
                     <!-- Small Stats Blocks -->
-                    <div class="row">
-                        <p>Index</p>
+                  <!-- Default Light Table -->
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="card card-small mb-4 pt-3 rounded-0">
+                  <div class="card-header border-bottom text-center">
+                    <div class="mb-3 mx-auto">
+                      <img class="rounded-circle" src="{{url("storage/profile/$user_info->profile") }}" alt="User Avatar" width="110">
                     </div>
+                       <div>
+                       <label class="hand-cursor">
+                        <input type="file" style="display:none;" />
+                        <span class="fa fa-camera"></span>
+                        <span style="cursor:pointer;" class="photo_text hidden-xs font-weight-bold">Change profile</span>
+                       </label>
+                     </div>
+                    <h4 class="mb-0 text-capitalize">{{$user_info->fullname}}</h4>
+                    <span class="text-muted d-block mb-2">Student</span>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item p-4">
+                      <span>
+                        <form autocomplete="off" action="/student/index/{{$user_info->id_number}}" method="POST">
+                          @csrf
+                              <div class="form-group col-md-12">
+                                <label for="fePassword">Old password</label>
+                                <input name="old_password" type="password" class="form-control font-weight-bold" id="fePassword" placeholder="Old password">
+                              </div>
+                              <div class="form-group col-md-12">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" name="new_password" class="form-control font-weight-bold" id="newPassword" placeholder="New Password">
+                              </div>
+                              <div class="form-group col-md-12">
+                                <label for="reTypeNewPassword">Re-type new password</label>
+                                <input type="password" class="form-control font-weight-bold" name="new_password_confirmation" id="reTypeNewPassword" placeholder="Re-type new password">
+                              </div>
+                              <input type="submit" value="Update password" class="btn btn-primary float-right">
+                        </form>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-8 rounded-0">
+                <div class="card card-small mb-4">
+                  <div class="card-header border-bottom rounded-0">
+                    <h6 class="m-0">Account Details</h6>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item p-3">
+                      <div class="row">
+                        <div class="col">
+                          <form method="POST" action="/student/index/{{$user_info->id_number}}">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <label for="feFirstName">Full Name</label>
+                                <input type="text" class="form-control text-capitalize font-weight-bold" id="feFirstName" name="fullname" placeholder="First Name" value="{{$user_info->fullname}}">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <label for="feEmailAddress">Address</label>
+                                <input type="text"  name="address" class="font-weight-bold text-capitalize form-control" id="feEmailAddress" placeholder="Address" value="{{$user_info->address}}">
+                              </div>
+
+                            </div>
+                            <div class="form-group">
+                              <label for="feInputAddress">Mobile Number</label>
+                              <input type="text" class="font-weight-bold form-control" id="feInputAddress" name="mobile_number" value="{{$user_info->mobile_number}}">
+                            </div>
+                            <button type="submit" class="float-right btn btn-accent">Update Account</button>
+                          </form>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- End Default Light Table -->
             </div>
 @endsection

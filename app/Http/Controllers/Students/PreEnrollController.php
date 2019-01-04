@@ -26,7 +26,7 @@ class PreEnrollController extends Controller
 
 	public function __construct(Schedule $sched , Semester $semester , Student $student)
 	{
-	  $this->schedule = $sched;
+	   $this->schedule = $sched;
       $this->current_semester = $semester;
       $this->student = $student;
 	}

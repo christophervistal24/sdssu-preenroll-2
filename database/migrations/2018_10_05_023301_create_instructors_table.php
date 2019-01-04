@@ -23,6 +23,7 @@ class CreateInstructorsTable extends Migration
             $table->enum('status', ['permanent', 'contractual']);
             $table->string('mobile_number');
             $table->enum('active',['active','in active']);
+            $table->string('profile')->default('no_image.png');
             $table->timestamps();
         });
     }

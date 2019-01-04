@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Students;
 
 use App\Block;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\InstructorSchedule;
 use App\PreEnroll;
@@ -35,6 +36,22 @@ class StudentController extends Controller
 		return view('students.index');
 	}
 
+    public function store(ChangePasswordRequest $request,Student $student)
+    {
+        $user_account = User::where('id_number',Auth::user()->id_number)->first();
+        $user_account->password = $request->new_password;
+        $user_account->save();
+        return redirect()->back()->with('status','Successfully update your password');
+    }
+
+    public function update(Request $request , Student $student)
+    {
+        $student->fullname = $request->fullname;
+        $student->address = $request->address;
+        $student->mobile_number = $request->mobile_number;
+        $student->save();
+        return redirect()->back()->with('status','Successfully update your profile');
+    }
 
 
 	public function login()

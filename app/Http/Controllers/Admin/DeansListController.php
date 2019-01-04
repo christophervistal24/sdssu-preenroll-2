@@ -8,6 +8,9 @@ use App\Student;
 use App\Subject;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use SMSGatewayMe\Client\Api\MessageApi;
+use SMSGatewayMe\Client\Configuration;
+use SMSGatewayMe\Client\Model\SendMessageRequest;
 
 class DeansListController extends Controller
 {
@@ -25,6 +28,22 @@ class DeansListController extends Controller
                      ->with('student')
                      ->get();
         return view('admins.list-of-deanslist',compact('list'));
+    }
+
+    public function create(Student $student)
+    {
+        return view('admins.send-forms.senddeanslist',compact('student'));
+    }
+
+    public function sendSMS(Request $request)
+    {
+       $this->validate($request,[
+        'student_mobile_number' => 'required',
+        'message' => 'required',
+       ]);
+       //send logic here
+       dd('Please write the send logic');
+
     }
 
     //checking if there's a new student qualified for deans list

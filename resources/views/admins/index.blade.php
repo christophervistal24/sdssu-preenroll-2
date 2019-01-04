@@ -50,17 +50,10 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle mr-2" src="/dashboard/images/avatars/0.jpg" alt="User Avatar">
+                                <img class="user-avatar rounded-circle mr-2" src="{{url("storage/profile/$user_info->profile")}}" alt="User Avatar">
                                 <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
-                                <a class="dropdown-item" href="user-profile-lite.html">
-                                <i class="material-icons">&#xE7FD;</i> Profile</a>
-                                <a class="dropdown-item" href="components-blog-posts.html">
-                                <i class="material-icons">vertical_split</i> Blog Posts</a>
-                                <a class="dropdown-item" href="add-new-post.html">
-                                <i class="material-icons">note_add</i> Add New Post</a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
@@ -73,7 +66,6 @@
                     </nav>
                 </nav>
             </div>
-            <!-- / .main-navbar -->
             <div class="main-content-container container-fluid px-4 card border-0 rounded-0">
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
@@ -92,87 +84,68 @@
                 </div>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
-              <!--   <div class="row">
+                <div class="row">
                   <div class="col-lg col-md-6 col-sm-6 mb-4">
-                      <div class="stats-small stats-small--1 card card-small">
+                      <div class="stats-small stats-small--1 card card-small rounded-0">
                           <div class="card-body p-0 d-flex">
                               <div class="d-flex flex-column m-auto">
                                   <div class="stats-small__data text-center">
-                                      <span class="stats-small__label text-uppercase">Posts</span>
-                                      <h6 class="stats-small__value count my-3">2,390</h6>
-                                  </div>
-                                  <div class="stats-small__data">
-                                      <span class="stats-small__percentage stats-small__percentage--increase">4.7%</span>
+                                      <span class="stats-small__label text-uppercase">CE STUDENTS</span>
+                                      <h6 class="stats-small__value count my-3">{{$ce_students}}</h6>
                                   </div>
                               </div>
-                              <canvas height="120" class="blog-overview-stats-small-1"></canvas>
                           </div>
                       </div>
                   </div>
                   <div class="col-lg col-md-6 col-sm-6 mb-4">
-                      <div class="stats-small stats-small--1 card card-small">
+                      <div class="stats-small stats-small--1 card card-small rounded-0">
                           <div class="card-body p-0 d-flex">
                               <div class="d-flex flex-column m-auto">
                                   <div class="stats-small__data text-center">
-                                      <span class="stats-small__label text-uppercase">Pages</span>
-                                      <h6 class="stats-small__value count my-3">182</h6>
-                                  </div>
-                                  <div class="stats-small__data">
-                                      <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
+                                      <span class="stats-small__label text-uppercase">CS STUDENTS</span>
+                                      <h6 class="stats-small__value count my-3">{{$cs_students}}</h6>
                                   </div>
                               </div>
-                              <canvas height="120" class="blog-overview-stats-small-2"></canvas>
                           </div>
                       </div>
                   </div>
                   <div class="col-lg col-md-4 col-sm-6 mb-4">
-                      <div class="stats-small stats-small--1 card card-small">
+                      <div class="stats-small stats-small--1 card card-small rounded-0">
                           <div class="card-body p-0 d-flex">
                               <div class="d-flex flex-column m-auto">
                                   <div class="stats-small__data text-center">
-                                      <span class="stats-small__label text-uppercase">Comments</span>
-                                      <h6 class="stats-small__value count my-3">8,147</h6>
-                                  </div>
-                                  <div class="stats-small__data">
-                                      <span class="stats-small__percentage stats-small__percentage--decrease">3.8%</span>
+                                      <span class="stats-small__label text-uppercase">INSTRUCTORS</span>
+                                      <h6 class="stats-small__value count my-3">{{$instructors}}</h6>
                                   </div>
                               </div>
-                              <canvas height="120" class="blog-overview-stats-small-3"></canvas>
                           </div>
                       </div>
                   </div>
                   <div class="col-lg col-md-4 col-sm-6 mb-4">
-                      <div class="stats-small stats-small--1 card card-small">
+                      <div class="stats-small stats-small--1 card card-small rounded-0">
                           <div class="card-body p-0 d-flex">
                               <div class="d-flex flex-column m-auto">
                                   <div class="stats-small__data text-center">
-                                      <span class="stats-small__label text-uppercase">Users</span>
-                                      <h6 class="stats-small__value count my-3">2,413</h6>
-                                  </div>
-                                  <div class="stats-small__data">
-                                      <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
+                                      <span class="stats-small__label text-uppercase">BLOCKS</span>
+                                      <h6 class="stats-small__value count my-3">{{$blocks}}</h6>
                                   </div>
                               </div>
-                              <canvas height="120" class="blog-overview-stats-small-4"></canvas>
                           </div>
                       </div>
                   </div>
                   <div class="col-lg col-md-4 col-sm-12 mb-4">
-                      <div class="stats-small stats-small--1 card card-small">
+                      <div class="stats-small stats-small--1 card card-small rounded-0">
                           <div class="card-body p-0 d-flex">
                               <div class="d-flex flex-column m-auto">
                                   <div class="stats-small__data text-center">
-                                      <span class="stats-small__label text-uppercase">Subscribers</span>
-                                      <h6 class="stats-small__value count my-3">17,281</h6>
-                                  </div>
-                                  <div class="stats-small__data">
-                                      <span class="stats-small__percentage stats-small__percentage--decrease">2.4%</span>
+                                      <span class="stats-small__label text-uppercase">schedules</span>
+                                      <h6 class="stats-small__value count my-3">{{$schedules}}</h6>
                                   </div>
                               </div>
                           </div>
                       </div>
                   </div>
-              </div> -->
+              </div>
             </div>
         </div>
         @endsection

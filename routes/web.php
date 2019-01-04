@@ -13,6 +13,27 @@
 
 Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 	require_once base_path().'/routes/my_routes/admin/bootstrap.php';
+
+	//send schedule of the student to parents
+	Route::get('/send/parent/{student}',['uses' =>'Admin\SendStudentScheduleToParentController@create','roles' => ['Admin']]);
+	Route::post('/send/parent/{student}',['uses' =>'Admin\SendStudentScheduleToParentController@store','roles' => ['Admin']]);
+
+	Route::get('/send/parent/grades/{student}',['uses' =>'Admin\SendStudentGradeToParentController@create','roles' => ['Admin']]);
+	Route::post('/send/parent/grades/{student}',['uses' =>'Admin\SendStudentGradeToParentController@store','roles' => ['Admin']]);
+
+	//route for notify the student for deanslist
+	Route::get('/send/to/student/{student}' , ['uses' =>'Admin\DeansListController@create','roles' => ['Admin']]);
+	Route::post('/send/to/student/{student}' , ['uses' =>'Admin\DeansListController@sendSMS','roles' => ['Admin']]);
+
+	Route::get('/profile',['uses' =>'Admin\AdminController@edit','roles' => ['Admin']]);
+// Change Profile
+	Route::put('/profile/{id_number}',['uses' => 'Admin\AdminController@update','roles' => ['Admin']]);
+// Change Password
+
+//profile of the admin
+	Route::post('/profile/{id_number}',['uses' => 'Admin\AdminController@store','roles' => ['Admin']]);
+
+
 	Route::get('/logout',['uses' =>'Admin\AdminController@logout','roles' => ['Admin']]);
 });
 
@@ -31,6 +52,9 @@ Route::post('/studentlogin' , [
 ]);
 
 Route::group(['prefix' => 'student','middleware' => 'roles'], function() {
+	Route::get('/index',['uses'=>'Students\StudentController@index','roles' => ['Student']]);
+	Route::put('/index/{student}',['uses'=>'Students\StudentController@update','roles' => ['Student']]);
+	Route::post('/index/{student}',['uses'=>'Students\StudentController@store','roles' => ['Student']]);
 	Route::get('/preenrol',['uses'=>'Students\PreEnrollController@create','roles' => ['Student']]);
 	Route::post('/preenrol',['uses'=>'Students\PreEnrollController@store','roles' => ['Student']]);
 	Route::put('/preenrol',['uses'=>'Students\ScheduleController@checkSchedule','roles' => ['Student']]);
@@ -38,7 +62,7 @@ Route::group(['prefix' => 'student','middleware' => 'roles'], function() {
 	Route::get('/preenroldetails',['uses'=>'Students\StudentController@preenroldetails','roles' => ['Student']]);
 	Route::get('/evaluate',['uses'=>'Students\EvaluateController@index','roles' => ['Student']]);
 	Route::get('/schedule',['uses'=>'Students\ScheduleController@index','roles' => ['Student']]);
-	Route::get('/index',['uses'=>'Students\StudentController@index','roles' => ['Student']]);
+
 	Route::post('/checkpreq',['uses'=>'Students\PreRequisiteController@checkSubject','roles' => ['Student']]);
 	Route::get('/schedule/{information}',['uses'=>'Admin\ScheduleController@show','roles' => ['Student']]);
 	Route::get('/logout',['uses'=>'Students\StudentController@logout','roles' => ['Student']]);
@@ -89,6 +113,12 @@ Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
 
 	Route::get('/schedule/print', ['uses' => 'Instructors\PrintScheduleController@index','roles' => ['Instructor']]);
 	Route::get('/previous/schedule',['uses' => 'Instructors\ScheduleController@previousSchedules','roles' => ['Instructor']]);
+
+	Route::get('/profile',['uses' => 'Instructors\InstructorController@index','roles' => ['Instructor']]);
+
+	Route::put('/profile/{instructor}',['uses' => 'Instructors\InstructorController@update','roles' => ['Instructor']]);
+
+	Route::post('/profile/{instructor}',['uses' => 'Instructors\InstructorController@store','roles' => ['Instructor']]);
     Route::get('/logout', ['uses' => 'Instructors\InstructorController@logout','roles' => ['Instructor']]);
 });
 
@@ -107,7 +137,14 @@ Route::group(['prefix' => 'assistantdean','middleware' => 'roles'], function() {
 
 	Route::get('/instructors', ['uses' => 'Deans\AssistantDeanController@instructors','roles' => ['Assistant Dean']]);
 
+	Route::get('/profile', ['uses' => 'Deans\AssistantDeanController@editprofile','roles' => ['Assistant Dean']]);
+
+	Route::put('/profile/{assistantdean}', ['uses' => 'Deans\AssistantDeanController@updateprofile','roles' => ['Assistant Dean']]);
+
+	Route::post('/profile/{assistantdean}', ['uses' => 'Deans\AssistantDeanController@updatepassword','roles' => ['Assistant Dean']]);
+
     Route::get('/logout', ['uses' => 'Deans\AssistantDeanController@logout','roles' => ['Assistant Dean']]);
+
 
 });
 

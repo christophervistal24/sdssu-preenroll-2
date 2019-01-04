@@ -27,11 +27,12 @@ class PreRequisiteController extends Controller
     {
         $subjects = $request->session()->push('old_dragged_subjects',$request->subjects);
         $filtered = array_values(filterSubjectId($subjects)); //rebase the keys
-        $search_id = null;
         $search_id = (!empty($filtered)) ? $filtered : $request->subjects;
+        $search_id = last($request->subjects);
         $noPrereq = $this->subject
                          ->getPreRequisite($search_id)
                          ->toArray();
+        $noPrereq = array_unique($noPrereq);
         if (!empty($noPrereq)) {
             $count_student_remarks = $this->student_repo
                                   ->countStudentSubjectGrade(Auth::user()->id_number,$noPrereq);

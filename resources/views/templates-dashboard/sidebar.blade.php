@@ -1,4 +1,3 @@
-
 @if (request()->is('admin/*'))
 @inject('deans_list_model','App\DeansList')
 @php
@@ -47,12 +46,6 @@ $route="admin";
                         <span>Rooms</span>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link active" href="{{ url("/$route/addgrades") }}">
-                        <i class="material-icons">edit</i>
-                        <span>Input Grades</span>
-                    </a>
-                </li> -->
                 <li class="nav-item">
                     <a class="nav-link " href="{{ url("/$route/subjects") }}">
                         <i class="material-icons">subject</i>
@@ -122,12 +115,18 @@ $route="admin";
                         </div>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url("/$route/profile") }}">
+                        <i class="material-icons">face</i>
+                        <span>Profile</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </aside>
     <!-- End Main Sidebar -->
     @endif
-    @if (request()->is('student/*'))
+    <!-- @if (request()->is('student/*'))
     @php
     $route = 'student';
     @endphp
@@ -183,7 +182,7 @@ $route="admin";
                 </ul>
             </div>
         </aside>
-        @endif
+        @endif -->
         @if (request()->is('parent/*'))
         @php
         $route = 'parent';
@@ -265,13 +264,21 @@ $route="admin";
                                 </a>
                             </li> --}}
                             <li class="nav-item">
-                                <a class="nav-link active" href="{{ url("/$route/schedule") }}">
+                                <a class="nav-link " href="{{ url("/$route/schedule") }}">
                                     <i class="material-icons">note_add</i>
                                     <span>Schedules</span>
                                 </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ url("/$route/previous/schedule") }}">
                                     <i class="material-icons">note_add</i>
                                     <span>Previous Schedules</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url("/$route/profile") }}">
+                                    <i class="material-icons">face</i>
+                                    <span>Profile</span>
                                 </a>
                             </li>
                         </ul>
@@ -308,26 +315,26 @@ $route="admin";
                         <div class="nav-wrapper">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link " href="{{ url("/$route/index") }}">
-                                        <i class="material-icons">edit</i>
-                                        <span>Home</span>
+                                    <a class="nav-link" href="{{ url("/$route/index") }}">
+                                        <i class="material-icons">face</i>
+                                        <span>Profile</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link " href="{{ url("/$route/preenrol/") }}">
-                                        <i class="material-icons">edit</i>
+                                        <i class="material-icons">toc</i>
                                         <span>Pre-Enroll</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link " href="{{ url("/$route/evaluate") }}">
-                                        <i class="material-icons">edit</i>
+                                        <i class="material-icons">view_headline</i>
                                         <span>Evaluate</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url("/$route/schedule") }}">
-                                        <i class="material-icons">note_add</i>
+                                        <i class="material-icons">subject</i>
                                         <span>Schedule</span>
                                     </a>
                                 </li>
@@ -364,12 +371,17 @@ $route="admin";
                             </form>
                             <div class="nav-wrapper">
                                 <ul class="nav flex-column">
-                                     <li class="nav-item">
+                                   <li class="nav-item">
                                     <a class="nav-link " href="{{ url("/$route/index") }}">
-                                        <i class="material-icons">home</i>
-                                        <span>Home</span>
+                                        <i class="material-icons">list</i>
+                                        <span>Schedules</span>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " href="{{ url("/$route/profile") }}">
+                                        <i class="material-icons">face</i>
+                                        <span>Profile</span>
+                                    </a>
                                 </ul>
                             </div>
                         </aside>

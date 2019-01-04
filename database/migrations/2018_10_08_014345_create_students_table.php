@@ -26,6 +26,7 @@ class CreateStudentsTable extends Migration
             $table->string('mothername');
             $table->string('fathername');
             $table->string('parent_mobile_number');
+            $table->string('profile')->default('no_image.png');
             $table->timestamps();
         });
     }

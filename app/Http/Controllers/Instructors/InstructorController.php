@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Instructors;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangeAdminProfileRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\LoginRequest;
+use App\Instructor;
 use App\InstructorSchedule;
 use App\Semester;
-use App\Instructor;
 use App\Student;
 use App\Subject;
 use App\User;
@@ -28,6 +30,36 @@ class InstructorController extends Controller
     public function index()
     {
         return view('instructors.index');
+    }
+
+    /**
+     * [store change password]
+     * @param  Request    $request    [description]
+     * @param  Instructor $instructor [description]
+     * @return [type]                 [description]
+     */
+    public function store(ChangePasswordRequest $request ,Instructor $instructor)
+    {
+        $user_account = User::where('id_number',Auth::user()->id_number)->first();
+        $user_account->password = $request->new_password;
+        $user_account->save();
+        return redirect()->back()->with('status','Successfully update your password');
+    }
+
+    /**
+     * [update update information]
+     * @param  Request    $request    [description]
+     * @param  Instructor $instructor [description]
+     * @return [type]                 [description]
+     */
+    public function update(ChangeAdminProfileRequest $request , Instructor $instructor)
+    {
+        $instructor->name = $request->fullname;
+        $instructor->education_qualification = $request->education_qualification;
+        $instructor->mobile_number = $request->mobile_number;
+        $instructor->active = $request->status;
+        $instructor->save();
+        return redirect()->back()->with('status','Successfully update your profile');
     }
 
     public function students($first_subject,$second_subject = null)

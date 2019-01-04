@@ -111,15 +111,20 @@ class Schedule extends Model
           subjects.*,
           blocks.*,
           schedules.*,
-          subject_pre_requisites.pre_requisite_code,
-          GROUP_CONCAT(
-              subject_pre_requisites.pre_requisite_code
-          ) AS pre_requisite_code
+          CASE
+              WHEN count(subject_pre_requisites.pre_requisite_code) >= 2
+                  THEN
+                  GROUP_CONCAT(
+                    subject_pre_requisites.pre_requisite_code
+                   )
+              ELSE subject_pre_requisites.pre_requisite_code
+          END AS pre_requisite_code
           FROM
               schedules
           LEFT JOIN subjects ON schedules.subject_id = subjects.id
           LEFT JOIN blocks ON schedules.block = blocks.id
-          LEFT JOIN subject_pre_requisites ON subjects.id = subject_pre_requisites.subject_id
+          LEFT JOIN subject_pre_requisites
+          ON subjects.id = subject_pre_requisites.subject_id  AND subjects.course = subject_pre_requisites.course
           WHERE
           blocks.level = :block_level
           AND

@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Deans;
+use App\AssistantDean;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Instructor;
 use App\Schedule;
 use App\Subject;
@@ -86,6 +88,30 @@ class AssistantDeanController extends Controller
 
 		return redirect('/assistantdean/index')->with('status',$schedule->subject->sub_description . ' is now assign to ' . $request->instructor_name);
 	}
+
+    public function editprofile()
+    {
+        return view('deans.assistant.profile');
+    }
+
+    public function updateprofile(Request $request , AssistantDean $assistantdean)
+    {
+        $assistantdean->name                    = $request->fullname;
+        $assistantdean->education_qualification = $request->education_qualification;
+        $assistantdean->mobile_number           = $request->mobile_number;
+        $assistantdean->active                  = $request->status;
+        $assistantdean->save();
+        return redirect()->back()->with('status','Successfully update your profile');
+    }
+
+    public function updatepassword(ChangePasswordRequest $request , AssistantDean $assistantdean)
+    {
+        $user_account = User::where('id_number',Auth::user()->id_number)->first();
+        $user_account->password = $request->new_password;
+        $user_account->save();
+        return redirect()->back()->with('status','Successfully update your password');
+        dd($assistantdean);
+    }
 
     public function showLoginForm()
     {

@@ -43,6 +43,7 @@ class BlockSeeder extends Seeder
         'block_limit' => 45,
         'level' => 4
        ]);
+
        Block::create([
         'course' => 'CE',
         'no_of_enrolled' => 0,
@@ -50,6 +51,7 @@ class BlockSeeder extends Seeder
         'block_limit' => 45,
         'level' => 1
        ]);
+
        Block::create([
         'course' => 'CE',
         'no_of_enrolled' => 0,
@@ -57,6 +59,7 @@ class BlockSeeder extends Seeder
         'block_limit' => 45,
         'level' => 2
        ]);
+
        Block::create([
         'course' => 'CE',
         'no_of_enrolled' => 0,
@@ -64,13 +67,16 @@ class BlockSeeder extends Seeder
         'block_limit' => 45,
         'level' => 3
        ]);
+
        Block::create([
         'course' => 'CE',
         'no_of_enrolled' => 0,
         'block_name' => 'A',
         'block_limit' => 45,
         'level' => 4
-       ]);Block::create([
+       ]);
+
+       Block::create([
         'course' => 'CE',
         'no_of_enrolled' => 0,
         'block_name' => 'A',

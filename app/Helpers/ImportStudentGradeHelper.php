@@ -18,7 +18,7 @@ class ImportStudentGradeHelper {
     public function load($request,$chunkedBy)
     {
         $this->student_records = $this->csvUtil
-                                        ->toArrayAndChunk($request,$chunkedBy);
+                                      ->toArrayAndChunk($request,$chunkedBy);
     }
 
     public function insertStudentGrade(Student $student , Grade $grade)

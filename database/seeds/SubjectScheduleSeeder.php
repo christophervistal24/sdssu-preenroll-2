@@ -4,7 +4,7 @@ use App\Subject;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class InstructorSchedSeeder extends Seeder
+class SubjectScheduleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +13,8 @@ class InstructorSchedSeeder extends Seeder
      */
     public function run()
     {
+        /* COMPUTER SCIENCE SCHEDULES */
+
        DB::table('schedules')
        			->insert([
        				[
@@ -127,77 +129,12 @@ class InstructorSchedSeeder extends Seeder
 							'subject_id'=> Subject::where('sub_description','Embedded systems')->first()->id,
 							'block' => 2
        				],
-
-       				/*ENGINEERING SCHEDULES*/
-
-       				[
-							'start_time' => Carbon::parse('7:30 AM'),
-							'end_time' => Carbon::parse('8:30 AM'),
-							'days'       => 'MWF',
-							'room'       => '401',
-							'subject_id'=> Subject::where('sub_description','General Chemistry 1')->first()->id,
-							'block' => 6
-       				],
-       				[
-							'start_time' => Carbon::parse('7:30 AM'),
-							'end_time' => Carbon::parse('8:30 AM'),
-							'days'       => 'MWF',
-							'room'       => '401',
-							'subject_id'=> Subject::where('sub_description','Calculus with Analytic Geometry 1')->first()->id,
-							'block' => 6
-       				],
        			]);
 
-				DB::table('instructor_schedule')
-						->insert([
-							[
-								'instructor_id_number' => 1,
-								'schedule_id' => 1,
-								'created_at' => Carbon::now(),
-							],
-							[
-								'instructor_id_number' => 1,
-								'schedule_id' => 2,
-								'created_at' => Carbon::now(),
 
-							],
-							[
-								'instructor_id_number' => 1,
-								'schedule_id' => 3,
-								'created_at' => Carbon::now(),
-							],
-							[
-								'instructor_id_number' => 1,
-								'schedule_id' => 4,
-								'created_at' => Carbon::now(),
-							],
-							[
-								'instructor_id_number' => 1,
-								'schedule_id' => 5,
-								'created_at' => Carbon::now(),
-							],
-							[
-								'instructor_id_number' => 1,
-								'schedule_id' => 6,
-								'created_at' => Carbon::now(),
-							],
-							[
-								'instructor_id_number' => 1,
-								'schedule_id' => 7,
-								'created_at' => Carbon::now(),
-							],
-							[
-								'instructor_id_number' => 1,
-								'schedule_id' => 8,
-								'created_at' => Carbon::now(),
-							],
-                            [
-								'instructor_id_number' => 1,
-								'schedule_id' => 9,
-								'created_at' => Carbon::now(),
-							],
+        /*ENGINEERING SCHEDULES*/
 
-						]);
+
 
        	}
 }
