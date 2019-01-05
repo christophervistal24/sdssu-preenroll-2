@@ -9,6 +9,10 @@ use App\Semester;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use SMSGatewayMe\Client\ApiClient;
+use SMSGatewayMe\Client\Api\MessageApi;
+use SMSGatewayMe\Client\Configuration;
+use SMSGatewayMe\Client\Model\SendMessageRequest;
 
 class Student extends Model
 {
@@ -97,14 +101,32 @@ class Student extends Model
         }
     }
 
-    public function sendSMS()
+    public function sendSMS(int $student_id_number)
     {
         $grade = Grade::with('subject')->find(request('grade_id'));
         $subject_code = $grade->subject->sub;
         $subject_description = $grade->subject->sub_description;
         $grade = request('student_grade');
-        dd($subject_code . '-' . $subject_description . ' , ' . $grade);
-        // dd(request('student_grade'));
+        $student_credentials = $this->find($student_id_number);
+        $config        = Configuration::getDefaultConfiguration();
+
+        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU0NjY5MTQ1MiwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.M79KNlmuRatpcUktQYSeKxRmckX3QHwPdksYfPc7nDI');
+        $apiClient     = new ApiClient($config);
+        $messageClient = new MessageApi($apiClient);
+
+        // Sending a SMS Message
+        $sendMessageRequest1 = new SendMessageRequest([
+            'phoneNumber' => $student_credentials->parent_mobile_number,
+            'message' => $subject_code . '-' . $subject_description . ' , ' . $grade,
+            'deviceId' => 107650
+        ]);
+             $sendMessages = $messageClient->sendMessages([
+                $sendMessageRequest1,
+            ]);
+
+
+
+
     }
 
 }

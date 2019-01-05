@@ -26,6 +26,6 @@ class SendStudentGradeListener
      */
     public function handle(SendStudentGrade $event)
     {
-        $event->student->sendSMS();
+        $event->student_model->sendSMS($event->student_id_number);
     }
 }

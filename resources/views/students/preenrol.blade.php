@@ -55,7 +55,7 @@
                                 <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
-                                <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
+                                <a class="dropdown-item text-danger" href="{{ url('/student/logout') }}">
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>

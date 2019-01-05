@@ -14,15 +14,16 @@ use Illuminate\Queue\SerializesModels;
 class SendStudentGrade
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $student;
+    public $student_id_number , $student_model;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Student $student)
+    public function __construct(Student $student_model ,$student_id_number)
     {
-        $this->student = $student;
+        $this->student_id_number = $student_id_number;
+        $this->student_model = $student_model;
     }
 
     /**

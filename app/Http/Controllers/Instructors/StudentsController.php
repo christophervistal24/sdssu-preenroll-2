@@ -59,18 +59,19 @@ class StudentsController extends Controller
         $grade->remarks = $request->student_grade;
         $grade->save();
         \Event::fire( new EventDeansList(new DeansListModel,new Semester));
-        \Event::fire( new SendStudentGrade(new Student));
+        \Event::fire( new SendStudentGrade(new Student,$request->student_id_number));
         //add an event for sending
         return response()->json(['success' => true]);
     }
 
     public function editgrade(EditGradeRequest $request, Schedule $subject = null)
     {
+
         $grade = $this->grade->find($request->grade_id);
         $grade->remarks = $request->student_grade;
         $grade->save();
         \Event::fire( new EventDeansList(new DeansListModel,new Semester));
-        \Event::fire( new SendStudentGrade(new Student));
+        \Event::fire( new SendStudentGrade(new Student,$request->student_id_number));
         return response()->json(['success' => true]);
     }
     /**
