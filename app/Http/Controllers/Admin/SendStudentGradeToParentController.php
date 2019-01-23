@@ -36,7 +36,9 @@ class SendStudentGradeToParentController extends Controller
         ]);
 
         $config        = Configuration::getDefaultConfiguration();
-        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU0NjY5MTQ1MiwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.M79KNlmuRatpcUktQYSeKxRmckX3QHwPdksYfPc7nDI');
+        $config->setSSLVerification(false); // add this line
+        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU0ODIyNTE0NywiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.SCzuX1IK3MTnLKuEV3PTcDnz7jVap6FkP09UEOSnU-s');
+
         $apiClient     = new ApiClient($config);
         $messageClient = new MessageApi($apiClient);
 
@@ -44,7 +46,7 @@ class SendStudentGradeToParentController extends Controller
         $sendMessageRequest1 = new SendMessageRequest([
             'phoneNumber' => $request->parent_mobile_number,
             'message' => $request->grades,
-            'deviceId' => 107650
+            'deviceId' => 108162
         ]);
              $sendMessages = $messageClient->sendMessages([
                 $sendMessageRequest1,

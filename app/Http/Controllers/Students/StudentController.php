@@ -21,6 +21,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
@@ -71,8 +72,8 @@ class StudentController extends Controller
         $credentials = ['id_number' => $request->id_number, 'password' => $request->password];
         $user = User::where('id_number',$request->id_number)->first();
         if (Auth::attempt($credentials) && $user->hasRole('Student')) {
-            return redirect()->intended('/student/index');
-        }
+                return redirect()->intended('/student/index');
+         }
 
         return Redirect::back()->withInput()->withErrors('Wrong ID number/password combination.');
     }

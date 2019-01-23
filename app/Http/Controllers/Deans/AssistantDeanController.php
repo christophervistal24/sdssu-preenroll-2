@@ -14,12 +14,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use App\InstructorSchedule;
 
 class AssistantDeanController extends Controller
 {
 	public function index()
 	{
-
+		$no_of_scheduled = DB::table('instructor_schedule')->get()->count();
+		$no_of_schedule = DB::table('schedules')->get()->count();
 		$schedules =  DB::select('
 			SELECT
 	   GROUP_CONCAT(schedules.id) as schedule_id,
@@ -46,7 +48,8 @@ class AssistantDeanController extends Controller
 	GROUP BY
 	    subject_id , instructors.id_number
         ');
-    	return view('deans.assistant.listschedule',compact('schedules'));
+
+    	return view('deans.assistant.listschedule',compact('schedules','no_of_schedule','no_of_scheduled'));
 	}
 
 	public function assign(Schedule $schedule_info , Schedule $schedule_info2 = null)

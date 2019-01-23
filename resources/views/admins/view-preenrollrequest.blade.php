@@ -1,10 +1,9 @@
-@inject('subject_inject','App\Subject')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
     <!-- Main Navbar -->
     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
-        <form action="" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+        <form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
             <div class="input-group input-group-seamless ml-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
@@ -51,11 +50,18 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle mr-2" src="{{url("storage/profile/$user_info->profile")}}" alt="User Avatar">
-                                <span class="d-none d-md-inline-block">{{ $user_info->fullname }}</span>
+                                <img class="user-avatar rounded-circle mr-2" src="/dashboard/images/avatars/0.jpg" alt="User Avatar">
+                                <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
-                                <a class="dropdown-item text-danger" href="{{ url('/student/logout') }}">
+                                <a class="dropdown-item" href="user-profile-lite.html">
+                                <i class="material-icons">&#xE7FD;</i> Profile</a>
+                                <a class="dropdown-item" href="components-blog-posts.html">
+                                <i class="material-icons">vertical_split</i> Blog Posts</a>
+                                <a class="dropdown-item" href="add-new-post.html">
+                                <i class="material-icons">note_add</i> Add New Post</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>
@@ -68,25 +74,54 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-
-            <div class="main-content-container container-fluid px-4">
+            <div class="main-content-container container-fluid px-4 card border-0 rounded-0">
                 <!-- Page Header -->
-                <div class="container">
-                </div>
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                        <span class="text-uppercase page-subtitle">Add subject</span>
+                        <span class="text-uppercase page-subtitle">Student Pre-enroll Request</span>
                     </div>
                 </div>
-            <div class="alert alert-info" role="alert">
-              <b>You can click the subject to view the Pre requisite</b>
-            </div>
-                @include('errors.error')
-                @include('success.success-preenroll')
-                @include('templates-dashboard.blocks') <!--LIST OF BLOCKS-->
-                @include('templates-dashboard.blocks-subjects') <!--LIST OF BLOCKS SUBJECTS-->
-            </div>
-        </div>
-    </div>
+                @include('success.success-message')
+                <form method="POST">
+                    @csrf
+                  <div class="form-group">
+                            <br>
+                            <button class="float-left btn btn-primary text-white border-0 rounded-0" type="submit">Accept this request</button>
+                            <br>
+                        </div>
+                <div class="row">
 
-    @endsection
+                    <div class="col-md-12">
+                        <table id="tables" class="table table-bordered">
+                            <thead>
+                                    <th>Time</th>
+                                    <th>Days</th>
+                                    <th>Rooms</th>
+                                    <th>Instructors</th>
+                                    <th>Subjects</th>
+                                    <th>Block</th>
+                            </thead>
+                            <tbody>
+
+                                @foreach ($student_request as $pre_request)
+                                    @foreach ($pre_request->schedule as $instructor_sched)
+                                       <tr>
+                                    <input type="hidden" name="student_id" value="{{ $student_info->id }}">
+                                    <input type="hidden" name="block" value="{{ $instructor_sched->block }}">
+                                    <input  name="sched_id[]" type="hidden" value="{{ $instructor_sched->id }}">
+                                           <td class="text-center"> {{ $instructor_sched->start_time  . ' - ' . $instructor_sched->end_time}}</td>
+                                           <td class="text-center"> {{ $instructor_sched->days}}</td>
+                                           <td class="text-center"> {{ $instructor_sched->room}}</td>
+                                           <td> {{ $instructor_sched->instructor }}</td>
+                                           <td> {{ $instructor_sched->subject }}</td>
+                                           <td>{{  $instructor_sched->block }}</td>
+                                       </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @endsection

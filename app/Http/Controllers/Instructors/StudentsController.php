@@ -66,7 +66,6 @@ class StudentsController extends Controller
 
     public function editgrade(EditGradeRequest $request, Schedule $subject = null)
     {
-
         $grade = $this->grade->find($request->grade_id);
         $grade->remarks = $request->student_grade;
         $grade->save();

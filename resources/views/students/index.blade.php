@@ -156,6 +156,15 @@
                               <label for="feInputAddress">Mobile Number</label>
                               <input type="text" class="font-weight-bold form-control" id="feInputAddress" name="mobile_number" value="{{$user_info->mobile_number}}">
                             </div>
+                             <div class="form-group">
+                              <label for="feInputAddress">Course</label>
+                              <input type="text" readonly class="font-weight-bold form-control" id="feInputAddress"  value="BS{{$user_info->course->course_code}}">
+                            </div>
+
+                             <div class="form-group">
+                              <label for="feInputAddress">Year</label>
+                              <input type="text" readonly class="font-weight-bold form-control" id="feInputAddress"  value="{{digitToYearLevel($user_info->year)}}">
+                            </div>
                             <button type="submit" class="float-right btn btn-accent">Update Account</button>
                           </form>
                         </div>

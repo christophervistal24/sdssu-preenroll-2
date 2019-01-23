@@ -65,6 +65,7 @@ Route::group(['prefix' => 'student','middleware' => 'roles'], function() {
 
 	Route::post('/checkpreq',['uses'=>'Students\PreRequisiteController@checkSubject','roles' => ['Student']]);
 	Route::get('/schedule/{information}',['uses'=>'Admin\ScheduleController@show','roles' => ['Student']]);
+	Route::get('/schedule/print/{id_number}',['uses'=>'Students\SchedulePrintController@show','roles' => ['Student']]);
 	Route::get('/logout',['uses'=>'Students\StudentController@logout','roles' => ['Student']]);
 });
 

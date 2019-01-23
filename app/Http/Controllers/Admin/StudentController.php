@@ -67,7 +67,7 @@ class StudentController extends Controller
 		//create new user for student
         $new_student = User::create([
             'id_number' => $request->id_number,
-            'password'  => bcrypt(1234),
+            'password'  => 1234,
         ]);
         //assign a role for the student
         $new_student->roles()->attach($role_student);

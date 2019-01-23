@@ -64,16 +64,15 @@ class PreEnrollController extends Controller
         try {
           DB::beginTransaction();
            array_walk($subject_ids , function ($value , $key)  use(&$grade_id) {
-              $grade_id[] = Grade::updateOrCreate(['subject_id' => $value])->id;
+              $grade_id[] = Grade::create(['subject_id' => $value])->id;
            });
 
         $student = Student::where('id_number',Auth::user()->id_number)->first();
-
 	            $student->schedules() // add student schedule
                       ->attach($collected_ids);
               $student->student_subjects() //add student subjects
                       ->attach($subject_ids);
-              $student->grades() // student subject add grade
+              $s = $student->grades() // student subject add grade
                       ->attach($grade_id);
               //get the block of the first schedule that the student select
               $block = $this->schedule

@@ -1,0 +1,15 @@
+cd /xampp/htdocs/system2
+php artisan migrate:refresh --seed
+
+
+christophervistal25@gmail.com
+123456789
+
+
+Http/Controllers/SendStudentGradeToParent
+Http/Controllers/SendStudentScheduleToParentController
+Http/Controllers/InstructorSendSchedule
+Http/Controllers/DeansListController
+App\Student
+
+

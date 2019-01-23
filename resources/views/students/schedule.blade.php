@@ -81,7 +81,7 @@
 
                             <div class="col-lg-4 text-left">
                              <span class="font-weight-bold">Student No : {{ hyphenate($student_information->id_number) }} </span>
-                         </div>
+                            </div>
                              <div class="col-lg-4 text-left">
                                  <span class="font-weight-bold">Student Name : {{ ucwords($student_information->fullname) }}</span>
                             </div>
@@ -106,6 +106,7 @@
                         </div>
                         <br>
                         <div class="col-md-12">
+                            <a href="/student/schedule/print/{{ $student_information->id_number }}" class="mb-2 float-right btn btn-primary">PRINT</a>
                             <table id="sched-table" class="table table-bordered">
                             <thead class="text-center">
                                 <tr class="p-0"><th colspan="8" class="p-0 border-bottom-0 pt-1"><h5 class="text-center">CLASS SCHEDULE</h5></th></tr>
@@ -128,11 +129,16 @@
                                         <td class="text-center border-right-0">{{ $schedule->room }}</td>
                                         <td class="text-center border-right-0">{{ $schedule->days }}</td>
                                         <td class="text-center font-weight-bold text-sm border-right-0">{{ $schedule->start_time . ' - ' . $schedule->end_time  }}</td>
+                                        @php
+                                            @$units += $schedule->subject->units;
+                                        @endphp
                                         <td class="text-center border-right-0">{{ number_format($schedule->subject->units, 1, '.', ',')}}</td>
 
                                     </tr>
                                 @endforeach
-
+                                @if (isset($units))
+                                    <td colspan="8" class="text-right">Total units : {{ $units }}</td>
+                                @endif
                             </tbody>
                         </table>
                         <br>

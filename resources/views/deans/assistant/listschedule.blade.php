@@ -3,15 +3,9 @@
 <div class="main-navbar sticky-top bg-white">
     <!-- Main Navbar -->
     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
-        <form action="" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
-            <div class="input-group input-group-seamless ml-3">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </div>
-                <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search"> </div>
-            </form>
+            <p class="mt-3 ml-3">No. of schedules : {{ $no_of_schedule }}</p>
+            <p class="mt-3">No. of assigned schedule : {{ $no_of_scheduled }}</p>
+            <p class="mt-3">Unassigned schedule : {{ $no_of_schedule - $no_of_scheduled }}</p>
             <ul class="navbar-nav border-left flex-row ">
                 <li class="nav-item border-right dropdown notifications">
                     <a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -77,7 +71,7 @@
                 <div class="row">
                     <div class="col-md-12">
                           @include('success.student-success')
-                        <table id="tables" class="table table-bordered">
+                        {{-- <table id="tables" class="table table-bordered">
                            <thead>
                                 <tr>
                                     <th class="text-center">Time</th>
@@ -115,7 +109,236 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                        </table> --}}
+
+                        {{-- FIRST YEAR SUBJECTS --}}
+                    <h1>First year subjects</h1>
+                        <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th class="text-center">Time</th>
+                                    <th class="text-center">Days</th>
+                                    <th class="text-center">Room</th>
+                                    <th class="text-center">Block</th>
+                                    <th class="text-center">Subject</th>
+                                    <th class="text-center">Instructor</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($schedules as $schedule)
+                                    @if($schedule->level == 1)
+                                    <tr>
+                                        <td class="text-center">{{
+                                            \Carbon\Carbon::parse($schedule->start_time)
+                                            ->format('g:i A')  }}
+                                             - {{
+                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
+                                                }}</td>
+                                        <td class="text-center">{{ $schedule->days }}</td>
+                                        <td class="text-center">{{ $schedule->room }}</td>
+                                        <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
+                                        <td>
+                                        {{ findCharacterPosWithDelimeter($schedule->subject,',') }}</td>
+                                        <td class="text-center">{{ ucwords($schedule->instructor_name) }}</td>
+                                        @if (isset($schedule->instructor_name))
+                                            <td class="text-center"><a  href="/assistantdean/editassign/{{ $schedule->instructor_id_number }}/{{ $schedule->schedule_id }}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
+                                        @else
+                                        @php
+                                            $schedule = explode(',',$schedule->schedule_id);
+                                        @endphp
+                                            <td class="text-center"><a href="/assistantdean/assign/{{$schedule[0] }}/{{ isset($schedule[1]) ? $schedule[1] : null }}" class="text-white btn btn-primary">ASSIGN INSTRUCTOR</a></td>
+                                        @endif
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
                         </table>
+                        <br>
+                        <br>
+                        <hr>
+                        <h1>Second year Subjects</h1>
+                        <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th class="text-center">Time</th>
+                                    <th class="text-center">Days</th>
+                                    <th class="text-center">Room</th>
+                                    <th class="text-center">Block</th>
+                                    <th class="text-center">Subject</th>
+                                    <th class="text-center">Instructor</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($schedules as $schedule)
+                                    @if($schedule->level == 2)
+                                    <tr>
+                                        <td class="text-center">{{
+                                            \Carbon\Carbon::parse($schedule->start_time)
+                                            ->format('g:i A')  }}
+                                             - {{
+                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
+                                                }}</td>
+                                        <td class="text-center">{{ $schedule->days }}</td>
+                                        <td class="text-center">{{ $schedule->room }}</td>
+                                        <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
+                                        <td>
+                                        {{ findCharacterPosWithDelimeter($schedule->subject,',') }}</td>
+                                        <td class="text-center">{{ ucwords($schedule->instructor_name) }}</td>
+                                        @if (isset($schedule->instructor_name))
+                                            <td class="text-center"><a  href="/assistantdean/editassign/{{ $schedule->instructor_id_number }}/{{ $schedule->schedule_id }}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
+                                        @else
+                                        @php
+                                            $schedule = explode(',',$schedule->schedule_id);
+                                        @endphp
+                                            <td class="text-center"><a href="/assistantdean/assign/{{$schedule[0] }}/{{ isset($schedule[1]) ? $schedule[1] : null }}" class="text-white btn btn-primary">ASSIGN INSTRUCTOR</a></td>
+                                        @endif
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <br>
+                        <br>
+                        <hr>
+                        <h1>Third year Subjects</h1>
+                        <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th class="text-center">Time</th>
+                                    <th class="text-center">Days</th>
+                                    <th class="text-center">Room</th>
+                                    <th class="text-center">Block</th>
+                                    <th class="text-center">Subject</th>
+                                    <th class="text-center">Instructor</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($schedules as $schedule)
+                                    @if($schedule->level == 3)
+                                    <tr>
+                                        <td class="text-center">{{
+                                            \Carbon\Carbon::parse($schedule->start_time)
+                                            ->format('g:i A')  }}
+                                             - {{
+                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
+                                                }}</td>
+                                        <td class="text-center">{{ $schedule->days }}</td>
+                                        <td class="text-center">{{ $schedule->room }}</td>
+                                        <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
+                                        <td>
+                                        {{ findCharacterPosWithDelimeter($schedule->subject,',') }}</td>
+                                        <td class="text-center">{{ ucwords($schedule->instructor_name) }}</td>
+                                        @if (isset($schedule->instructor_name))
+                                            <td class="text-center"><a  href="/assistantdean/editassign/{{ $schedule->instructor_id_number }}/{{ $schedule->schedule_id }}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
+                                        @else
+                                        @php
+                                            $schedule = explode(',',$schedule->schedule_id);
+                                        @endphp
+                                            <td class="text-center"><a href="/assistantdean/assign/{{$schedule[0] }}/{{ isset($schedule[1]) ? $schedule[1] : null }}" class="text-white btn btn-primary">ASSIGN INSTRUCTOR</a></td>
+                                        @endif
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <br>
+                        <br>
+                        <hr>
+                        <h1>Fourth year Subjects</h1>
+                        <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th class="text-center">Time</th>
+                                    <th class="text-center">Days</th>
+                                    <th class="text-center">Room</th>
+                                    <th class="text-center">Block</th>
+                                    <th class="text-center">Subject</th>
+                                    <th class="text-center">Instructor</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($schedules as $schedule)
+                                    @if($schedule->level == 4)
+                                    <tr>
+                                        <td class="text-center">{{
+                                            \Carbon\Carbon::parse($schedule->start_time)
+                                            ->format('g:i A')  }}
+                                             - {{
+                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
+                                                }}</td>
+                                        <td class="text-center">{{ $schedule->days }}</td>
+                                        <td class="text-center">{{ $schedule->room }}</td>
+                                        <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
+                                        <td>
+                                        {{ findCharacterPosWithDelimeter($schedule->subject,',') }}</td>
+                                        <td class="text-center">{{ ucwords($schedule->instructor_name) }}</td>
+                                        @if (isset($schedule->instructor_name))
+                                            <td class="text-center"><a  href="/assistantdean/editassign/{{ $schedule->instructor_id_number }}/{{ $schedule->schedule_id }}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
+                                        @else
+                                        @php
+                                            $schedule = explode(',',$schedule->schedule_id);
+                                        @endphp
+                                            <td class="text-center"><a href="/assistantdean/assign/{{$schedule[0] }}/{{ isset($schedule[1]) ? $schedule[1] : null }}" class="text-white btn btn-primary">ASSIGN INSTRUCTOR</a></td>
+                                        @endif
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <br>
+                        <br>
+                        <hr>
+                        <h1>Fifth year Subjects</h1>
+                        <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th class="text-center">Time</th>
+                                    <th class="text-center">Days</th>
+                                    <th class="text-center">Room</th>
+                                    <th class="text-center">Block</th>
+                                    <th class="text-center">Subject</th>
+                                    <th class="text-center">Instructor</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($schedules as $schedule)
+                                    @if($schedule->level == 5)
+                                    <tr>
+                                        <td class="text-center">{{
+                                            \Carbon\Carbon::parse($schedule->start_time)
+                                            ->format('g:i A')  }}
+                                             - {{
+                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
+                                                }}</td>
+                                        <td class="text-center">{{ $schedule->days }}</td>
+                                        <td class="text-center">{{ $schedule->room }}</td>
+                                        <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
+                                        <td>
+                                        {{ findCharacterPosWithDelimeter($schedule->subject,',') }}</td>
+                                        <td class="text-center">{{ ucwords($schedule->instructor_name) }}</td>
+                                        @if (isset($schedule->instructor_name))
+                                            <td class="text-center"><a  href="/assistantdean/editassign/{{ $schedule->instructor_id_number }}/{{ $schedule->schedule_id }}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
+                                        @else
+                                        @php
+                                            $schedule = explode(',',$schedule->schedule_id);
+                                        @endphp
+                                            <td class="text-center"><a href="/assistantdean/assign/{{$schedule[0] }}/{{ isset($schedule[1]) ? $schedule[1] : null }}" class="text-white btn btn-primary">ASSIGN INSTRUCTOR</a></td>
+                                        @endif
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
                     </div>
                 </div>
 

@@ -8,6 +8,7 @@ use App\Student;
 use App\Traits\SchedUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -35,12 +36,14 @@ class ScheduleController extends Controller
     public function checkSchedule(Request $request)
     {
         $schedule_credentials = $this->explodeGivenSubject(' - ',$request->subject);
+        $schedule_credentials['start_time'] = Carbon::parse($schedule_credentials['start_time']);
+        $schedule_credentials['end_time'] = Carbon::parse($schedule_credentials['end_time']);
         $sched =     $this->student  //get student schedules it's eight inbetween or same
                           ->find($request->student_id_number)
                           ->schedules()
                           ->where('days',$schedule_credentials['days'])
-                          ->whereTime('start_time','<=',$schedule_credentials['start_time'])
-                          ->whereTime('end_time','>=',$schedule_credentials['end_time'])
+                          ->where('start_time','>=',$schedule_credentials['start_time'])
+                          ->where('end_time','<=',$schedule_credentials['end_time'])
                           ->get();
         return response()->json(['schedule_data' => $sched]);
     }

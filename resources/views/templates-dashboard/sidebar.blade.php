@@ -29,6 +29,13 @@ $route="admin";
         <div class="nav-wrapper">
             <ul class="nav flex-column">
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url("/$route/profile") }}">
+                        <i class="material-icons">face</i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url("/$route/index") }}">
                         <i class="material-icons">dashboard</i>
                         <span>Dashboard</span>
@@ -114,12 +121,6 @@ $route="admin";
                             </a>
                         </div>
                     </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url("/$route/profile") }}">
-                        <i class="material-icons">face</i>
-                        <span>Profile</span>
-                    </a>
                 </li>
             </ul>
         </div>

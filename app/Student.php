@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use App\Block;
 use App\Events\UpdateBlock;
 use App\Grade;
@@ -18,6 +19,11 @@ class Student extends Model
 {
     protected $fillable = ['id_number','fullname','year','address','course_id','mobile_number','mothername','fathername','parent_mobile_number'];
     protected $primaryKey = 'id_number';
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id_number','id_number');
+    }
 
     public function grades()
     {
@@ -39,7 +45,8 @@ class Student extends Model
     public function schedules()
     {
         $this->primaryKey = 'id_number';
-        return $this->belongsToMany('App\Schedule','schedule_student','student_id_number','schedule_id');
+        return $this->belongsToMany('App\Schedule','schedule_student','student_id_number','schedule_id')
+       ->withTimestamps();
     }
 
     public function deanslister()
@@ -109,8 +116,8 @@ class Student extends Model
         $grade = request('student_grade');
         $student_credentials = $this->find($student_id_number);
         $config        = Configuration::getDefaultConfiguration();
-
-        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU0NjY5MTQ1MiwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.M79KNlmuRatpcUktQYSeKxRmckX3QHwPdksYfPc7nDI');
+        $config->setSSLVerification(false); // add this line
+        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU0ODIyNTE0NywiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.SCzuX1IK3MTnLKuEV3PTcDnz7jVap6FkP09UEOSnU-s');
         $apiClient     = new ApiClient($config);
         $messageClient = new MessageApi($apiClient);
 
@@ -118,7 +125,7 @@ class Student extends Model
         $sendMessageRequest1 = new SendMessageRequest([
             'phoneNumber' => $student_credentials->parent_mobile_number,
             'message' => $subject_code . '-' . $subject_description . ' , ' . $grade,
-            'deviceId' => 107650
+            'deviceId' => 108162
         ]);
              $sendMessages = $messageClient->sendMessages([
                 $sendMessageRequest1,

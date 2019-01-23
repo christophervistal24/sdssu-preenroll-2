@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Student;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,8 +28,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password','remember_token',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class,'students','id_number','id_number');
+    }
 
     public function roles()
     {
