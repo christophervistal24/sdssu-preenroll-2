@@ -36,6 +36,26 @@ class AdminController extends Controller
        return view('admins.index',compact('ce_students','cs_students','instructors','blocks','schedules'));
     }
 
+    public function changeprofile(Request $request)
+    {
+        $this->validate($request,[
+            'profile' => 'required',
+        ]);
+        //update the image of user in DB
+        $image = request()->file('profile');
+        $student = Admin::find(Auth::user()->id_number);
+        $student->profile = $image->getClientOriginalName();
+        $student->save();
+        //move the uploaded file
+        if ($student) {
+            $destination = storage_path('/app/public/profile/');
+            $image->move($destination,$image->getClientOriginalName());
+            return redirect()->back()->with('status','Successfully update your profile image');
+        } else {
+            return redirect()->back()->withErrors('Please check the image that you want to upload.');
+        }
+    }
+
     public function login()
     {
         return view('admins.login');

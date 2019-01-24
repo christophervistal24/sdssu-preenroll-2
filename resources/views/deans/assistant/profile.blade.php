@@ -80,11 +80,16 @@
                       <img class="rounded-circle" src="{{url("storage/profile/$user_info->profile") }}" alt="User Avatar" width="110">
                     </div>
                        <div>
-                       <label class="hand-cursor">
-                        <input type="file" style="display:none;" />
-                        <span class="fa fa-camera"></span>
-                        <span style="cursor:pointer;" class="photo_text hidden-xs font-weight-bold">Change profile</span>
-                       </label>
+                       <form action="/assistantdean/{{$user_info->id_number}}/changeprofile" method="POST" enctype="multipart/form-data">
+                        @csrf
+                          <label class="hand-cursor">
+                        {{-- style="display:none;" --}}
+                          <input type="file" name="profile"  />
+                          {{-- <span class="fa fa-camera"></span> --}}
+                          {{-- <span style="cursor:pointer;" class="photo_text hidden-xs font-weight-bold">Change profile</span> --}}
+                         </label>
+                         <input type="submit" value="change">
+                       </form>
                      </div>
                     <h4 class="mb-0 text-capitalize">{{$user_info->name}}</h4>
                     <span class="text-muted d-block mb-2">Assistant Dean</span>

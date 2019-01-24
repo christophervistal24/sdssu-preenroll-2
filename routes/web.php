@@ -34,6 +34,8 @@ Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 	Route::post('/profile/{id_number}',['uses' => 'Admin\AdminController@store','roles' => ['Admin']]);
 	Route::get('/student/{id_number}/resetpassword',['uses' =>'Admin\StudentController@reset','roles' => ['Admin']]);
 // Change Profile
+	Route::post('{id_number}/changeprofile',['uses' => 'Admin\AdminController@changeprofile']);
+
 	Route::get('/logout',['uses' =>'Admin\AdminController@logout','roles' => ['Admin']]);
 });
 
@@ -66,6 +68,8 @@ Route::group(['prefix' => 'student','middleware' => 'roles'], function() {
 	Route::post('/checkpreq',['uses'=>'Students\PreRequisiteController@checkSubject','roles' => ['Student']]);
 	Route::get('/schedule/{information}',['uses'=>'Admin\ScheduleController@show','roles' => ['Student']]);
 	Route::get('/schedule/print/{id_number}',['uses'=>'Students\SchedulePrintController@show','roles' => ['Student']]);
+	//change profile
+	Route::post('{id_number}/changeprofile',['uses' => 'Students\StudentController@changeprofile']);
 	Route::get('/logout',['uses'=>'Students\StudentController@logout','roles' => ['Student']]);
 });
 
@@ -120,6 +124,8 @@ Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
 	Route::put('/profile/{instructor}',['uses' => 'Instructors\InstructorController@update','roles' => ['Instructor']]);
 
 	Route::post('/profile/{instructor}',['uses' => 'Instructors\InstructorController@store','roles' => ['Instructor']]);
+	//change profile
+	Route::post('{id_number}/changeprofile',['uses' => 'Instructors\InstructorController@changeprofile']);
     Route::get('/logout', ['uses' => 'Instructors\InstructorController@logout','roles' => ['Instructor']]);
 });
 
@@ -143,6 +149,9 @@ Route::group(['prefix' => 'assistantdean','middleware' => 'roles'], function() {
 	Route::put('/profile/{assistantdean}', ['uses' => 'Deans\AssistantDeanController@updateprofile','roles' => ['Assistant Dean']]);
 
 	Route::post('/profile/{assistantdean}', ['uses' => 'Deans\AssistantDeanController@updatepassword','roles' => ['Assistant Dean']]);
+
+	// Change Profile
+	Route::post('{id_number}/changeprofile',['uses' => 'Deans\AssistantDeanController@changeprofile']);
 
     Route::get('/logout', ['uses' => 'Deans\AssistantDeanController@logout','roles' => ['Assistant Dean']]);
 
