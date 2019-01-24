@@ -18,27 +18,27 @@ class StudentSeeder extends Seeder
     	$role_student = Role::where('name','Student')->first();
 
    		$student = new Student();
-   		$student->id_number = 1501755;
-   		$student->fullname = 'Christopher P. Vistal';
+   		$student->id_number = 1502108;
+   		$student->fullname = 'Joshua Safico';
    		$student->year = 1;
    		$student->course_id = 2;
       $student->address = 'Awasian Tandag City';
       $student->gender = 'male';
-      $student->mothername = 'Regina Vistal';
-      $student->fathername = 'Crisogono Vistal';
+      $student->mothername = 'Regina Safico';
+      $student->fathername = 'Crisogono Safico';
       $student->mobile_number = '09193693499';
    		$student->save();
 
    		$s = new User();
-      $s->id_number = 1501755;
+      $s->id_number = 1502108;
       $s->password = 1234;
       $s->save();
  		  $s->roles()->attach($role_student);
 
 
       $student = new Student();
-      $student->id_number = 1501756;
-      $student->fullname = 'Christopher P. Vistal2';
+      $student->id_number = 1500507;
+      $student->fullname = 'Jover Jhon Villamon';
       $student->year = 1;
       $student->course_id = 2;
       $student->address = 'Awasian Tandag City';
@@ -49,7 +49,7 @@ class StudentSeeder extends Seeder
       $student->save();
 
       $s = new User();
-      $s->id_number = 1501756;
+      $s->id_number = 1500507;
       $s->password = 1234;
       $s->save();
       $s->roles()->attach($role_student);

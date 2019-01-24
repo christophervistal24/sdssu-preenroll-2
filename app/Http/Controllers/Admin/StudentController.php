@@ -134,4 +134,12 @@ class StudentController extends Controller
     {
         //
     }
+
+    public function reset($id_number)
+    {
+        $student = User::where('id_number',$id_number)->first();
+        $student->password = 1234;
+        $student->save();
+        return redirect()->back()->with('status','Successfully reset student password to default');
+    }
 }

@@ -76,6 +76,7 @@
                 </div>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
+                    @include('success.success-message')
                 <div class="row">
                     <div class="col-md-6">
                         <h4>List of all Students</h4>
@@ -127,6 +128,7 @@
                                         'parent_mobile' => $student->parent_mobile_number,
                                     ])}}" class="p-2 text-center text-black dropdown-item" style="cursor:pointer;"><b>EDIT INFO</b></a>
                                     <a href="/admin/student/{{ $student->id_number }}" class=" dropdown-item p-2 text-center text-gray"><b>EVALUATE</b></a>
+                                    <a href="/admin/student/{{ $student->id_number }}/resetpassword" class=" dropdown-item p-2 text-center text-gray"><b>RESET PASSWORD</b></a>
                                       <div class="dropdown-divider"></div>
                                         <a class="dropdown-item text-center" data-target="parents" id="btnEditInfo" params="{{json_encode([
                                         'id_number'     => $student->id_number,

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Student;
 use Dompdf\Dompdf;
+use App\Semester;
 
 class SchedulePrintController extends Controller
 {
@@ -51,8 +52,9 @@ class SchedulePrintController extends Controller
         $student = Student::with('schedules')
                             ->find($id_number);
         $date_process =  $id_number->schedules()->first()->created_at;
+        $current_semester = Semester::where('current',1)->first();
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('students.schedule-print',compact(['student','date_process']));
+        $pdf->loadView('students.schedule-print',compact(['student','date_process','current_semester']));
         $pdf->setPaper('legal');
          return $pdf->stream()
                    ->header('Content-Type','application/pdf');

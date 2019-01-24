@@ -2,10 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Schedule</title>
 </head>
 <body>
-    <!-- Small Stats Blocks -->
+        <div class="header">
+            <img src="{{ asset('/storage/img/sdssu.png') }}" style="position:absolute; left :18.7% top :0%">
+            <center><b>Republic of the Philippines</b></center>
+            <center><b>SURIGAO DEL SUR STATE UNIVERSITY</b></center>
+            <center><b>Tandag City , Surigao del Sur</b></center>
+            <img src="{{ asset('/storage/img/sdssu-cecst-logo.png') }}" style="position:absolute; z-index: 2; top :0%; left :75%">
+        </div>
+            <br>
+            <center><b>Report of Grades</b></center>
+            <center><b>SY {{ date('Y') . ' - ' . date('Y',strtotime("+1 year"))  }} / {{strtoupper(semesterWord($current_semester->id))}}</b></center>
+            <br>
+            <br>
                     <div class="row">
 
                             <div>
@@ -33,6 +44,8 @@
                              </span>
                             </div>
                         </div>
+                        <br>
+                        <br>
             <table border="1" style="border-collapse: collapse; padding : 3px;">
                             <thead >
                            <tr>

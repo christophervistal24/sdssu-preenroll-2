@@ -32,8 +32,8 @@ Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 
 //profile of the admin
 	Route::post('/profile/{id_number}',['uses' => 'Admin\AdminController@store','roles' => ['Admin']]);
-
-
+	Route::get('/student/{id_number}/resetpassword',['uses' =>'Admin\StudentController@reset','roles' => ['Admin']]);
+// Change Profile
 	Route::get('/logout',['uses' =>'Admin\AdminController@logout','roles' => ['Admin']]);
 });
 
