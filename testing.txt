@@ -12,4 +12,12 @@ Http/Controllers/InstructorSendSchedule
 Http/Controllers/DeansListController
 App\Student
 
+to change the images for about us
+goto resources/views/pages/about
+
+to add some image 
+goto storage then right click the public choose the reveal option
+paste the image inside.
+
+
 

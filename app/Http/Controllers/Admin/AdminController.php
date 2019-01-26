@@ -39,7 +39,7 @@ class AdminController extends Controller
     public function changeprofile(Request $request)
     {
         $this->validate($request,[
-            'profile' => 'required',
+            'profile' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
         ]);
         //update the image of user in DB
         $image = request()->file('profile');

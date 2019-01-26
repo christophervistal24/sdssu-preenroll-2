@@ -22,7 +22,16 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::with('course')->orderBy('id_number','DESC')->get();
+
         return view('admins.list-of-students',compact('students'));
+    }
+
+    public function listofstudents(int $year)
+    {
+        $students['CS'] = Student::with('course')->where(['year' => $year,'course_id' => 2])->orderBy('id_number','DESC')->get();
+
+        $students['CE'] = Student::with('course')->where(['year' => $year,'course_id' => 1])->orderBy('id_number','DESC')->get();
+        return view('admins.list-of-students',compact('students','year'));   
     }
 
     /**
@@ -46,7 +55,7 @@ class StudentController extends Controller
     {
     	//get role for student
         $role_student = Role::where('name','Student')->first();
-
+        $request->id_number = str_replace('-', '', $request->id_number);
         DB::beginTransaction();
 		try {
 		//create new student
@@ -73,7 +82,7 @@ class StudentController extends Controller
         $new_student->roles()->attach($role_student);
         //if everythings fine commit
 		DB::commit();
-        return redirect()->back()->with('status',"<a href=/admin/studentsubject/".$student->id." class=alert-link> Successfully add new student name " . $request->student_fullname . " click this message to add a subject</a>");
+        return redirect()->back()->with('status','Successfully add new student');
 		} catch (\Exception $e) { //rollback
 		    DB::rollback();
 		}

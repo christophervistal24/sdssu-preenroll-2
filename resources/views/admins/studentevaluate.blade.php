@@ -7,10 +7,9 @@
             <div class="input-group input-group-seamless ml-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                        <i class="fas fa-search"></i>
                     </div>
                 </div>
-                <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search"> </div>
+                <input class="navbar-search form-control" type="text" placeholder="" aria-label="Search"> </div>
             </form>
             <ul class="navbar-nav border-left flex-row ">
                 <li class="nav-item border-right dropdown notifications">
@@ -50,7 +49,12 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                              @if(request()->is('parent/*'))
+                              <img class="user-avatar rounded-circle mr-2" src="{{url("storage/profile/no_image.png")}}" alt="User Avatar">
+                                @else
                                 <img class="user-avatar rounded-circle mr-2" src="{{url("storage/profile/$user_info->profile")}}" alt="User Avatar">
+                              @endif
+                                
                                 @if (request()->is('admin/*'))
                                     <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
                                 @elseif (request()->is('parent/*'))

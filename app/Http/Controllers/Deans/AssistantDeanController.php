@@ -113,13 +113,12 @@ class AssistantDeanController extends Controller
         $user_account->password = $request->new_password;
         $user_account->save();
         return redirect()->back()->with('status','Successfully update your password');
-        dd($assistantdean);
     }
 
     public function changeprofile(Request $request)
     {
 		$this->validate($request,[
-            'profile' => 'required',
+            'profile' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
         ]);
         //update the image of user in DB
         $image = request()->file('profile');

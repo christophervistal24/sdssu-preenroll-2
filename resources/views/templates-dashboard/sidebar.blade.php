@@ -73,14 +73,39 @@ $route="admin";
                             <i class="material-icons">arrow_drop_down</i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="{{ url("/$route/liststudents") }}" >
-                                <i class="material-icons">add_circle</i>
-                                <span>List of students</span>
-                            </a>
+
+
                             <a class="dropdown-item" href="{{ url("/$route/addstudent") }}" >
                                 <i class="material-icons">add_circle</i>
                                 <span>Add student</span>
                             </a>
+
+                             <a class="dropdown-item" href="{{ url("/$route/liststudents/1") }}" >
+                                <i class="material-icons">subject</i>
+                                <span>First year</span>
+                            </a>
+
+
+                            <a class="dropdown-item" href="{{ url("/$route/liststudents/2") }}" >
+                                <i class="material-icons">subject</i>
+                                <span>Second year</span>
+                            </a>
+
+                            <a class="dropdown-item" href="{{ url("/$route/liststudents/3") }}" >
+                                <i class="material-icons">subject</i>
+                                <span>Third year</span>
+                            </a>
+
+                            <a class="dropdown-item" href="{{ url("/$route/liststudents/4") }}" >
+                                <i class="material-icons">subject</i>
+                                <span>Fourth year</span>
+                            </a>
+
+                            <a class="dropdown-item" href="{{ url("/$route/liststudents/5") }}" >
+                                <i class="material-icons">subject</i>
+                                <span>Fifth year</span>
+                            </a>
+
                         </div>
                     </div>
                 </li>
@@ -97,7 +122,7 @@ $route="admin";
                                 <span>List of Instructors</span>
                             </a>
                             <a class="dropdown-item" href="{{ url("/$route/addinstructor") }}" >
-                                <i class="material-icons">add_circle</i>
+                                <i class="material-icons">subject</i>
                                 <span>Add Instructor</span>
                             </a>
                         </div>
@@ -116,7 +141,7 @@ $route="admin";
                                 <span>List of Schedules</span>
                             </a>
                             <a class="dropdown-item" href="{{ url("/$route/scheduling") }}" >
-                                <i class="material-icons">add_circle</i>
+                                <i class="material-icons">subject</i>
                                 <span>Add Schedule</span>
                             </a>
                         </div>

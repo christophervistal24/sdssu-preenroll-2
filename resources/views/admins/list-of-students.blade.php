@@ -7,10 +7,10 @@
             <div class="input-group input-group-seamless ml-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                        <i class="fas fa-search"></i>
+                       
                     </div>
                 </div>
-                <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search"> </div>
+                <input class="navbar-search form-control" type="text"  aria-label="Search"> </div>
             </form>
             <ul class="navbar-nav border-left flex-row ">
                 <li class="nav-item border-right dropdown notifications">
@@ -79,12 +79,14 @@
                     @include('success.success-message')
                 <div class="row">
                     <div class="col-md-6">
-                        <h4>List of all Students</h4>
+                        <h4 class="text-capitalize">{{digitToYearLevel($year)}} list of students </h4>
+                        <br>
                     </div>
                     <div class="col-md-6 text-right">
                         <a href="/admin/import/students" class="btn btn-primary border-0 p-2">Import students</a>
                     </div>
                 </div>
+                    <h1>CS Students</h1>
                         <table id="student-table" class="table table-bordered" >
                             <thead>
                                 <tr>
@@ -99,7 +101,77 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($students as $student)
+                                @foreach ($students['CS'] as $student)
+                                <tr>
+                                    <th class="text-center">{{ hyphenate($student->id_number) }}</th>
+                                    <td>{{ ucwords($student->fullname) }}</td>
+                                    <td class="text-center">{{ ucwords($student->gender) }}</td>
+                                    <td>{{ $student->address }}</td>
+                                    <td>{{ $student->mobile_number }}</td>
+                                    <td class="text-center">{{ digitToYearLevel($student->year) }}</td>
+                                    <td class="text-center">BS{{ $student->course->course_code }}</td>
+
+                                    <td class="text-center">
+                                  <div class="dropdown">
+                                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       Actions
+                                      </button>
+                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a id="btnEditInfo" params="{{json_encode([
+                                        'id_number'     => $student->id_number,
+                                        'fullname'      => $student->fullname,
+                                        'gender'      => $student->gender,
+                                        'address'       => $student->address,
+                                        'mobile'        => $student->mobile_number,
+                                        'year'          => $student->year,
+                                        'course'        => $student->course->id,
+                                        'mothers_name'  => $student->mothername,
+                                        'fathers_name'  => $student->fathername,
+                                        'parent_mobile' => $student->parent_mobile_number,
+                                    ])}}" class="p-2 text-center text-black dropdown-item" style="cursor:pointer;"><b>EDIT INFO</b></a>
+                                    <a href="/admin/student/{{ $student->id_number }}" class=" dropdown-item p-2 text-center text-gray"><b>EVALUATE</b></a>
+                                    <a href="/admin/student/{{ $student->id_number }}/resetpassword" class=" dropdown-item p-2 text-center text-gray"><b>RESET PASSWORD</b></a>
+                                      <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-center" data-target="parents" id="btnEditInfo" params="{{json_encode([
+                                        'id_number'     => $student->id_number,
+                                        'fullname'      => $student->fullname,
+                                        'gender'      => $student->gender,
+                                        'address'       => $student->address,
+                                        'mobile'        => $student->mobile_number,
+                                        'year'          => $student->year,
+                                        'course'        => $student->course->id,
+                                        'mothers_name'  => $student->mothername,
+                                        'fathers_name'  => $student->fathername,
+                                        'parent_mobile' => $student->parent_mobile_number,
+                                    ])}}" style="cursor:pointer;"><b>VIEW PARENTS</b></a>
+                                        <a href="/admin/send/parent/{{$student->id_number}}" class="dropdown-item text-center"><b>SEND SCHEDULE <br> TO PARENTS</b></a>
+                                        <a href="/admin/send/parent/grades/{{$student->id_number}}" class="dropdown-item text-center"><b>SEND GRADES <br> TO PARENTS</b></a>
+                                      </div>
+                                      </div>
+                                    </div>
+                                   </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <br>
+                    
+                    <h1>CE Students</h1>
+                        <table id="tables" class="table table-bordered" >
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ID Number</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Gender</th>
+                                    <th class="text-center">Address</th>
+                                    <th class="text-center">Mobile #</th>
+                                    <th class="text-center">Year</th>
+                                    <th class="text-center">Course</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($students['CE'] as $student)
                                 <tr>
                                     <th class="text-center">{{ hyphenate($student->id_number) }}</th>
                                     <td>{{ ucwords($student->fullname) }}</td>

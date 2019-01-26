@@ -14,6 +14,9 @@
 Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 	require_once base_path().'/routes/my_routes/admin/bootstrap.php';
 
+	//list of students for first year
+	Route::get('/liststudents/{year}',['uses' =>'Admin\StudentController@listofstudents','roles' => ['Admin']]);
+
 	//send schedule of the student to parents
 	Route::get('/send/parent/{student}',['uses' =>'Admin\SendStudentScheduleToParentController@create','roles' => ['Admin']]);
 	Route::post('/send/parent/{student}',['uses' =>'Admin\SendStudentScheduleToParentController@store','roles' => ['Admin']]);

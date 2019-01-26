@@ -13,16 +13,16 @@ Contact Section
 <div class="container">
 	<div class="form">
 		@include('errors.error')
-		<form  method="POST"  class="contactForm" autocomplete="off">
-			<div class="form">
+		<form  method="POST"  class="contactForm p-5" autocomplete="off" style="background:url({{url("storage/carousel/1.jpg")}}); background-size: cover;">
+			<div class="form">	
 				@csrf
 				<div class="form-group col-md-6 offset-3">
-					<label>ID Number</label>
+					<label class="font-weight-bold" style="color:white;">ID Number</label>
 					<input type="text" name="id_number" class="form-control" value="{{ old('id_number') }}"  placeholder="ID Number"  required />
 					<div class="validation"></div>
 				</div>
 				<div class="form-group col-md-6 offset-3">
-					<label>Password</label>
+					<label class="font-weight-bold" style="color:white;">Password</label>
 					<input type="password" class="form-control" name="password"  placeholder="Your password" data-rule="email" required />
 				</div>
 				<div class="form-group col-md-6 offset-3">

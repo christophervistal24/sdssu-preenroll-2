@@ -30,38 +30,18 @@
 		======================================================= -->
 	</head>
 	<body id="body">
-		<!--==========================
-		Top Bar
-		============================-->
-		<section id="topbar" class="d-none d-lg-block">
-			<div class="container clearfix">
-				<div class="contact-info float-left">
-					<i class="fa fa-envelope-o"></i> <a href="mailto:contact@example.com">contact@example.com</a>
-					<i class="fa fa-phone"></i> +1 5589 55488 55
-				</div>
-				<div class="social-links float-right">
-					<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-					<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-					<a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-					<a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-					<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-				</div>
-			</div>
-		</section>
-		<!--==========================
-		Header
-		============================-->
 		<header id="header">
-			<div class="container">
+			<div class="container-fluid">
 				<div id="logo" class="pull-left">
-					<h1><a href="/" class="scrollto">SDSSU</a></h1>
-					<!-- Uncomment below if you prefer to use an image logo -->
-					{{-- <a href="#body"><img src="img/logo.png" alt="" title="" /></a> --}}
+					<div class="row">
+					<small><img src="{{url("storage/test.png")}}" style="margin-top :-1.2vw;"  class="w-50 img-fluid-" alt=""></small>
+					<h2 class="text-capitalize font-weight-bold" style="color:#0c2e8a; margin-left : -4.6vw;">surigao del sur state university-main campus</h2>
+					</div>
 				</div>
 				<nav id="nav-menu-container">
 				<ul class="nav-menu">
 					<li class="menu-active"><a href="/">Home</a></li>
-					<li><a href="/about">About Us</a></li>
+					<li><a href="/about#aboutus">About Us</a></li>
 						<li class="menu-has-children"><a href="">Accounts</a>
 						<ul>
 							<li><a href="{{ url('/instructorlogin') }}">Instructor</a></li>
@@ -84,18 +64,27 @@
 				============================-->
 				<section id="intro">
 					<div class="intro-content">
-						<h2>Making <span>your ideas</span><br>happen!</h2>
+						<div class="row">
+							<div class="col-lg-3" style="margin-top :5vw; margin-left : 5vw;">
+									<img class="img-fluid w-100" src="{{url("storage/cecstlogo.png")}}" alt="">
+							</div>
+						</div>
+							<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-10 mb-5 ml-auto mr-5 float-right">
+									<h2 class="text-right">College of Engineering, Computer Studies and Technology</h2>
+								</div>
+							</div>
+						</div>
 						<div>
-							<a href="#about" class="btn-get-started scrollto">Get Started</a>
-							<a href="#portfolio" class="btn-projects scrollto">Our Projects</a>
 						</div>
 					</div>
 					<div id="intro-carousel" class="owl-carousel" >
-						<div class="item" style="background-image: url('/dashboard/img/intro-carousel/1.jpg');"></div>
-						<div class="item" style="background-image: url('/dashboard/img/intro-carousel/2.jpg');"></div>
-						<div class="item" style="background-image: url('img/intro-carousel/3.jpg');"></div>
-						<div class="item" style="background-image: url('img/intro-carousel/4.jpg');"></div>
-						<div class="item" style="background-image: url('img/intro-carousel/5.jpg');"></div>
+						<div class="item" style="background-image: url({{url("storage/carousel/1.jpg")}});"></div>
+						<div class="item" style="background-image: url({{url("storage/carousel/2.nef")}});"></div>
+						<div class="item" style="background-image: url({{url("storage/carousel/3.jpg")}});"></div>
+						<div class="item" style="background-image: url({{url("storage/carousel/4.jpg")}});"></div>
+						<div class="item" style="background-image: url({{url("storage/carousel/5.jpg")}});"></div>
 					</div>
 					</section><!-- #intro -->
 								@endif
