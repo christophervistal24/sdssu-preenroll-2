@@ -98,7 +98,7 @@
                                 </select>
                                 <br>
                                 <label>Student mobile number : </label>
-                                <input type="text" value="+639{{ old('mobile_number') }}" class="form-control" placeholder="+639193693499" name="mobile_number">
+                                <input type="text" value="+639{{ str_replace("+639", '', old('mobile_number')) }}" class="form-control" placeholder="+639193693499" name="mobile_number">
                                 <br>
                                 <label>Gender : </label>
                                 <select name="gender" class="form-control">
@@ -109,15 +109,14 @@
                                 <label>Address : </label>
                                 <textarea placeholder="Brgy. Awasian Tandag City" name="address" class="form-control" cols="30"  rows="10">{{ old('address') }}</textarea>
                                 <hr>
-                                <p>Parent's Information</p>
-                                <label>Mother's name : </label>
+                                <label>Parents / Guardian : </label>
                                 <br>
                                 <input type="text"  value="{{ old('mothersname') }}" placeholder="Cecil Nunez" class="form-control" name="mothersname">
-                                <label>Father's name : </label>
-                                <input type="text" placeholder="Gabby Nunez"  value="{{ old('fathersname') }}" class="form-control" name="fathersname">
+                                
+                                <input  type="text" placeholder="Gabby Nunez"  value="John doe" class="form-control " style="display:none;" name="fathersname">
                                 <br>
                                 <label>Mobile number of your parent's <small>(in case of emergency) : </small></label>
-                                <input placeholder="+639193693284" value="+639{{ old('parent_mobile') }}" type="text" class="form-control" name="parent_mobile">
+                                <input placeholder="+639193693284" value="+639{{ str_replace("+639", '', old('parent_mobile')) }}" type="text" class="form-control" name="parent_mobile">
                                 <br>
                                 <div class="form-group float-right">
                                     <input type="submit" class="btn btn-primary rounded-0" value="Add student">

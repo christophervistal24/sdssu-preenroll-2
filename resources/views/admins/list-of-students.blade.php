@@ -287,13 +287,12 @@
                                     </div>
 
                                     <div class="row">
-                                         <div class="form-group col-md-6">
-                                            <label>Father's name : </label>
+                                         <div class="form-group col-md-6"  style="display:none;" >
                                             <input name="student_father" type="text" id="studentFathersname" class="form-control">
                                         </div>
 
-                                        <div class="form-group col-md-6">
-                                            <label>Mother's name : </label>
+                                        <div class="form-group col-md-11 ml-3">
+                                            <label>Parents / Guardian : </label>
                                             <input type="text" name="student_mother" id="studentMothersname" class="form-control" >
                                         </div>
                                     </div>

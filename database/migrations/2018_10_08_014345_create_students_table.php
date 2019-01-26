@@ -24,7 +24,7 @@ class CreateStudentsTable extends Migration
             $table->string('block')->nullable();
             $table->string('mobile_number')->nullable();
             $table->string('mothername');
-            $table->string('fathername');
+            $table->string('fathername')->nullable();
             $table->string('parent_mobile_number');
             $table->string('profile')->default('no_image.png');
             $table->timestamps();
