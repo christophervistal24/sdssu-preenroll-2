@@ -15,25 +15,25 @@ class StudentSeeder extends Seeder
      */
     public function run()
     {
-    	$role_student = Role::where('name','Student')->first();
+      $role_student = Role::where('name','Student')->first();
 
-   		// $student = new Student();
-   		// $student->id_number = 1502108;
-   		// $student->fullname = 'Joshua Safico';
-   		// $student->year = 1;
-   		// $student->course_id = 2;
+      // $student = new Student();
+      // $student->id_number = 1502108;
+      // $student->fullname = 'Joshua Safico';
+      // $student->year = 1;
+      // $student->course_id = 2;
      //  $student->address = 'Awasian Tandag City';
      //  $student->gender = 'male';
      //  $student->mothername = 'Regina Safico';
      //  $student->fathername = 'Crisogono Safico';
      //  $student->mobile_number = '09193693499';
-   		// $student->save();
+      // $student->save();
 
-   		// $s = new User();
+      // $s = new User();
      //  $s->id_number = 1502108;
      //  $s->password = 1234;
      //  $s->save();
- 		  // $s->roles()->attach($role_student);
+      // $s->roles()->attach($role_student);
 
 
      //  $student = new Student();
@@ -77,7 +77,7 @@ class StudentSeeder extends Seeder
 
       $student = new Student();
       $student->id_number = 1700002;
-      $student->fullname = 'Lady Mae Leones';
+      $student->fullname = 'Gwyn Paul Dapiton';
       $student->year = 1;
       $student->course_id = 2;
       $student->address = 'Awasian Tandag City';
@@ -91,6 +91,7 @@ class StudentSeeder extends Seeder
       $s->id_number = 1700002;
       $s->password = 1234;
       $s->save();
+      $s->roles()->attach($role_student);
 
       $student = new Student();
       $student->id_number = 1700003;
@@ -103,11 +104,13 @@ class StudentSeeder extends Seeder
       $student->fathername = 'Crisogono Safico';
       $student->mobile_number = '091279671717';
       $student->save();
+     
 
       $s = new User();
       $s->id_number = 1700003;
       $s->password = 1234;
       $s->save();
+       $s->roles()->attach($role_student);
 
       $student = new Student();
       $student->id_number = 1700004;
@@ -125,6 +128,7 @@ class StudentSeeder extends Seeder
       $s->id_number = 1700004;
       $s->password = 1234;
       $s->save();
+      $s->roles()->attach($role_student);
 
       $student = new Student();
       $student->id_number = 1700006;
@@ -142,6 +146,7 @@ class StudentSeeder extends Seeder
       $s->id_number = 1700006;
       $s->password = 1234;
       $s->save();
+      $s->roles()->attach($role_student);
 
 
       $student = new Student();
@@ -160,6 +165,7 @@ class StudentSeeder extends Seeder
       $s->id_number = 1700008;
       $s->password = 1234;
       $s->save();
+       $s->roles()->attach($role_student);
 
       $student = new Student();
       $student->id_number = 170009;
@@ -177,9 +183,10 @@ class StudentSeeder extends Seeder
       $s->id_number = 1700009;
       $s->password = 1234;
       $s->save();
+       $s->roles()->attach($role_student);
 
       $student = new Student();
-      $student->id_number = 170010;
+      $student->id_number = 1700010;
       $student->fullname = 'Kevin Gallardo';
       $student->year = 1;
       $student->course_id = 2;
@@ -194,6 +201,7 @@ class StudentSeeder extends Seeder
       $s->id_number = 1700010;
       $s->password = 1234;
       $s->save();
+       $s->roles()->attach($role_student);
 
      /* $faker = Faker::create();
          foreach (range(10,45) as $index) {

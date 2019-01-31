@@ -89,7 +89,7 @@ $start_time = [
 			</select>
 			<select name="subject_id"  id="subject_1_1" class="form-control col-md-6 selectpicker" data-live-search="true">
 				<option disabled selected>First year subjects</option>
-				@foreach ($subjects[1][2] as $subject)
+				@foreach ($subjects[1][1] as $subject)
 				<option
 					value="{{ $subject->id }}"
 					{{ (old('subject') == $subject->sub_description ? "selected":"") }}
