@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>Message : </label>
-                                    <textarea class="font-weight-bold form-control" placeholder="Your message here" name="message" rows="10" cols="20">@foreach ($instructor->schedules as $sched){{$sched->start_time . ' - ' . $sched->end_time}} - {{$sched->days}} - {{$sched->room}} - {{$sched->subject->sub}} - Block {{$sched->block_schedule->block_name}}&#13;&#10;@endforeach
+                                    <textarea class="font-weight-bold form-control" placeholder="Your message here" name="message" rows="10" cols="20">@foreach ($instructor->schedules->where('status','active') as $sched){{$sched->start_time . ' - ' . $sched->end_time}} - {{$sched->days}} - {{$sched->room}} - {{$sched->subject->sub}} - Block {{$sched->block_schedule->block_name}}&#13;&#10;@endforeach
                                     </textarea>
                                 </div>
                                 <div class="form-group col-md-12 ">

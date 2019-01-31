@@ -17,42 +17,183 @@ class StudentSeeder extends Seeder
     {
     	$role_student = Role::where('name','Student')->first();
 
-   		$student = new Student();
-   		$student->id_number = 1502108;
-   		$student->fullname = 'Joshua Safico';
-   		$student->year = 1;
-   		$student->course_id = 2;
-      $student->address = 'Awasian Tandag City';
-      $student->gender = 'male';
-      $student->mothername = 'Regina Safico';
-      $student->fathername = 'Crisogono Safico';
-      $student->mobile_number = '09193693499';
-   		$student->save();
+   		// $student = new Student();
+   		// $student->id_number = 1502108;
+   		// $student->fullname = 'Joshua Safico';
+   		// $student->year = 1;
+   		// $student->course_id = 2;
+     //  $student->address = 'Awasian Tandag City';
+     //  $student->gender = 'male';
+     //  $student->mothername = 'Regina Safico';
+     //  $student->fathername = 'Crisogono Safico';
+     //  $student->mobile_number = '09193693499';
+   		// $student->save();
 
-   		$s = new User();
-      $s->id_number = 1502108;
-      $s->password = 1234;
-      $s->save();
- 		  $s->roles()->attach($role_student);
+   		// $s = new User();
+     //  $s->id_number = 1502108;
+     //  $s->password = 1234;
+     //  $s->save();
+ 		  // $s->roles()->attach($role_student);
 
 
+     //  $student = new Student();
+     //  $student->id_number = 1500507;
+     //  $student->fullname = 'Jover Jhon Villamon';
+     //  $student->year = 1;
+     //  $student->course_id = 2;
+     //  $student->address = 'Awasian Tandag City';
+     //  $student->gender = 'male';
+     //  $student->mothername = 'Regina Vistal';
+     //  $student->fathername = 'Crisogono Vistal';
+     //  $student->mobile_number = '09193693410';
+     //  $student->save();
+
+     //  $s = new User();
+     //  $s->id_number = 1500507;
+     //  $s->password = 1234;
+     //  $s->save();
+     //  $s->roles()->attach($role_student);
+
+
+
+      /*20 DUMMY STUDENTS*/
       $student = new Student();
-      $student->id_number = 1500507;
-      $student->fullname = 'Jover Jhon Villamon';
+      $student->id_number = 1700001;
+      $student->fullname = 'Gwyn Paul Dapiton';
       $student->year = 1;
       $student->course_id = 2;
       $student->address = 'Awasian Tandag City';
       $student->gender = 'male';
-      $student->mothername = 'Regina Vistal';
-      $student->fathername = 'Crisogono Vistal';
-      $student->mobile_number = '09193693410';
+      $student->mothername = 'Regina Safico';
+      $student->fathername = 'Crisogono Safico';
+      $student->mobile_number = '091279671717';
       $student->save();
 
       $s = new User();
-      $s->id_number = 1500507;
+      $s->id_number = 1700001;
       $s->password = 1234;
       $s->save();
       $s->roles()->attach($role_student);
+
+      $student = new Student();
+      $student->id_number = 1700002;
+      $student->fullname = 'Lady Mae Leones';
+      $student->year = 1;
+      $student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
+      $student->mothername = 'Regina Safico';
+      $student->fathername = 'Crisogono Safico';
+      $student->mobile_number = '091279671717';
+      $student->save();
+
+      $s = new User();
+      $s->id_number = 1700002;
+      $s->password = 1234;
+      $s->save();
+
+      $student = new Student();
+      $student->id_number = 1700003;
+      $student->fullname = 'Julierose Heradura';
+      $student->year = 1;
+      $student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
+      $student->mothername = 'Regina Safico';
+      $student->fathername = 'Crisogono Safico';
+      $student->mobile_number = '091279671717';
+      $student->save();
+
+      $s = new User();
+      $s->id_number = 1700003;
+      $s->password = 1234;
+      $s->save();
+
+      $student = new Student();
+      $student->id_number = 1700004;
+      $student->fullname = 'Erma Alferez';
+      $student->year = 1;
+      $student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
+      $student->mothername = 'Regina Safico';
+      $student->fathername = 'Crisogono Safico';
+      $student->mobile_number = '091279671717';
+      $student->save();
+
+      $s = new User();
+      $s->id_number = 1700004;
+      $s->password = 1234;
+      $s->save();
+
+      $student = new Student();
+      $student->id_number = 1700006;
+      $student->fullname = 'Granthill Robo Quilaton';
+      $student->year = 1;
+      $student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
+      $student->mothername = 'Regina Safico';
+      $student->fathername = 'Crisogono Safico';
+      $student->mobile_number = '091279671717';
+      $student->save();
+
+      $s = new User();
+      $s->id_number = 1700006;
+      $s->password = 1234;
+      $s->save();
+
+
+      $student = new Student();
+      $student->id_number = 170008;
+      $student->fullname = 'Impuesto Juaro';
+      $student->year = 1;
+      $student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
+      $student->mothername = 'Regina Safico';
+      $student->fathername = 'Crisogono Safico';
+      $student->mobile_number = '091279671717';
+      $student->save();
+
+      $s = new User();
+      $s->id_number = 1700008;
+      $s->password = 1234;
+      $s->save();
+
+      $student = new Student();
+      $student->id_number = 170009;
+      $student->fullname = 'Jillian Tikis tikis';
+      $student->year = 1;
+      $student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
+      $student->mothername = 'Regina Safico';
+      $student->fathername = 'Crisogono Safico';
+      $student->mobile_number = '091279671717';
+      $student->save();
+
+      $s = new User();
+      $s->id_number = 1700009;
+      $s->password = 1234;
+      $s->save();
+
+      $student = new Student();
+      $student->id_number = 170010;
+      $student->fullname = 'Kevin Gallardo';
+      $student->year = 1;
+      $student->course_id = 2;
+      $student->address = 'Awasian Tandag City';
+      $student->gender = 'male';
+      $student->mothername = 'Regina Safico';
+      $student->fathername = 'Crisogono Safico';
+      $student->mobile_number = '091279671717';
+      $student->save();
+
+      $s = new User();
+      $s->id_number = 1700010;
+      $s->password = 1234;
+      $s->save();
 
      /* $faker = Faker::create();
          foreach (range(10,45) as $index) {
