@@ -86,6 +86,7 @@
                         <a href="/admin/import/students" class="btn btn-primary border-0 p-2">Import students</a>
                     </div>
                 </div>
+                    @if($year != 5)
                     <h1>CS Students</h1>
                         <table id="student-table" class="table table-bordered" >
                             <thead>
@@ -154,6 +155,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    @endif
                         <br>
                     
                     <h1>CE Students</h1>

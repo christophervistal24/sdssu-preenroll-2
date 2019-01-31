@@ -19,10 +19,10 @@
             <div class="testimonial-item">
               <p>
                 <img src="{{ url('/storage/img/quote-sign-left.png') }}" class="quote-sign-left" alt="">
-                ADD YOUR CUSTOM QUOTES OR ABOUT
+                Ambition is the path to success. Persistence is the vehicle you arrive in.
                 <img src="{{ url('/storage/img/quote-sign-right.png') }}" class="quote-sign-right" alt="">
               </p>
-              <img src="{{url('/storage/josh.jpg')}}" class="testimonial-img" alt="">
+              <img src="{{url('/storage/joshua.jpg')}}" class="testimonial-img" alt="">
               <h3>Joshua V. Safico</h3>
               <h4>Leader</h4>
             </div>
@@ -30,10 +30,10 @@
             <div class="testimonial-item">
               <p>
                 <img src="{{ url('/storage/img/quote-sign-left.png') }}" class="quote-sign-left" alt="">
-                ADD YOUR CUSTOM QUOTES OR ABOUT
+                A champion is afraid of losing. Everyone else is afraid of winning. 
                 <img src="{{ url('/storage/img/quote-sign-right.png') }}" class="quote-sign-right" alt="">
               </p>
-              <img src="{{url('/storage/sample.png')}}" class="testimonial-img" alt="">
+              <img src="{{url('/storage/ellyn.jpg')}}" class="testimonial-img" alt="">
               <h3>Ellyn S. Biol</h3>
               <h4>Assistant Leader</h4>
             </div>
@@ -41,21 +41,21 @@
             <div class="testimonial-item">
               <p>
                 <img src="{{ url('/storage/img/quote-sign-left.png') }}" class="quote-sign-left" alt="">
-                ADD YOUR CUSTOM QUOTES OR ABOUT
+                Failure is the key to success; each mistake teaches us something.
                 <img src="{{ url('/storage/img/quote-sign-right.png') }}" class="quote-sign-right" alt="">
               </p>
-              <img src="{{url('/storage/sample.png')}}" class="testimonial-img" alt="">
+              <img src="{{url('/storage/lowe.jpg')}}" class="testimonial-img" alt="">
               <h3>Louie Mae G. Marinduque</h3>
-              <h4>Research</h4>
+              <h4>Researcher</h4>
             </div>
 
             <div class="testimonial-item">
               <p>
                 <img src="{{ url('/storage/img/quote-sign-left.png') }}" class="quote-sign-left" alt="">
-                ADD YOUR CUSTOM QUOTES OR ABOUT
+                 All you need in this life is ignorance and confidence, and then success is sure.
                 <img src="{{ url('/storage/img/quote-sign-right.png') }}" class="quote-sign-right" alt="">
               </p>
-              <img src="{{url('/storage/sample.png')}}" class="testimonial-img" alt="">
+              <img src="{{url('/storage/mon.jpg')}}" class="testimonial-img" alt="">
               <h3>Jover Jhon Villamon</h3>
               <h4>Researcher</h4>
             </div>
@@ -63,10 +63,10 @@
             <div class="testimonial-item">
               <p>
                 <img src="{{ url('/storage/img/quote-sign-left.png') }}" class="quote-sign-left" alt="">
-                ADD YOUR CUSTOM QUOTES OR ABOUT
+                Success is not a destination it is a journey.
                 <img src="{{ url('/storage/img/quote-sign-right.png') }}" class="quote-sign-right" alt="">
               </p>
-              <img src="{{url('/storage/sample.png')}}" class="testimonial-img" alt="">
+              <img src="{{url('/storage/gard.jpg')}}" class="testimonial-img" alt="">
               <h3>Edgardo D. Intas Jr.</h3>
               <h4>Document</h4>
             </div>

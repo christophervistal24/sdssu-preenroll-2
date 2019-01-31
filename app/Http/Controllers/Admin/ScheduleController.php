@@ -25,6 +25,7 @@ class ScheduleController extends Controller
     public function index()
     {
         $schedules = $this->schedule->with('instructor_name_only')
+                             ->where('status','!=','delete')
                              ->get();
     	  return view('admins.schedule',compact('schedules'));
     }

@@ -20,4 +20,36 @@ goto storage then right click the public choose the reveal option
 paste the image inside.
 
 
+If you want to insert first year schedule first sem type this command
+php artisan fs1
+
+If you want to insert first year schedule second sem type this command
+php artisan fs2
+
+If you want to insert second year schedule first sem type this command
+php artisan ss1
+
+If you want to insert second year schedule second sem type this command
+php artisan ss2
+
+If you want to insert third year schedule first sem type this command
+php artisan ts1
+
+If you want to insert third year schedule second sem type this command
+php artisan ts2
+
+If you want to insert fourth year schedule first sem type this command
+php artisan fo1
+
+If you want to insert fourth year schedule second sem type this command
+php artisan fo2
+
+If you want to insert fifth year schedule first sem type this command
+php artisan fis1
+
+If you want to insert fifth year schedule second sem type this command
+php artisan fis2
+
+if you want to insert all blocks just type this command
+php artisan blocks
 

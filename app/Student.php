@@ -117,7 +117,7 @@ class Student extends Model
         $student_credentials = $this->find($student_id_number);
         $config        = Configuration::getDefaultConfiguration();
         $config->setSSLVerification(false); // add this line
-        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU0ODM3NTM0NywiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.ceW9I_OEskF2vP6Q6DSFZ6CZ2UNevYRAPt_EwTW7Ukg');
+        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU0ODYzNjE3MSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.1FCQ9PayjBORH7y4CPd1ZuQKyByKHer2gvWzFC2BoPk');
         $apiClient     = new ApiClient($config);
         $messageClient = new MessageApi($apiClient);
 

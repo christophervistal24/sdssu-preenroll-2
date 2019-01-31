@@ -24,7 +24,7 @@ class AssistantDeanController extends Controller
 		$no_of_schedule = DB::table('schedules')->get()->count();
 		$schedules =  DB::select('
 			SELECT
-	   GROUP_CONCAT(schedules.id) as schedule_id,
+	    GROUP_CONCAT(schedules.id) as schedule_id,
         schedules.start_time,
         schedules.end_time,
 	    GROUP_CONCAT(schedules.days) AS days,
@@ -45,10 +45,9 @@ class AssistantDeanController extends Controller
 	INNER JOIN subjects ON schedules.subject_id = subjects.id
 	INNER JOIN blocks ON schedules.block = blocks.id
     WHERE schedules.status = "active"
-	GROUP BY
-	    subject_id , instructors.id_number
+	GROUP BY subject_id , instructors.id_number
         ');
-
+		// dd($schedules);
     	return view('deans.assistant.listschedule',compact('schedules','no_of_schedule','no_of_scheduled'));
 	}
 

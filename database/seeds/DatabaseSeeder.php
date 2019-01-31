@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(BlockSeeder::class);
         // $this->call(SubjectScheduleSeeder::class);
         $this->call(InstructorScheduleSeeder::class);
-        $this->call(CESubjectScheduleSeeder::class);
-        $this->call(CSSubjectScheduleSeeder::class);
+        // $this->call(CESubjectScheduleSeeder::class);
+        // $this->call(CSSubjectScheduleSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(AssistantDeanSeeder::class);
         // $this->call(SubjectPrerequisite::class);
