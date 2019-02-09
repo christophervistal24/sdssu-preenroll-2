@@ -71,7 +71,7 @@
 						</div>
 							<div class="container-fluid">
 							<div class="row">
-								<div class="col-md-10 mb-5 ml-auto mr-5 float-right">
+								<div class="col-md-8 mb-5 ml-auto mr-8 float-right">
 									<h2 class="text-right">College of Engineering, Computer Studies and Technology</h2>
 								</div>
 							</div>

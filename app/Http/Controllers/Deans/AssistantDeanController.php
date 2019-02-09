@@ -155,6 +155,12 @@ class AssistantDeanController extends Controller
 	        return Redirect::back()->withInput()->withErrors('Wrong ID number/password combination.');
     }
 
+    public function instructors()
+    {
+    	$instructors = Instructor::all();
+    	return view('deans.assistant.listinstructors',compact('instructors'));
+    }
+
     public function logout()
     {
     	 Auth::logout();

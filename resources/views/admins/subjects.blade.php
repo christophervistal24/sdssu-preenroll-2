@@ -1,3 +1,4 @@
+@inject('list_of_all_subjects','App\Subject')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
@@ -170,7 +171,8 @@
                                         <select  data-live-search="true" title="Choose one of the following..." class="selectpicker form-control show-menu-arrow" id="subjectPre" name="pre_req[]" multiple>
                                             <option value="4th year Standing">4th year Standing</option>
                                             <option value="3rd year Standing">3rd year Standing</option>
-                                            @foreach ($list_of_subjects as $subject)
+
+                                            @foreach ($pre_requisite as $subject)
                                             <option value="{{ ($subject->sub != null) ? $subject->sub : "" }}">{{ ($subject->sub != "") ? $subject->sub : "" }}</option>
                                             @endforeach
                                         </select>

@@ -1,10 +1,9 @@
-@inject('course','App\Course')
 @extends('templates-dashboard.master')
 @section('content')
 <div class="main-navbar sticky-top bg-white">
     <!-- Main Navbar -->
     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
-        <form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+        <form action="" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
             <div class="input-group input-group-seamless ml-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
@@ -45,18 +44,11 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle mr-2" src="/dashboard/images/avatars/0.jpg" alt="User Avatar">
+                                <img class="user-avatar rounded-circle mr-2" src="{{url("storage/profile/$user_info->profile")}}" alt="User Avatar">
                                 <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
-                                <a class="dropdown-item" href="user-profile-lite.html">
-                                <i class="material-icons">&#xE7FD;</i> Profile</a>
-                                <a class="dropdown-item" href="components-blog-posts.html">
-                                <i class="material-icons">vertical_split</i> Blog Posts</a>
-                                <a class="dropdown-item" href="add-new-post.html">
-                                <i class="material-icons">note_add</i> Add New Post</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
+                                <a class="dropdown-item text-danger" href="{{ url('/assistantdean/logout') }}">
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>
@@ -68,8 +60,7 @@
                     </nav>
                 </nav>
             </div>
-            <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4 card p-4 rounded-0">
+            <div class="main-content-container container-fluid px-4 card" style="border-radius: 0px">
                 <!-- Page Header -->
                 <div class="page-header row no-gutters py-4">
                     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -78,28 +69,41 @@
                 </div>
                 <!-- End Page Header -->
                 <!-- Small Stats Blocks -->
-                @include('errors.error')
-                @include('success.success-message')
                 <div class="row">
-                    <div class="offset-4">
-                        <form autocomplete="off" action="{{ url('/admin/send') }}" method="POST">
-                            @csrf
-                            <div class="form row">
-                                {{-- PHONE NUMBER --}}
-                              <div class="form-group col-md-12">
-                                    <label>Phone number : </label>
-                                    <input type="text" name="phone_number" class="form-control" value="{{$instructor->mobile_number}}"    placeholder="+639127961717"  required />
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label>Message : </label>
-                                    <textarea class="font-weight-bold form-control" placeholder="Your message here" name="message" rows="10" cols="20">@foreach ($instructor->schedules->where('status','active') as $sched){{$sched->start_time . ' - ' . $sched->end_time}} - {{$sched->days}} - {{$sched->room}} - {{$sched->subject->sub}} -{{$sched->subject->year .$course->where('id',$sched->subject->course)->first()->course_code . $sched->block_schedule->block_name}}&#13;&#10;@endforeach
-                                    </textarea>
-                                </div>
-                                <div class="form-group col-md-12 ">
-                                    <input type="submit" class="float-right btn btn-primary" value="Send">
-                                </div>
-                            </div>
-                        </form>
+                   <h4 class="text-muted ml-2">List of all Instructors</h4>
+                    <div class="container">
+                        <table id="tables" class="table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ID Number</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Position</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Major</th>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Active</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($instructors as $instructor)
+                                <tr>
+                                    <td class="text-center">{{ $instructor->id_number }}</td>
+                                    <td>{{ ucwords($instructor->name) . ' , ' . strtoupper($instructor->education_qualification) }}</td>
+                                    <td>{{ ucwords($instructor->position) }}</td>
+                                    <td class="text-center">{{ ucwords($instructor->status) }}</td>
+                                    <td class="text-center">{{ ucwords($instructor->major) }}</td>
+                                    <td class="text-center">{{ ucwords($instructor->mobile_number) }}</td>
+                                    <td class="text-success text-center">{!! ($instructor->active == 'active') ? '<span class="material-icons">check</span>' : '<span class="material-icons text-danger">close</span>' !!}</td>
+                                    <td class="text-success text-center">
+                                        <a class="text-white btn btn-primary rounded-0"
+                                        href="/assistantdean/schedule/print/{{$instructor->id_number}}"
+                                        ><i class="material-icons">print</i> <b>PRINT WORKLOAD</b></a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

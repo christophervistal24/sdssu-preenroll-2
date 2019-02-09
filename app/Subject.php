@@ -47,6 +47,7 @@ class Subject extends Model
 
 	public function addPrerequisite($subject,$request_pre)
 	{
+        // dd($request_pre);
         if (isset($request_pre)) {
 			$subject = $this->find($subject->id);
             $pre_requisite = [];
@@ -86,7 +87,8 @@ class Subject extends Model
               foreach ($request_pre as $subject_code) {
                 $pre_requisite[] = new SubPre(
                         ['subject_id' => $subject->id ,
-                        'pre_requisite_code' => $subject_code]
+                        'pre_requisite_code' => $subject_code,
+                        'course' => $subject->course,]
                 );
             }
             $subject->pre_req()->saveMany($pre_requisite);
@@ -116,6 +118,21 @@ class Subject extends Model
                 LEFT JOIN subject_pre_requisites ON subjects.id = subject_pre_requisites.subject_id
                 GROUP BY
                     subjects.id
+                ');
+        }
+
+        public function subjectPreRequisites()
+        {
+           return DB::select('
+                SELECT 
+                    subjects.id,
+                    subjects.sub,
+                    subjects.sub_description
+                FROM
+                    subjects
+                LEFT JOIN subject_pre_requisites ON subjects.id = subject_pre_requisites.subject_id
+                GROUP BY
+                    subjects.sub_description
                 ');
         }
 

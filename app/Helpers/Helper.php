@@ -50,7 +50,12 @@
 	{
 		$count_values     = count(session('old_dragged_subjects')) - 1;
 		//get the previous dragged subject
-		$prev_dragged_sub = session('old_dragged_subjects')[$count_values-1];
+		
+		if (isset(session('old_dragged_subjects')[$count_values-1])) {
+			$prev_dragged_sub = session('old_dragged_subjects')[$count_values-1];
+		} else {
+			$prev_dragged_sub = [];
+		}
 		//get the new dragged subject
 		$new_dragged_sub  = session('old_dragged_subjects')[$count_values];
 		//compare previous and new

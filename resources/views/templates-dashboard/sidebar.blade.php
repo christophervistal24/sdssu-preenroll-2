@@ -403,11 +403,18 @@ $route="admin";
                                         <span>Schedules</span>
                                     </a>
                                 </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link " href="{{ url("/$route/list/instructors") }}">
+                                        <i class="material-icons">list</i>
+                                        <span>Instructors</span>
+                                    </a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link " href="{{ url("/$route/profile") }}">
                                         <i class="material-icons">face</i>
                                         <span>Profile</span>
                                     </a>
+                                </li>
                                 </ul>
                             </div>
                         </aside>

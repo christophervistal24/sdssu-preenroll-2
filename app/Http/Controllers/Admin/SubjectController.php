@@ -27,7 +27,9 @@ class SubjectController extends Controller
     {
         $list_of_subjects = $this->subject
                                   ->subjectWithPrerequisite();
-        return view('admins.subjects',compact('list_of_subjects'));
+        $pre_requisite = $this->subject
+                               ->subjectPreRequisites();
+        return view('admins.subjects',compact('list_of_subjects','pre_requisite'));
     }
 
     /**

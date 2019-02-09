@@ -52,32 +52,28 @@ class ScheduleController extends Controller
         $params = [];
         parse_str($information,$params);
         $schedules = DB::select(
-          DB::raw('SELECT
-          subjects.*,
+          DB::raw('SELECT DISTINCT subjects.*,
           blocks.*,
           schedules.*,
-          subject_pre_requisites.pre_requisite_code,
-          GROUP_CONCAT(
-              subject_pre_requisites.pre_requisite_code
-          ) AS pre_requisite_code
-          FROM
+          IF(COUNT(subject_pre_requisites.pre_requisite_code) >= 2,GROUP_CONCAT(subject_pre_requisites.pre_requisite_code),subject_pre_requisites.pre_requisite_code)  AS pre_requisite_code,
+           (SELECT  IF(count(subject_pre_requisites.pre_requisite_code) >= 2 ,GROUP_CONCAT(sub_description),sub_description) FROM subjects WHERE sub IN (pre_requisite_code) GROUP BY sub ) as sub_pre_req_decription
+         FROM
               schedules
           LEFT JOIN subjects ON schedules.subject_id = subjects.id
           LEFT JOIN blocks ON schedules.block = blocks.id
           LEFT JOIN subject_pre_requisites ON subjects.id = subject_pre_requisites.subject_id
           WHERE
-          blocks.level = :level
-          AND
-          blocks.course = :course
-          AND
-          schedules.status = "active"
-          AND
-          blocks.block_name = :block_name
-          AND
-          subjects.semester = :semester
-          GROUP BY
-              schedules.id
-          ORDER BY blocks.course DESC
+            blocks.level = :level
+            AND
+            blocks.course = :course
+            AND
+            schedules.status = "active"
+            AND
+             blocks.block_name = :block_name
+            AND
+             subjects.semester = :semester
+             GROUP BY schedules.id
+             ORDER BY blocks.course DESC
           '),$params
         );
 

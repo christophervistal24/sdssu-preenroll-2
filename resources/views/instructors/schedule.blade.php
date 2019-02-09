@@ -82,7 +82,7 @@
 					</div>
 				</div>
 				<div class="fixed-bottom mb-5">
-					<a href="/instructor/schedule/print" class="btn btn-secondary float-right">PRINT</a>
+					<a href="/instructor/schedule/print/0" class="btn btn-secondary float-right">PRINT</a>
 				</div>
 				<table id="sched-table" class="table table-bordered" style="width:100%">
 					<thead class="text-center">
