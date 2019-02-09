@@ -74,10 +74,11 @@
             <hr>
             <div id="sortTrue" class="list-group col-md-12" style="cursor:pointer;">
               @foreach ($instructors as $instructor)
-              <input style="cursor:pointer;" name="instructor_name" class="p-3  mb-2 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ ucwords($instructor->name) }}">
+              <input style="cursor:pointer;" data-id-number="{{$instructor->id_number}}" name="instructor_name" class="p-3  mb-2 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ ucwords($instructor->name) }}">
               @endforeach
             </div>
           </div>
+          <input type="hidden" value="{{$schedule_info->id.'/'}}{{ isset($schedule_info2->id) ? $schedule_info2->id : 0 }}" id="scheduleId">
           <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
             <form method="POST" action="/assistantdean/assign/{{ $schedule_info->id }}{{ isset($schedule_info2->id) ? '/' . $schedule_info2->id : null }}" style="height :50vh;">
               @csrf
@@ -85,7 +86,7 @@
 
               <input type="submit" value="Assign" class="rounded-0 border-0 float-right btn btn-primary">
               <hr>
-              <div id="sortFalse" class="list-group col-md-12 bg-faded p-4" style="height:150vh;">
+              <div id="sortFalse" class="js-remove list-group col-md-12 bg-faded p-4" style="height:150vh;">
               </div>
             </form>
           </div>

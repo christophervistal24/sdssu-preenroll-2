@@ -12,7 +12,7 @@ class InstructorScheduleSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {/*
         DB::table('instructor_schedule')
                         ->insert([
                             [
@@ -63,5 +63,5 @@ class InstructorScheduleSeeder extends Seeder
                             ],
 
                         ]);
-    }
+    */}
 }

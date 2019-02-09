@@ -165,12 +165,15 @@
         <script src="/js/block.js"></script>
         <script src="/js/schedule.js"></script>
         <script src="/js/instructor.js"></script>
-       @if(\Request::path() == 'student/*')
-          <script src="/js/pre_dragged.js"></script>
+      @if (request()->is('student/*'))
+        <script src="/js/pre_dragged.js"></script>
        @endif
         <script src="/js/print-with-range.js"></script>
         <script src="/js/student.js"></script>
         <script src="/js/deanslist.js"></script>
+       @if (request()->is('assistantdean/*'))
+        <script src="/js/instructor_assign.js"></script>
+       @endif
       @if (str_contains(request()->fullUrl(),'assign'))
        <script>
             // sort: true

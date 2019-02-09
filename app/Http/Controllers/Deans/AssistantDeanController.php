@@ -18,13 +18,27 @@ use App\InstructorSchedule;
 
 class AssistantDeanController extends Controller
 {
+	public function __construct(Schedule $schedule)
+	{
+		$this->schedule = $schedule;
+	}
+
 	public function index()
 	{
-		$no_of_scheduled = DB::table('instructor_schedule')->get()->count();
-		$no_of_schedule = DB::table('schedules')->get()->count();
+		$no_of_scheduled = DB::select("
+			SELECT
+			    COUNT(schedule_id) as no_of_scheduled
+			FROM
+			    instructor_schedule
+			LEFT JOIN schedules ON instructor_schedule.schedule_id = schedules.id
+			WHERE
+			    schedules.status <> 'delete'
+				");
+		$no_of_schedule = DB::table('schedules')->where('status','!=','delete')->get()->count();
 		$schedules =  DB::select('
 			SELECT
 	    GROUP_CONCAT(schedules.id) as schedule_id,
+	    GROUP_CONCAT(schedules.start_time , "|" ,schedules.end_time) as combine_time,
         schedules.start_time,
         schedules.end_time,
 	    GROUP_CONCAT(schedules.days) AS days,
@@ -47,7 +61,6 @@ class AssistantDeanController extends Controller
     WHERE schedules.status = "active"
 	GROUP BY subject_id , instructors.id_number
         ');
-		// dd($schedules);
     	return view('deans.assistant.listschedule',compact('schedules','no_of_schedule','no_of_scheduled'));
 	}
 
@@ -91,6 +104,30 @@ class AssistantDeanController extends Controller
 		return redirect('/assistantdean/index')->with('status',$schedule->subject->sub_description . ' is now assign to ' . $request->instructor_name);
 	}
 
+	public function checkInstructorSchedule($schedule_id1 ,$schedule_id2 , $instructor_id_number)
+	{
+		$validate_info['first_schedule'] = $this->schedule
+					->assignCheckSchedule($schedule_id1,$instructor_id_number);
+		if ($schedule_id2 != 0) {
+			$validate_info['second_schedule'] =  $this->schedule
+						->assignCheckSchedule($schedule_id2,$instructor_id_number);
+		}
+		return response()->json($validate_info);
+	}
+
+	public function conflict_schedule($schedule_id1 ,$schedule_id2 , $instructor_id_number)
+	{
+		$conflict_schedules['first_schedule'] = $this->schedule
+					->assignCheckSchedule($schedule_id1,$instructor_id_number);
+		if ($schedule_id2 != 0) {
+			$conflict_schedules['second_schedule'] =  $this->schedule
+						->assignCheckSchedule($schedule_id2,$instructor_id_number);
+		}
+
+		return view('deans.assistant.conflict-schedules',compact('conflict_schedules'));
+	}
+
+
     public function editprofile()
     {
         return view('deans.assistant.profile');
@@ -133,6 +170,7 @@ class AssistantDeanController extends Controller
             return redirect()->back()->withErrors('Please check the image that you want to upload.');
         }
     }
+
 
     public function showLoginForm()
     {

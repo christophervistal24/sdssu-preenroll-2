@@ -135,6 +135,7 @@ Route::group(['prefix' => 'instructor','middleware' => 'roles'], function() {
 /*ASSISTANT DEAN*/
 Route::get('/assistantdeanlogin',['uses' => 'Deans\AssistantDeanController@showLoginForm']);
 Route::post('/assistantdeanlogin',['uses' => 'Deans\AssistantDeanController@submitlogin']);
+
 Route::group(['prefix' => 'assistantdean','middleware' => 'roles'], function() {
 	Route::get('/index', ['uses' => 'Deans\AssistantDeanController@index','roles' => ['Admin','Assistant Dean']]);
 
@@ -156,6 +157,10 @@ Route::group(['prefix' => 'assistantdean','middleware' => 'roles'], function() {
 	Route::get('/list/instructors' , ['uses' => 'Deans\AssistantDeanController@instructors','roles' => ['Assistant Dean']]);
 
 	Route::get('/schedule/print/{id_number}', ['uses' => 'Deans\PrintWorkLoadController@show','roles' => ['Assistant Dean']]);
+
+	Route::get('/assign/check/{schedule_id1}/{schedule_id2}/{instructor_id_number}',['uses' => 'Deans\AssistantDeanController@checkInstructorSchedule','roles' => ['Assistant Dean']]);
+
+	Route::get('/assign/checkresult/{schedule_id1}/{schedule_id2}/{instructor_id_number}/view',['uses' => 'Deans\AssistantDeanController@conflict_schedule','roles' => ['Assistant Dean']]);
 
 	// Change Profile
 	Route::post('{id_number}/changeprofile',['uses' => 'Deans\AssistantDeanController@changeprofile']);

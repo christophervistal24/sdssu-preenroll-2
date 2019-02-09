@@ -81,10 +81,6 @@ $(document).ready(function () {
         }
   });
 
-  function sample()
-  {
-    alert(1);
-  }
 
 
   function removeSubjectInArray(array, element) {

@@ -162,4 +162,60 @@ class Schedule extends Model
         ->whereTime('end_time','>=',$params['end_time']);
    }
 
+   public function assignCheckSchedule($schedule_id,$instructor_id_number)
+   {
+    //get the dragged schedule
+    $schedule_information = Schedule::find($schedule_id);
+    //get the schedules of the instructor
+    $checkSameDay = Instructor::where('id_number',$instructor_id_number)
+                            ->with(['schedules' => function ($q) use($schedule_information)  {
+                              $q->where(['days' => $schedule_information->days]);
+                            }])->get();
+        $is_valid = [];
+        if($checkSameDay) {
+          $arr_schedule_information = array_except($schedule_information->toArray(),['created_at','updated_at']);
+          array_walk_recursive($checkSameDay, function ($value , $key) use(&$arr_schedule_information,$schedule_information ,&$is_valid,&$index) {
+            $value->schedules->filter(function ($value , $keys) use ($schedule_information , &$is_valid,&$arr_schedule_information) {
+                if ($value->status != 'delete') {
+                 //compare time
+                $checkStartTime = (int) Carbon::parse($schedule_information->start_time)
+                            ->equalTo(Carbon::parse($value->start_time));
+                $checkEndTime = (int) Carbon::parse($schedule_information->end_time)
+                            ->equalTo(Carbon::parse($value->end_time));
+                 if ($checkStartTime == 1) {
+                    $arr_schedule_information['conflicts']['start_time'] = array_except($value->toArray(),['pivot','created_at','updated_at','status']);
+                }
+
+                if ($checkEndTime == 1) {
+                  $arr_schedule_information['conflicts']['end_time'] =  array_except($value->toArray(),['created_at','updated_at','pivot','status']);
+                } 
+
+                if ($checkEndTime == 1 && $checkStartTime == 1) {
+                  $arr_schedule_information['conflicts']['start_time_and_end_time'] =  array_except($value->toArray(),['created_at','updated_at','pivot','status']);
+                } 
+
+
+
+                //check range time
+                $checkRange = Carbon::parse($schedule_information->start_time)
+                           ->between(
+                            Carbon::parse($value->start_time),
+                            Carbon::parse($value->end_time)
+                           ,false);
+
+                 if ($checkRange == 1) {
+                   $arr_schedule_information['conflicts']['range'] = array_except($value->toArray(),['created_at','updated_at','pivot','status']);
+                }
+
+                $is_valid[] = (int) $checkStartTime;
+                $is_valid[] = (int) $checkEndTime;
+                $is_valid[] = (int) $checkRange;
+                }
+            });
+          });
+
+          return ['schedule' => $arr_schedule_information , 'is_valid' => (boolean) !array_sum($is_valid)];
+        }
+   }
+
 }

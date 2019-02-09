@@ -4,8 +4,8 @@
     <!-- Main Navbar -->
     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
             <p class="mt-3 ml-3">No. of schedules : {{ $no_of_schedule }}</p>
-            <p class="mt-3">No. of assigned schedule : {{ $no_of_scheduled }}</p>
-            <p class="mt-3">Unassigned schedule : {{ $no_of_schedule - $no_of_scheduled }}</p>
+            <p class="mt-3">No. of assigned schedule : {{ $no_of_scheduled[0]->no_of_scheduled }}</p>
+            <p class="mt-3">Unassigned schedule : {{ $no_of_schedule - $no_of_scheduled[0]->no_of_scheduled }}</p>
             <ul class="navbar-nav border-left flex-row ">
                 <li class="nav-item border-right dropdown notifications">
                     <div class="dropdown-menu dropdown-menu-small" aria-labelledby="dropdownMenuLink">
@@ -123,12 +123,36 @@
                                 @foreach ($schedules as $schedule)
                                     @if($schedule->level == 1)
                                     <tr>
-                                        <td class="text-center">{{
-                                            \Carbon\Carbon::parse($schedule->start_time)
-                                            ->format('g:i A')  }}
+                                         
+                                        <td class="text-center">
+                                            @if(strpos($schedule->combine_time, ',') !== false) 
+                                            @php
+                                            $exploded_time = preg_split("/(\||,)/" , $schedule->combine_time);
+                                            $exploded_time[0] = \Carbon\Carbon::parse($exploded_time[0])
+                                                                                ->format('g:i A');
+                                            $exploded_time[1] = \Carbon\Carbon::parse($exploded_time[1])
+                                                                                ->format('g:i A');
+                                            $exploded_time[2] = \Carbon\Carbon::parse($exploded_time[2])
+                                                                               ->format('g:i A');
+                                            $exploded_time[3] = \Carbon\Carbon::parse($exploded_time[3])
+                                                                               ->format('g:i A');
+                                            @endphp
+                                             {{
+                                                $exploded_time[0] . " - " .  $exploded_time[1] . " , " .
+                                                $exploded_time[2] . " - " .  $exploded_time[3]
+                                             }}
+                                            @else
+                                             {{
+                                                \Carbon\Carbon::parse($schedule->start_time)
+                                                                ->format('g:i A') 
+                                             }}
                                              - {{
-                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
-                                                }}</td>
+                                              \Carbon\Carbon::parse($schedule->end_time)
+                                                            ->format('g:i A')
+                                              }}
+                                            @endif
+                                         
+                                            </td>
                                         <td class="text-center">{{ $schedule->days }}</td>
                                         <td class="text-center">{{ $schedule->room }}</td>
                                         <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
@@ -168,12 +192,34 @@
                                 @foreach ($schedules as $schedule)
                                     @if($schedule->level == 2)
                                     <tr>
-                                        <td class="text-center">{{
-                                            \Carbon\Carbon::parse($schedule->start_time)
-                                            ->format('g:i A')  }}
+                                        <td class="text-center">
+                                            @if(strpos($schedule->combine_time, ',') !== false) 
+                                            @php
+                                            $exploded_time = preg_split("/(\||,)/" , $schedule->combine_time);
+                                            $exploded_time[0] = \Carbon\Carbon::parse($exploded_time[0])
+                                                                                ->format('g:i A');
+                                            $exploded_time[1] = \Carbon\Carbon::parse($exploded_time[1])
+                                                                                ->format('g:i A');
+                                            $exploded_time[2] = \Carbon\Carbon::parse($exploded_time[2])
+                                                                               ->format('g:i A');
+                                            $exploded_time[3] = \Carbon\Carbon::parse($exploded_time[3])
+                                                                               ->format('g:i A');
+                                            @endphp
+                                             {{
+                                                $exploded_time[0] . " - " .  $exploded_time[1] . " , " .
+                                                $exploded_time[2] . " - " .  $exploded_time[3]
+                                             }}
+                                            @else
+                                             {{
+                                                \Carbon\Carbon::parse($schedule->start_time)
+                                                                ->format('g:i A') 
+                                             }}
                                              - {{
-                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
-                                                }}</td>
+                                              \Carbon\Carbon::parse($schedule->end_time)
+                                                            ->format('g:i A')
+                                              }}
+                                            @endif
+                                            </td>
                                         <td class="text-center">{{ $schedule->days }}</td>
                                         <td class="text-center">{{ $schedule->room }}</td>
                                         <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
@@ -214,12 +260,32 @@
                                 @foreach ($schedules as $schedule)
                                     @if($schedule->level == 3)
                                     <tr>
-                                        <td class="text-center">{{
-                                            \Carbon\Carbon::parse($schedule->start_time)
-                                            ->format('g:i A')  }}
+                                        <td class="text-center">@if(strpos($schedule->combine_time, ',') !== false) 
+                                            @php
+                                            $exploded_time = preg_split("/(\||,)/" , $schedule->combine_time);
+                                            $exploded_time[0] = \Carbon\Carbon::parse($exploded_time[0])
+                                                                                ->format('g:i A');
+                                            $exploded_time[1] = \Carbon\Carbon::parse($exploded_time[1])
+                                                                                ->format('g:i A');
+                                            $exploded_time[2] = \Carbon\Carbon::parse($exploded_time[2])
+                                                                               ->format('g:i A');
+                                            $exploded_time[3] = \Carbon\Carbon::parse($exploded_time[3])
+                                                                               ->format('g:i A');
+                                            @endphp
+                                             {{
+                                                $exploded_time[0] . " - " .  $exploded_time[1] . " , " .
+                                                $exploded_time[2] . " - " .  $exploded_time[3]
+                                             }}
+                                            @else
+                                             {{
+                                                \Carbon\Carbon::parse($schedule->start_time)
+                                                                ->format('g:i A') 
+                                             }}
                                              - {{
-                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
-                                                }}</td>
+                                              \Carbon\Carbon::parse($schedule->end_time)
+                                                            ->format('g:i A')
+                                              }}
+                                            @endif</td>
                                         <td class="text-center">{{ $schedule->days }}</td>
                                         <td class="text-center">{{ $schedule->room }}</td>
                                         <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
@@ -260,12 +326,34 @@
                                 @foreach ($schedules as $schedule)
                                     @if($schedule->level == 4)
                                     <tr>
-                                        <td class="text-center">{{
-                                            \Carbon\Carbon::parse($schedule->start_time)
-                                            ->format('g:i A')  }}
+                                        <td class="text-center">
+                                            @if(strpos($schedule->combine_time, ',') !== false) 
+                                            @php
+                                            $exploded_time = preg_split("/(\||,)/" , $schedule->combine_time);
+                                            $exploded_time[0] = \Carbon\Carbon::parse($exploded_time[0])
+                                                                                ->format('g:i A');
+                                            $exploded_time[1] = \Carbon\Carbon::parse($exploded_time[1])
+                                                                                ->format('g:i A');
+                                            $exploded_time[2] = \Carbon\Carbon::parse($exploded_time[2])
+                                                                               ->format('g:i A');
+                                            $exploded_time[3] = \Carbon\Carbon::parse($exploded_time[3])
+                                                                               ->format('g:i A');
+                                            @endphp
+                                             {{
+                                                $exploded_time[0] . " - " .  $exploded_time[1] . " , " .
+                                                $exploded_time[2] . " - " .  $exploded_time[3]
+                                             }}
+                                            @else
+                                             {{
+                                                \Carbon\Carbon::parse($schedule->start_time)
+                                                                ->format('g:i A') 
+                                             }}
                                              - {{
-                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
-                                                }}</td>
+                                              \Carbon\Carbon::parse($schedule->end_time)
+                                                            ->format('g:i A')
+                                              }}
+                                            @endif
+                                            </td>
                                         <td class="text-center">{{ $schedule->days }}</td>
                                         <td class="text-center">{{ $schedule->room }}</td>
                                         <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
@@ -306,12 +394,34 @@
                                 @foreach ($schedules as $schedule)
                                     @if($schedule->level == 5)
                                     <tr>
-                                        <td class="text-center">{{
-                                            \Carbon\Carbon::parse($schedule->start_time)
-                                            ->format('g:i A')  }}
+                                        <td class="text-center">
+                                            @if(strpos($schedule->combine_time, ',') !== false) 
+                                            @php
+                                            $exploded_time = preg_split("/(\||,)/" , $schedule->combine_time);
+                                            $exploded_time[0] = \Carbon\Carbon::parse($exploded_time[0])
+                                                                                ->format('g:i A');
+                                            $exploded_time[1] = \Carbon\Carbon::parse($exploded_time[1])
+                                                                                ->format('g:i A');
+                                            $exploded_time[2] = \Carbon\Carbon::parse($exploded_time[2])
+                                                                               ->format('g:i A');
+                                            $exploded_time[3] = \Carbon\Carbon::parse($exploded_time[3])
+                                                                               ->format('g:i A');
+                                            @endphp
+                                             {{
+                                                $exploded_time[0] . " - " .  $exploded_time[1] . " , " .
+                                                $exploded_time[2] . " - " .  $exploded_time[3]
+                                             }}
+                                            @else
+                                             {{
+                                                \Carbon\Carbon::parse($schedule->start_time)
+                                                                ->format('g:i A') 
+                                             }}
                                              - {{
-                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
-                                                }}</td>
+                                              \Carbon\Carbon::parse($schedule->end_time)
+                                                            ->format('g:i A')
+                                              }}
+                                            @endif
+                                            </td>
                                         <td class="text-center">{{ $schedule->days }}</td>
                                         <td class="text-center">{{ $schedule->room }}</td>
                                         <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>

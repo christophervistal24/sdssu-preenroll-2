@@ -121,6 +121,29 @@
 							@endif
 						</tr>
 						@endforeach
+
+						@if (isset($instructor_sched->days))
+						<td colspan="8"  class="text-left"><span class="font-weight-bold  ml-5">MW</span></td>
+						@endif
+						@foreach ($schedule->schedules as $instructor_sched)
+						<tr>
+							@if(strtolower($instructor_sched->days) === 'mw' || strtolower($instructor_sched->days) === 'mw')
+							<td>{{  $instructor_sched->start_time . ' - ' . $instructor_sched->end_time }}</td>
+							<td>{{ $instructor_sched->subject->sub }}</td>
+							<td class="text-left">{{ $instructor_sched->subject->sub_description }}</td>
+							<td>
+								{{ $instructor_sched->block_schedule->level . $instructor_sched->block_schedule->course . $instructor_sched->block_schedule->block_name
+								}}
+							</td>
+							<td>{{ $no_of_students = $instructor->sched_student($instructor_sched->id) }}</td>
+							@php $sum += $instructor_sched->subject->units; @endphp
+							<td>{{ $instructor_sched->subject->units }}</td>
+							<td>{{ $instructor_sched->room }}</td>
+							<td><a href="/instructor/students/{{ $instructor_sched->id }}">View students</a></td>
+							@endif
+						</tr>
+						@endforeach
+						
 						@if (isset($instructor_sched->days))
 						<td colspan="8"  class="text-left"><span class="font-weight-bold  ml-5">TTH</span></td>
 						@endif

@@ -150,7 +150,7 @@ class StudentSeeder extends Seeder
 
 
       $student = new Student();
-      $student->id_number = 170008;
+      $student->id_number = 1700008;
       $student->fullname = 'Impuesto Juaro';
       $student->year = 1;
       $student->course_id = 2;
@@ -168,7 +168,7 @@ class StudentSeeder extends Seeder
        $s->roles()->attach($role_student);
 
       $student = new Student();
-      $student->id_number = 170009;
+      $student->id_number = 1700009;
       $student->fullname = 'Jillian Tikis tikis';
       $student->year = 1;
       $student->course_id = 2;
