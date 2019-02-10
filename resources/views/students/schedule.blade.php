@@ -99,8 +99,12 @@
                             </div>
                         </div>
                         <br>
+                        <div class="row">
+                            <div class="col-md-12 text-right ">
+                                <a href="/student/schedule/print/{{ $student_information->id_number }}" class="mr-3 mb-1  btn btn-primary">PRINT</a>
+                            </div>
+                        </div>
                         <div class="col-md-12">
-                            <a href="/student/schedule/print/{{ $student_information->id_number }}" class="mb-2 float-right btn btn-primary">PRINT</a>
                             <table id="sched-table" class="table table-bordered">
                             <thead class="text-center">
                                 <tr class="p-0"><th colspan="8" class="p-0 border-bottom-0 pt-1"><h5 class="text-center">CLASS SCHEDULE</h5></th></tr>

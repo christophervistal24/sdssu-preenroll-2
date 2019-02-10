@@ -73,13 +73,15 @@
                 <!-- Small Stats Blocks -->
                 <div class="row">
                     <div class="col-md-12">
-                        <table id="sched-table" class="table table-bordered">
+                        <table id="sched-table" class="table table-bordered table-responsive" >
                             <thead class="text-center">
+                               <tr>
                                 <th>Subject Code</th>
                                 <th>Description</th>
                                 <th>Grades</th>
                                 <th>Semester</th>
                                 <th>Units</th>
+                               </tr>
                             </thead>
                             <tbody>
                                 @foreach ($student->student_subjects as $student_sub)

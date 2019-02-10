@@ -8,7 +8,6 @@
 		<meta content="" name="description">
 		<!-- Favicons -->
 		<link href="{{ url('/storage/img/sdssu.png') }}" rel="icon">
-
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
 		<!-- Bootstrap CSS File -->
@@ -30,67 +29,72 @@
 		======================================================= -->
 	</head>
 	<body id="body">
-		<header id="header">
-			<div class="container-fluid">
-				<div id="logo" class="pull-left">
-					<div class="row">
-					<small><img src="{{url("storage/test.png")}}" style="margin-top :-1.2vw;"  class="w-50 img-fluid-" alt=""></small>
-					<h2 class="text-capitalize font-weight-bold" style="color:#0c2e8a; margin-left : -4.6vw;">surigao del sur state university-main campus</h2>
-					</div>
+		<div class="logo pull-left">
+			<div class="row">
+				<div class="offset-2 mt-2 mt-sm-2">
+					<img src="{{url("storage/test.png")}}" class="w-50" alt="">
 				</div>
-				<nav id="nav-menu-container">
+				
+			</div>
+			
+		</div>
+			<div class="col-md-auto float-left">
+				<h2 class="text-capitalize mt-3 d-none d-lg-block  font-weight-bold" style="color:#0c2e8a;">surigao del sur state university-main campus</h2>
+			</div>
+		<header id="header">
+			
+			<nav id="nav-menu-container">
 				<ul class="nav-menu">
 					<li class="menu-active"><a href="/">Home</a></li>
 					<li><a href="/about#aboutus">About Us</a></li>
-						<li class="menu-has-children"><a href="">Accounts</a>
-						<ul>
-							<li><a href="{{ url('/instructorlogin') }}">Instructor</a></li>
-							<li><a href="{{ url('/parentlogin') }}">Parent</a></li>
-							<li><a href="{{ url('/studentlogin') }}">Student</a></li>
-						</ul>
-					</li>
-				</ul>
-				</nav><!-- #nav-menu-container -->
-			</div>
+					<li class="menu-has-children"><a href="">Accounts</a>
+					<ul>
+						<li><a href="{{ url('/instructorlogin') }}">Instructor</a></li>
+						<li><a href="{{ url('/parentlogin') }}">Parent</a></li>
+						<li><a href="{{ url('/studentlogin') }}">Student</a></li>
+					</ul>
+				</li>
+			</ul>
+			</nav><!-- #nav-menu-container -->
 			</header><!-- #header -->
 			@if (!\Request::is('instructorlogin'))
-				@if (!\Request::is('parentlogin'))
-					@if (!\Request::is('studentlogin'))
-						@if (!\Request::is('adminlogin'))
-							@if (!\Request::is('assistantdeanlogin'))
-				{{-- expr --}}
-				<!--==========================
-				Intro Section
-				============================-->
-				<section id="intro">
-					<div class="intro-content">
+			@if (!\Request::is('parentlogin'))
+			@if (!\Request::is('studentlogin'))
+			@if (!\Request::is('adminlogin'))
+			@if (!\Request::is('assistantdeanlogin'))
+			{{-- expr --}}
+			<!--==========================
+			Intro Section
+			============================-->
+			<section id="intro">
+				<div class="intro-content">
+					<div class="row">
+						<div class="col-lg-3" style="margin-top :5vw; margin-left : 5vw;">
+							<img class="img-fluid w-100" src="{{url("storage/cecstlogo.png")}}" alt="">
+						</div>
+					</div>
+					<div class="container-fluid">
 						<div class="row">
-							<div class="col-lg-3" style="margin-top :5vw; margin-left : 5vw;">
-									<img class="img-fluid w-100" src="{{url("storage/cecstlogo.png")}}" alt="">
+							<div class="col-md-8 mb-5 ml-auto mr-8 float-right">
+								<h2 class="text-right">College of Engineering, Computer Studies and Technology</h2>
 							</div>
 						</div>
-							<div class="container-fluid">
-							<div class="row">
-								<div class="col-md-8 mb-5 ml-auto mr-8 float-right">
-									<h2 class="text-right">College of Engineering, Computer Studies and Technology</h2>
-								</div>
-							</div>
-						</div>
-						<div>
-						</div>
 					</div>
-					<div id="intro-carousel" class="owl-carousel" >
-						<div class="item" style="background-image: url({{url("storage/carousel/1.jpg")}});"></div>
-						<div class="item" style="background-image: url({{url("storage/carousel/2.nef")}});"></div>
-						<div class="item" style="background-image: url({{url("storage/carousel/3.jpg")}});"></div>
-						<div class="item" style="background-image: url({{url("storage/carousel/4.jpg")}});"></div>
-						<div class="item" style="background-image: url({{url("storage/carousel/5.jpg")}});"></div>
+					<div>
 					</div>
-					</section><!-- #intro -->
-								@endif
-							@endif
-						@endif
-					@endif
+				</div>
+				<div id="intro-carousel" class="owl-carousel" >
+					<div class="item" style="background-image: url({{url("storage/carousel/1.jpg")}});"></div>
+					<div class="item" style="background-image: url({{url("storage/carousel/2.nef")}});"></div>
+					<div class="item" style="background-image: url({{url("storage/carousel/3.jpg")}});"></div>
+					<div class="item" style="background-image: url({{url("storage/carousel/4.jpg")}});"></div>
+					<div class="item" style="background-image: url({{url("storage/carousel/5.jpg")}});"></div>
+				</div>
+				</section><!-- #intro -->
+				@endif
+				@endif
+				@endif
+				@endif
 				@endif
 				<main id="main">
 					@yield('content')
@@ -116,6 +120,7 @@
 					</footer><!-- #footer -->
 					<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 					<!-- JavaScript Libraries -->
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 					<script src="lib/jquery/jquery.min.js"></script>
 					<script src="lib/jquery/jquery-migrate.min.js"></script>
 					<script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
