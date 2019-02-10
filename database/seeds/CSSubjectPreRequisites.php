@@ -15,7 +15,7 @@ class CSSubjectPreRequisites extends Seeder
     {
        // CS SUBJECT PRE-REQUISITE
         $s = Subject::where('sub','CS 121')->firstOrFail();
-        $pre = new sub_pre(['subject_id' => $s->id, 'pre_requisite_code' => 'CS 112']);
+        $pre = new sub_pre(['subject_id' => $s->id, 'pre_requisite_code' => 'CS 112','course' => 2]);
         $s->pre_req()->save($pre);
 
         $s = Subject::where(['sub'=> 'CS 122'])->firstOrFail();
