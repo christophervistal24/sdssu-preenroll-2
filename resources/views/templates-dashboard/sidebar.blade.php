@@ -60,6 +60,12 @@ $route="admin";
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link " href="{{ url("/$route/preenroll/list") }}">
+                        <i class="material-icons">subject</i>
+                        <span>Pre-Enroll</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link " href="{{ url("/$route/block") }}">
                         <i class="material-icons">people</i>
                         <span>Blocks</span>

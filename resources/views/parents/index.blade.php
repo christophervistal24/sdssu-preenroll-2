@@ -45,43 +45,59 @@
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                 <img class="user-avatar rounded-circle mr-2" src="{{url("storage/profile/no_image.png")}}" alt="User Avatar">
                                 @if (request()->is('admin/*'))
-                                    <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
+                                <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
                                 @elseif (request()->is('parent/*'))
-                                    <span class="d-none d-md-inline-block">{{ $user_info->mothername }}</span>
+                                <span class="d-none d-md-inline-block">{{ $user_info->mothername }}</span>
                                 @else
-                                  <span class="d-none d-md-inline-block">{{ $user_info->fullname }}</span>
+                                <span class="d-none d-md-inline-block">{{ $user_info->fullname }}</span>
                                 @endif
-
-
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
                                 <div class="dropdown-divider"></div>
                                 @if (request()->is('admin/*'))
                                 <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
                                     @else
-                                <a class="dropdown-item text-danger" href="{{ url('/student/logout') }}">
-                                @endif
-                                <i class="material-icons text-danger">&#xE879;</i> Logout </a>
-                            </div>
-                        </li>
-                    </ul>
-                    <nav class="nav">
-                        <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left" data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
-                            <i class="material-icons">&#xE5D2;</i>
-                        </a>
+                                    <a class="dropdown-item text-danger" href="{{ url('/student/logout') }}">
+                                        @endif
+                                    <i class="material-icons text-danger">&#xE879;</i> Logout </a>
+                                </div>
+                            </li>
+                        </ul>
+                        <nav class="nav">
+                            <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left" data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
+                                <i class="material-icons">&#xE5D2;</i>
+                            </a>
+                        </nav>
                     </nav>
-                </nav>
-            </div>
-            <!-- / .main-navbar -->
-            <div class="main-content-container container-fluid px-4">
-                <!-- Page Header -->
-                <div class="page-header row no-gutters py-4">
-                    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                        <span class="text-uppercase page-subtitle">Dashboard</span>
+                </div>
+                <!-- / .main-navbar -->
+                <div class="main-content-container container-fluid px-4">
+                    <!-- Page Header -->
+                    <div class="page-header row no-gutters py-4">
+                        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <header id="header">
+                            <div class="container-fluid">
+                                <div id="logo" class="pull-left">
+                                    <div class="row">
+                                        <small><img src="{{url("storage/test.png")}}" style="margin-top :-1.2vw;"  class="w-50 img-fluid-" alt=""></small>
+                                        <h2 class="text-capitalize font-weight-bold" style="color:#0c2e8a; margin-left : -4.6vw;">surigao del sur state university-main campus</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+                        <div class="clearfix"></div>
+                        <br>
+                        <h1>Vision, Mission</h1>
+                        <p class="text-justify">Vision
+                        A leading "Glocal" University with widened academic perspectives that focus on attaining food security, supporting poverty alleviation, developing renewable energy and conserving natural environment.</p>
+                        <p class="text-justify">
+                            Mission
+                            SDSSU shall provide competency-based higher education training driven by relevant and responsive instruction, research, extension and sustainable resource management.
+                        </p>
                     </div>
                 </div>
-                <!-- End Page Header -->
-                <p></p>
             </div>
-        </div>
-        @endsection
+            @endsection

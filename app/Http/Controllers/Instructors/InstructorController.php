@@ -17,13 +17,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use App\AssistantDean;
 
 class InstructorController extends Controller
 {
     protected $student_subject;
     protected $instructor_info;
-    public function __construct()
+    public function __construct(AssistantDean $assistant_dean)
     {
+        $this->assistant_dean = $assistant_dean;
         $this->middleware('preventBackHistory');
     }
 
@@ -54,6 +56,19 @@ class InstructorController extends Controller
      */
     public function update(ChangeAdminProfileRequest $request , Instructor $instructor)
     {
+         $assistant_dean = $this->assistant_dean
+                              ->where('name',
+                                Instructor::find(Auth::user()->id_number)->name
+                            )->first();
+        //checking if instructor is also the assistant dean
+        if ($assistant_dean) {
+            $assistant_dean->name = $request->fullname;
+            $assistant_dean->education_qualification = $request->education_qualification;
+            $assistant_dean->mobile_number = $request->mobile_number;
+            $assistant_dean->active = $request->status;
+            $assistant_dean->save();
+        }
+
         $instructor->name = $request->fullname;
         $instructor->education_qualification = $request->education_qualification;
         $instructor->mobile_number = $request->mobile_number;
@@ -67,13 +82,25 @@ class InstructorController extends Controller
         $this->validate($request,[
             'profile' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
         ]);
+        ;
+        $assistant_dean = $this->assistant_dean
+                              ->where('name',
+                                Instructor::find(Auth::user()->id_number)->name
+                            )->first();
+        //checking if instructor is also the assistant dean
+        if ($assistant_dean) {
+            $image = request()->file('profile');
+            $assistant_dean->profile  = $image->getClientOriginalName();
+            $assistant_dean->save();
+        }
         //update the image of user in DB
         $image = request()->file('profile');
-        $student = Instructor::find(Auth::user()->id_number);
-        $student->profile = $image->getClientOriginalName();
-        $student->save();
+        $instructor = Instructor::find(Auth::user()->id_number);
+        $instructor->profile = $image->getClientOriginalName();
+        $instructor->save();
+
         //move the uploaded file
-        if ($student) {
+        if ($instructor) {
             $destination = storage_path('/app/public/profile/');
             $image->move($destination,$image->getClientOriginalName());
             return redirect()->back()->with('status','Successfully update your profile image');

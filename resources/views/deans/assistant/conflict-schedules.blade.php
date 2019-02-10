@@ -72,13 +72,14 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <div class="alert alert-danger" role="alert">
+            @if (isset($conflict_schedules['first_schedule']['schedule']['conflicts']))
+                <div class="alert alert-success" role="alert">
             <span class="text-white">Conflicts of </span>
             <span class="text-white">{{$subject->find($conflict_schedules['first_schedule']['schedule']['subject_id'])->sub . ' - '. $subject->find($conflict_schedules['first_schedule']['schedule']['subject_id'])->sub_description}}</span>
             <span class="text-white">{{$conflict_schedules['first_schedule']['schedule']['start_time']}} to </span>
             <span class="text-white">{{$conflict_schedules['first_schedule']['schedule']['end_time']}} - </span>
             <span class="text-white">{{$conflict_schedules['first_schedule']['schedule']['days']}} - </span>
-            <span class="text-white">Room {{$conflict_schedules['first_schedule']['schedule']['room']}} - </span>
+            <span class="text-white">Room {{$conflict_schedules['first_schedule']['schedule']['room']}}</span>
             </div>
           </div>
       
@@ -135,7 +136,7 @@
                               <td>{{($schedules['range']['days'])}}</td>
                               <td>{{($schedules['range']['room'])}}</td>
                               <td>{{($subject->find($schedules['range']['subject_id']))->sub_description}}</td>
-                               <td>{{($block->find($schedules['range']['block']))->level . ($block->find($schedules['end_time']['block']))->course . ($block->find($schedules['end_time']['block']))->block_name}}</td>
+                               <td>{{($block->find($schedules['range']['block']))->level . ($block->find($schedules['range']['block']))->course . ($block->find($schedules['range']['block']))->block_name}}</td>
                               <th class="bg-danger text-white text-center">RANGE</th>
                           </tr>
                           @endif
@@ -143,15 +144,16 @@
                 @endforeach
             </tbody>
           </table>
-         @if (isset($conflict_schedules['second_schedule']))
+            @endif
+         @if (isset($conflict_schedules['second_schedule']['schedule']['conflicts']))
             <div class="col-md-12 mt-5">
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-success" role="alert">
             <span class="text-white">Conflicts of </span>
             <span class="text-white">{{$subject->find($conflict_schedules['second_schedule']['schedule']['subject_id'])->sub . ' - '. $subject->find($conflict_schedules['second_schedule']['schedule']['subject_id'])->sub_description}}</span>
             <span class="text-white">{{$conflict_schedules['second_schedule']['schedule']['start_time']}} to </span>
             <span class="text-white">{{$conflict_schedules['second_schedule']['schedule']['end_time']}} - </span>
             <span class="text-white">{{$conflict_schedules['second_schedule']['schedule']['days']}} - </span>
-            <span class="text-white">Room {{$conflict_schedules['second_schedule']['schedule']['room']}} - </span>
+            <span class="text-white">Room {{$conflict_schedules['second_schedule']['schedule']['room']}}</span>
             </div>
           </div>
           <table class="table">
@@ -196,7 +198,7 @@
                               <td>{{($schedules['range']['days'])}}</td>
                               <td>{{($schedules['range']['room'])}}</td>
                               <td>{{($subject->find($schedules['range']['subject_id']))->sub_description}}</td>
-                               <td>{{($block->find($schedules['range']['block']))->level . ($block->find($schedules['end_time']['block']))->course . ($block->find($schedules['end_time']['block']))->block_name}}</td>
+                               <td>{{($block->find($schedules['range']['block']))->level . ($block->find($schedules['range']['block']))->course . ($block->find($schedules['range']['block']))->block_name}}</td>
                               <th class="bg-danger text-white text-center">RANGE</th>
                           </tr>
                           @endif

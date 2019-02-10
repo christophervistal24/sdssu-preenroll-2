@@ -76,13 +76,10 @@
                        <div>
                        <form action="/assistantdean/{{$user_info->id_number}}/changeprofile" method="POST" enctype="multipart/form-data">
                         @csrf
-                          <label class="hand-cursor">
-                        {{-- style="display:none;" --}}
+                        <label class="hand-cursor">
                           <input type="file" name="profile"  />
-                          {{-- <span class="fa fa-camera"></span> --}}
-                          {{-- <span style="cursor:pointer;" class="photo_text hidden-xs font-weight-bold">Change profile</span> --}}
                          </label>
-                         <input type="submit" value="change">
+                         <input type="submit" value="Change" class="btn btn-default">
                        </form>
                      </div>
                     <h4 class="mb-0 text-capitalize">{{$user_info->name}}</h4>

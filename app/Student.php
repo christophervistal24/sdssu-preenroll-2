@@ -54,6 +54,11 @@ class Student extends Model
         return $this->hasOne('App\DeansList','student_id_number');
     }
 
+    public function block()
+    {
+        return $this->belongsTo('App\Block','block','id');
+    }
+
     public function getStudentYearLevel($id_number)
     {
     	$getStudenYear = $this->where('id_number',$id_number)->first();
@@ -130,10 +135,26 @@ class Student extends Model
              $sendMessages = $messageClient->sendMessages([
                 $sendMessageRequest1,
             ]);
+    }
 
+    public static function sendSchedule($message)
+    {
+        $config        = Configuration::getDefaultConfiguration();
+        $config->setSSLVerification(false); // add this line
+        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU0ODYzNjE3MSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.1FCQ9PayjBORH7y4CPd1ZuQKyByKHer2gvWzFC2BoPk');
+        $apiClient     = new ApiClient($config);
+        $messageClient = new MessageApi($apiClient);
 
-
-
+        // Sending a SMS Message
+        $student_mobile_number = Student::find(Auth::user()->id_number)->mobile_number;
+        $sendMessageRequest1 = new SendMessageRequest([
+            'phoneNumber' => $student_mobile_number,
+            'message' => $message,
+            'deviceId' => 108141
+        ]);
+             $sendMessages = $messageClient->sendMessages([
+                $sendMessageRequest1,
+            ]);
     }
 
 }

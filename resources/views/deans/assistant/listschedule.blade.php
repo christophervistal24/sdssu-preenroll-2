@@ -43,7 +43,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
                                 <a class="dropdown-item text-danger" href="{{ url('/assistantdean/logout') }}">
-                                <i class="material-icons text-danger">&#xE879;</i> Logout </a>
+                                <i class="material-icons text-danger">&#xE879;</i> Logout</a>
                             </div>
                         </li>
                     </ul>
@@ -65,46 +65,6 @@
                 <div class="row">
                     <div class="col-md-12">
                           @include('success.student-success')
-                        {{-- <table id="tables" class="table table-bordered">
-                           <thead>
-                                <tr>
-                                    <th class="text-center">Time</th>
-                                    <th class="text-center">Days</th>
-                                    <th class="text-center">Room</th>
-                                    <th class="text-center">Block</th>
-                                    <th class="text-center">Subject</th>
-                                    <th class="text-center">Instructor</th>
-                                    <th class="text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($schedules as $schedule)
-                                    <tr>
-                                        <td class="text-center">{{
-                                            \Carbon\Carbon::parse($schedule->start_time)
-                                            ->format('g:i A')  }}
-                                             - {{
-                                                \Carbon\Carbon::parse($schedule->end_time)->format('g:i A')
-                                                }}</td>
-                                        <td class="text-center">{{ $schedule->days }}</td>
-                                        <td class="text-center">{{ $schedule->room }}</td>
-                                        <td class="text-center">{{ $schedule->level . $schedule->course . $schedule->block_name }}</td>
-                                        <td>
-                                        {{ findCharacterPosWithDelimeter($schedule->subject,',') }}</td>
-                                        <td class="text-center">{{ ucwords($schedule->instructor_name) }}</td>
-                                        @if (isset($schedule->instructor_name))
-                                            <td class="text-center"><a  href="/assistantdean/editassign/{{ $schedule->instructor_id_number }}/{{ $schedule->schedule_id }}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
-                                        @else
-                                        @php
-                                            $schedule = explode(',',$schedule->schedule_id);
-                                        @endphp
-                                            <td class="text-center"><a href="/assistantdean/assign/{{$schedule[0] }}/{{ isset($schedule[1]) ? $schedule[1] : null }}" class="text-white btn btn-primary">ASSIGN INSTRUCTOR</a></td>
-                                        @endif
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table> --}}
-
                         {{-- FIRST YEAR SUBJECTS --}}
                     <h1>First year subjects</h1>
                         <table class="table table-bordered">
@@ -160,7 +120,10 @@
                                         {{ findCharacterPosWithDelimeter($schedule->subject,',') }}</td>
                                         <td class="text-center">{{ ucwords($schedule->instructor_name) }}</td>
                                         @if (isset($schedule->instructor_name))
-                                            <td class="text-center"><a  href="/assistantdean/editassign/{{ $schedule->instructor_id_number }}/{{ $schedule->schedule_id }}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
+                                        @php
+                                            $sched = explode(',',$schedule->schedule_id);
+                                        @endphp
+                                            <td class="text-center"><a  href="/assistantdean/editassign/{{$sched[0]}}/{{(isset($sched[1]) ? $sched[1] : 0)}}/{{$schedule->instructor_id_number}}" class="text-white btn btn-success">EDIT INSTRUCTOR</a></td>
                                         @else
                                         @php
                                             $schedule = explode(',',$schedule->schedule_id);

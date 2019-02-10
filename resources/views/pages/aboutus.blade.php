@@ -9,7 +9,6 @@
           <p>In order to finish our study this research we made is to make the <b>Online Pre-Enrollment , Class Scheduling and Evaluation with SMS Alert</b> for the College of Engineering Computer Studies and Technology easier thru Website. We Bachelor of Science in Computer Science come up with this research to solve the sluggishness of transactions we encountered in our department (CECST).</p>
 
           <p><br>We are hoping that this research can alter the problem of beneficiaries in doing transactions at College of Engineering, Computer Studies and Technology one of the four departments in SDSSU Main-Campus.</p>
-
         </div>
           <div class="section-header" id="aboutus">
           <h2>Researchers </h2>

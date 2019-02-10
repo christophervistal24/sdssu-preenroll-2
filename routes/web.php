@@ -39,6 +39,12 @@ Route::group(['prefix' => 'admin','middleware' => ['roles']], function() {
 // Change Profile
 	Route::post('{id_number}/changeprofile',['uses' => 'Admin\AdminController@changeprofile']);
 
+	Route::get('/deanslist/print',['uses' =>'Admin\DeansListPrintController@print','roles' => ['Admin']]);
+
+	Route::get('/preenroll/list',['uses'=>'Admin\PreEnrollController@index','roles' => ['Admin']]);
+	
+	Route::get('/students/{block_id}',['uses'=>'Admin\PreEnrollController@show','roles' => ['Admin']]);
+
 	Route::get('/logout',['uses' =>'Admin\AdminController@logout','roles' => ['Admin']]);
 });
 
@@ -142,7 +148,7 @@ Route::group(['prefix' => 'assistantdean','middleware' => 'roles'], function() {
 	Route::get('/assign/{schedule_info}/{schedule_info2?}', ['uses' => 'Deans\AssistantDeanController@assign','roles' => ['Assistant Dean']]);
 	Route::post('/assign/{schedule_info}/{schedule_info2?}', ['uses' => 'Deans\AssistantDeanController@submitassign','roles' => ['Assistant Dean']]);
 
-	Route::get('/editassign/{instructor_id_no}/{schedule_id}', ['uses' => 'Deans\AssistantDeanController@edit','roles' => ['Assistant Dean']]);
+	Route::get('/editassign/{schedule_id}/{schedule_id2}/{instructor_id_no}', ['uses' => 'Deans\AssistantDeanController@edit','roles' => ['Assistant Dean']]);
 
 	Route::put('/editassign/{schedule}', ['uses' => 'Deans\AssistantDeanController@update','roles' => ['Assistant Dean']]);
 

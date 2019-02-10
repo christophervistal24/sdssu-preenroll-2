@@ -203,13 +203,26 @@ class Schedule extends Model
                             Carbon::parse($value->end_time)
                            ,false);
 
+                 $reverseCheckRange = Carbon::parse($value->start_time)
+                           ->between(
+                            Carbon::parse($schedule_information->start_time),
+                            Carbon::parse($schedule_information->end_time)
+                           ,false);
+
+
+
                  if ($checkRange == 1) {
                    $arr_schedule_information['conflicts']['range'] = array_except($value->toArray(),['created_at','updated_at','pivot','status']);
-                }
+                 }
+
+                 if ($reverseCheckRange == 1) {
+                  $arr_schedule_information['conflicts']['range'] = array_except($value->toArray(),['created_at','updated_at','pivot','status']);
+                 }
 
                 $is_valid[] = (int) $checkStartTime;
                 $is_valid[] = (int) $checkEndTime;
                 $is_valid[] = (int) $checkRange;
+                $is_valid[] = (int) $reverseCheckRange;
                 }
             });
           });

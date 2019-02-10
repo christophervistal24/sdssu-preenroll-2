@@ -25,7 +25,7 @@
 			<br>
 			<center class="header-2"><b>COLLEGE OF ENGINEERING , COMPUTER STUDIES & TECHNOLOGY</b></center>
 			<center class="header-2"><b>FACULTY WORKLOAD</b></center>
-			<center class="header-2">First Semester A.Y 2018 - 2019 (Sample)</center>
+			<center><b>SY {{ $current_semester->school_year . ' - ' . ($current_semester->school_year+1) }} / {{ digitToWord($current_semester->id) }} SEMESTER</b></center>
 			<center class="header-2"><b>Regular load</b></center>
 			<br>
 			<br>

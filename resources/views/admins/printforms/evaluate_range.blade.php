@@ -30,6 +30,7 @@
             <center><b>SURIGAO DEL SUR STATE UNIVERSITY</b></center>
             <center><b>Tandag City , Surigao del Sur</b></center>
             <img src="{{ asset('/storage/img/sdssu-cecst-logo.png') }}" style="position:absolute; z-index: 2; top :0%; left :75%">
+            <center><b>SY {{ $current_semester->school_year . ' - ' . ($current_semester->school_year+1) }} / {{ digitToWord($current_semester->id) }} SEMESTER</b></center>
         </header>
         <main>
             <div>{!!$grades!!}</div>

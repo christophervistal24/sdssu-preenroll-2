@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Deans;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Instructor;
-use App\Semester;
+use App\Block;
 
-class PrintWorkLoadController extends Controller
+class PreEnrollController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,6 +15,8 @@ class PrintWorkLoadController extends Controller
      */
     public function index()
     {
+        $blocks = Block::all();
+        return view('admins.preenrollblocks',compact('blocks'));
     }
 
     /**
@@ -45,20 +46,10 @@ class PrintWorkLoadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id_number)
+    public function show(Block $block_id)
     {
-
-        $current_semester = Semester::where('current',1)->first();
-        //query to database
-        $instructors = Instructor::where('id_number',$id_number)
-                            ->with(['schedules' => function ($q)  {
-                               $q->where('status','!=','delete'); 
-                            }])->get();
-        //load the pdf to the view
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('deans.assistant.printforms.schedule',compact('instructors','current_semester'));
-        $pdf->setPaper('legal');
-        return $pdf->stream();
+        $block_with_student = $block_id;
+        return view('admins.preenrollblocksstudents',compact('block_with_student'));
     }
 
     /**

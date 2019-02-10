@@ -72,6 +72,9 @@
                 <div class="row">
                     <h4 class="text-muted ml-2"></h4>
                     <div class="container-fluid">
+                        <a href="/admin/deanslist/print" class="btn btn-primary float-right">
+                            PRINT
+                        </a>
                         <table id="student-table" class="table table-bordered" style="width :100%;">
                             <thead>
                                 <th>ID No.</th>

@@ -17,6 +17,7 @@ class CreateSemestersTable extends Migration
             $table->increments('id');
             $table->string('semester');
             $table->integer('current')->nullable();
+            $table->integer('school_year')->default(date('Y'));
             $table->timestamps();
         });
     }

@@ -52,6 +52,7 @@ class StudentEvaluatePrintController extends Controller
      */
     public function show(Student $id_number , $subject_semester , $subject_year,$is_report = null)
     {
+        $current_semester = Semester::where('current',1)->first();
         $student = $id_number;
         $s_grades = Student::find($student->id_number)
                         ->grades()
@@ -61,16 +62,17 @@ class StudentEvaluatePrintController extends Controller
         });
 
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('admins.printforms.evaluate',compact('subject_semester','student','s_grades'));
+        $pdf->loadView('admins.printforms.evaluate',compact('subject_semester','student','s_grades','current_semester'));
         $pdf->setPaper('legal');
         return $pdf->stream();
     }
 
     public function printrange(Request $request)
     {
+        $current_semester = Semester::where('current',1)->first();
         $grades = preg_replace('/class=".*?"|\t/', '', $request->student_grades);;
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('admins.printforms.evaluate_range',compact('grades'));
+        $pdf->loadView('admins.printforms.evaluate_range',compact('grades','current_semester'));
         $pdf->setPaper('legal');
         return $pdf->stream();
     }

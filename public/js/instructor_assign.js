@@ -70,6 +70,17 @@ $(document).ready(function () {
                             icon: "error",
                           });
                       } 
+                      if (typeof data.second_sechedule !== 'undefined' && !data.second_schedule.is_valid) {
+
+                         result = true;
+                          const el = document.createElement('div')
+                          el.innerHTML = `Please click <a href=/assistantdean/assign/checkresult/${scheduleId}/${instructorIdNumber}/view>this link</a> to view all schedules that conflicts.`;
+                            swal({
+                              title: 'Conflict of schedules',
+                              content: el,
+                              icon: "error",
+                            });
+                      }
 
                     },
             });

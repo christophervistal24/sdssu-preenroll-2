@@ -22,7 +22,9 @@ class Semester extends Model
      Block::query()->update(['no_of_enrolled' => 0]);
      // 2 , 1  - second semester to first semester
      if ($current_semester == 2 && $next_sem_request == 1) {
+        //increment school year
         Student::query()->update(['block' => '']);
+        DB::table('semesters')->increment('school_year');
      } else if ($current_semester == 1 && $next_sem_request == 2) { // 1 , 2 first semester to second semester
 
      }

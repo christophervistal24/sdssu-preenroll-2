@@ -45,6 +45,11 @@ class Block extends Model
         return $this->hasMany(Schedule::class,'block');
     }
 
+    public function students()
+    {
+        return $this->hasMany('App\Student','block','id');
+    }
+
     public function scopeOpen($query)
     {
         $query->where('status','open');

@@ -43,7 +43,7 @@
 		</div>
 			<br>
 			<center><b>Report of Grades</b></center>
-			<center><b>SY {{ date('Y') . ' - ' . date('Y',strtotime("+1 year"))  }} / {{ digitToWord($subject_semester) }} SEMESTER</b></center>
+			 <center><b>SY {{ $current_semester->school_year . ' - ' . ($current_semester->school_year+1) }} / {{ digitToWord($current_semester->id) }} SEMESTER</b></center>
 			<br>
 			<br>
 

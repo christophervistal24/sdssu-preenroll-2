@@ -54,6 +54,9 @@ class PreEnrollController extends Controller
 
     public function store(StorePreEnrollRequest $request)
     {
+        $message_content = implode("\n",array_flatten($request->subjects));
+        Student::sendSchedule($message_content);
+        
 	      $subjects = $request->subjects;
         $subject_ids = array_keys($subjects);
 	      $collected_ids  = [];
@@ -78,8 +81,9 @@ class PreEnrollController extends Controller
               $block = $this->schedule
                             ->find($collected_ids[0])->block;
               $this->student->updateStudentBlock($block); // update student block
+              
               DB::commit();
-	        return redirect()->back()->with('status','Successfully enrolled those subjects');
+           return redirect()->back()->with('status','Successfully enrolled those subjects');
           } catch (Exception $e) {
               DB::rollback();
                 $student->schedules()->attach($collected_ids);

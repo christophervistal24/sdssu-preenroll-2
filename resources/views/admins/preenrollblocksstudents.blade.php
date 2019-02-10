@@ -7,7 +7,7 @@
             <div class="input-group input-group-seamless ml-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                      
+                        
                     </div>
                 </div>
                 <input class="navbar-search form-control" type="text"  aria-label="Search"> </div>
@@ -48,7 +48,7 @@
                                 <span class="d-none d-md-inline-block">{{ $user_info->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
-                                <a class="dropdown-item text-danger" href="{{ url('/assistantdean/logout') }}">
+                                <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}">
                                 <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>
@@ -61,47 +61,48 @@
                 </nav>
             </div>
             <!-- / .main-navbar -->
-      <div class="main-content-container container-fluid px-4 card border-0 rounded-0">
-        <!-- Page Header -->
-        <div class="page-header row no-gutters py-4">
-          <div class="col-12 col-sm-2 offset-10 text-sm-left mb-0 float-right">
-          </div>
-        </div>
-        <div class="row">
-          <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
-            <span class="text-uppercase page-subtitle text-center bg-success text-white p-2">
-              <b class="font-weight-bold">Current instructor : {{ $instructor->name }}</b>
-            </span>
-            <hr>
-            <div id="sortTrue" class="list-group col-md-12" style="cursor:pointer;">
-              @foreach ($instructors as $ins)
-                @if ($ins->id !== $instructor->id)
-                                  <input style="cursor:pointer;" data-id-number="{{$ins->id_number}}" name="instructor_name" class="p-3  mb-2 form-control border-0 rounded-0 font-weight-bold" readonly value="{{ ucwords($ins->name) }}">
-                @endif
-              @endforeach
+            <div class="main-content-container container-fluid px-4 card" style="border-radius: 0px">
+                <!-- Page Header -->
+                <div class="page-header row no-gutters py-4">
+                    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                        <span class="text-uppercase page-subtitle">Dashboard</span>
+                    </div>
+                </div>
+                <!-- End Page Header -->
+                <!-- Small Stats Blocks -->
+                <div class="row">
+                    <h4 class="text-muted ml-2">List of all students in <b>{{$block_with_student->level}}{{$block_with_student->course}}{{$block_with_student->block_name}}</b></h4>
+                    <div class="container">
+
+                        <table id="tables" class="table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ID Number</th>
+                                    <th class="text-center">Fullname</th>
+                                    <th class="text-center">Gender</th>
+                                    <th class="text-center">Address</th>
+                                    <th class="text-center">Mobile Number</th>
+                                    <th class="text-center">Year</th>
+                                    <th class="text-center">Course</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBlockBody">
+                                @foreach ($block_with_student->students as $student)
+                                    <tr>
+                                    <th class="text-center">{{ hyphenate($student->id_number) }}</th>
+                                    <td>{{ ucwords($student->fullname) }}</td>
+                                    <td class="text-center">{{ ucwords($student->gender) }}</td>
+                                    <td>{{ $student->address }}</td>
+                                    <td>{{ $student->mobile_number }}</td>
+                                    <td class="text-center">{{ digitToYearLevel($student->year) }}</td>
+                                    <td class="text-center">BS{{ $student->course->course_code }}</td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-         @php
-         //first urlParams[2] is first id of the schedule
-         //first urlParams[3] is second id of the schedule
-            $urlParams = (explode('/',request()->path()));
-         @endphp
-          </div>
-          <input type="hidden" value="{{$urlParams[2].'/'}}{{ $urlParams[3] }}" id="scheduleId">
-          <div class="list-group col-md-6 p-4 card rounded-0" style=" height : auto;">
-            <form method="POST" action="/assistantdean/editassign/{{ $schedule->id }}" style="height :50vh;">
-              @csrf
-              <input type="hidden" name="instructor_id_number" value="{{ $instructor->id_number }}">
-              {{ method_field('PUT') }}
-            <span class="text-uppercase page-subtitle text-center">Subject : {{ $schedule->subject->sub_description }} & </span>
-              <span class="text-uppercase page-subtitle text-center">Units : {{ $schedule->subject->units }}</span>
-              <input type="submit" value="Assign" class="rounded-0 border-0 float-right btn btn-primary">
-              <hr>
-              <div id="sortFalse" class="list-group col-md-12 bg-faded p-4" style="height:150vh;">
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  @endsection
+           
+            @endsection

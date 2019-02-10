@@ -72,9 +72,22 @@ class AssistantDeanController extends Controller
 
 	public function submitassign(Request $request, Schedule $schedule_info , Schedule $schedule_info2 = null)
 	{
+	
 		$instructor_id_number = Instructor::where('name',$request->instructor_name)
 										->first()
 										->id_number;
+
+		$conflict_schedules['first_schedule'] = $this->schedule
+					->assignCheckSchedule($schedule_info->id,$instructor_id_number);
+		if ($schedule_info2 != 0) {
+			$conflict_schedules['second_schedule'] =  $this->schedule
+						->assignCheckSchedule($schedule_info2->id,$instructor_id_number);
+		}
+
+		if (!$conflict_schedules['first_schedule']['is_valid'] || (isset($conflict_schedules['second_schedule']) && !$conflict_schedules['second_schedule']['is_valid'])) {
+			return view('deans.assistant.conflict-schedules',compact('conflict_schedules'));
+		} 
+
 		try {
 			$schedule_info->instructors()->attach($instructor_id_number);
 			if (isset($schedule_info2)) {
@@ -86,7 +99,7 @@ class AssistantDeanController extends Controller
 		return redirect('/assistantdean/index')->with('status',$schedule_info->subject->sub_description . ' is now assign to ' . $request->instructor_name);
 	}
 
-	public function edit(Instructor $instructor_id_no , Schedule $schedule_id)
+	public function edit(Schedule $schedule_id,$schedule_id2,Instructor $instructor_id_no)
 	{
 		$instructors = Instructor::all();
 		$instructor = $instructor_id_no;
@@ -135,6 +148,19 @@ class AssistantDeanController extends Controller
 
     public function updateprofile(Request $request , AssistantDean $assistantdean)
     {
+    	  $instructor = Instructor::
+                              where('name',
+                                AssistantDean::find(Auth::user()->id_number)->name
+                            )->first();
+        //checking if instructor is also the assistant dean
+        if ($instructor) {
+            $instructor->name                    = $request->fullname;
+	        $instructor->education_qualification = $request->education_qualification;
+	        $instructor->mobile_number           = $request->mobile_number;
+	        $instructor->active                  = $request->status;
+	        $instructor->save();
+        }
+        
         $assistantdean->name                    = $request->fullname;
         $assistantdean->education_qualification = $request->education_qualification;
         $assistantdean->mobile_number           = $request->mobile_number;
@@ -156,6 +182,18 @@ class AssistantDeanController extends Controller
 		$this->validate($request,[
             'profile' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
         ]);
+
+        $instructor = Instructor::
+                              where('name',
+                                AssistantDean::find(Auth::user()->id_number)->name
+                            )->first();
+        //checking if instructor is also the assistant dean
+        if ($instructor) {
+            $image = request()->file('profile');
+            $instructor->profile  = $image->getClientOriginalName();
+            $instructor->save();
+        }
+
         //update the image of user in DB
         $image = request()->file('profile');
         $student = AssistantDean::find(Auth::user()->id_number);

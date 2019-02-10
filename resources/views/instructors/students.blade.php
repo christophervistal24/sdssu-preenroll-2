@@ -70,7 +70,7 @@
 					</div>
 				</div>
 				{{-- ADD 45 DAYS  --}}
-				<h4 class="text-muted"><span class="font-weight-bold">{{  $subject->sub . ' ' . $subject->sub_description }}</span></h4>
+				<h4 class="text-muted"><span class="font-weight-bold">{{  $subject->subject->sub . ' ' . $subject->subject->sub_description }}</span></h4>
 				@if (isset($expiration) && $startToGrade)
 					<div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
