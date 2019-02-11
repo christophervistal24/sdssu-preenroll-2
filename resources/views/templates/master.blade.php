@@ -102,7 +102,8 @@
 				<!--==========================
 				Footer
 				============================-->
-				<footer id="footer">
+				<div class="fixed-bottom">
+					<footer id="footer">
 					<div class="container">
 						<div class="copyright">
 							&copy; Copyright <strong>Reveal</strong>. All Rights Reserved
@@ -118,6 +119,7 @@
 						</div>
 					</div>
 					</footer><!-- #footer -->
+				</div>
 					<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 					<!-- JavaScript Libraries -->
 					<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
