@@ -44,7 +44,6 @@ class StudentsController extends Controller
                 $startToGrade = true;
             }
         }
-
         return view('instructors.students',compact('sched_students','subject','expiration','startToGrade'));
     }
 

@@ -63,7 +63,7 @@ class InstructorSendSchedule extends Controller
         ]);
         $config        = Configuration::getDefaultConfiguration();
         $config->setSSLVerification(false); // add this line
-        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU0ODYzNjE3MSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.1FCQ9PayjBORH7y4CPd1ZuQKyByKHer2gvWzFC2BoPk');
+        $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTU1MDcxMTg1NiwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjY1MDk1LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.sdc7kmj6DhttkJLBNmhzMc8BWZFL97w5szMX-Jh_r1I');
         $apiClient     = new ApiClient($config);
         $messageClient = new MessageApi($apiClient);
 
@@ -71,7 +71,7 @@ class InstructorSendSchedule extends Controller
         $sendMessageRequest1 = new SendMessageRequest([
             'phoneNumber' => $request->phone_number,
             'message' => $request->message,
-            'deviceId' => 108141
+            'deviceId' => 109583
         ]);
         {
              $sendMessages = $messageClient->sendMessages([
